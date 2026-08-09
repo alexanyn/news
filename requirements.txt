@@ -1,5 +1,4 @@
 pyTelegramBotAPI
-g4f
 feedparser
 beautifulsoup4
 requests
