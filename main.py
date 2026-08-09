@@ -3,19 +3,20 @@ import requests
 import feedparser
 from bs4 import BeautifulSoup
 import telebot
+from telebot.apihelper import ApiTelegramException
 
-# 1. Проверка секретов
+# 1. Считывание переменных окружения
 groq_api_key = os.environ.get("GROQ_API_KEY")
 bot_token = os.environ.get("TELEGRAM_BOT_TOKEN")
 chat_id = os.environ.get("TELEGRAM_CHAT_ID")
 
 if not groq_api_key or not bot_token or not chat_id:
-    raise ValueError("Ошибка: Проверьте наличие GROQ_API_KEY, TELEGRAM_BOT_TOKEN и TELEGRAM_CHAT_ID в GitHub Secrets!")
+    raise ValueError("Ошибка: Проверьте GROQ_API_KEY, TELEGRAM_BOT_TOKEN и TELEGRAM_CHAT_ID в GitHub Secrets!")
 
 bot = telebot.TeleBot(bot_token)
 CHAT_ID = chat_id
 
-# 2. Источники
+# 2. Источники данных
 RSS_FEEDS = [
     "https://www.kommersant.ru/RSS/news.xml",
     "https://cbr.ru/rss/RssNews",
@@ -61,7 +62,7 @@ def generate_analytical_digest(raw_data):
     Ты — старший аналитик по макроэкономике и геополитике. 
     Проанализируй полученный массив сырых данных за 24 часа и составь жесткий, фактологический дайджест.
 
-    Требования к форматированию:
+    Требования к анализу и форматированию:
     1. Игнорируй воду, эмоциональные заявления и развлекательный шум.
     2. Фокусируйся исключительно на: цифрах, решениях регуляторов, изменении законов, макроэкономических сдвигах и институциональных рисках.
     3. Разбей отчет строго по блокам:
@@ -69,7 +70,9 @@ def generate_analytical_digest(raw_data):
        - 🌍 ГЕОПОЛИТИКА И БЕЗОПАСНОСТЬ
        - 💼 ОТРАСЛЕВЫЕ ТРЕНДЫ И B2B
        - ⚠️ СКРЫТЫЕ РИСКИ (Что упускают массовые СМИ)
-    4. Для каждого ключевого тезиса обязательно укажи источник и дай микро-вывод "Что это значит для рынка".
+    4. Для каждого ключевого тезиса дай предельно конкретный вывод.
+       СТРОГО ЗАПРЕЩЕНО использовать вводные слова и формулировки-паразиты: "может", "потенциально", "оказать влияние", "улучшить ситуацию", "привести к эскалации".
+       Пиши строго сухие факты, финансовую математику и прямые последствия для рынка.
 
     Вот массив данных:
     {raw_data}
@@ -83,7 +86,7 @@ def generate_analytical_digest(raw_data):
     payload = {
         "model": "llama-3.3-70b-versatile",
         "messages": [{"role": "user", "content": prompt}],
-        "temperature": 0.2
+        "temperature": 0.1
     }
     
     response = requests.post(
@@ -95,6 +98,14 @@ def generate_analytical_digest(raw_data):
     response.raise_for_status()
     return response.json()["choices"][0]["message"]["content"]
 
+def send_telegram_message(chat_id, text):
+    # Попытка отправки с Markdown, при ошибке синтаксиса — отсылает чистым текстом
+    try:
+        bot.send_message(chat_id, text, parse_mode="Markdown")
+    except ApiTelegramException as e:
+        print(f"Предупреждение: ошибка разметки Markdown ({e}), отправка обычным текстом.")
+        bot.send_message(chat_id, text)
+
 if __name__ == "__main__":
     combined_data = fetch_rss() + "\n" + fetch_telegram_public()
     
@@ -102,4 +113,4 @@ if __name__ == "__main__":
         digest = generate_analytical_digest(combined_data)
         
         for i in range(0, len(digest), 4000):
-            bot.send_message(CHAT_ID, digest[i:i+4000])
+            send_telegram_message(CHAT_ID, digest[i:i+4000])
