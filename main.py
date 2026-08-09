@@ -1,3 +1,5 @@
+print("=== ЗАПУСК СКРИПТА ВЕРСИИ 3.0 (STRICT_DOMAINS) ===")
+
 import os
 import re
 import json
@@ -37,7 +39,7 @@ def save_sent_urls(sent_set):
     except Exception as e:
         print(f"Ошибка сохранения истории: {e}")
 
-# 2. Таблица каноничных названий
+# 2. Таблица каноничных названий (ЖЕСТКАЯ ПРИВЯЗКА К ДОМЕНАМ)
 FEED_CANONICAL_NAMES = {
     "cbr.ru": "ЦБ РФ",
     "kommersant.ru": "Коммерсантъ",
@@ -154,7 +156,6 @@ def resolve_canonical_name(url_or_channel):
     return "Источник"
 
 def clean_input_text(text):
-    """Жесткая зачистка входного текста от мусорных тегов RSS до отправки в ИИ"""
     if not text:
         return ""
     text = re.sub(r'(?i)\(?\b(FA RSS\vert{}CNews\.ru\vert{}CNews\vert{}Новое на сайте\vert{}Лента новостей)\b\)?', '', text)
@@ -282,7 +283,6 @@ def clean_json_str(raw_str):
     return clean.strip()
 
 def sanitize_summary_text(text):
-    """Финальная зачистка текста от скобок и суффиксов источников"""
     if not text:
         return ""
     text = re.sub(r'\s*[\(\[\{][^\)\]\}]*(FA RSS|CNews|Новое на сайте|Лента новостей|Коммерсант|Foreign Affairs|ЦБ РФ)[^\)\]\}]*[\)\]\}]', '', text, flags=re.IGNORECASE)
