@@ -3,20 +3,18 @@ import requests
 import feedparser
 from bs4 import BeautifulSoup
 import telebot
-from g4f.client import Client
 
-# Инициализация бота
+# 1. Считываем только Telegram-секреты
 bot_token = os.environ.get("TELEGRAM_BOT_TOKEN")
 chat_id = os.environ.get("TELEGRAM_CHAT_ID")
 
 if not bot_token or not chat_id:
-    raise ValueError("Ошибка: TELEGRAM_BOT_TOKEN или TELEGRAM_CHAT_ID не найдены!")
+    raise ValueError("Ошибка: TELEGRAM_BOT_TOKEN или TELEGRAM_CHAT_ID не найдены в GitHub Secrets!")
 
 bot = telebot.TeleBot(bot_token)
 CHAT_ID = chat_id
-ai_client = Client()
 
-# --- Списки источников ---
+# 2. Источники
 RSS_FEEDS = [
     "https://www.kommersant.ru/RSS/news.xml",
     "https://cbr.ru/rss/RssNews",
@@ -48,7 +46,7 @@ def fetch_telegram_public():
     for channel in TG_CHANNELS:
         try:
             url = f"https://t.me/s/{channel}"
-            res = requests.get(url, headers=headers, timeout=10)
+            res = requests.get(url, headers=headers, timeout=15)
             soup = BeautifulSoup(res.text, 'html.parser')
             posts = soup.find_all('div', class_='tgme_widget_message_text', limit=3)
             for post in posts:
@@ -76,16 +74,24 @@ def generate_analytical_digest(raw_data):
     {raw_data}
     """
     
-    response = ai_client.chat.completions.create(
-        model="gpt-4o-mini",
-        messages=[{"role": "user", "content": prompt}]
-    )
-    return response.choices[0].message.content
+    # Прямой запрос к открытому шлюзу без API-ключей
+    payload = {
+        "messages": [
+            {"role": "user", "content": prompt}
+        ],
+        "model": "openai"
+    }
+    
+    response = requests.post("https://text.pollinations.ai/", json=payload, timeout=90)
+    response.raise_for_status()
+    return response.text
 
 if __name__ == "__main__":
     combined_data = fetch_rss() + "\n" + fetch_telegram_public()
     
     if combined_data.strip():
         digest = generate_analytical_digest(combined_data)
+        
+        # Разбивка на блоки по лимиту Telegram
         for i in range(0, len(digest), 4000):
             bot.send_message(CHAT_ID, digest[i:i+4000])
