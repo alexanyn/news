@@ -37,7 +37,7 @@ def save_sent_urls(sent_set):
     except Exception as e:
         print(f"Ошибка сохранения истории: {e}")
 
-# 2. Таблица жесткого соответствия URL-фидов и каноничных названий
+# 2. Таблица каноничных названий
 FEED_CANONICAL_NAMES = {
     "cbr.ru": "ЦБ РФ",
     "kommersant.ru": "Коммерсантъ",
@@ -153,6 +153,15 @@ def resolve_canonical_name(url_or_channel):
             return canonical
     return "Источник"
 
+def clean_input_text(text):
+    """Жесткая зачистка входного текста от мусорных тегов RSS до отправки в ИИ"""
+    if not text:
+        return ""
+    text = re.sub(r'(?i)\(?\b(FA RSS\vert{}CNews\.ru\vert{}CNews\vert{}Новое на сайте\vert{}Лента новостей)\b\)?', '', text)
+    text = re.sub(r'\.\s*Лента\s+новостей', '', text, flags=re.IGNORECASE)
+    text = re.sub(r'\s+', ' ', text)
+    return text.strip()
+
 def collect_all_news(sent_urls):
     news_db = {}
     items_for_prompt = []
@@ -168,10 +177,11 @@ def collect_all_news(sent_urls):
                 if link in sent_urls:
                     continue
 
-                title = entry.title
+                title = clean_input_text(entry.title)
                 summary = getattr(entry, 'summary', '')
                 if summary:
                     summary = BeautifulSoup(summary, 'html.parser').get_text(strip=True)
+                summary = clean_input_text(summary)
 
                 news_id = item_counter
                 item_counter += 1
@@ -197,7 +207,7 @@ def collect_all_news(sent_urls):
             canonical_source = resolve_canonical_name(channel)
 
             for post in posts:
-                post_text = post.get_text(strip=True)
+                post_text = clean_input_text(post.get_text(strip=True))
                 post_hash = f"tg_{channel}_{hash(post_text[:100])}"
 
                 if post_hash in sent_urls:
@@ -222,7 +232,7 @@ def generate_analytical_json(raw_data_prompt):
     prompt = f"""
     Ты — макроэкономический аналитик. Проанализируй новости и сгруппируй их по 4 категориям.
 
-    КРИТИЧЕСКИЕ ПРАВИЛА:
+    СТРОГИЕ ПРАВИЛА:
     1. Ответ верни СТРОГО в формате JSON.
     2. Поле "summary_ru" должно содержать ТОЛЬКО смысловой тезис новости СТРОГО НА РУССКОМ ЯЗЫКЕ.
     3. КАТЕГОРИЧЕСКИ ЗАПРЕЩЕНО писать названия источников или вставлять скобки в "summary_ru"!
@@ -272,10 +282,12 @@ def clean_json_str(raw_str):
     return clean.strip()
 
 def sanitize_summary_text(text):
-    """Принудительное удаление мусорных хвостов со скобками из ответа нейросети"""
-    # Удаляем скобки вроде (FA RSS), (CNews.ru), (Новое на сайте), (Коммерсантъ. Лента новостей)
-    text = re.sub(r'\s*\([^)]*(FA RSS|CNews|Новое на сайте|Лента новостей|Коммерсантъ)[^)]*\)', '', text, flags=re.IGNORECASE)
-    return text.strip()
+    """Финальная зачистка текста от скобок и суффиксов источников"""
+    if not text:
+        return ""
+    text = re.sub(r'\s*[\(\[\{][^\)\]\}]*(FA RSS|CNews|Новое на сайте|Лента новостей|Коммерсант|Foreign Affairs|ЦБ РФ)[^\)\]\}]*[\)\]\}]', '', text, flags=re.IGNORECASE)
+    text = re.sub(r'\s*\([^\)]*\)\s*$', '', text)
+    return text.strip(' .-_')
 
 def build_html_digest(raw_response, news_db):
     json_clean = clean_json_str(raw_response)
