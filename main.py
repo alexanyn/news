@@ -4,17 +4,18 @@ import feedparser
 from bs4 import BeautifulSoup
 import telebot
 
-# 1. Считывание переменных окружения
+# 1. Проверка секретов
+groq_api_key = os.environ.get("GROQ_API_KEY")
 bot_token = os.environ.get("TELEGRAM_BOT_TOKEN")
 chat_id = os.environ.get("TELEGRAM_CHAT_ID")
 
-if not bot_token or not chat_id:
-    raise ValueError("Ошибка: TELEGRAM_BOT_TOKEN или TELEGRAM_CHAT_ID не найдены в GitHub Secrets!")
+if not groq_api_key or not bot_token or not chat_id:
+    raise ValueError("Ошибка: Проверьте наличие GROQ_API_KEY, TELEGRAM_BOT_TOKEN и TELEGRAM_CHAT_ID в GitHub Secrets!")
 
 bot = telebot.TeleBot(bot_token)
 CHAT_ID = chat_id
 
-# 2. Источники данных
+# 2. Источники
 RSS_FEEDS = [
     "https://www.kommersant.ru/RSS/news.xml",
     "https://cbr.ru/rss/RssNews",
@@ -74,22 +75,25 @@ def generate_analytical_digest(raw_data):
     {raw_data}
     """
     
-    # Резервный список бесплатных моделей
-    free_models = ["mistral", "qwen-coder", "llama"]
+    headers = {
+        "Authorization": f"Bearer {groq_api_key}",
+        "Content-Type": "application/json"
+    }
     
-    for model in free_models:
-        try:
-            payload = {
-                "messages": [{"role": "user", "content": prompt}],
-                "model": model
-            }
-            response = requests.post("https://text.pollinations.ai/", json=payload, timeout=90)
-            if response.status_code == 200 and response.text.strip():
-                return response.text
-        except Exception as e:
-            print(f"Модель {model} недоступна: {e}")
-            
-    raise RuntimeError("Ни одна из бесплатных моделей не вернула ответ.")
+    payload = {
+        "model": "llama-3.3-70b-versatile",
+        "messages": [{"role": "user", "content": prompt}],
+        "temperature": 0.2
+    }
+    
+    response = requests.post(
+        "https://api.groq.com/openai/v1/chat/completions",
+        headers=headers,
+        json=payload,
+        timeout=60
+    )
+    response.raise_for_status()
+    return response.json()["choices"][0]["message"]["content"]
 
 if __name__ == "__main__":
     combined_data = fetch_rss() + "\n" + fetch_telegram_public()
@@ -97,6 +101,5 @@ if __name__ == "__main__":
     if combined_data.strip():
         digest = generate_analytical_digest(combined_data)
         
-        # Разбивка по 4000 символов под ограничение сообщения Telegram
         for i in range(0, len(digest), 4000):
             bot.send_message(CHAT_ID, digest[i:i+4000])
