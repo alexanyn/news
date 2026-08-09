@@ -1,4 +1,4 @@
-print("=== ЗАПУСК СКРИПТА ВЕРСИИ 3.0 (STRICT_DOMAINS) ===")
+print("=== ЗАПУСК СКРИПТА ВЕРСИИ 3.1 (STRICT_JSON_LIMITS) ===")
 
 import os
 import re
@@ -39,7 +39,7 @@ def save_sent_urls(sent_set):
     except Exception as e:
         print(f"Ошибка сохранения истории: {e}")
 
-# 2. Таблица каноничных названий (ЖЕСТКАЯ ПРИВЯЗКА К ДОМЕНАМ)
+# 2. Таблица каноничных названий
 FEED_CANONICAL_NAMES = {
     "cbr.ru": "ЦБ РФ",
     "kommersant.ru": "Коммерсантъ",
@@ -173,7 +173,8 @@ def collect_all_news(sent_urls):
             feed = feedparser.parse(feed_url)
             canonical_source = resolve_canonical_name(feed_url)
 
-            for entry in feed.entries[:3]:
+            # Берем строго 1 самую свежую новость с каждого источника
+            for entry in feed.entries[:1]:
                 link = getattr(entry, 'link', feed_url).strip()
                 if link in sent_urls:
                     continue
@@ -192,7 +193,7 @@ def collect_all_news(sent_urls):
                     "url": link
                 }
 
-                items_for_prompt.append(f"ID: {news_id}\nЗаголовок: {title}\nКонтекст: {summary[:400]}\n---")
+                items_for_prompt.append(f"ID: {news_id}\nЗаголовок: {title}\nКонтекст: {summary[:300]}\n---")
                 sent_urls.add(link)
         except Exception as e:
             print(f"Ошибка парсинга RSS {feed_url}: {e}")
@@ -203,7 +204,7 @@ def collect_all_news(sent_urls):
             url = f"https://t.me/s/{channel}"
             res = requests.get(url, headers=headers, timeout=15)
             soup = BeautifulSoup(res.text, 'html.parser')
-            posts = soup.find_all('div', class_='tgme_widget_message_text', limit=3)
+            posts = soup.find_all('div', class_='tgme_widget_message_text', limit=1)
 
             canonical_source = resolve_canonical_name(channel)
 
@@ -222,7 +223,7 @@ def collect_all_news(sent_urls):
                     "url": url
                 }
 
-                items_for_prompt.append(f"ID: {news_id}\nКонтекст: {post_text[:400]}\n---")
+                items_for_prompt.append(f"ID: {news_id}\nКонтекст: {post_text[:300]}\n---")
                 sent_urls.add(post_hash)
         except Exception as e:
             print(f"Ошибка парсинга TG @{channel}: {e}")
@@ -231,18 +232,18 @@ def collect_all_news(sent_urls):
 
 def generate_analytical_json(raw_data_prompt):
     prompt_template = """
-    Ты — макроэкономический аналитик. Проанализируй новости и сгруппируй их по 4 категориям.
+    Ты — старший аналитик. Проанализируй входящий массив данных и отбери САМЫЕ ВАЖНЫЕ события.
 
-    СТРОГИЕ ПРАВИЛА:
-    1. Ответ верни СТРОГО в формате JSON.
-    2. Поле "summary_ru" должно содержать ТОЛЬКО смысловой тезис новости СТРОГО НА РУССКОМ ЯЗЫКЕ.
-    3. КАТЕГОРИЧЕСКИ ЗАПРЕЩЕНО писать названия источников или вставлять скобки в "summary_ru"!
+    ЖЕСТКИЕ ЛИМИТЫ И ПРАВИЛА:
+    1. Отбери МАКСИМУМ 3-4 самые важные новости для каждой категории. Игнорируй бытовой шум, бытовые советы и мелкие происшествия!
+    2. Ответ верни СТРОГО в формате JSON.
+    3. Поле "summary_ru" должно содержать краткую развернутую суть на русском языке. КАТЕГОРИЧЕСКИ ЗАПРЕЩЕНО вставлять названия источников или скобки в "summary_ru"!
     4. Поле "id" должно содержать ТОЛЬКО ЦЕЛОЕ ЧИСЛО (ID из входящих данных).
 
     СТРУКТУРА JSON:
     {
-      "macro": [{"id": 1, "summary_ru": "Тезис на русском"}],
-      "geopolitics": [{"id": 2, "summary_ru": "Тезис на русском"}],
+      "macro": [{"id": 1, "summary_ru": "Суть события на русском"}],
+      "geopolitics": [{"id": 2, "summary_ru": "Суть события на русском"}],
       "industry": [],
       "risks": []
     }
@@ -262,6 +263,7 @@ def generate_analytical_json(raw_data_prompt):
         "model": "llama-3.3-70b-versatile",
         "messages": [{"role": "user", "content": prompt}],
         "temperature": 0.1,
+        "max_tokens": 4000,
         "response_format": {"type": "json_object"}
     }
 
@@ -296,7 +298,7 @@ def build_html_digest(raw_response, news_db):
     try:
         data = json.loads(json_clean)
     except Exception as e:
-        print(f"Ошибка парсинга JSON: {e}")
+        print(f"Критическая ошибка парсинга JSON от модели: {e}")
         return ""
 
     sections = [
