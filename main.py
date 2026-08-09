@@ -1,11 +1,12 @@
 import os
+import re
 import requests
 import feedparser
 from bs4 import BeautifulSoup
 import telebot
 from telebot.apihelper import ApiTelegramException
 
-# 1. Проверка переменных окружения
+# 1. Переменные окружения
 groq_api_key = os.environ.get("GROQ_API_KEY")
 bot_token = os.environ.get("TELEGRAM_BOT_TOKEN")
 chat_id = os.environ.get("TELEGRAM_CHAT_ID")
@@ -16,7 +17,7 @@ if not groq_api_key or not bot_token or not chat_id:
 bot = telebot.TeleBot(bot_token)
 CHAT_ID = chat_id
 
-# 2. Источники данных
+# 2. Источники
 RSS_FEEDS = [
     "https://www.kommersant.ru/RSS/news.xml",
     "https://cbr.ru/rss/RssNews",
@@ -39,7 +40,7 @@ def fetch_rss():
                 title = entry.title
                 summary = getattr(entry, 'summary', '')
                 link = getattr(entry, 'link', url)
-                text_data += f"\nИсточник_Имя: {source_name}\nURL: {link}\nЗаголовок: {title}\nТекст: {summary[:300]}\n---"
+                text_data += f"\nИсточник: {source_name}\nURL: {link}\nЗаголовок: {title}\nТекст: {summary[:300]}\n---"
         except Exception as e:
             print(f"Ошибка парсинга RSS {url}: {e}")
     return text_data
@@ -54,32 +55,36 @@ def fetch_telegram_public():
             soup = BeautifulSoup(res.text, 'html.parser')
             posts = soup.find_all('div', class_='tgme_widget_message_text', limit=3)
             for post in posts:
-                text_data += f"\nИсточник_Имя: Telegram @{channel}\nURL: {url}\nТекст: {post.get_text(strip=True)[:400]}\n---"
+                text_data += f"\nИсточник: Telegram @{channel}\nURL: {url}\nТекст: {post.get_text(strip=True)[:400]}\n---"
         except Exception as e:
             print(f"Ошибка парсинга TG @{channel}: {e}")
     return text_data
 
 def generate_analytical_digest(raw_data):
+    # Промпт дает предельно простую структуру без усложнений
     prompt = f"""
-    Ты — старший аналитик. Проанализируй массив данных и составь дайджест.
+    Ты — старший аналитик. Проанализируй данные и сформируй дайджест.
 
-    ТРЕБОВАНИЯ К ФОРМАТИРОВАНИЮ (СТРОГО):
-    1. Каждую секцию оформляй ЖИРНЫМ заголовком в верхнем регистре:
-       * **📊 МАКРОЭКОНОМИКА И ФИНАНСЫ**
-       * **🌍 ГЕОПОЛИТИКА И БЕЗОПАСНОСТЬ**
-       * **💼 ОТРАСЛЕВЫЕ ТРЕНДЫ И B2B**
-       * **⚠️ СКРЫТЫЕ РИСКИ**
+    СТРОГИЙ ФОРМАТ ВЫВОДА (Используй ТОЛЬКО эти HTML-теги: <b> и <a href="...">):
 
-    2. Каждый пункт списка Должен начинаться со символа эмодзи-точки `• `. 
-       Использовать дефисы `-` ЗАПРЕЩЕНО.
+    <b>📊 МАКРОЭКОНОМИКА И ФИНАНСЫ</b>
+    • Суть новости (<a href="URL">Имя Источника</a>)
 
-    3. Указывай источник в конце пункта в формате:
-       • Краткая суть новости ([Имя Источника](URL)).
+    <b>🌍 ГЕОПОЛИТИКА И БЕЗОПАСНОСТЬ</b>
+    • Суть новости (<a href="URL">Имя Источника</a>)
 
-       ВАЖНО: скобки ДОЛЖНЫ быть обычными символами, а внутри них кликабельная ссылка Markdown `[Имя Источника](URL)`. 
-       ПРИМЕР: • Росалкогольтабакконтроль приостановил лицензию... ([Коммерсантъ](https://www.kommersant.ru/doc/12345)).
+    <b>💼 ОТРАСЛЕВЫЕ ТРЕНДЫ И B2B</b>
+    • Суть новости (<a href="URL">Имя Источника</a>)
 
-    Вот массив данных:
+    <b>⚠️ СКРЫТЫЕ РИСКИ</b>
+    • Суть новости (<a href="URL">Имя Источника</a>)
+
+    ПРАВИЛА:
+    1. Заголовки блоков ОБЯЗАТЕЛЬНО оборачивай в <b>...</b>.
+    2. Пункты начинай СТРОГО с эмодзи-точки `• `.
+    3. Ссылку оформляй строго в скобках: (<a href="URL">Источник</a>). Никаких квадратных скобок `[]` или звездочек `**`.
+
+    Массив данных:
     {raw_data}
     """
     
@@ -103,11 +108,18 @@ def generate_analytical_digest(raw_data):
     response.raise_for_status()
     return response.json()["choices"][0]["message"]["content"]
 
+def sanitize_html(text):
+    # Автоматическая подчистка: если модель сбилась и выдала Markdown-заголовки
+    text = re.sub(r'\*\*(.*?)\*\*', r'<b>\1</b>', text)
+    text = re.sub(r'\[(.*?)\]\((.*?)\)', r'<a href="\2">\1</a>', text)
+    return text
+
 def send_telegram_message(chat_id, text):
+    clean_text = sanitize_html(text)
     try:
-        bot.send_message(chat_id, text, parse_mode="Markdown")
+        bot.send_message(chat_id, clean_text, parse_mode="HTML", disable_web_page_preview=True)
     except ApiTelegramException as e:
-        print(f"Ошибка Markdown разметки ({e}), отправляем обычным текстом...")
+        print(f"Ошибка HTML-парсеру Telegram ({e}). Отправка без разметки.")
         bot.send_message(chat_id, text)
 
 if __name__ == "__main__":
