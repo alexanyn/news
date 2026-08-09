@@ -1,4 +1,4 @@
-print("=== ЗАПУСК СКРИПТА ВЕРСИИ 4.2 (GROQ_8B_INSTANT_STABLE) ===")
+print("=== ЗАПУСК СКРИПТА ВЕРСИИ 4.3 (PROXIED_GLOBAL_FEEDS) ===")
 
 import os
 import re
@@ -40,7 +40,7 @@ def save_sent_urls(sent_set):
     except Exception as e:
         print(f"Ошибка сохранения истории: {e}")
 
-# 2. Таблица каноничных названий
+# 2. Расширенная таблица каноничных названий
 FEED_CANONICAL_NAMES = {
     "cbr.ru": "ЦБ РФ",
     "kommersant.ru": "Коммерсантъ",
@@ -79,24 +79,24 @@ FEED_CANONICAL_NAMES = {
     "statnews.com": "STAT News",
     "retaildive.com": "Retail Dive",
     "project-syndicate.org": "Project Syndicate",
-    "reuters.com": "Reuters",
-    "apnews.com": "AP News",
-    "bloomberg.com": "Bloomberg",
-    "ft.com": "Financial Times",
-    "wsj.com": "WSJ",
-    "nytimes.com": "NYT",
-    "economist.com": "The Economist",
-    "washingtonpost.com": "Washington Post",
-    "theinformation.com": "The Information",
-    "spglobal.com": "S&P Global",
-    "msci.com": "MSCI",
     "mmi_ru": "MMI",
     "solidfin": "Solid Financial",
     "xtxixty": "Твёрдые цифры",
-    "russianmacro": "Russianmacro"
+    "russianmacro": "Russianmacro",
+    # Новые прокси и международные источники
+    "xn8geg0kjxjnedsc": "Associated Press",
+    "bloomberg.com": "Bloomberg",
+    "ozplb3ix17vahziy": "Politico",
+    "9f4zackjgycpaee7": "Reuters",
+    "istories.media": "Важные истории",
+    "zona.media": "Медиазона",
+    "currenttime.tv": "Настоящее Время",
+    "dw.com": "Deutsche Welle",
+    "xz567x8w88wqe8iz": "Инфо-источник"
 }
 
 RSS_FEEDS = [
+    # Российские СМИ и Финансы
     "https://tass.ru/rss/v2.xml",
     "https://ria.ru/export/rss2/archive/index.xml",
     "https://www.interfax.ru/rss.asp",
@@ -120,6 +120,21 @@ RSS_FEEDS = [
     "https://fom.ru/rss.xml",
     "https://wciom.ru/rss.xml",
     "https://www.levada.ru/feed/",
+
+    # Новые проксированные международные источники (без Cloudflare 403)
+    "https://rss.app/feeds/Xn8gEg0kjXjnedSc.xml",  # Associated Press
+    "https://feeds.bloomberg.com/business/news.rss",  # Bloomberg
+    "https://rss.app/feeds/OZpLB3ix17VahZIY.xml",  # Politico
+    "https://rss.app/feeds/9F4ZacKjgYCPaEE7.xml",  # Reuters
+
+    # Независимые и международные русскоязычные медиа
+    "https://istories.media/rss/all.xml",  # Важные истории
+    "https://zona.media/rss",  # Медиазона
+    "https://www.currenttime.tv/api/z$gqiteyq_gt",  # Настоящее Время (Прямой RSS)
+    "https://rss.dw.com/xml/rss-ru-all",  # DW на русском
+    "https://rss.app/feeds/Xz567X8w88wqe8IZ.xml",
+
+    # Международная аналитика и профильные институты
     "https://www.foreignaffairs.com/rss.xml",
     "https://www.pewresearch.org/feed/",
     "https://www.cfr.org/rss.xml",
@@ -128,23 +143,9 @@ RSS_FEEDS = [
     "https://carnegieendowment.org/rss/solr/publications",
     "https://www.theguardian.com/world/rss",
     "https://www.aljazeera.com/xml/rss/all.xml",
-    "https://www.politico.eu/feed/",
-    "https://rss.politico.com/politics-news.xml",
-    "https://www.lemonde.fr/en/international/rss_full.xml",
     "https://www.statnews.com/feed/",
     "https://www.retaildive.com/feeds/news/",
-    "https://www.project-syndicate.org/rss",
-    "https://news.google.com/rss/search?q=site:reuters.com/world",
-    "https://news.google.com/rss/search?q=site:apnews.com/world-news",
-    "https://news.google.com/rss/search?q=site:bloomberg.com",
-    "https://news.google.com/rss/search?q=site:ft.com",
-    "https://news.google.com/rss/search?q=site:wsj.com",
-    "https://news.google.com/rss/search?q=site:nytimes.com/section/world",
-    "https://news.google.com/rss/search?q=site:economist.com",
-    "https://news.google.com/rss/search?q=site:washingtonpost.com",
-    "https://news.google.com/rss/search?q=site:theinformation.com",
-    "https://news.google.com/rss/search?q=site:spglobal.com",
-    "https://news.google.com/rss/search?q=site:msci.com"
+    "https://www.project-syndicate.org/rss"
 ]
 
 TG_CHANNELS = ["mmi_ru", "solidfin", "xtxixty", "russianmacro"]
@@ -179,7 +180,7 @@ def collect_all_news(sent_urls):
                 if link in sent_urls:
                     continue
 
-                title = clean_input_text(entry.title)
+                title = clean_input_text(getattr(entry, 'title', ''))
                 summary = getattr(entry, 'summary', '')
                 if summary:
                     summary = BeautifulSoup(summary, 'html.parser').get_text(strip=True)
@@ -240,13 +241,12 @@ def collect_all_news(sent_urls):
         except Exception as e:
             print(f"Ошибка парсинга TG @{channel}: {e}")
 
-    # Оптимальный объем в 50 материалов
-    limited_items = items_for_prompt[:50]
+    limited_items = items_for_prompt[:55]
     return news_db, "\n".join(limited_items)
 
 def generate_analytical_json(raw_data_prompt):
     prompt_template = """
-    Ты — старший аналитик. Проанализируй входящие данные и отбери все значимые события.
+    Ты — старший международный аналитик. Проанализируй входящие данные и отбери все значимые события.
 
     КАТЕГОРИИ:
     1. "politics": Законодательство, госуправление, геополитика, международные решения, выборы.
@@ -254,14 +254,15 @@ def generate_analytical_json(raw_data_prompt):
     3. "economy": Макроэкономика, рынки, инфляция, банковские ставки, курсы валют, инвестиции.
     4. "b2b_retail": B2B-тренды, ритейл, торговые сети, логистика, промышленность, коммерция.
     5. "tech_health": IT-сектор, ИИ, фармакология, медицина, научные разработки.
-    6. "society": Общественные тренды, социологические опросы (ФОМ, ВЦИОМ, Левада), макро-социальные явления.
+    6. "society": Общественные тренды, социологические опросы, макро-социальные явления.
 
-    ЖЕСТКИЕ ПРАВИЛА И СТОП-ЛИСТ:
-    1. Отбирай до 4-5 главных событий на каждую категорию, если они есть.
-    2. КАТЕГОРИЧЕСКИ ИСКЛЮЧАЙ: бытовую недвижимость (аренда квартир), ремонт дорог, эстакады, спорт, шоу-бизнес, бытовые ДТП и бытовые финансовые советы.
-    3. Переводи все зарубежные материалы на русский язык.
-    4. Поле "summary_ru" должно содержать суть на русском языке без скобок и названий источников!
-    5. Поле "id" должно содержать ТОЛЬКО ЦЕЛОЕ ЧИСЛО (ID из входящих данных).
+    ЖЕСТКИЕ ПРАВИЛА:
+    1. Обязательно выдерживай международный баланс! Не менее 40% дайджеста должны составлять зарубежные и независимые источники (Associated Press, Reuters, Bloomberg, Politico, DW, Важные истории и др.).
+    2. Отбирай до 4 главнейших событий на каждую категорию.
+    3. КАТЕГОРИЧЕСКИ ИСКЛЮЧАЙ: бытовую недвижимость (аренда квартир), ремонт дорог, эстакады, спорт, шоу-бизнес, бытовые ДТП и бытовые советы.
+    4. Переводи ВСЕ зарубежные материалы на русский язык.
+    5. Поле "summary_ru" должно содержать суть на русском языке без скобок и названий источников!
+    6. Поле "id" должно содержать ТОЛЬКО ЦЕЛОЕ ЧИСЛО (ID из входящих данных).
 
     СТРУКТУРА JSON:
     {
@@ -285,7 +286,7 @@ def generate_analytical_json(raw_data_prompt):
     }
 
     payload = {
-        "model": "llama-3.1-8b-instant",  # Лимит 30,000 TPM убирает ошибки 429
+        "model": "llama-3.1-8b-instant",
         "messages": [{"role": "user", "content": prompt}],
         "temperature": 0.1,
         "max_tokens": 2500,
