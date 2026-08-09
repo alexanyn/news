@@ -34,10 +34,12 @@ def fetch_rss():
     for url in RSS_FEEDS:
         try:
             feed = feedparser.parse(url)
+            source_name = feed.feed.get('title', 'Источник')
             for entry in feed.entries[:3]:
                 title = entry.title
                 summary = getattr(entry, 'summary', '')
-                text_data += f"\n[RSS: {feed.feed.get('title', 'Источник')}]\nЗаголовок: {title}\nТекст: {summary[:300]}\n---"
+                link = getattr(entry, 'link', url)  # Считываем прямую ссылку на новость
+                text_data += f"\n[Источник: {source_name}] ({link})\nЗаголовок: {title}\nТекст: {summary[:300]}\nURL: {link}\n---"
         except Exception as e:
             print(f"Ошибка парсинга RSS {url}: {e}")
     return text_data
@@ -52,7 +54,7 @@ def fetch_telegram_public():
             soup = BeautifulSoup(res.text, 'html.parser')
             posts = soup.find_all('div', class_='tgme_widget_message_text', limit=3)
             for post in posts:
-                text_data += f"\n[Telegram: @{channel}]\nТекст: {post.get_text(strip=True)[:400]}\n---"
+                text_data += f"\n[Источник: Telegram @{channel}] ({url})\nТекст: {post.get_text(strip=True)[:400]}\nURL: {url}\n---"
         except Exception as e:
             print(f"Ошибка парсинга TG @{channel}: {e}")
     return text_data
@@ -70,11 +72,12 @@ def generate_analytical_digest(raw_data):
        - 🌍 ГЕОПОЛИТИКА И БЕЗОПАСНОСТЬ
        - 💼 ОТРАСЛЕВЫЕ ТРЕНДЫ И B2B
        - ⚠️ СКРЫТЫЕ РИСКИ (Что упускают массовые СМИ)
-    4. Для каждого ключевого тезиса дай предельно конкретный вывод.
+    4. Для каждого тезиса обязательно укажи источник В ВИДЕ КЛИКАБЕЛЬНОЙ ГИПЕРССЫЛКИ Markdown. 
+       Синтаксис ссылки СТРОГО такой: [Источник: Название](URL_из_данных). Не пиши сухой текст вроде "[Источник: Коммерсантъ]" без указания URL в круглых скобках!
+    5. Для каждого ключевого тезиса дай предельно конкретный вывод.
        СТРОГО ЗАПРЕЩЕНО использовать вводные слова и формулировки-паразиты: "может", "потенциально", "оказать влияние", "улучшить ситуацию", "привести к эскалации".
-       Пиши строго сухие факты, финансовую математику и прямые последствия для рынка.
 
-    Вот массив данных:
+    Вот массив данных с URL-адресами:
     {raw_data}
     """
     
@@ -99,7 +102,6 @@ def generate_analytical_digest(raw_data):
     return response.json()["choices"][0]["message"]["content"]
 
 def send_telegram_message(chat_id, text):
-    # Попытка отправки с Markdown, при ошибке синтаксиса — отсылает чистым текстом
     try:
         bot.send_message(chat_id, text, parse_mode="Markdown")
     except ApiTelegramException as e:
