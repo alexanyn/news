@@ -3,22 +3,20 @@ import requests
 import feedparser
 from bs4 import BeautifulSoup
 import telebot
-from google import genai
+from g4f.client import Client
 
-# 1. Считываем переменные окружения и проверяем их наличие
-api_key = os.environ.get("GEMINI_API_KEY")
+# Инициализация бота
 bot_token = os.environ.get("TELEGRAM_BOT_TOKEN")
 chat_id = os.environ.get("TELEGRAM_CHAT_ID")
 
-if not api_key or not bot_token or not chat_id:
-    raise ValueError("Ошибка: Одно или несколько обязательных секретов (GEMINI_API_KEY, TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID) не найдены в GitHub Secrets!")
+if not bot_token or not chat_id:
+    raise ValueError("Ошибка: TELEGRAM_BOT_TOKEN или TELEGRAM_CHAT_ID не найдены!")
 
-# 2. Инициализация клиентов
-client = genai.Client(api_key=api_key)
 bot = telebot.TeleBot(bot_token)
 CHAT_ID = chat_id
+ai_client = Client()
 
-# 3. Список RSS-источников
+# --- Списки источников ---
 RSS_FEEDS = [
     "https://www.kommersant.ru/RSS/news.xml",
     "https://cbr.ru/rss/RssNews",
@@ -26,7 +24,6 @@ RSS_FEEDS = [
     "https://www.cnews.ru/inc/rss/news.xml"
 ]
 
-# 4. Список Telegram-каналов (без знака @)
 TG_CHANNELS = [
     "mmi_ru",
     "solidfin"
@@ -51,7 +48,7 @@ def fetch_telegram_public():
     for channel in TG_CHANNELS:
         try:
             url = f"https://t.me/s/{channel}"
-            res = requests.get(url, headers=headers, timeout=20)
+            res = requests.get(url, headers=headers, timeout=10)
             soup = BeautifulSoup(res.text, 'html.parser')
             posts = soup.find_all('div', class_='tgme_widget_message_text', limit=3)
             for post in posts:
@@ -79,18 +76,16 @@ def generate_analytical_digest(raw_data):
     {raw_data}
     """
     
-    response = client.models.generate_content(
-        model='gemini-2.0-flash-lite',
-        contents=prompt
+    response = ai_client.chat.completions.create(
+        model="gemini-1.5-flash-8b",
+        messages=[{"role": "user", "content": prompt}]
     )
-    return response.text
+    return response.choices[0].message.content
 
 if __name__ == "__main__":
     combined_data = fetch_rss() + "\n" + fetch_telegram_public()
     
     if combined_data.strip():
         digest = generate_analytical_digest(combined_data)
-        
-        # Разбивка сообщения по 4000 символов под лимит Telegram
         for i in range(0, len(digest), 4000):
             bot.send_message(CHAT_ID, digest[i:i+4000])
