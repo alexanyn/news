@@ -37,7 +37,62 @@ def save_sent_urls(sent_set):
     except Exception as e:
         print(f"Ошибка сохранения истории: {e}")
 
-# 2. Массив RSS-источников
+# 2. Таблица жесткого соответствия URL-фидов и каноничных названий
+FEED_CANONICAL_NAMES = {
+    "cbr.ru": "ЦБ РФ",
+    "kommersant.ru": "Коммерсантъ",
+    "foreignaffairs.com": "Foreign Affairs",
+    "cnews.ru": "CNews",
+    "tass.ru": "ТАСС",
+    "ria.ru": "РИА Новости",
+    "interfax.ru": "Интерфакс",
+    "vedomosti.ru": "Ведомости",
+    "iz.ru": "Известия",
+    "rbc.ru": "РБК",
+    "forbes.ru": "Forbes",
+    "rg.ru": "Российская Газета",
+    "tvzvezda.ru": "ТК Звезда",
+    "1prime.ru": "Прайм",
+    "frankmedia.ru": "Frank Media",
+    "nplus1.ru": "N+1",
+    "pharmvestnik.ru": "Фармвестник",
+    "vademec.ru": "Vademecum",
+    "retail.ru": "Retail.ru",
+    "globalaffairs.ru": "Россия в глоб. политике",
+    "valdaiclub.com": "Валдай",
+    "fom.ru": "ФОМ",
+    "wciom.ru": "ВЦИОМ",
+    "levada.ru": "Левада-Центр",
+    "pewresearch.org": "Pew Research",
+    "cfr.org": "CFR",
+    "csis.org": "CSIS",
+    "bruegel.org": "Bruegel",
+    "carnegieendowment.org": "Carnegie",
+    "theguardian.com": "The Guardian",
+    "aljazeera.com": "Al Jazeera",
+    "politico.eu": "Politico",
+    "politico.com": "Politico",
+    "lemonde.fr": "Le Monde",
+    "statnews.com": "STAT News",
+    "retaildive.com": "Retail Dive",
+    "project-syndicate.org": "Project Syndicate",
+    "reuters.com": "Reuters",
+    "apnews.com": "AP News",
+    "bloomberg.com": "Bloomberg",
+    "ft.com": "Financial Times",
+    "wsj.com": "WSJ",
+    "nytimes.com": "NYT",
+    "economist.com": "The Economist",
+    "washingtonpost.com": "Washington Post",
+    "theinformation.com": "The Information",
+    "spglobal.com": "S&P Global",
+    "msci.com": "MSCI",
+    "mmi_ru": "MMI",
+    "solidfin": "Solid Financial",
+    "xtxixty": "Твёрдые цифры",
+    "russianmacro": "Russianmacro"
+}
+
 RSS_FEEDS = [
     "https://tass.ru/rss/v2.xml",
     "https://ria.ru/export/rss2/archive/index.xml",
@@ -89,103 +144,28 @@ RSS_FEEDS = [
     "https://news.google.com/rss/search?q=site:msci.com"
 ]
 
-TG_CHANNELS = [
-    "mmi_ru",
-    "solidfin",
-    "xtxixty",
-    "russianmacro"
-]
+TG_CHANNELS = ["mmi_ru", "solidfin", "xtxixty", "russianmacro"]
 
-# Точная карта маппинга названий источников
-SOURCE_CLEAN_MAP = {
-    "коммерсантъ. лента новостей": "Коммерсантъ",
-    "коммерсантъ": "Коммерсантъ",
-    "коммерсант": "Коммерсантъ",
-    "новое на сайте": "ЦБ РФ",
-    "банк россии": "ЦБ РФ",
-    "cbr": "ЦБ РФ",
-    "fa rss": "Foreign Affairs",
-    "foreign affairs": "Foreign Affairs",
-    "cnews.ru": "CNews",
-    "cnews": "CNews",
-    "тасс": "ТАСС",
-    "риа новости": "РИА Новости",
-    "интерфакс": "Интерфакс",
-    "ведомости": "Ведомости",
-    "известия": "Известия",
-    "рбк": "РБК",
-    "forbes": "Forbes",
-    "российская газета": "Российская Газета",
-    "звезда": "ТК Звезда",
-    "прайм": "Прайм",
-    "frank media": "Frank Media",
-    "n + 1": "N+1",
-    "фармацевтический вестник": "Фармвестник",
-    "vademecum": "Vademecum",
-    "retail.ru": "Retail.ru",
-    "россия в глобальной политике": "Россия в глоб. политике",
-    "валдай": "Валдай",
-    "cfr": "CFR",
-    "csis": "CSIS",
-    "pew research": "Pew Research",
-    "reuters": "Reuters",
-    "associated press": "AP News",
-    "bloomberg": "Bloomberg",
-    "financial times": "Financial Times",
-    "wall street journal": "WSJ",
-    "new york times": "NYT",
-    "guardian": "The Guardian",
-    "economist": "The Economist",
-    "al jazeera": "Al Jazeera",
-    "politico": "Politico",
-    "washington post": "Washington Post",
-    "le monde": "Le Monde",
-    "the information": "The Information",
-    "stat news": "STAT News",
-    "retail dive": "Retail Dive",
-    "project syndicate": "Project Syndicate",
-    "s&p global": "S&P Global",
-    "msci": "MSCI",
-    "xtxixty": "Твёрдые цифры",
-    "russianmacro": "Russianmacro",
-    "mmi_ru": "MMI",
-    "solidfin": "Solid Financial",
-    "fom": "ФОМ",
-    "wciom": "ВЦИОМ",
-    "левада": "Левада-Центр"
-}
+def resolve_canonical_name(url_or_channel):
+    low = url_or_channel.lower()
+    for domain, canonical in FEED_CANONICAL_NAMES.items():
+        if domain in low:
+            return canonical
+    return "Источник"
 
-def clean_source_name(name):
-    if not name:
-        return "Источник"
-    
-    low = name.lower().strip()
-    
-    # Сначала проверяем точные и частичные совпадения по карте
-    for key, val in SOURCE_CLEAN_MAP.items():
-        if key in low:
-            return val
+def collect_all_news(sent_urls):
+    news_db = {}
+    items_for_prompt = []
+    item_counter = 1
 
-    # Резервная регулярная очистка
-    name = re.sub(r'\.\s*Лента\s+новостей', '', name, flags=re.IGNORECASE)
-    name = re.sub(r'(?i)\b(rss|feed|export|official|- Google News)\b', '', name)
-    name = name.strip(' .-_')
-            
-    return name if name else "Источник"
-
-def fetch_rss(sent_urls):
-    text_data = ""
-    new_found_count = 0
-    
-    for url in RSS_FEEDS:
+    # Парсинг RSS
+    for feed_url in RSS_FEEDS:
         try:
-            feed = feedparser.parse(url)
-            raw_source_name = feed.feed.get('title', 'Источник')
-            source_name = clean_source_name(raw_source_name)
+            feed = feedparser.parse(feed_url)
+            canonical_source = resolve_canonical_name(feed_url)
 
             for entry in feed.entries[:3]:
-                link = getattr(entry, 'link', url).strip()
-                
+                link = getattr(entry, 'link', feed_url).strip()
                 if link in sent_urls:
                     continue
 
@@ -194,17 +174,20 @@ def fetch_rss(sent_urls):
                 if summary:
                     summary = BeautifulSoup(summary, 'html.parser').get_text(strip=True)
 
-                text_data += f"\nИсточник_Имя: {source_name}\nURL: {link}\nЗаголовок: {title}\nКонтекст: {summary[:400]}\n---"
-                sent_urls.add(link)
-                new_found_count += 1
-        except Exception as e:
-            print(f"Ошибка парсинга RSS {url}: {e}")
-            
-    print(f"Найдено новых материалов в RSS: {new_found_count}")
-    return text_data
+                news_id = item_counter
+                item_counter += 1
 
-def fetch_telegram_public(sent_urls):
-    text_data = ""
+                news_db[news_id] = {
+                    "source_name": canonical_source,
+                    "url": link
+                }
+
+                items_for_prompt.append(f"ID: {news_id}\nЗаголовок: {title}\nКонтекст: {summary[:400]}\n---")
+                sent_urls.add(link)
+        except Exception as e:
+            print(f"Ошибка парсинга RSS {feed_url}: {e}")
+
+    # Парсинг Telegram
     headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)'}
     for channel in TG_CHANNELS:
         try:
@@ -212,64 +195,65 @@ def fetch_telegram_public(sent_urls):
             res = requests.get(url, headers=headers, timeout=15)
             soup = BeautifulSoup(res.text, 'html.parser')
             posts = soup.find_all('div', class_='tgme_widget_message_text', limit=3)
-            
-            clean_channel_name = clean_source_name(channel)
-            
+
+            canonical_source = resolve_canonical_name(channel)
+
             for post in posts:
                 post_text = post.get_text(strip=True)
-                post_id = f"tg_{channel}_{hash(post_text[:100])}"
-                
-                if post_id in sent_urls:
+                post_hash = f"tg_{channel}_{hash(post_text[:100])}"
+
+                if post_hash in sent_urls:
                     continue
 
-                text_data += f"\nИсточник_Имя: {clean_channel_name}\nURL: {url}\nКонтекст: {post_text[:400]}\n---"
-                sent_urls.add(post_id)
+                news_id = item_counter
+                item_counter += 1
+
+                news_db[news_id] = {
+                    "source_name": canonical_source,
+                    "url": url
+                }
+
+                items_for_prompt.append(f"ID: {news_id}\nКонтекст: {post_text[:400]}\n---")
+                sent_urls.add(post_hash)
         except Exception as e:
             print(f"Ошибка парсинга TG @{channel}: {e}")
-    return text_data
 
-def generate_analytical_json(raw_data):
+    return news_db, "\n".join(items_for_prompt)
+
+def generate_analytical_json(raw_data_prompt):
     prompt = f"""
-    Ты — старший макроэкономический и отраслевой аналитик. Проанализируй входящий массив данных со всех мировых и российских СМИ и сформируй сжатый дайджест.
+    Ты — макроэкономический аналитик. Проанализируй новости и сгруппируй их по 4 категориям.
 
-    ЖЕСТКИЕ ПРАВИЛА:
-    1. ИТОГОВЫЙ ТЕКСТ В ПОЛЕ "summary_ru" ДОЛЖЕН БЫТЬ СТРОГО НА РУССКОМ ЯЗЫКЕ. Переводи все зарубежные материалы!
-    2. Агрегируй новости: отбирай ТОЛЬКО самые важные макроэкономические сдвиги, решения регуляторов, геополитику, социологию и технологические тренды.
-    3. Исключай дублирующиеся события от разных СМИ: выбирай один наиболее информативный источник.
-    4. Сохраняй исходное значение поля "source_name" ровно в том виде, в котором оно передано во входящих данных (не меняй имена "ЦБ РФ", "Коммерсантъ", "Foreign Affairs", "CNews").
+    КРИТИЧЕСКИЕ ПРАВИЛА:
+    1. Ответ верни СТРОГО в формате JSON.
+    2. Поле "summary_ru" должно содержать развернутый тезис новости СТРОГО НА РУССКОМ ЯЗЫКЕ.
+    3. Поле "id" должно содержать ТОЛЬКО ЦЕЛОЕ ЧИСЛО (ID из входящих данных). Никаких названий источников и ссылок не пиши!
+    4. Игнорируй мелкие бытовые происшествия, криминал и мелкие ДТП.
 
     СТРУКТУРА JSON:
     {{
-      "macro": [
-        {{"summary_ru": "Развернутый тезис на русском", "source_name": "Имя Источника", "url": "URL"}}
-      ],
-      "geopolitics": [
-        {{"summary_ru": "Развернутый тезис на русском", "source_name": "Имя Источника", "url": "URL"}}
-      ],
-      "industry": [
-        {{"summary_ru": "Развернутый тезис на русском", "source_name": "Имя Источника", "url": "URL"}}
-      ],
-      "risks": [
-        {{"summary_ru": "Развернутый тезис на русском", "source_name": "Имя Источника", "url": "URL"}}
-      ]
+      "macro": [{"id": 1, "summary_ru": "Тезис на русском"}],
+      "geopolitics": [{"id": 2, "summary_ru": "Тезис на русском"}],
+      "industry": [],
+      "risks": []
     }}
 
-    Массив данных:
-    {raw_data}
+    Входящие новости:
+    {raw_data_prompt}
     """
-    
+
     headers = {
         "Authorization": f"Bearer {groq_api_key}",
         "Content-Type": "application/json"
     }
-    
+
     payload = {
         "model": "llama-3.3-70b-versatile",
         "messages": [{"role": "user", "content": prompt}],
         "temperature": 0.1,
         "response_format": {"type": "json_object"}
     }
-    
+
     response = requests.post(
         "https://api.groq.com/openai/v1/chat/completions",
         headers=headers,
@@ -289,13 +273,13 @@ def clean_json_str(raw_str):
         clean = clean[:-3]
     return clean.strip()
 
-def build_html_digest(raw_response):
+def build_html_digest(raw_response, news_db):
     json_clean = clean_json_str(raw_response)
     try:
         data = json.loads(json_clean)
     except Exception as e:
         print(f"Ошибка парсинга JSON: {e}")
-        return raw_response
+        return ""
 
     sections = [
         ("macro", "📊 МАКРОЭКОНОМИКА И ФИНАНСЫ"),
@@ -310,13 +294,17 @@ def build_html_digest(raw_response):
         if items:
             html_output += f"<b>{title}</b>\n"
             for item in items:
+                try:
+                    news_id = int(item.get("id"))
+                except (ValueError, TypeError):
+                    continue
+
                 summary = item.get("summary_ru", "").strip()
-                raw_src = item.get("source_name", "Источник")
-                source = clean_source_name(raw_src)
-                url = item.get("url", "#").strip()
-                
-                if summary:
-                    html_output += f"• {summary} (<a href=\"{url}\">{source}</a>)\n"
+
+                if news_id in news_db and summary:
+                    source_name = news_db[news_id]["source_name"]
+                    url = news_db[news_id]["url"]
+                    html_output += f"• {summary} (<a href=\"{url}\">{source_name}</a>)\n"
             html_output += "\n"
 
     return html_output.strip()
@@ -325,22 +313,22 @@ def send_telegram_message(chat_id, text):
     try:
         bot.send_message(chat_id, text, parse_mode="HTML", disable_web_page_preview=True)
     except ApiTelegramException as e:
-        print(f"Ошибка отправки HTML ({e}). Отправляем без разметки.")
+        print(f"Ошибка отправки HTML ({e}). Отправка обычным текстом.")
         bot.send_message(chat_id, text)
 
 if __name__ == "__main__":
     sent_urls_history = load_sent_urls()
-    
-    combined_data = fetch_rss(sent_urls_history) + "\n" + fetch_telegram_public(sent_urls_history)
-    
-    if combined_data.strip():
-        raw_json = generate_analytical_json(combined_data)
-        formatted_html = build_html_digest(raw_json)
-        
+
+    news_db, raw_data_prompt = collect_all_news(sent_urls_history)
+
+    if raw_data_prompt.strip():
+        raw_json = generate_analytical_json(raw_data_prompt)
+        formatted_html = build_html_digest(raw_json, news_db)
+
         if formatted_html.strip():
             for i in range(0, len(formatted_html), 4000):
                 send_telegram_message(CHAT_ID, formatted_html[i:i+4000])
-            
+
             save_sent_urls(sent_urls_history)
     else:
         print("Новых материалов за прошедшие часы не обнаружено.")
