@@ -1,4 +1,4 @@
-print("=== ЗАПУСК СКРИПТА ВЕРСИИ 3.5 (FIX_DOUBLE_POST_AND_TG_ORDER) ===")
+print("=== ЗАПУСК СКРИПТА ВЕРСИИ 3.6 (UP_TO_3_WITH_INT_QUOTA) ===")
 
 import os
 import re
@@ -173,7 +173,8 @@ def collect_all_news(sent_urls):
             feed = feedparser.parse(feed_url)
             canonical_source = resolve_canonical_name(feed_url)
 
-            for entry in feed.entries[:2]:
+            # БЕРАМ ДО 3 СВЕЖИХ НОВОСТЕЙ С КАЖДОГО RSS-ИСТОЧНИКА
+            for entry in feed.entries[:3]:
                 link = getattr(entry, 'link', feed_url).strip()
                 if link in sent_urls:
                     continue
@@ -204,14 +205,11 @@ def collect_all_news(sent_urls):
             res = requests.get(url, headers=headers, timeout=15)
             soup = BeautifulSoup(res.text, 'html.parser')
             
-            # Вытаскиваем только настоящие сообщения без системных тегов
             messages = soup.find_all('div', class_='tgme_widget_message')
-            
-            # Фильтруем сервисные посты и инлайн-рекламу
             valid_messages = [m for m in messages if 'service_message' not in m.get('class', [])]
             
-            # Берем строго САМЫЕ СВЕЖИЕ 2 ПОСТА (они лежат в самом конце страницы HTML)
-            recent_messages = valid_messages[-2:] if len(valid_messages) >= 2 else valid_messages
+            # До 3 свежих постов из TG
+            recent_messages = valid_messages[-3:] if len(valid_messages) >= 3 else valid_messages
 
             canonical_source = resolve_canonical_name(channel)
 
@@ -248,18 +246,14 @@ def collect_all_news(sent_urls):
 
 def generate_analytical_json(raw_data_prompt):
     prompt_template = """
-    Ты — старший макроэкономический и отраслевой аналитик. Проанализируй входящие данные и отбери только жесткую аналитику.
+    Ты — старший макроэкономический и международный аналитик. Проанализируй входящие данные со всех мировых и российских СМИ.
 
-    ЖЕСТКИЕ ПРАВИЛА И СТОП-ЛИСТ:
-    1. КАТЕГОРИЧЕСКИ ЗАПРЕЩЕНО включать новости о спорте (футбол, трансферы, матчи), шоу-бизнесе, культуре, светской хронике, мелких ДТП и бытовых советах.
-    2. Разделяй новости по 4 категориям:
-       - "macro": финансовые рынки, ставки, валюты, макроэкономика.
-       - "geopolitics": межгосударственные конфликты, санкции, международные договоры, оборона.
-       - "industry": B2B-тренды, ритейл, фармацевтика, IT-сектор, энергетика, промышленность.
-       - "risks": системные глобальные угрозы, экономические риски, логистические сбои.
-    3. В категорию "industry" включай ТОЛЬКО бизнес, технологии и промышленность.
-    4. Если по какой-то категории нет достойных новостей — оставь массив пустым `[]`.
-    5. Поле "summary_ru" должно содержать суть на русском языке. КАТЕГОРИЧЕСКИ ЗАПРЕЩЕНО писать названия источников или вставлять скобки!
+    ЖЕСТКИЕ ПРАВИЛА И КВОТА ИСТОЧНИКОВ:
+    1. ОБЯЗАТЕЛЬНО соблюдай международный баланс: не менее 30-40% итогового дайджеста ДОЛЖНЫ составлять зарубежные и международные источники (Foreign Affairs, Project Syndicate, Reuters, Politico, WSJ, Financial Times, The Guardian, Bruegel и др.).
+    2. Отбирай до 3-4 ключевых событий на каждую из 4 категорий. Не перегружай дайджест однотипными сводками российских информагентств (ТАСС, РИА Новости, Интерфакс)!
+    3. КАТЕГОРИЧЕСКИ ЗАПРЕЩЕНО включать новости о спорте (футбол, матчи), шоу-бизнесе, культуре, мелких ДТП и бытовых советах.
+    4. Переводи ВСЕ зарубежные материалы на русский язык.
+    5. Поле "summary_ru" должно содержать краткую развернутую суть на русском языке. КАТЕГОРИЧЕСКИ ЗАПРЕЩЕНО писать названия источников или вставлять скобки в "summary_ru"!
     6. Поле "id" должно содержать ТОЛЬКО ЦЕЛОЕ ЧИСЛО (ID из входящих данных).
 
     СТРУКТУРА JSON:
@@ -359,7 +353,6 @@ def build_html_digest(raw_response, news_db):
     return html_output.strip()
 
 def send_telegram_message(chat_id, text):
-    """Атомарная отправка сообщения с защитой от рваных HTML-тегов"""
     if not text.strip():
         return
         
@@ -370,7 +363,6 @@ def send_telegram_message(chat_id, text):
             print(f"Ошибка отправки HTML ({e}). Отправка обычным текстом.")
             bot.send_message(chat_id, text)
     else:
-        # Разбиваем строго по двойному переносу строки между категориями
         blocks = text.split("\n\n")
         current_chunk = ""
         for block in blocks:
