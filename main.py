@@ -1,4 +1,4 @@
-print("=== ЗАПУСК СКРИПТА ВЕРСИИ 3.4 (EXACT_TG_POST_LINKS) ===")
+print("=== ЗАПУСК СКРИПТА ВЕРСИИ 3.5 (FIX_DOUBLE_POST_AND_TG_ORDER) ===")
 
 import os
 import re
@@ -204,16 +204,19 @@ def collect_all_news(sent_urls):
             res = requests.get(url, headers=headers, timeout=15)
             soup = BeautifulSoup(res.text, 'html.parser')
             
-            # Вытаскиваем внешние контейнеры сообщений с атрибутом data-post
-            messages = soup.find_all('div', class_='tgme_widget_message', limit=2)
+            # Вытаскиваем только настоящие сообщения без системных тегов
+            messages = soup.find_all('div', class_='tgme_widget_message')
+            
+            # Фильтруем сервисные посты и инлайн-рекламу
+            valid_messages = [m for m in messages if 'service_message' not in m.get('class', [])]
+            
+            # Берем строго САМЫЕ СВЕЖИЕ 2 ПОСТА (они лежат в самом конце страницы HTML)
+            recent_messages = valid_messages[-2:] if len(valid_messages) >= 2 else valid_messages
 
             canonical_source = resolve_canonical_name(channel)
 
-            for msg in messages:
-                # Берем атрибут 'data-post' (напр: 'xtxixty/1234')
+            for msg in recent_messages:
                 data_post = msg.get('data-post')
-                
-                # Поиск текста сообщения внутри контейнера
                 text_div = msg.find('div', class_='tgme_widget_message_text')
                 if not text_div:
                     continue
@@ -221,7 +224,6 @@ def collect_all_news(sent_urls):
                 post_text = clean_input_text(text_div.get_text(strip=True))
                 
                 if data_post:
-                    # Прямая ссылка на точный пост без '/s/'
                     post_url = f"https://t.me/{data_post}"
                 else:
                     post_url = f"https://t.me/{channel}"
@@ -357,11 +359,36 @@ def build_html_digest(raw_response, news_db):
     return html_output.strip()
 
 def send_telegram_message(chat_id, text):
-    try:
-        bot.send_message(chat_id, text, parse_mode="HTML", disable_web_page_preview=True)
-    except ApiTelegramException as e:
-        print(f"Ошибка отправки HTML ({e}). Отправка обычным текстом.")
-        bot.send_message(chat_id, text)
+    """Атомарная отправка сообщения с защитой от рваных HTML-тегов"""
+    if not text.strip():
+        return
+        
+    if len(text) <= 4000:
+        try:
+            bot.send_message(chat_id, text, parse_mode="HTML", disable_web_page_preview=True)
+        except ApiTelegramException as e:
+            print(f"Ошибка отправки HTML ({e}). Отправка обычным текстом.")
+            bot.send_message(chat_id, text)
+    else:
+        # Разбиваем строго по двойному переносу строки между категориями
+        blocks = text.split("\n\n")
+        current_chunk = ""
+        for block in blocks:
+            if len(current_chunk) + len(block) + 2 <= 4000:
+                current_chunk += block + "\n\n"
+            else:
+                if current_chunk.strip():
+                    try:
+                        bot.send_message(chat_id, current_chunk.strip(), parse_mode="HTML", disable_web_page_preview=True)
+                    except ApiTelegramException:
+                        bot.send_message(chat_id, current_chunk.strip())
+                current_chunk = block + "\n\n"
+        
+        if current_chunk.strip():
+            try:
+                bot.send_message(chat_id, current_chunk.strip(), parse_mode="HTML", disable_web_page_preview=True)
+            except ApiTelegramException:
+                bot.send_message(chat_id, current_chunk.strip())
 
 if __name__ == "__main__":
     sent_urls_history = load_sent_urls()
@@ -373,9 +400,7 @@ if __name__ == "__main__":
         formatted_html = build_html_digest(raw_json, news_db)
 
         if formatted_html.strip():
-            for i in range(0, len(formatted_html), 4000):
-                send_telegram_message(CHAT_ID, formatted_html[i:i+4000])
-
+            send_telegram_message(CHAT_ID, formatted_html)
             save_sent_urls(sent_urls_history)
     else:
         print("Новых материалов за прошедшие часы не обнаружено.")
