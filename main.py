@@ -1,4 +1,4 @@
-print("=== ЗАПУСК СКРИПТА ВЕРСИИ 4.5 (ADDED_KOD_SOSTAV_ADINDEX) ===")
+print("=== ЗАПУСК СКРИПТА ВЕРСИИ 4.6 (PREMIUM_PROXIED_SOURCES) ===")
 
 import os
 import re
@@ -42,16 +42,28 @@ def save_sent_urls(sent_set):
 
 # 2. Расширенная таблица каноничных названий
 FEED_CANONICAL_NAMES = {
+    # Государственные структуры, социология и статистика
     "cbr.ru": "ЦБ РФ",
     "4n9gkl2gmfhjdlx2": "ЦБ РФ",
     "xq3dpenk8t6kkzde": "РОМИР",
     "wdcmvjy7bajgrtcc": "Росстат",
+    "a6qznawxvjrfdtau": "Mediascope",
+    "fom.ru": "ФОМ",
+    "wciom.ru": "ВЦИОМ",
+    "levada.ru": "Левада-Центр",
+
+    # Маркетинг, IT, реклама и медиабизнес
     "kod.ru": "Код",
     "sostav.ru": "Состав",
     "adindex.ru": "AdIndex",
-    "kommersant.ru": "Коммерсантъ",
-    "foreignaffairs.com": "Foreign Affairs",
     "cnews.ru": "CNews",
+    "nplus1.ru": "N+1",
+    "pharmvestnik.ru": "Фармвестник",
+    "vademec.ru": "Vademecum",
+    "retail.ru": "Retail.ru",
+
+    # Российские деловые СМИ
+    "kommersant.ru": "Коммерсантъ",
     "tass.ru": "ТАСС",
     "ria.ru": "РИА Новости",
     "interfax.ru": "Интерфакс",
@@ -63,15 +75,27 @@ FEED_CANONICAL_NAMES = {
     "tvzvezda.ru": "ТК Звезда",
     "1prime.ru": "Прайм",
     "frankmedia.ru": "Frank Media",
-    "nplus1.ru": "N+1",
-    "pharmvestnik.ru": "Фармвестник",
-    "vademec.ru": "Vademecum",
-    "retail.ru": "Retail.ru",
     "globalaffairs.ru": "Россия в глоб. политике",
     "valdaiclub.com": "Валдай",
-    "fom.ru": "ФОМ",
-    "wciom.ru": "ВЦИОМ",
-    "levada.ru": "Левада-Центр",
+
+    # Международные прокси-медиа (премиальный блок и Paywall)
+    "vbq995yof2htzk6g": "Financial Times",
+    "f5bcrxyyec7mwoqu": "The New York Times",
+    "3zhqk2somyi842d3": "The Economist",
+    "cwnxbm8vpmgcknsl": "Washington Post",
+    "8szapkg4dk4ugsj": "The Information",
+    "g3y3fke9lxj30mus": "ВТО",
+    "hwdohujjvtdlecen": "NielsenIQ",
+    "vta4mv1lskm5conw": "ОПЕК",
+    "gl0q2mprqqui5vyx": "BlackRock",
+    "hdkobk5wtxkvpz5l": "ВЭФ",
+    "xn8geg0kjxjnedsc": "Associated Press",
+    "bloomberg.com": "Bloomberg",
+    "ozplb3ix17vahziy": "Politico",
+    "9f4zackjgycpaee7": "Reuters",
+
+    # Независимые и аналитические международные институты
+    "foreignaffairs.com": "Foreign Affairs",
     "pewresearch.org": "Pew Research",
     "cfr.org": "CFR",
     "csis.org": "CSIS",
@@ -85,23 +109,36 @@ FEED_CANONICAL_NAMES = {
     "statnews.com": "STAT News",
     "retaildive.com": "Retail Dive",
     "project-syndicate.org": "Project Syndicate",
-    "mmi_ru": "MMI",
-    "solidfin": "Solid Financial",
-    "xtxixty": "Твёрдые цифры",
-    "russianmacro": "Russianmacro",
-    "xn8geg0kjxjnedsc": "Associated Press",
-    "bloomberg.com": "Bloomberg",
-    "ozplb3ix17vahziy": "Politico",
-    "9f4zackjgycpaee7": "Reuters",
+
+    # Независимые русскоязычные медиа
     "istories.media": "Важные истории",
     "zona.media": "Медиазона",
     "currenttime.tv": "Настоящее Время",
     "dw.com": "Deutsche Welle",
-    "xz567x8w88wqe8iz": "Инфо-источник"
+    "xz567x8w88wqe8iz": "Инфо-источник",
+
+    # Telegram
+    "mmi_ru": "MMI",
+    "solidfin": "Solid Financial",
+    "xtxixty": "Твёрдые цифры",
+    "russianmacro": "Russianmacro"
 }
 
 RSS_FEEDS = [
-    # Российские госорганы, социология и макростатистика (через прокси)
+    # 1. Новые премиальные прокси-источники (Paywall, Институты, Статистика)
+    "https://rss.app/feeds/vbq995yof2htzK6g.xml",  # Financial Times
+    "https://rss.app/feeds/f5bCrXyyEC7MWoqu.xml",  # NYT
+    "https://rss.app/feeds/3zHq2kSOmYI842d3.xml",  # The Economist
+    "https://rss.app/feeds/CWnxBM8vpMgcKNsL.xml",  # Washington Post
+    "https://rss.app/feeds/8sZapkG4DK4u7gSj.xml",  # The Information
+    "https://rss.app/feeds/G3Y3Fke9lxj30Mus.xml",  # ВТО / WTO
+    "https://rss.app/feeds/hWDoHUUjvtDleceN.xml",  # NielsenIQ
+    "https://rss.app/feeds/VTA4mv1lSKM5cONW.xml",  # ОПЕК / OPEC
+    "https://rss.app/feeds/gL0Q2MprqQui5vYX.xml",  # BlackRock
+    "https://rss.app/feeds/hdKObk5WtxkvPz5L.xml",  # Всемирный экономический форум / WEF
+    "https://rss.app/feeds/a6QZNawxvjrfDtaU.xml",  # Mediascope
+
+    # 2. Российские госорганы, социология и макростатистика (через прокси)
     "https://rss.app/feeds/4N9GkL2gMfHjdlx2.xml",  # ЦБ РФ
     "https://rss.app/feeds/XQ3dPeNk8t6KKZDe.xml",  # РОМИР
     "https://rss.app/feeds/WDCmvjy7BajGRTCc.xml",  # Росстат
@@ -109,12 +146,18 @@ RSS_FEEDS = [
     "https://wciom.ru/rss.xml",
     "https://www.levada.ru/feed/",
 
-    # Маркетинг, IT, реклама и медиабизнес
+    # 3. Маркетинг, IT, реклама и медиабизнес
     "https://kod.ru/rss",
     "https://www.sostav.ru/rss",
     "https://adindex.ru/news/news.rss",
 
-    # Российские деловые СМИ
+    # 4. Международные прокси-медиа
+    "https://rss.app/feeds/Xn8gEg0kjXjnedSc.xml",  # Associated Press
+    "https://feeds.bloomberg.com/business/news.rss",  # Bloomberg
+    "https://rss.app/feeds/OZpLB3ix17VahZIY.xml",  # Politico
+    "https://rss.app/feeds/9F4ZacKjgYCPaEE7.xml",  # Reuters
+
+    # 5. Российские деловые СМИ
     "https://tass.ru/rss/v2.xml",
     "https://ria.ru/export/rss2/archive/index.xml",
     "https://www.interfax.ru/rss.asp",
@@ -135,20 +178,14 @@ RSS_FEEDS = [
     "https://globalaffairs.ru/feed/",
     "https://ru.valdaiclub.com/rss/",
 
-    # Международные прокси-источники (без Cloudflare 403)
-    "https://rss.app/feeds/Xn8gEg0kjXjnedSc.xml",  # Associated Press
-    "https://feeds.bloomberg.com/business/news.rss",  # Bloomberg
-    "https://rss.app/feeds/OZpLB3ix17VahZIY.xml",  # Politico
-    "https://rss.app/feeds/9F4ZacKjgYCPaEE7.xml",  # Reuters
-
-    # Независимые и международные русскоязычные медиа
+    # 6. Независимые и международные русскоязычные медиа
     "https://istories.media/rss/all.xml",  # Важные истории
     "https://zona.media/rss",  # Медиазона
     "https://www.currenttime.tv/api/z$gqiteyq_gt",  # Настоящее Время
     "https://rss.dw.com/xml/rss-ru-all",  # DW на русском
     "https://rss.app/feeds/Xz567X8w88wqe8IZ.xml",
 
-    # Международная аналитика и профильные институты
+    # 7. Международная аналитика и профильные институты
     "https://www.foreignaffairs.com/rss.xml",
     "https://www.pewresearch.org/feed/",
     "https://www.cfr.org/rss.xml",
@@ -255,7 +292,8 @@ def collect_all_news(sent_urls):
         except Exception as e:
             print(f"Ошибка парсинга TG @{channel}: {e}")
 
-    limited_items = items_for_prompt[:60]
+    # Расширяем выборку до 80 материалов для полного охвата новых источников
+    limited_items = items_for_prompt[:80]
     return news_db, "\n".join(limited_items)
 
 def generate_analytical_json(raw_data_prompt):
@@ -265,13 +303,13 @@ def generate_analytical_json(raw_data_prompt):
     КАТЕГОРИИ:
     1. "politics": Законодательство, госуправление, геополитика, международные решения, выборы.
     2. "conflicts": Военные действия, оборона, спецслужбы, международная безопасность.
-    3. "economy": Макроэкономика, рынки, инфляция, банковские ставки, курсы валют, данные Росстата, ЦБ и РОМИР.
-    4. "b2b_retail": B2B-тренды, ритейл, торговые сети, рекламный рынок (Sostav, AdIndex), логистика, промышленность, коммерция.
+    3. "economy": Макроэкономика, рынки, инфляция, банковские ставки, курсы валют, данные Росстата, ЦБ, ОПЕК, ВТО, РОМИР.
+    4. "b2b_retail": B2B-тренды, ритейл, торговые сети, рекламный рынок (Sostav, AdIndex, Mediascope, NielsenIQ), логистика, промышленность.
     5. "tech_health": IT-сектор, ИИ, фармакология, медицина, научные разработки, медиатехнологии (Код).
     6. "society": Общественные тренды, социологические опросы (ФОМ, ВЦИОМ, Левада, РОМИР), макро-социальные явления.
 
     ЖЕСТКИЕ ПРАВИЛА:
-    1. Обязательно выдерживай международный баланс! Не менее 35% дайджеста должны составлять зарубежные и независимые источники (Associated Press, Reuters, Bloomberg, Politico, DW, Важные истории и др.).
+    1. Обязательно выдерживай международный баланс! Не менее 40% дайджеста должны составлять зарубежные и аналитические источники (Financial Times, NYT, The Economist, Washington Post, Associated Press, Reuters, Bloomberg, ВТО, ОПЕК, BlackRock, ВЭФ и др.).
     2. Отбирай до 4 главнейших событий на каждую категорию.
     3. КАТЕГОРИЧЕСКИ ИСКЛЮЧАЙ: бытовую недвижимость (аренда квартир), ремонт дорог, эстакады, спорт, шоу-бизнес, бытовые ДТП и бытовые советы.
     4. Переводи ВСЕ зарубежные материалы на русский язык.
