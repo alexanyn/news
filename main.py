@@ -1,4 +1,4 @@
-print("=== ЗАПУСК СКРИПТА ВЕРСИИ 4.1 (EXPANDED_DIGEST_CAPACITY) ===")
+print("=== ЗАПУСК СКРИПТА ВЕРСИИ 4.2 (GROQ_8B_INSTANT_STABLE) ===")
 
 import os
 import re
@@ -193,7 +193,7 @@ def collect_all_news(sent_urls):
                     "url": link
                 }
 
-                items_for_prompt.append(f"ID: {news_id}\nЗаголовок: {title}\nКонтекст: {summary[:250]}\n---")
+                items_for_prompt.append(f"ID: {news_id}\nЗаголовок: {title}\nКонтекст: {summary[:200]}\n---")
                 sent_urls.add(link)
         except Exception as e:
             print(f"Ошибка парсинга RSS {feed_url}: {e}")
@@ -235,18 +235,18 @@ def collect_all_news(sent_urls):
                     "url": post_url
                 }
 
-                items_for_prompt.append(f"ID: {news_id}\nКонтекст: {post_text[:250]}\n---")
+                items_for_prompt.append(f"ID: {news_id}\nКонтекст: {post_text[:200]}\n---")
                 sent_urls.add(post_url)
         except Exception as e:
             print(f"Ошибка парсинга TG @{channel}: {e}")
 
-    # Расширенный объем: передаем до 70 наиболее свежих материалов
-    limited_items = items_for_prompt[:70]
+    # Оптимальный объем в 50 материалов
+    limited_items = items_for_prompt[:50]
     return news_db, "\n".join(limited_items)
 
 def generate_analytical_json(raw_data_prompt):
     prompt_template = """
-    Ты — старший макроэкономический и отраслевой аналитик. Проанализируй входящие данные и отбери все значимые события.
+    Ты — старший аналитик. Проанализируй входящие данные и отбери все значимые события.
 
     КАТЕГОРИИ:
     1. "politics": Законодательство, госуправление, геополитика, международные решения, выборы.
@@ -257,9 +257,9 @@ def generate_analytical_json(raw_data_prompt):
     6. "society": Общественные тренды, социологические опросы (ФОМ, ВЦИОМ, Левада), макро-социальные явления.
 
     ЖЕСТКИЕ ПРАВИЛА И СТОП-ЛИСТ:
-    1. Отбирай до 4-5 главных событий на каждую категорию, если они есть. Расширяй покрытие важных тем!
-    2. КАТЕГОРИЧЕСКИ ИСКЛЮЧАЙ: бытовую недвижимость (аренда квартир), локальный ремонт дорог, эстакады, спорт, шоу-бизнес, бытовые ДТП и бытовые финансовые советы.
-    3. Соблюдай баланс: отбирай как российские, так и зарубежные источники. Переводи иностранные материалы на русский язык.
+    1. Отбирай до 4-5 главных событий на каждую категорию, если они есть.
+    2. КАТЕГОРИЧЕСКИ ИСКЛЮЧАЙ: бытовую недвижимость (аренда квартир), ремонт дорог, эстакады, спорт, шоу-бизнес, бытовые ДТП и бытовые финансовые советы.
+    3. Переводи все зарубежные материалы на русский язык.
     4. Поле "summary_ru" должно содержать суть на русском языке без скобок и названий источников!
     5. Поле "id" должно содержать ТОЛЬКО ЦЕЛОЕ ЧИСЛО (ID из входящих данных).
 
@@ -285,10 +285,10 @@ def generate_analytical_json(raw_data_prompt):
     }
 
     payload = {
-        "model": "llama-3.3-70b-versatile",
+        "model": "llama-3.1-8b-instant",  # Лимит 30,000 TPM убирает ошибки 429
         "messages": [{"role": "user", "content": prompt}],
         "temperature": 0.1,
-        "max_tokens": 4000,
+        "max_tokens": 2500,
         "response_format": {"type": "json_object"}
     }
 
@@ -301,8 +301,8 @@ def generate_analytical_json(raw_data_prompt):
             timeout=90
         )
         if response.status_code == 429:
-            wait_time = 15 * (attempt + 1)
-            print(f"Превышен лимит токенов Groq (429). Ждем {wait_time} секунд...")
+            wait_time = 10 * (attempt + 1)
+            print(f"Превышен лимит Groq (429). Ждем {wait_time} секунд...")
             time.sleep(wait_time)
             continue
             
@@ -384,7 +384,6 @@ def send_telegram_message(chat_id, text):
             print(f"Ошибка отправки HTML ({e}). Отправка обычным текстом.")
             bot.send_message(chat_id, text)
     else:
-        # Умное разбиение большого дайджеста по смысловым блокам
         blocks = text.split("\n\n")
         current_chunk = ""
         for block in blocks:
