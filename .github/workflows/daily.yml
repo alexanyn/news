@@ -22,7 +22,7 @@ jobs:
 
       - name: Run analysis script
         env:
-          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          GEMINI_API_KEY: ${{ secrets.AIzaSyAcwMkPTKky1TtqLn1Niwo97Jwva_IniCM }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.8957822342:AAG4L2XltTQEcvRg7I21BbtPxiPmHxah7y4 }}
+          TELEGRAM_CHAT_ID: ${{ secrets.-1003972268688 }}
         run: python main.py
