@@ -51,7 +51,7 @@ def fetch_telegram_public():
     for channel in TG_CHANNELS:
         try:
             url = f"https://t.me/s/{channel}"
-            res = requests.get(url, headers=headers, timeout=10)
+            res = requests.get(url, headers=headers, timeout=20)
             soup = BeautifulSoup(res.text, 'html.parser')
             posts = soup.find_all('div', class_='tgme_widget_message_text', limit=3)
             for post in posts:
