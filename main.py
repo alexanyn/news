@@ -18,12 +18,17 @@ if not groq_api_key or not bot_token or not chat_id:
 bot = telebot.TeleBot(bot_token)
 CHAT_ID = chat_id
 
-# 2. Источники
+# 2. Источники (RSS)
 RSS_FEEDS = [
+    # СМИ и Институты РФ
     "https://www.kommersant.ru/RSS/news.xml",
     "https://cbr.ru/rss/RssNews",
-    "https://www.foreignaffairs.com/rss.xml",
     "https://www.cnews.ru/inc/rss/news.xml",
+    "https://fom.ru/rss.xml",
+    "https://wciom.ru/rss.xml",
+    "https://www.levada.ru/feed/",
+    # Зарубежные аналитические центры
+    "https://www.foreignaffairs.com/rss.xml",
     "https://www.pewresearch.org/feed/",
     "https://www.cfr.org/rss.xml",
     "https://www.csis.org/rss/all",
@@ -31,37 +36,58 @@ RSS_FEEDS = [
     "https://carnegieendowment.org/rss/solr/publications"
 ]
 
+# 3. Публичные Telegram-каналы (без символа @)
 TG_CHANNELS = [
     "mmi_ru",
-    "solidfin"
+    "solidfin",
+    "xtxixty",
+    "russianmacro"
 ]
 
+# 4. Карта автозамены имен источников
+SOURCE_CLEAN_MAP = {
+    "foreign affairs": "Foreign Affairs",
+    "fa rss": "Foreign Affairs",
+    "cfr": "CFR",
+    "csis": "CSIS",
+    "pew research": "Pew Research",
+    "cnews": "CNews.ru",
+    "коммерсант": "Коммерсантъ",
+    "банк россии": "Банк России",
+    "cbr": "Банк России",
+    "xtxixty": "Твёрдые цифры",
+    "russianmacro": "Russianmacro",
+    "mmi_ru": "MMI",
+    "solidfin": "Solid Financial",
+    "fom": "ФОМ",
+    "фом": "ФОМ",
+    "wciom": "ВЦИОМ",
+    "вциом": "ВЦИОМ",
+    "левада": "Левада-Центр",
+    "levada": "Левада-Центр",
+    "mediascope": "Mediascope",
+    "forecast": "ЦМАКП",
+    "прогноз": "ЦМАКП",
+    "yakov": "Яков и Партнёры",
+    "яков": "Яков и Партнёры",
+    "eaeunion": "ЕЭК",
+    "еэк": "ЕЭК"
+}
+
 def clean_source_name(name):
-    """Жесткая зачистка мусорных суффиксов в именах источников"""
+    """Очистка суффиксов и нормализация имен источников"""
     if not name:
         return "Источник"
     
-    # Регулярные выражения для удаления хвостов
     name = re.sub(r'\.\s*Лента\s+новостей', '', name, flags=re.IGNORECASE)
     name = re.sub(r'(?i)\b(rss|feed)\b', '', name)
     name = name.strip(' .-_')
     
     low = name.lower()
-    if 'foreign' in low or low == 'fa':
-        return 'Foreign Affairs'
-    if 'коммерсант' in low:
-        return 'Коммерсантъ'
-    if 'cnews' in low:
-        return 'CNews.ru'
-    if 'банк россии' in low or 'cbr' in low:
-        return 'Банк России'
-    if 'cfr' in low:
-        return 'CFR'
-    if 'csis' in low:
-        return 'CSIS'
-    if 'pew' in low:
-        return 'Pew Research'
-        
+    for key, val in SOURCE_CLEAN_MAP.items():
+        if key in low:
+            return val
+            
     return name if name else "Источник"
 
 def fetch_rss():
@@ -95,22 +121,23 @@ def fetch_telegram_public():
             res = requests.get(url, headers=headers, timeout=15)
             soup = BeautifulSoup(res.text, 'html.parser')
             posts = soup.find_all('div', class_='tgme_widget_message_text', limit=3)
+            
+            clean_channel_name = clean_source_name(channel)
+            
             for post in posts:
-                text_data += f"\nИсточник_Имя: Telegram @{channel}\nURL: {url}\nКонтекст: {post.get_text(strip=True)[:400]}\n---"
+                text_data += f"\nИсточник_Имя: {clean_channel_name}\nURL: {url}\nКонтекст: {post.get_text(strip=True)[:400]}\n---"
         except Exception as e:
             print(f"Ошибка парсинга TG @{channel}: {e}")
     return text_data
 
 def generate_analytical_json(raw_data):
     prompt = f"""
-    Ты — профессиональный международный аналитик. Проанализируй данные и верни результат ИСКЛЮЧИТЕЛЬНО в формате JSON.
+    Ты — макроэкономический и социологический аналитик. Проанализируй данные и верни результат ИСКЛЮЧИТЕЛЬНО в формате JSON.
 
-    ЖЕСТКИЕ ПРАВИЛА ТРАНСЛЯЦИИ:
+    ЖЕСТКИЕ ПРАВИЛА:
     1. ВЕСЬ ТЕКСТ В ПОЛЕ "summary_ru" ДОЛЖЕН БЫТЬ СТРОГО НА РУССКОМ ЯЗЫКЕ.
-    2. КАТЕГОРИЧЕСКИ ЗАПРЕЩЕНО оставлять английские заголовки как есть (например, "China’s Legal Weapon" или "After Putin")! 
-       Если в контексте есть только английский заголовок, переведи его смысл на русский язык и напиши развернутый тезис.
-       ПРИМЕР: Вместо "China’s Legal Weapon" пиши "Китай формирует собственную нормативно-правовую базу для противодействия санкциям США".
-    3. Игнорируй бытовые и мелкие криминальные происшествия (взрывы коробок, бытовые несчастные случаи). Оставляй только макроэкономику, политику, B2B и технологические риски.
+    2. Переводи смысл зарубежных исследований, отчетов и англоязычных постов.
+    3. Фильтруй информационный шум. Включай только значимые социологические тренды, макроэкономику, решения регуляторов и B2B-события.
 
     СТРУКТУРА JSON:
     {{
@@ -201,6 +228,4 @@ def send_telegram_message(chat_id, text):
 if __name__ == "__main__":
     combined_data = fetch_rss() + "\n" + fetch_telegram_public()
     
-    if combined_data.strip():
-        raw_json = generate_analytical_json(combined_data)
-        formatted_html = build_
+    if combined_
