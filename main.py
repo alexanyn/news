@@ -19,10 +19,17 @@ CHAT_ID = chat_id
 
 # 2. Источники
 RSS_FEEDS = [
+    # Базовые источники
     "https://www.kommersant.ru/RSS/news.xml",
     "https://cbr.ru/rss/RssNews",
     "https://www.foreignaffairs.com/rss.xml",
-    "https://www.cnews.ru/inc/rss/news.xml"
+    "https://www.cnews.ru/inc/rss/news.xml",
+    # Новые валидные RSS-ленты аналитических центров
+    "https://www.pewresearch.org/feed/",
+    "https://www.cfr.org/rss.xml",
+    "https://www.csis.org/rss/all",
+    "https://www.bruegel.org/rss.xml",
+    "https://carnegieendowment.org/rss/solr/publications"
 ]
 
 TG_CHANNELS = [
@@ -61,7 +68,6 @@ def fetch_telegram_public():
     return text_data
 
 def generate_analytical_digest(raw_data):
-    # Промпт дает предельно простую структуру без усложнений
     prompt = f"""
     Ты — старший аналитик. Проанализируй данные и сформируй дайджест.
 
