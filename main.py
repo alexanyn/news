@@ -1,4 +1,4 @@
-print("=== ЗАПУСК СКРИПТА ВЕРСИИ 3.1 (STRICT_JSON_LIMITS) ===")
+print("=== ЗАПУСК СКРИПТА ВЕРСИИ 3.2 (BALANCED_FETCH) ===")
 
 import os
 import re
@@ -173,8 +173,8 @@ def collect_all_news(sent_urls):
             feed = feedparser.parse(feed_url)
             canonical_source = resolve_canonical_name(feed_url)
 
-            # Берем строго 1 самую свежую новость с каждого источника
-            for entry in feed.entries[:1]:
+            # Оптимально: берем до 2 свежих новостей с каждого источника
+            for entry in feed.entries[:2]:
                 link = getattr(entry, 'link', feed_url).strip()
                 if link in sent_urls:
                     continue
@@ -204,7 +204,7 @@ def collect_all_news(sent_urls):
             url = f"https://t.me/s/{channel}"
             res = requests.get(url, headers=headers, timeout=15)
             soup = BeautifulSoup(res.text, 'html.parser')
-            posts = soup.find_all('div', class_='tgme_widget_message_text', limit=1)
+            posts = soup.find_all('div', class_='tgme_widget_message_text', limit=2)
 
             canonical_source = resolve_canonical_name(channel)
 
@@ -232,20 +232,22 @@ def collect_all_news(sent_urls):
 
 def generate_analytical_json(raw_data_prompt):
     prompt_template = """
-    Ты — старший аналитик. Проанализируй входящий массив данных и отбери САМЫЕ ВАЖНЫЕ события.
+    Ты — старший макроэкономический и отраслевой аналитик. Проанализируй входящие данные и отбери наиболее важные инфоповоды.
 
-    ЖЕСТКИЕ ЛИМИТЫ И ПРАВИЛА:
-    1. Отбери МАКСИМУМ 3-4 самые важные новости для каждой категории. Игнорируй бытовой шум, бытовые советы и мелкие происшествия!
-    2. Ответ верни СТРОГО в формате JSON.
-    3. Поле "summary_ru" должно содержать краткую развернутую суть на русском языке. КАТЕГОРИЧЕСКИ ЗАПРЕЩЕНО вставлять названия источников или скобки в "summary_ru"!
-    4. Поле "id" должно содержать ТОЛЬКО ЦЕЛОЕ ЧИСЛО (ID из входящих данных).
+    ЖЕСТКИЕ ПРАВИЛА:
+    1. Распределяй новости по 4 категориям: "macro", "geopolitics", "industry", "risks".
+    2. Отбирай до 4-5 ключевых новостей на каждую категорию. Обязательно находи релевантные события для отраслей (industry) и скрытых рисков (risks)!
+    3. Игнорируй мелкий бытовой шум, криминал и бытовые финансовые советы.
+    4. Ответ верни СТРОГО в формате JSON.
+    5. Поле "summary_ru" должно содержать краткую развернутую суть на русском языке. КАТЕГОРИЧЕСКИ ЗАПРЕЩЕНО писать названия источников или вставлять скобки в "summary_ru"!
+    6. Поле "id" должно содержать ТОЛЬКО ЦЕЛОЕ ЧИСЛО (ID из входящих данных).
 
     СТРУКТУРА JSON:
     {
       "macro": [{"id": 1, "summary_ru": "Суть события на русском"}],
       "geopolitics": [{"id": 2, "summary_ru": "Суть события на русском"}],
-      "industry": [],
-      "risks": []
+      "industry": [{"id": 3, "summary_ru": "Суть события на русском"}],
+      "risks": [{"id": 4, "summary_ru": "Суть события на русском"}]
     }
 
     Входящие новости:
@@ -311,8 +313,10 @@ def build_html_digest(raw_response, news_db):
     html_output = ""
     for key, title in sections:
         items = data.get(key, [])
+        html_output += f"<b>{title}</b>\n"
+        
+        valid_items_count = 0
         if items:
-            html_output += f"<b>{title}</b>\n"
             for item in items:
                 try:
                     news_id = int(item.get("id"))
@@ -325,7 +329,12 @@ def build_html_digest(raw_response, news_db):
                     source_name = news_db[news_id]["source_name"]
                     url = news_db[news_id]["url"]
                     html_output += f"• {summary} (<a href=\"{url}\">{source_name}</a>)\n"
-            html_output += "\n"
+                    valid_items_count += 1
+
+        if valid_items_count == 0:
+            html_output += "• <i>Существенных сдвигов за прошедшие часы не зафиксировано</i>\n"
+
+        html_output += "\n"
 
     return html_output.strip()
 
