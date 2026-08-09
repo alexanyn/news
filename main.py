@@ -1,4 +1,4 @@
-print("=== ЗАПУСК СКРИПТА ВЕРСИИ 4.3 (PROXIED_GLOBAL_FEEDS) ===")
+print("=== ЗАPUSK СКРИПТА ВЕРСИИ 4.4 (ADDED_ROMIR_ROSSTAT_CBR) ===")
 
 import os
 import re
@@ -43,6 +43,9 @@ def save_sent_urls(sent_set):
 # 2. Расширенная таблица каноничных названий
 FEED_CANONICAL_NAMES = {
     "cbr.ru": "ЦБ РФ",
+    "4n9gkl2gmfhjdlx2": "ЦБ РФ",
+    "xq3dpenk8t6kkzde": "РОМИР",
+    "wdcmvjy7bajgrtcc": "Росстат",
     "kommersant.ru": "Коммерсантъ",
     "foreignaffairs.com": "Foreign Affairs",
     "cnews.ru": "CNews",
@@ -83,7 +86,6 @@ FEED_CANONICAL_NAMES = {
     "solidfin": "Solid Financial",
     "xtxixty": "Твёрдые цифры",
     "russianmacro": "Russianmacro",
-    # Новые прокси и международные источники
     "xn8geg0kjxjnedsc": "Associated Press",
     "bloomberg.com": "Bloomberg",
     "ozplb3ix17vahziy": "Politico",
@@ -96,7 +98,15 @@ FEED_CANONICAL_NAMES = {
 }
 
 RSS_FEEDS = [
-    # Российские СМИ и Финансы
+    # Российские госорганы, социология и макростатистика (через прокси)
+    "https://rss.app/feeds/4N9GkL2gMfHjdlx2.xml",  # ЦБ РФ
+    "https://rss.app/feeds/XQ3dPeNk8t6KKZDe.xml",  # РОМИР
+    "https://rss.app/feeds/WDCmvjy7BajGRTCc.xml",  # Росстат
+    "https://fom.ru/rss.xml",
+    "https://wciom.ru/rss.xml",
+    "https://www.levada.ru/feed/",
+
+    # Российские деловые СМИ
     "https://tass.ru/rss/v2.xml",
     "https://ria.ru/export/rss2/archive/index.xml",
     "https://www.interfax.ru/rss.asp",
@@ -109,7 +119,6 @@ RSS_FEEDS = [
     "https://tvzvezda.ru/export/rss.xml",
     "https://1prime.ru/export/rss2/index.xml",
     "https://frankmedia.ru/feed",
-    "https://cbr.ru/rss/RssNews",
     "https://www.cnews.ru/inc/rss/news.xml",
     "https://nplus1.ru/rss",
     "https://pharmvestnik.ru/rss/news.xml",
@@ -117,11 +126,8 @@ RSS_FEEDS = [
     "https://www.retail.ru/rss/news/",
     "https://globalaffairs.ru/feed/",
     "https://ru.valdaiclub.com/rss/",
-    "https://fom.ru/rss.xml",
-    "https://wciom.ru/rss.xml",
-    "https://www.levada.ru/feed/",
 
-    # Новые проксированные международные источники (без Cloudflare 403)
+    # Международные прокси-источники (без Cloudflare 403)
     "https://rss.app/feeds/Xn8gEg0kjXjnedSc.xml",  # Associated Press
     "https://feeds.bloomberg.com/business/news.rss",  # Bloomberg
     "https://rss.app/feeds/OZpLB3ix17VahZIY.xml",  # Politico
@@ -130,7 +136,7 @@ RSS_FEEDS = [
     # Независимые и международные русскоязычные медиа
     "https://istories.media/rss/all.xml",  # Важные истории
     "https://zona.media/rss",  # Медиазона
-    "https://www.currenttime.tv/api/z$gqiteyq_gt",  # Настоящее Время (Прямой RSS)
+    "https://www.currenttime.tv/api/z$gqiteyq_gt",  # Настоящее Время
     "https://rss.dw.com/xml/rss-ru-all",  # DW на русском
     "https://rss.app/feeds/Xz567X8w88wqe8IZ.xml",
 
@@ -241,7 +247,7 @@ def collect_all_news(sent_urls):
         except Exception as e:
             print(f"Ошибка парсинга TG @{channel}: {e}")
 
-    limited_items = items_for_prompt[:55]
+    limited_items = items_for_prompt[:60]
     return news_db, "\n".join(limited_items)
 
 def generate_analytical_json(raw_data_prompt):
@@ -251,13 +257,13 @@ def generate_analytical_json(raw_data_prompt):
     КАТЕГОРИИ:
     1. "politics": Законодательство, госуправление, геополитика, международные решения, выборы.
     2. "conflicts": Военные действия, оборона, спецслужбы, международная безопасность.
-    3. "economy": Макроэкономика, рынки, инфляция, банковские ставки, курсы валют, инвестиции.
+    3. "economy": Макроэкономика, рынки, инфляция, банковские ставки, курсы валют, данные Росстата, ЦБ и РОМИР.
     4. "b2b_retail": B2B-тренды, ритейл, торговые сети, логистика, промышленность, коммерция.
     5. "tech_health": IT-сектор, ИИ, фармакология, медицина, научные разработки.
-    6. "society": Общественные тренды, социологические опросы, макро-социальные явления.
+    6. "society": Общественные тренды, социологические опросы (ФОМ, ВЦИОМ, Левада, РОМИР), макро-социальные явления.
 
     ЖЕСТКИЕ ПРАВИЛА:
-    1. Обязательно выдерживай международный баланс! Не менее 40% дайджеста должны составлять зарубежные и независимые источники (Associated Press, Reuters, Bloomberg, Politico, DW, Важные истории и др.).
+    1. Обязательно выдерживай международный баланс! Не менее 35% дайджеста должны составлять зарубежные и независимые источники (Associated Press, Reuters, Bloomberg, Politico, DW, Важные истории и др.).
     2. Отбирай до 4 главнейших событий на каждую категорию.
     3. КАТЕГОРИЧЕСКИ ИСКЛЮЧАЙ: бытовую недвижимость (аренда квартир), ремонт дорог, эстакады, спорт, шоу-бизнес, бытовые ДТП и бытовые советы.
     4. Переводи ВСЕ зарубежные материалы на русский язык.
