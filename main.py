@@ -1,4 +1,4 @@
-print("=== ЗАПУСК СКРИПТА ВЕРСИИ 4.6 (PREMIUM_PROXIED_SOURCES) ===")
+print("=== ЗАПУСК СКРИПТА ВЕРСИИ 4.7 (FIX_CANONICAL_NAMES_MATCHING) ===")
 
 import os
 import re
@@ -40,14 +40,39 @@ def save_sent_urls(sent_set):
     except Exception as e:
         print(f"Ошибка сохранения истории: {e}")
 
-# 2. Расширенная таблица каноничных названий
+# 2. Расширенная и пуленепробиваемая таблица каноничных названий
 FEED_CANONICAL_NAMES = {
+    # Премиальные и профильные прокси (явные ID + фрагменты URL)
+    "8szapkg4dk4ugsj": "The Information",
+    "theinformation": "The Information",
+    "hwdohujjvtdlecen": "NielsenIQ",
+    "nielseniq": "NielsenIQ",
+    "3zhqk2somyi842d3": "The Economist",
+    "economist": "The Economist",
+    "vbq995yof2htzk6g": "Financial Times",
+    "ft.com": "Financial Times",
+    "f5bcrxyyec7mwoqu": "The New York Times",
+    "nytimes": "The New York Times",
+    "cwnxbm8vpmgcknsl": "Washington Post",
+    "washingtonpost": "Washington Post",
+    "g3y3fke9lxj30mus": "ВТО",
+    "wto.org": "ВТО",
+    "vta4mv1lskm5conw": "ОПЕК",
+    "opec.org": "ОПЕК",
+    "gl0q2mprqqui5vyx": "BlackRock",
+    "blackrock": "BlackRock",
+    "hdkobk5wtxkvpz5l": "ВЭФ",
+    "weforum": "ВЭФ",
+    "a6qznawxvjrfdtau": "Mediascope",
+    "mediascope": "Mediascope",
+
     # Государственные структуры, социология и статистика
     "cbr.ru": "ЦБ РФ",
     "4n9gkl2gmfhjdlx2": "ЦБ РФ",
     "xq3dpenk8t6kkzde": "РОМИР",
+    "romir": "РОМИР",
     "wdcmvjy7bajgrtcc": "Росстат",
-    "a6qznawxvjrfdtau": "Mediascope",
+    "rosstat": "Росстат",
     "fom.ru": "ФОМ",
     "wciom.ru": "ВЦИОМ",
     "levada.ru": "Левада-Центр",
@@ -78,21 +103,14 @@ FEED_CANONICAL_NAMES = {
     "globalaffairs.ru": "Россия в глоб. политике",
     "valdaiclub.com": "Валдай",
 
-    # Международные прокси-медиа (премиальный блок и Paywall)
-    "vbq995yof2htzk6g": "Financial Times",
-    "f5bcrxyyec7mwoqu": "The New York Times",
-    "3zhqk2somyi842d3": "The Economist",
-    "cwnxbm8vpmgcknsl": "Washington Post",
-    "8szapkg4dk4ugsj": "The Information",
-    "g3y3fke9lxj30mus": "ВТО",
-    "hwdohujjvtdlecen": "NielsenIQ",
-    "vta4mv1lskm5conw": "ОПЕК",
-    "gl0q2mprqqui5vyx": "BlackRock",
-    "hdkobk5wtxkvpz5l": "ВЭФ",
+    # Международные информагентства
     "xn8geg0kjxjnedsc": "Associated Press",
-    "bloomberg.com": "Bloomberg",
+    "apnews": "Associated Press",
+    "bloomberg": "Bloomberg",
     "ozplb3ix17vahziy": "Politico",
+    "politico": "Politico",
     "9f4zackjgycpaee7": "Reuters",
+    "reuters": "Reuters",
 
     # Независимые и аналитические международные институты
     "foreignaffairs.com": "Foreign Affairs",
@@ -103,8 +121,6 @@ FEED_CANONICAL_NAMES = {
     "carnegieendowment.org": "Carnegie",
     "theguardian.com": "The Guardian",
     "aljazeera.com": "Al Jazeera",
-    "politico.eu": "Politico",
-    "politico.com": "Politico",
     "lemonde.fr": "Le Monde",
     "statnews.com": "STAT News",
     "retaildive.com": "Retail Dive",
@@ -125,7 +141,7 @@ FEED_CANONICAL_NAMES = {
 }
 
 RSS_FEEDS = [
-    # 1. Новые премиальные прокси-источники (Paywall, Институты, Статистика)
+    # 1. Новые премиальные прокси-источники
     "https://rss.app/feeds/vbq995yof2htzK6g.xml",  # Financial Times
     "https://rss.app/feeds/f5bCrXyyEC7MWoqu.xml",  # NYT
     "https://rss.app/feeds/3zHq2kSOmYI842d3.xml",  # The Economist
@@ -135,10 +151,10 @@ RSS_FEEDS = [
     "https://rss.app/feeds/hWDoHUUjvtDleceN.xml",  # NielsenIQ
     "https://rss.app/feeds/VTA4mv1lSKM5cONW.xml",  # ОПЕК / OPEC
     "https://rss.app/feeds/gL0Q2MprqQui5vYX.xml",  # BlackRock
-    "https://rss.app/feeds/hdKObk5WtxkvPz5L.xml",  # Всемирный экономический форум / WEF
+    "https://rss.app/feeds/hdKObk5WtxkvPz5L.xml",  # ВЭФ / WEF
     "https://rss.app/feeds/a6QZNawxvjrfDtaU.xml",  # Mediascope
 
-    # 2. Российские госорганы, социология и макростатистика (через прокси)
+    # 2. Российские госорганы, социология и макростатистика
     "https://rss.app/feeds/4N9GkL2gMfHjdlx2.xml",  # ЦБ РФ
     "https://rss.app/feeds/XQ3dPeNk8t6KKZDe.xml",  # РОМИР
     "https://rss.app/feeds/WDCmvjy7BajGRTCc.xml",  # Росстат
@@ -203,8 +219,8 @@ TG_CHANNELS = ["mmi_ru", "solidfin", "xtxixty", "russianmacro"]
 
 def resolve_canonical_name(url_or_channel):
     low = url_or_channel.lower()
-    for domain, canonical in FEED_CANONICAL_NAMES.items():
-        if domain in low:
+    for key, canonical in FEED_CANONICAL_NAMES.items():
+        if key in low:
             return canonical
     return "Источник"
 
@@ -224,12 +240,17 @@ def collect_all_news(sent_urls):
     for feed_url in RSS_FEEDS:
         try:
             feed = feedparser.parse(feed_url)
+            # Извлекаем название с учётом как URL ленты, так и самой ссылки на статью
             canonical_source = resolve_canonical_name(feed_url)
 
             for entry in feed.entries[:2]:
                 link = getattr(entry, 'link', feed_url).strip()
                 if link in sent_urls:
                     continue
+
+                # Если для конкретного фида имя не распозналось по URL фида, проверяем URL статьи
+                if canonical_source == "Источник":
+                    canonical_source = resolve_canonical_name(link)
 
                 title = clean_input_text(getattr(entry, 'title', ''))
                 summary = getattr(entry, 'summary', '')
@@ -292,7 +313,6 @@ def collect_all_news(sent_urls):
         except Exception as e:
             print(f"Ошибка парсинга TG @{channel}: {e}")
 
-    # Расширяем выборку до 80 материалов для полного охвата новых источников
     limited_items = items_for_prompt[:80]
     return news_db, "\n".join(limited_items)
 
