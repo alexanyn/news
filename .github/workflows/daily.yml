@@ -1,9 +1,15 @@
-name: Automated Daily Intelligence Pipeline
+name: Automated Intelligence Pipeline
 
 on:
   schedule:
-    - cron: '0 5 * * *'
+    # 05:00 UTC = 08:00 МСК
+    # 10:00 UTC = 13:00 МСК
+    # 17:00 UTC = 20:00 МСК
+    - cron: '0 5,10,17 * * *'
   workflow_dispatch:
+
+permissions:
+  contents: write
 
 jobs:
   run-analytics-pipeline:
@@ -26,3 +32,11 @@ jobs:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
         run: python main.py
+
+      - name: Commit and push sent news history
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add sent_urls.json
+          git commit -m "Update sent news history [skip ci]" || exit 0
+          git push
