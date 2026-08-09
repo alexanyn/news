@@ -4,7 +4,7 @@ import feedparser
 from bs4 import BeautifulSoup
 import telebot
 
-# 1. Считываем только Telegram-секреты
+# 1. Считывание переменных окружения
 bot_token = os.environ.get("TELEGRAM_BOT_TOKEN")
 chat_id = os.environ.get("TELEGRAM_CHAT_ID")
 
@@ -14,7 +14,7 @@ if not bot_token or not chat_id:
 bot = telebot.TeleBot(bot_token)
 CHAT_ID = chat_id
 
-# 2. Источники
+# 2. Источники данных
 RSS_FEEDS = [
     "https://www.kommersant.ru/RSS/news.xml",
     "https://cbr.ru/rss/RssNews",
@@ -74,17 +74,22 @@ def generate_analytical_digest(raw_data):
     {raw_data}
     """
     
-    # Прямой запрос к открытому шлюзу без API-ключей
-    payload = {
-        "messages": [
-            {"role": "user", "content": prompt}
-        ],
-        "model": "openai"
-    }
+    # Резервный список бесплатных моделей
+    free_models = ["mistral", "qwen-coder", "llama"]
     
-    response = requests.post("https://text.pollinations.ai/", json=payload, timeout=90)
-    response.raise_for_status()
-    return response.text
+    for model in free_models:
+        try:
+            payload = {
+                "messages": [{"role": "user", "content": prompt}],
+                "model": model
+            }
+            response = requests.post("https://text.pollinations.ai/", json=payload, timeout=90)
+            if response.status_code == 200 and response.text.strip():
+                return response.text
+        except Exception as e:
+            print(f"Модель {model} недоступна: {e}")
+            
+    raise RuntimeError("Ни одна из бесплатных моделей не вернула ответ.")
 
 if __name__ == "__main__":
     combined_data = fetch_rss() + "\n" + fetch_telegram_public()
@@ -92,6 +97,6 @@ if __name__ == "__main__":
     if combined_data.strip():
         digest = generate_analytical_digest(combined_data)
         
-        # Разбивка на блоки по лимиту Telegram
+        # Разбивка по 4000 символов под ограничение сообщения Telegram
         for i in range(0, len(digest), 4000):
             bot.send_message(CHAT_ID, digest[i:i+4000])
