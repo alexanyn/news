@@ -5,7 +5,7 @@ from bs4 import BeautifulSoup
 import telebot
 from telebot.apihelper import ApiTelegramException
 
-# 1. Считывание переменных окружения
+# 1. Проверка переменных окружения
 groq_api_key = os.environ.get("GROQ_API_KEY")
 bot_token = os.environ.get("TELEGRAM_BOT_TOKEN")
 chat_id = os.environ.get("TELEGRAM_CHAT_ID")
@@ -38,8 +38,8 @@ def fetch_rss():
             for entry in feed.entries[:3]:
                 title = entry.title
                 summary = getattr(entry, 'summary', '')
-                link = getattr(entry, 'link', url)  # Считываем прямую ссылку на новость
-                text_data += f"\n[Источник: {source_name}] ({link})\nЗаголовок: {title}\nТекст: {summary[:300]}\nURL: {link}\n---"
+                link = getattr(entry, 'link', url)
+                text_data += f"\nИсточник_Имя: {source_name}\nURL: {link}\nЗаголовок: {title}\nТекст: {summary[:300]}\n---"
         except Exception as e:
             print(f"Ошибка парсинга RSS {url}: {e}")
     return text_data
@@ -54,30 +54,32 @@ def fetch_telegram_public():
             soup = BeautifulSoup(res.text, 'html.parser')
             posts = soup.find_all('div', class_='tgme_widget_message_text', limit=3)
             for post in posts:
-                text_data += f"\n[Источник: Telegram @{channel}] ({url})\nТекст: {post.get_text(strip=True)[:400]}\nURL: {url}\n---"
+                text_data += f"\nИсточник_Имя: Telegram @{channel}\nURL: {url}\nТекст: {post.get_text(strip=True)[:400]}\n---"
         except Exception as e:
             print(f"Ошибка парсинга TG @{channel}: {e}")
     return text_data
 
 def generate_analytical_digest(raw_data):
     prompt = f"""
-    Ты — старший аналитик по макроэкономике и геополитике. 
-    Проанализируй полученный массив сырых данных за 24 часа и составь жесткий, фактологический дайджест.
+    Ты — старший аналитик. Проанализируй массив данных и составь дайджест.
 
-    Требования к анализу и форматированию:
-    1. Игнорируй воду, эмоциональные заявления и развлекательный шум.
-    2. Фокусируйся исключительно на: цифрах, решениях регуляторов, изменении законов, макроэкономических сдвигах и институциональных рисках.
-    3. Разбей отчет строго по блокам:
-       - 📊 МАКРОЭКОНОМИКА И ФИНАНСЫ
-       - 🌍 ГЕОПОЛИТИКА И БЕЗОПАСНОСТЬ
-       - 💼 ОТРАСЛЕВЫЕ ТРЕНДЫ И B2B
-       - ⚠️ СКРЫТЫЕ РИСКИ (Что упускают массовые СМИ)
-    4. Для каждого тезиса обязательно укажи источник В ВИДЕ КЛИКАБЕЛЬНОЙ ГИПЕРССЫЛКИ Markdown. 
-       Синтаксис ссылки СТРОГО такой: [(Название)](URL_из_данных). Не пиши сухой текст вроде "[Источник: Коммерсантъ]" без указания URL в круглых скобках!
-    5. Для каждого ключевого тезиса дай предельно конкретный вывод.
-       СТРОГО ЗАПРЕЩЕНО использовать вводные слова и формулировки-паразиты: "может", "потенциально", "оказать влияние", "улучшить ситуацию", "привести к эскалации".
+    ТРЕБОВАНИЯ К ФОРМАТИРОВАНИЮ (СТРОГО):
+    1. Каждую секцию оформляй ЖИРНЫМ заголовком в верхнем регистре:
+       * **📊 МАКРОЭКОНОМИКА И ФИНАНСЫ**
+       * **🌍 ГЕОПОЛИТИКА И БЕЗОПАСНОСТЬ**
+       * **💼 ОТРАСЛЕВЫЕ ТРЕНДЫ И B2B**
+       * **⚠️ СКРЫТЫЕ РИСКИ**
 
-    Вот массив данных с URL-адресами:
+    2. Каждый пункт списка Должен начинаться со символа эмодзи-точки `• `. 
+       Использовать дефисы `-` ЗАПРЕЩЕНО.
+
+    3. Указывай источник в конце пункта в формате:
+       • Краткая суть новости ([Имя Источника](URL)).
+
+       ВАЖНО: скобки ДОЛЖНЫ быть обычными символами, а внутри них кликабельная ссылка Markdown `[Имя Источника](URL)`. 
+       ПРИМЕР: • Росалкогольтабакконтроль приостановил лицензию... ([Коммерсантъ](https://www.kommersant.ru/doc/12345)).
+
+    Вот массив данных:
     {raw_data}
     """
     
@@ -105,7 +107,7 @@ def send_telegram_message(chat_id, text):
     try:
         bot.send_message(chat_id, text, parse_mode="Markdown")
     except ApiTelegramException as e:
-        print(f"Предупреждение: ошибка разметки Markdown ({e}), отправка обычным текстом.")
+        print(f"Ошибка Markdown разметки ({e}), отправляем обычным текстом...")
         bot.send_message(chat_id, text)
 
 if __name__ == "__main__":
