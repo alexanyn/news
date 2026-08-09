@@ -36,20 +36,18 @@ TG_CHANNELS = [
     "solidfin"
 ]
 
-# Жесткий маппинг имен источников для чистых ссылок
 SOURCE_CLEAN_MAP = {
-    "foreign affairs rss": "Foreign Affairs",
+    "foreign affairs": "Foreign Affairs",
     "fa rss": "Foreign Affairs",
-    "cfr rss": "CFR",
-    "csis rss": "CSIS",
-    "pew research center": "Pew Research",
-    "cnews.ru": "CNews.ru",
+    "cfr": "CFR",
+    "csis": "CSIS",
+    "pew research": "Pew Research",
+    "cnews": "CNews.ru",
     "коммерсантъ": "Коммерсантъ",
     "банк россии": "Банк России"
 }
 
 def clean_source_name(name):
-    """Принудительная очистка имен источников на уровне Python"""
     low_name = name.lower().strip()
     for key, val in SOURCE_CLEAN_MAP.items():
         if key in low_name:
@@ -58,16 +56,15 @@ def clean_source_name(name):
     return cleaned if cleaned else "Источник"
 
 def fetch_content_via_jina(url):
-    """Обходит блокировки и вытаскивает текст статьи через Jina Reader"""
     try:
         jina_url = f"https://r.jina.ai/{url}"
         headers = {'User-Agent': 'Mozilla/5.0'}
-        res = requests.get(jina_url, headers=headers, timeout=10)
+        res = requests.get(jina_url, headers=headers, timeout=15)
         if res.status_code == 200:
             clean_text = res.text.strip()
             if "Markdown Content:" in clean_text:
                 clean_text = clean_text.split("Markdown Content:")[1]
-            return clean_text[:700].replace('\n', ' ')
+            return clean_text[:800].replace('\n', ' ')
     except Exception as e:
         print(f"Ошибка Jina Reader для {url}: {e}")
     return ""
@@ -89,7 +86,6 @@ def fetch_rss():
                 
                 link = getattr(entry, 'link', url)
                 
-                # Достаем контекст статьи через Jina, если summary пустое/короткое
                 if (not summary or len(summary) < 100 or summary.strip() == title.strip()) and link:
                     jina_text = fetch_content_via_jina(link)
                     if jina_text:
@@ -116,30 +112,21 @@ def fetch_telegram_public():
     return text_data
 
 def generate_analytical_json(raw_data):
-    # Принуждаем модель отдавать чистый JSON
     prompt = f"""
-    Ты — аналитик. Проанализируй данные и верни результат СТРОГО в формате JSON.
+    Ты — профессиональный международный аналитик. Проанализируй данные и верни результат ИСКЛЮЧИТЕЛЬНО в формате JSON.
 
-    ТРЕБОВАНИЯ К ДАННЫМ В JSON:
-    1. Переводи ВСЕ английские заголовки и контекст на РУССКИЙ ЯЗЫК.
-    2. В поле "summary_ru" пиши развернутую суть события на русском языке. Запрещено выводить только сырой заголовок вроде "China's Legal Weapon"!
-    3. Структура JSON должна иметь строго 4 ключа: "macro", "geopolitics", "industry", "risks".
+    ЖЕСТКИЕ ПРАВИЛА:
+    1. Весь текст внутри JSON ("summary_ru") ДОЛЖЕН БЫТЬ НА РУССКОМ ЯЗЫКЕ.
+    2. Запрещено выводить оригинальные английские заголовки статей! Переводи смысл и пересказывай суть своими словами.
+    3. Поле "source_name" должно содержать чистые имена: "Foreign Affairs", "CSIS", "Pew Research", "Коммерсантъ".
 
-    ПРИМЕР ВЫХОДНОГО JSON:
+    СТРУКТУРА JSON (Строго соблюдай ключи):
     {{
       "macro": [
-        {{
-          "summary_ru": "СПБ Биржа планирует запустить торги производными инструментами на заблокированные активы",
-          "source_name": "Коммерсантъ",
-          "url": "https://..."
-        }}
+        {{"summary_ru": "Развернутая аналитическая суть новости на русском", "source_name": "Имя Источника", "url": "URL"}}
       ],
       "geopolitics": [
-        {{
-          "summary_ru": "Пекин формирует собственную нормативно-правовую базу для защиты китайских компаний от санкций США",
-          "source_name": "Foreign Affairs",
-          "url": "https://..."
-        }}
+        {{"summary_ru": "Развернутая аналитическая суть новости на русском", "source_name": "Имя Источника", "url": "URL"}}
       ],
       "industry": [],
       "risks": []
@@ -170,13 +157,28 @@ def generate_analytical_json(raw_data):
     response.raise_for_status()
     return response.json()["choices"][0]["message"]["content"]
 
-def build_html_digest(json_str):
-    """Сборка HTML-сообщения на стороне Python без участия нейросети"""
+def clean_json_str(raw_str):
+    """Очищает JSON от Markdown блоков ```json ... ```"""
+    clean = raw_str.strip()
+    if clean.startswith("```json"):
+        clean = clean[7:]
+    elif clean.startswith("```"):
+        clean = clean[3:]
+    if clean.endswith("```"):
+        clean = clean[:-3]
+    return clean.strip()
+
+def build_html_digest(raw_response):
+    """Безопасная сборка HTML из JSON"""
+    json_clean = clean_json_str(raw_response)
     try:
-        data = json.loads(json_str)
+        data = json.loads(json_clean)
     except Exception as e:
-        print(f"Ошибка парсинга JSON от модели: {e}")
-        return json_str
+        print(f"Критическая ошибка парсинга JSON: {e}. Применение резервной очистки...")
+        # Резервный регулярочный подчиститель на случай сбоя JSON
+        clean_text = re.sub(r'\*\*(.*?)\*\*', r'<b>\1</b>', raw_response)
+        clean_text = re.sub(r'\[(.*?)\]\((.*?)\)', r'<a href="\2">\1</a>', clean_text)
+        return clean_text
 
     sections = [
         ("macro", "📊 МАКРОЭКОНОМИКА И ФИНАНСЫ"),
@@ -192,9 +194,12 @@ def build_html_digest(json_str):
             html_output += f"<b>{title}</b>\n"
             for item in items:
                 summary = item.get("summary_ru", "").strip()
-                source = clean_source_name(item.get("source_name", "Источник"))
+                raw_src = item.get("source_name", "Источник")
+                source = clean_source_name(raw_src)
                 url = item.get("url", "#").strip()
-                html_output += f"• {summary} (<a href=\"{url}\">{source}</a>)\n"
+                
+                if summary:
+                    html_output += f"• {summary} (<a href=\"{url}\">{source}</a>)\n"
             html_output += "\n"
 
     return html_output.strip()
@@ -203,7 +208,7 @@ def send_telegram_message(chat_id, text):
     try:
         bot.send_message(chat_id, text, parse_mode="HTML", disable_web_page_preview=True)
     except ApiTelegramException as e:
-        print(f"Ошибка HTML-парсеру Telegram ({e}). Отправка без разметки.")
+        print(f"Ошибка HTML-парсеру Telegram ({e}). Отправка обычным текстом.")
         bot.send_message(chat_id, text)
 
 if __name__ == "__main__":
