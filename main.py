@@ -35,19 +35,21 @@ TG_CHANNELS = [
     "solidfin"
 ]
 
-def fetch_web_description(url):
-    """Подтягивает OpenGraph описание статьи, если RSS вернул только заголовок"""
+def fetch_content_via_jina(url):
+    """Обходит Cloudflare и пайволы через Jina Reader API, вытаскивая чистый текст"""
     try:
-        headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)'}
-        res = requests.get(url, headers=headers, timeout=5)
-        soup = BeautifulSoup(res.text, 'html.parser')
-        
-        # Ищем meta description или og:description
-        og_desc = soup.find('meta', property='og:description') or soup.find('meta', attrs={'name': 'description'})
-        if og_desc and og_desc.get('content'):
-            return og_desc['content'].strip()[:300]
-    except Exception:
-        pass
+        jina_url = f"https://r.jina.ai/{url}"
+        headers = {'User-Agent': 'Mozilla/5.0'}
+        res = requests.get(jina_url, headers=headers, timeout=10)
+        if res.status_code == 200:
+            # Берем первые 600 символов чистого текста статьи
+            clean_text = res.text.strip()
+            # Убираем служебный заголовок Jina
+            if "Markdown Content:" in clean_text:
+                clean_text = clean_text.split("Markdown Content:")[1]
+            return clean_text[:600].replace('\n', ' ')
+    except Exception as e:
+        print(f"Ошибка Jina Reader для {url}: {e}")
     return ""
 
 def fetch_rss():
@@ -55,24 +57,26 @@ def fetch_rss():
     for url in RSS_FEEDS:
         try:
             feed = feedparser.parse(url)
-            source_name = feed.feed.get('title', 'Источник')
+            # Чистим техническое имя источника
+            raw_source_name = feed.feed.get('title', 'Источник')
+            source_name = raw_source_name.replace(" RSS", "").replace("Feed", "").strip()
+
             for entry in feed.entries[:3]:
                 title = entry.title
                 summary = getattr(entry, 'summary', '')
                 
-                # Чистим HTML-теги из summary, если они есть
                 if summary:
                     summary = BeautifulSoup(summary, 'html.parser').get_text(strip=True)
                 
                 link = getattr(entry, 'link', url)
                 
-                # Если summary слишком короткое/пустое — идем за тегом описания на страницу
-                if len(summary) < 30 and link:
-                    web_desc = fetch_web_description(link)
-                    if web_desc:
-                        summary = web_desc
+                # Если анонс пустой или короткий (как у Foreign Affairs), вытаскиваем текст через Jina
+                if len(summary) < 50 and link:
+                    jina_text = fetch_content_via_jina(link)
+                    if jina_text:
+                        summary = jina_text
 
-                text_data += f"\nИсточник: {source_name}\nURL: {link}\nЗаголовок: {title}\nТекст: {summary[:400]}\n---"
+                text_data += f"\nИсточник_Имя: {source_name}\nURL: {link}\nЗаголовок: {title}\nТекст: {summary[:500]}\n---"
         except Exception as e:
             print(f"Ошибка парсинга RSS {url}: {e}")
     return text_data
@@ -87,7 +91,7 @@ def fetch_telegram_public():
             soup = BeautifulSoup(res.text, 'html.parser')
             posts = soup.find_all('div', class_='tgme_widget_message_text', limit=3)
             for post in posts:
-                text_data += f"\nИсточник: Telegram @{channel}\nURL: {url}\nТекст: {post.get_text(strip=True)[:400]}\n---"
+                text_data += f"\nИсточник_Имя: Telegram @{channel}\nURL: {url}\nТекст: {post.get_text(strip=True)[:400]}\n---"
         except Exception as e:
             print(f"Ошибка парсинга TG @{channel}: {e}")
     return text_data
@@ -96,25 +100,26 @@ def generate_analytical_digest(raw_data):
     prompt = f"""
     Ты — старший аналитик по международным отношениям и экономике. Проанализируй данные и сформируй дайджест.
 
-    ТРЕБОВАНИЯ К ПЕРЕВОДУ И АНАЛИЗУ:
-    1. Весь итоговый текст должен быть СТРОГО на РУССКОМ языке. Переводи все английские заголовки и термины.
-    2. ЗАПРЕЩЕНО выводить сухие английские заголовки статей! 
-       Вместо "China’s Legal Weapon (<a href="...">FA RSS</a>)" пиши развернутую суть новости:
-       • "Китай развивает правовую систему для ослабления юридической гегемонии США (<a href="...">Foreign Affairs</a>)."
+    ЖЕСТКИЕ ТРЕБОВАНИЯ К ТЕКСТУ:
+    1. ИТОГОВЫЙ ТЕКСТ ДОЛЖЕН БЫТЬ 100% НА РУССКОМ ЯЗЫКЕ.
+    2. КАТЕГОРИЧЕСКИ ЗАПРЕЩЕНО просто дублировать английские заголовки! 
+       Даже если в источнике был только заголовок "China’s Legal Weapon", переведи его и напиши понятную развернутую суть:
+       • Китай формирует собственную правовую систему для борьбы с юридическим давлением США (<a href="...">Foreign Affairs</a>).
+    3. Запрещено использовать аббревиатуры вроде "FA RSS". Пиши нормальное имя: "Foreign Affairs", "CSIS", "Pew Research".
 
     СТРОГИЙ ФОРМАТ ВЫВОДА (Используй ТОЛЬКО HTML-теги: <b> и <a href="...">):
 
     <b>📊 МАКРОЭКОНОМИКА И ФИНАНСЫ</b>
-    • Суть новости с переведенным смыслом (<a href="URL">Имя Источника</a>)
+    • Развернутая аналитическая суть новости на русском (<a href="URL">Имя Источника</a>)
 
     <b>🌍 ГЕОПОЛИТИКА И БЕЗОПАСНОСТЬ</b>
-    • Суть новости с переведенным смыслом (<a href="URL">Имя Источника</a>)
+    • Развернутая аналитическая суть новости на русском (<a href="URL">Имя Источника</a>)
 
     <b>💼 ОТРАСЛЕВЫЕ ТРЕНДЫ И B2B</b>
-    • Суть новости с переведенным смыслом (<a href="URL">Имя Источника</a>)
+    • Развернутая аналитическая суть новости на русском (<a href="URL">Имя Источника</a>)
 
     <b>⚠️ СКРЫТЫЕ РИСКИ</b>
-    • Суть новости с переведенным смыслом (<a href="URL">Имя Источника</a>)
+    • Развернутая аналитическая суть новости на русском (<a href="URL">Имя Источника</a>)
 
     ПРАВИЛА:
     1. Заголовки блоков ОБЯЗАТЕЛЬНО оборачивай в <b>...</b>.
