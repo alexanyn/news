@@ -18,15 +18,39 @@ if not groq_api_key or not bot_token or not chat_id:
 bot = telebot.TeleBot(bot_token)
 CHAT_ID = chat_id
 
-# 2. Источники (RSS)
+# 2. Полный массив RSS-источников
 RSS_FEEDS = [
-    # СМИ и Институты РФ
+    # Деловые и Федеральные СМИ
+    "https://tass.ru/rss/v2.xml",
+    "https://ria.ru/export/rss2/archive/index.xml",
+    "https://www.interfax.ru/rss.asp",
     "https://www.kommersant.ru/RSS/news.xml",
+    "https://www.vedomosti.ru/rss/news",
+    "https://iz.ru/xml/rss/all.xml",
+    "https://rssexport.rbc.ru/rbcnews/news/30/full.rss",
+    "https://www.forbes.ru/new-rss.xml",
+    "https://rg.ru/xml/index.xml",
+    "https://tvzvezda.ru/export/rss.xml",
+    
+    # Финансы и Рынки
+    "https://1prime.ru/export/rss2/index.xml",
+    "https://frankmedia.ru/feed",
     "https://cbr.ru/rss/RssNews",
+    
+    # Технологии, Наука и Отрасли
     "https://www.cnews.ru/inc/rss/news.xml",
+    "https://nplus1.ru/rss",
+    "https://pharmvestnik.ru/rss/news.xml",
+    "https://vademec.ru/rss/",
+    "https://www.retail.ru/rss/news/",
+    
+    # Геополитика и Социология
+    "https://globalaffairs.ru/feed/",
+    "https://ru.valdaiclub.com/rss/",
     "https://fom.ru/rss.xml",
     "https://wciom.ru/rss.xml",
     "https://www.levada.ru/feed/",
+    
     # Зарубежные аналитические центры
     "https://www.foreignaffairs.com/rss.xml",
     "https://www.pewresearch.org/feed/",
@@ -36,7 +60,7 @@ RSS_FEEDS = [
     "https://carnegieendowment.org/rss/solr/publications"
 ]
 
-# 3. Публичные Telegram-каналы (без символа @)
+# 3. Публичные Telegram-каналы
 TG_CHANNELS = [
     "mmi_ru",
     "solidfin",
@@ -44,43 +68,56 @@ TG_CHANNELS = [
     "russianmacro"
 ]
 
-# 4. Карта автозамены имен источников
+# 4. Жесткая зачистка названий источников
 SOURCE_CLEAN_MAP = {
+    "тасс": "ТАСС",
+    "tass": "ТАСС",
+    "риа новости": "РИА Новости",
+    "ria": "РИА Новости",
+    "интерфакс": "Интерфакс",
+    "interfax": "Интерфакс",
+    "коммерсант": "Коммерсантъ",
+    "ведомости": "Ведомости",
+    "известия": "Известия",
+    "рбк": "РБК",
+    "rbc": "РБК",
+    "forbes": "Forbes",
+    "российская газета": "Российская Газета",
+    "телеканал «звезда»": "ТК Звезда",
+    "звезда": "ТК Звезда",
+    "прайм": "Прайм",
+    "1prime": "Прайм",
+    "frank media": "Frank Media",
+    "cnews": "CNews",
+    "n + 1": "N+1",
+    "n+1": "N+1",
+    "фармацевтический вестник": "Фармвестник",
+    "vademecum": "Vademecum",
+    "retail.ru": "Retail.ru",
+    "россия в глобальной политике": "Россия в глоб. политике",
+    "валдай": "Валдай",
+    "valdai": "Валдай",
+    "банк россии": "Банк России",
     "foreign affairs": "Foreign Affairs",
     "fa rss": "Foreign Affairs",
     "cfr": "CFR",
     "csis": "CSIS",
     "pew research": "Pew Research",
-    "cnews": "CNews.ru",
-    "коммерсант": "Коммерсантъ",
-    "банк россии": "Банк России",
-    "cbr": "Банк России",
     "xtxixty": "Твёрдые цифры",
     "russianmacro": "Russianmacro",
     "mmi_ru": "MMI",
     "solidfin": "Solid Financial",
     "fom": "ФОМ",
-    "фом": "ФОМ",
     "wciom": "ВЦИОМ",
-    "вциом": "ВЦИОМ",
-    "левада": "Левада-Центр",
-    "levada": "Левада-Центр",
-    "mediascope": "Mediascope",
-    "forecast": "ЦМАКП",
-    "прогноз": "ЦМАКП",
-    "yakov": "Яков и Партнёры",
-    "яков": "Яков и Партнёры",
-    "eaeunion": "ЕЭК",
-    "еэк": "ЕЭК"
+    "левада": "Левада-Центр"
 }
 
 def clean_source_name(name):
-    """Очистка суффиксов и нормализация имен источников"""
     if not name:
         return "Источник"
     
     name = re.sub(r'\.\s*Лента\s+новостей', '', name, flags=re.IGNORECASE)
-    name = re.sub(r'(?i)\b(rss|feed)\b', '', name)
+    name = re.sub(r'(?i)\b(rss|feed|export|official)\b', '', name)
     name = name.strip(' .-_')
     
     low = name.lower()
@@ -98,7 +135,7 @@ def fetch_rss():
             raw_source_name = feed.feed.get('title', 'Источник')
             source_name = clean_source_name(raw_source_name)
 
-            for entry in feed.entries[:3]:
+            for entry in feed.entries[:2]:  # Берем по 2 самые свежие новости с каждого источника
                 title = entry.title
                 summary = getattr(entry, 'summary', '')
                 
@@ -107,7 +144,7 @@ def fetch_rss():
                 
                 link = getattr(entry, 'link', url)
 
-                text_data += f"\nИсточник_Имя: {source_name}\nURL: {link}\nЗаголовок: {title}\nКонтекст: {summary[:500]}\n---"
+                text_data += f"\nИсточник_Имя: {source_name}\nURL: {link}\nЗаголовок: {title}\nКонтекст: {summary[:400]}\n---"
         except Exception as e:
             print(f"Ошибка парсинга RSS {url}: {e}")
     return text_data
@@ -132,12 +169,12 @@ def fetch_telegram_public():
 
 def generate_analytical_json(raw_data):
     prompt = f"""
-    Ты — макроэкономический и социологический аналитик. Проанализируй данные и верни результат ИСКЛЮЧИТЕЛЬНО в формате JSON.
+    Ты — старший макроэкономический и отраслевой аналитик. Проанализируй входящий массив данных со всех СМИ и сформируй сжатый дайджест.
 
     ЖЕСТКИЕ ПРАВИЛА:
-    1. ВЕСЬ ТЕКСТ В ПОЛЕ "summary_ru" ДОЛЖЕН БЫТЬ СТРОГО НА РУССКОМ ЯЗЫКЕ.
-    2. Переводи смысл зарубежных исследований, отчетов и англоязычных постов.
-    3. Фильтруй информационный шум. Включай только значимые социологические тренды, макроэкономику, решения регуляторов и B2B-события.
+    1. ИТОГОВЫЙ ТЕКСТ В ПОЛЕ "summary_ru" ДОЛЖЕН БЫТЬ СТРОГО НА РУССКОМ ЯЗЫКЕ.
+    2. Агрегируй новости: отбирай ТОЛЬКО самые важные макроэкономические сдвиги, решения регуляторов, геополитику, социологию и технологические тренды.
+    3. Отсекай мелкий бытовой и криминальный шум.
 
     СТРУКТУРА JSON:
     {{
@@ -147,8 +184,12 @@ def generate_analytical_json(raw_data):
       "geopolitics": [
         {{"summary_ru": "Развернутый тезис на русском", "source_name": "Имя Источника", "url": "URL"}}
       ],
-      "industry": [],
-      "risks": []
+      "industry": [
+        {{"summary_ru": "Развернутый тезис на русском", "source_name": "Имя Источника", "url": "URL"}}
+      ],
+      "risks": [
+        {{"summary_ru": "Развернутый тезис на русском", "source_name": "Имя Источника", "url": "URL"}}
+      ]
     }}
 
     Массив данных:
@@ -171,7 +212,7 @@ def generate_analytical_json(raw_data):
         "https://api.groq.com/openai/v1/chat/completions",
         headers=headers,
         json=payload,
-        timeout=60
+        timeout=90
     )
     response.raise_for_status()
     return response.json()["choices"][0]["message"]["content"]
@@ -228,4 +269,9 @@ def send_telegram_message(chat_id, text):
 if __name__ == "__main__":
     combined_data = fetch_rss() + "\n" + fetch_telegram_public()
     
-    if combined_
+    if combined_data.strip():
+        raw_json = generate_analytical_json(combined_data)
+        formatted_html = build_html_digest(raw_json)
+        
+        for i in range(0, len(formatted_html), 4000):
+            send_telegram_message(CHAT_ID, formatted_html[i:i+4000])
