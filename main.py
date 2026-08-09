@@ -1,4 +1,4 @@
-print("=== ЗАПУСК СКРИПТА ВЕРСИИ 3.7 (GROQ_RATE_LIMIT_PROTECTION) ===")
+print("=== ЗАПУСК СКРИПТА ВЕРСИИ 4.0 (6_RUSSIAN_CATEGORIES) ===")
 
 import os
 import re
@@ -193,7 +193,6 @@ def collect_all_news(sent_urls):
                     "url": link
                 }
 
-                # Сжимаем контекст до 200 символов ради экономии токенов
                 items_for_prompt.append(f"ID: {news_id}\nЗаголовок: {title}\nКонтекст: {summary[:200]}\n---")
                 sent_urls.add(link)
         except Exception as e:
@@ -241,28 +240,35 @@ def collect_all_news(sent_urls):
         except Exception as e:
             print(f"Ошибка парсинга TG @{channel}: {e}")
 
-    # ЖЕСТКИЙ ЛИМИТ: передаем не более 45 самых свежих новостей за один раз
     limited_items = items_for_prompt[:45]
     return news_db, "\n".join(limited_items)
 
 def generate_analytical_json(raw_data_prompt):
     prompt_template = """
-    Ты — старший макроэкономический и международный аналитик. Проанализируй входящие данные.
+    Ты — старший аналитик. Проанализируй входящие данные и распредели ключевые инфоповоды строго по 6 категориям:
 
-    ЖЕСТКИЕ ПРАВИЛА:
+    КАТЕГОРИИ:
+    1. "politics": Законодательство, госуправление, выборы, решения правительств.
+    2. "conflicts": Военные действия, оборона, спецслужбы, международная безопасность.
+    3. "economy": Макроэкономика, финансовые рынки, банковские ставки, инфляция, курсы валют.
+    4. "b2b_retail": B2B-рынки, ритейл, торговые сети, логистика, коммерция, промышленность.
+    5. "tech_health": Технологии, IT-сектор, фарминдустрия, медицина, наука.
+    6. "society": Общественные тренды, социологические опросы (ФОМ, ВЦИОМ, Левада), репутационные риски.
+
+    СТРОГИЕ ПРАВИЛА:
     1. Соблюдай баланс: отбирай как российские, так и зарубежные источники (Foreign Affairs, Reuters, Politico, WSJ и др.).
-    2. Отбирай до 3-4 ключевых событий на каждую из 4 категорий ("macro", "geopolitics", "industry", "risks").
-    3. КАТЕГОРИЧЕСКИ ЗАПРЕЩЕНО включать новости о спорте, шоу-бизнесе, культуре, мелких ДТП и бытовых советах.
-    4. Переводи все зарубежные материалы на русский язык.
-    5. Поле "summary_ru" должно содержать суть на русском языке без скобок и имен источников!
-    6. Поле "id" должно содержать ТОЛЬКО ЦЕЛОЕ ЧИСЛО (ID из входящих данных).
+    2. Отбирай до 2-3 ключевых событий на каждую категорию. Игнорируй мелкий бытовой шум, спорт и криминал.
+    3. Поле "summary_ru" должно содержать суть на русском языке без скобок и названий источников!
+    4. Поле "id" должно содержать ТОЛЬКО ЦЕЛОЕ ЧИСЛО (ID из входящих данных).
 
     СТРУКТУРА JSON:
     {
-      "macro": [{"id": 1, "summary_ru": "Суть события на русском"}],
-      "geopolitics": [{"id": 2, "summary_ru": "Суть события на русском"}],
-      "industry": [],
-      "risks": []
+      "politics": [{"id": 1, "summary_ru": "Суть"}],
+      "conflicts": [],
+      "economy": [],
+      "b2b_retail": [],
+      "tech_health": [],
+      "society": []
     }
 
     Входящие новости:
@@ -280,11 +286,10 @@ def generate_analytical_json(raw_data_prompt):
         "model": "llama-3.3-70b-versatile",
         "messages": [{"role": "user", "content": prompt}],
         "temperature": 0.1,
-        "max_tokens": 2500,
+        "max_tokens": 3000,
         "response_format": {"type": "json_object"}
     }
 
-    # Цикл с автоматическим повтором при ошибке 429 (Rate Limit)
     max_retries = 3
     for attempt in range(max_retries):
         response = requests.post(
@@ -295,14 +300,14 @@ def generate_analytical_json(raw_data_prompt):
         )
         if response.status_code == 429:
             wait_time = 15 * (attempt + 1)
-            print(f"Превышен лимит токенов Groq (429). Ждем {wait_time} секунд (Попытка {attempt+1}/{max_retries})...")
+            print(f"Превышен лимит токенов Groq (429). Ждем {wait_time} секунд...")
             time.sleep(wait_time)
             continue
             
         response.raise_for_status()
         return response.json()["choices"][0]["message"]["content"]
         
-    raise RuntimeError("Не удалось получить ответ от Groq API из-за постоянных 429 ошибок.")
+    raise RuntimeError("Не удалось получить ответ от Groq API.")
 
 def clean_json_str(raw_str):
     clean = raw_str.strip()
@@ -330,10 +335,12 @@ def build_html_digest(raw_response, news_db):
         return ""
 
     sections = [
-        ("macro", "📊 МАКРОЭКОНОМИКА И ФИНАНСЫ"),
-        ("geopolitics", "🌍 ГЕОПОЛИТИКА И БЕЗОПАСНОСТЬ"),
-        ("industry", "💼 ОТРАСЛЕВЫЕ ТРЕНДЫ И B2B"),
-        ("risks", "⚠️ СКРЫТЫЕ РИСКИ")
+        ("politics", "🏛 ПОЛИТИКА И ГОСУПРАВЛЕНИЕ"),
+        ("conflicts", "🪖 КОНФЛИКТЫ И БЕЗОПАСНОСТЬ"),
+        ("economy", "📈 ЭКОНОМИКА И ФИНАНСЫ"),
+        ("b2b_retail", "💼 ОТРАСЛЕВОЙ B2B И РИТЕЙЛ"),
+        ("tech_health", "🧬 ТЕХНОЛОГИИ И ЗДРАВООХРАНЕНИЕ"),
+        ("society", "👥 ОБЩЕСТВО И СОЦИОЛОГИЯ")
     ]
 
     html_output = ""
