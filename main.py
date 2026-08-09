@@ -230,7 +230,7 @@ def collect_all_news(sent_urls):
     return news_db, "\n".join(items_for_prompt)
 
 def generate_analytical_json(raw_data_prompt):
-    prompt = f"""
+    prompt_template = """
     Ты — макроэкономический аналитик. Проанализируй новости и сгруппируй их по 4 категориям.
 
     СТРОГИЕ ПРАВИЛА:
@@ -240,16 +240,18 @@ def generate_analytical_json(raw_data_prompt):
     4. Поле "id" должно содержать ТОЛЬКО ЦЕЛОЕ ЧИСЛО (ID из входящих данных).
 
     СТРУКТУРА JSON:
-    {{
-      "macro": [{{"id": 1, "summary_ru": "Тезис на русском"}}],
-      "geopolitics": [{{"id": 2, "summary_ru": "Тезис на русском"}}],
+    {
+      "macro": [{"id": 1, "summary_ru": "Тезис на русском"}],
+      "geopolitics": [{"id": 2, "summary_ru": "Тезис на русском"}],
       "industry": [],
       "risks": []
-    }}
+    }
 
     Входящие новости:
-    {raw_data_prompt}
+    __INPUT_DATA__
     """
+    
+    prompt = prompt_template.replace("__INPUT_DATA__", raw_data_prompt)
 
     headers = {
         "Authorization": f"Bearer {groq_api_key}",
