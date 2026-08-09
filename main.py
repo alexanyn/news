@@ -77,7 +77,7 @@ def generate_analytical_digest(raw_data):
     """
     
     response = ai_client.chat.completions.create(
-        model="gemini-1.5-flash-8b",
+        model="gpt-4o-mini",
         messages=[{"role": "user", "content": prompt}]
     )
     return response.choices[0].message.content
