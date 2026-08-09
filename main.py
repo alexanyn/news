@@ -18,9 +18,9 @@ if not groq_api_key or not bot_token or not chat_id:
 bot = telebot.TeleBot(bot_token)
 CHAT_ID = chat_id
 
-# 2. Полный массив RSS-источников
+# 2. Полный массив RSS-источников (Прямые XML + Google News RSS для сайтов с Paywall)
 RSS_FEEDS = [
-    # Деловые и Федеральные СМИ
+    # Российские СМИ и Финансы
     "https://tass.ru/rss/v2.xml",
     "https://ria.ru/export/rss2/archive/index.xml",
     "https://www.interfax.ru/rss.asp",
@@ -31,33 +31,48 @@ RSS_FEEDS = [
     "https://www.forbes.ru/new-rss.xml",
     "https://rg.ru/xml/index.xml",
     "https://tvzvezda.ru/export/rss.xml",
-    
-    # Финансы и Рынки
     "https://1prime.ru/export/rss2/index.xml",
     "https://frankmedia.ru/feed",
     "https://cbr.ru/rss/RssNews",
-    
-    # Технологии, Наука и Отрасли
     "https://www.cnews.ru/inc/rss/news.xml",
     "https://nplus1.ru/rss",
     "https://pharmvestnik.ru/rss/news.xml",
     "https://vademec.ru/rss/",
     "https://www.retail.ru/rss/news/",
-    
-    # Геополитика и Социология
     "https://globalaffairs.ru/feed/",
     "https://ru.valdaiclub.com/rss/",
     "https://fom.ru/rss.xml",
     "https://wciom.ru/rss.xml",
     "https://www.levada.ru/feed/",
     
-    # Зарубежные аналитические центры
+    # Зарубежная аналитика и Открытые СМИ (Прямой RSS)
     "https://www.foreignaffairs.com/rss.xml",
     "https://www.pewresearch.org/feed/",
     "https://www.cfr.org/rss.xml",
     "https://www.csis.org/rss/all",
     "https://www.bruegel.org/rss.xml",
-    "https://carnegieendowment.org/rss/solr/publications"
+    "https://carnegieendowment.org/rss/solr/publications",
+    "https://www.theguardian.com/world/rss",
+    "https://www.aljazeera.com/xml/rss/all.xml",
+    "https://www.politico.eu/feed/",
+    "https://rss.politico.com/politics-news.xml",
+    "https://www.lemonde.fr/en/international/rss_full.xml",
+    "https://www.statnews.com/feed/",
+    "https://www.retaildive.com/feeds/news/",
+    "https://www.project-syndicate.org/rss",
+    
+    # Зарубежные СМИ с жестким Paywall / Cloudflare (Через Google News RSS)
+    "https://news.google.com/rss/search?q=site:reuters.com/world",
+    "https://news.google.com/rss/search?q=site:apnews.com/world-news",
+    "https://news.google.com/rss/search?q=site:bloomberg.com",
+    "https://news.google.com/rss/search?q=site:ft.com",
+    "https://news.google.com/rss/search?q=site:wsj.com",
+    "https://news.google.com/rss/search?q=site:nytimes.com/section/world",
+    "https://news.google.com/rss/search?q=site:economist.com",
+    "https://news.google.com/rss/search?q=site:washingtonpost.com",
+    "https://news.google.com/rss/search?q=site:theinformation.com",
+    "https://news.google.com/rss/search?q=site:spglobal.com",
+    "https://news.google.com/rss/search?q=site:msci.com"
 ]
 
 # 3. Публичные Telegram-каналы
@@ -68,41 +83,54 @@ TG_CHANNELS = [
     "russianmacro"
 ]
 
-# 4. Жесткая зачистка названий источников
+# 4. Карта очистки имен источников
 SOURCE_CLEAN_MAP = {
     "тасс": "ТАСС",
-    "tass": "ТАСС",
     "риа новости": "РИА Новости",
-    "ria": "РИА Новости",
     "интерфакс": "Интерфакс",
-    "interfax": "Интерфакс",
     "коммерсант": "Коммерсантъ",
     "ведомости": "Ведомости",
     "известия": "Известия",
     "рбк": "РБК",
-    "rbc": "РБК",
     "forbes": "Forbes",
     "российская газета": "Российская Газета",
-    "телеканал «звезда»": "ТК Звезда",
     "звезда": "ТК Звезда",
     "прайм": "Прайм",
-    "1prime": "Прайм",
     "frank media": "Frank Media",
     "cnews": "CNews",
     "n + 1": "N+1",
-    "n+1": "N+1",
     "фармацевтический вестник": "Фармвестник",
     "vademecum": "Vademecum",
     "retail.ru": "Retail.ru",
     "россия в глобальной политике": "Россия в глоб. политике",
     "валдай": "Валдай",
-    "valdai": "Валдай",
     "банк россии": "Банк России",
     "foreign affairs": "Foreign Affairs",
-    "fa rss": "Foreign Affairs",
     "cfr": "CFR",
     "csis": "CSIS",
     "pew research": "Pew Research",
+    "reuters": "Reuters",
+    "associated press": "AP News",
+    "ap news": "AP News",
+    "bloomberg": "Bloomberg",
+    "financial times": "Financial Times",
+    "ft.com": "Financial Times",
+    "wall street journal": "WSJ",
+    "wsj": "WSJ",
+    "new york times": "NYT",
+    "nyt": "NYT",
+    "guardian": "The Guardian",
+    "economist": "The Economist",
+    "al jazeera": "Al Jazeera",
+    "politico": "Politico",
+    "washington post": "Washington Post",
+    "le monde": "Le Monde",
+    "the information": "The Information",
+    "stat news": "STAT News",
+    "retail dive": "Retail Dive",
+    "project syndicate": "Project Syndicate",
+    "s&p global": "S&P Global",
+    "msci": "MSCI",
     "xtxixty": "Твёрдые цифры",
     "russianmacro": "Russianmacro",
     "mmi_ru": "MMI",
@@ -117,7 +145,7 @@ def clean_source_name(name):
         return "Источник"
     
     name = re.sub(r'\.\s*Лента\s+новостей', '', name, flags=re.IGNORECASE)
-    name = re.sub(r'(?i)\b(rss|feed|export|official)\b', '', name)
+    name = re.sub(r'(?i)\b(rss|feed|export|official|- Google News)\b', '', name)
     name = name.strip(' .-_')
     
     low = name.lower()
@@ -135,7 +163,7 @@ def fetch_rss():
             raw_source_name = feed.feed.get('title', 'Источник')
             source_name = clean_source_name(raw_source_name)
 
-            for entry in feed.entries[:2]:  # Берем по 2 самые свежие новости с каждого источника
+            for entry in feed.entries[:2]:
                 title = entry.title
                 summary = getattr(entry, 'summary', '')
                 
@@ -169,10 +197,10 @@ def fetch_telegram_public():
 
 def generate_analytical_json(raw_data):
     prompt = f"""
-    Ты — старший макроэкономический и отраслевой аналитик. Проанализируй входящий массив данных со всех СМИ и сформируй сжатый дайджест.
+    Ты — старший макроэкономический и отраслевой аналитик. Проанализируй входящий массив данных со всех мировых и российских СМИ и сформируй сжатый дайджест.
 
     ЖЕСТКИЕ ПРАВИЛА:
-    1. ИТОГОВЫЙ ТЕКСТ В ПОЛЕ "summary_ru" ДОЛЖЕН БЫТЬ СТРОГО НА РУССКОМ ЯЗЫКЕ.
+    1. ИТОГОВЫЙ ТЕКСТ В ПОЛЕ "summary_ru" ДОЛЖЕН БЫТЬ СТРОГО НА РУССКОМ ЯЗЫКЕ. Переводи все зарубежные материалы!
     2. Агрегируй новости: отбирай ТОЛЬКО самые важные макроэкономические сдвиги, решения регуляторов, геополитику, социологию и технологические тренды.
     3. Отсекай мелкий бытовой и криминальный шум.
 
