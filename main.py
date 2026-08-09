@@ -1,4 +1,4 @@
-print("=== ЗАPUSK СКРИПТА ВЕРСИИ 4.4 (ADDED_ROMIR_ROSSTAT_CBR) ===")
+print("=== ЗАПУСК СКРИПТА ВЕРСИИ 4.5 (ADDED_KOD_SOSTAV_ADINDEX) ===")
 
 import os
 import re
@@ -46,6 +46,9 @@ FEED_CANONICAL_NAMES = {
     "4n9gkl2gmfhjdlx2": "ЦБ РФ",
     "xq3dpenk8t6kkzde": "РОМИР",
     "wdcmvjy7bajgrtcc": "Росстат",
+    "kod.ru": "Код",
+    "sostav.ru": "Состав",
+    "adindex.ru": "AdIndex",
     "kommersant.ru": "Коммерсантъ",
     "foreignaffairs.com": "Foreign Affairs",
     "cnews.ru": "CNews",
@@ -105,6 +108,11 @@ RSS_FEEDS = [
     "https://fom.ru/rss.xml",
     "https://wciom.ru/rss.xml",
     "https://www.levada.ru/feed/",
+
+    # Маркетинг, IT, реклама и медиабизнес
+    "https://kod.ru/rss",
+    "https://www.sostav.ru/rss",
+    "https://adindex.ru/news/news.rss",
 
     # Российские деловые СМИ
     "https://tass.ru/rss/v2.xml",
@@ -258,8 +266,8 @@ def generate_analytical_json(raw_data_prompt):
     1. "politics": Законодательство, госуправление, геополитика, международные решения, выборы.
     2. "conflicts": Военные действия, оборона, спецслужбы, международная безопасность.
     3. "economy": Макроэкономика, рынки, инфляция, банковские ставки, курсы валют, данные Росстата, ЦБ и РОМИР.
-    4. "b2b_retail": B2B-тренды, ритейл, торговые сети, логистика, промышленность, коммерция.
-    5. "tech_health": IT-сектор, ИИ, фармакология, медицина, научные разработки.
+    4. "b2b_retail": B2B-тренды, ритейл, торговые сети, рекламный рынок (Sostav, AdIndex), логистика, промышленность, коммерция.
+    5. "tech_health": IT-сектор, ИИ, фармакология, медицина, научные разработки, медиатехнологии (Код).
     6. "society": Общественные тренды, социологические опросы (ФОМ, ВЦИОМ, Левада, РОМИР), макро-социальные явления.
 
     ЖЕСТКИЕ ПРАВИЛА:
