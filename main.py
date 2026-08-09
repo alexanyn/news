@@ -36,38 +36,33 @@ TG_CHANNELS = [
     "solidfin"
 ]
 
-SOURCE_CLEAN_MAP = {
-    "foreign affairs": "Foreign Affairs",
-    "fa rss": "Foreign Affairs",
-    "cfr": "CFR",
-    "csis": "CSIS",
-    "pew research": "Pew Research",
-    "cnews": "CNews.ru",
-    "коммерсантъ": "Коммерсантъ",
-    "банк россии": "Банк России"
-}
-
 def clean_source_name(name):
-    low_name = name.lower().strip()
-    for key, val in SOURCE_CLEAN_MAP.items():
-        if key in low_name:
-            return val
-    cleaned = re.sub(r'(?i)\b(rss|feed)\b', '', name).strip()
-    return cleaned if cleaned else "Источник"
-
-def fetch_content_via_jina(url):
-    try:
-        jina_url = f"https://r.jina.ai/{url}"
-        headers = {'User-Agent': 'Mozilla/5.0'}
-        res = requests.get(jina_url, headers=headers, timeout=15)
-        if res.status_code == 200:
-            clean_text = res.text.strip()
-            if "Markdown Content:" in clean_text:
-                clean_text = clean_text.split("Markdown Content:")[1]
-            return clean_text[:800].replace('\n', ' ')
-    except Exception as e:
-        print(f"Ошибка Jina Reader для {url}: {e}")
-    return ""
+    """Жесткая зачистка мусорных суффиксов в именах источников"""
+    if not name:
+        return "Источник"
+    
+    # Регулярные выражения для удаления хвостов
+    name = re.sub(r'\.\s*Лента\s+новостей', '', name, flags=re.IGNORECASE)
+    name = re.sub(r'(?i)\b(rss|feed)\b', '', name)
+    name = name.strip(' .-_')
+    
+    low = name.lower()
+    if 'foreign' in low or low == 'fa':
+        return 'Foreign Affairs'
+    if 'коммерсант' in low:
+        return 'Коммерсантъ'
+    if 'cnews' in low:
+        return 'CNews.ru'
+    if 'банк россии' in low or 'cbr' in low:
+        return 'Банк России'
+    if 'cfr' in low:
+        return 'CFR'
+    if 'csis' in low:
+        return 'CSIS'
+    if 'pew' in low:
+        return 'Pew Research'
+        
+    return name if name else "Источник"
 
 def fetch_rss():
     text_data = ""
@@ -85,13 +80,8 @@ def fetch_rss():
                     summary = BeautifulSoup(summary, 'html.parser').get_text(strip=True)
                 
                 link = getattr(entry, 'link', url)
-                
-                if (not summary or len(summary) < 100 or summary.strip() == title.strip()) and link:
-                    jina_text = fetch_content_via_jina(link)
-                    if jina_text:
-                        summary = jina_text
 
-                text_data += f"\nИсточник_Имя: {source_name}\nURL: {link}\nЗаголовок: {title}\nКонтекст: {summary[:600]}\n---"
+                text_data += f"\nИсточник_Имя: {source_name}\nURL: {link}\nЗаголовок: {title}\nКонтекст: {summary[:500]}\n---"
         except Exception as e:
             print(f"Ошибка парсинга RSS {url}: {e}")
     return text_data
@@ -115,18 +105,20 @@ def generate_analytical_json(raw_data):
     prompt = f"""
     Ты — профессиональный международный аналитик. Проанализируй данные и верни результат ИСКЛЮЧИТЕЛЬНО в формате JSON.
 
-    ЖЕСТКИЕ ПРАВИЛА:
-    1. Весь текст внутри JSON ("summary_ru") ДОЛЖЕН БЫТЬ НА РУССКОМ ЯЗЫКЕ.
-    2. Запрещено выводить оригинальные английские заголовки статей! Переводи смысл и пересказывай суть своими словами.
-    3. Поле "source_name" должно содержать чистые имена: "Foreign Affairs", "CSIS", "Pew Research", "Коммерсантъ".
+    ЖЕСТКИЕ ПРАВИЛА ТРАНСЛЯЦИИ:
+    1. ВЕСЬ ТЕКСТ В ПОЛЕ "summary_ru" ДОЛЖЕН БЫТЬ СТРОГО НА РУССКОМ ЯЗЫКЕ.
+    2. КАТЕГОРИЧЕСКИ ЗАПРЕЩЕНО оставлять английские заголовки как есть (например, "China’s Legal Weapon" или "After Putin")! 
+       Если в контексте есть только английский заголовок, переведи его смысл на русский язык и напиши развернутый тезис.
+       ПРИМЕР: Вместо "China’s Legal Weapon" пиши "Китай формирует собственную нормативно-правовую базу для противодействия санкциям США".
+    3. Игнорируй бытовые и мелкие криминальные происшествия (взрывы коробок, бытовые несчастные случаи). Оставляй только макроэкономику, политику, B2B и технологические риски.
 
-    СТРУКТУРА JSON (Строго соблюдай ключи):
+    СТРУКТУРА JSON:
     {{
       "macro": [
-        {{"summary_ru": "Развернутая аналитическая суть новости на русском", "source_name": "Имя Источника", "url": "URL"}}
+        {{"summary_ru": "Развернутый тезис на русском", "source_name": "Имя Источника", "url": "URL"}}
       ],
       "geopolitics": [
-        {{"summary_ru": "Развернутая аналитическая суть новости на русском", "source_name": "Имя Источника", "url": "URL"}}
+        {{"summary_ru": "Развернутый тезис на русском", "source_name": "Имя Источника", "url": "URL"}}
       ],
       "industry": [],
       "risks": []
@@ -158,7 +150,6 @@ def generate_analytical_json(raw_data):
     return response.json()["choices"][0]["message"]["content"]
 
 def clean_json_str(raw_str):
-    """Очищает JSON от Markdown блоков ```json ... ```"""
     clean = raw_str.strip()
     if clean.startswith("```json"):
         clean = clean[7:]
@@ -169,16 +160,12 @@ def clean_json_str(raw_str):
     return clean.strip()
 
 def build_html_digest(raw_response):
-    """Безопасная сборка HTML из JSON"""
     json_clean = clean_json_str(raw_response)
     try:
         data = json.loads(json_clean)
     except Exception as e:
-        print(f"Критическая ошибка парсинга JSON: {e}. Применение резервной очистки...")
-        # Резервный регулярочный подчиститель на случай сбоя JSON
-        clean_text = re.sub(r'\*\*(.*?)\*\*', r'<b>\1</b>', raw_response)
-        clean_text = re.sub(r'\[(.*?)\]\((.*?)\)', r'<a href="\2">\1</a>', clean_text)
-        return clean_text
+        print(f"Ошибка парсинга JSON: {e}")
+        return raw_response
 
     sections = [
         ("macro", "📊 МАКРОЭКОНОМИКА И ФИНАНСЫ"),
@@ -208,7 +195,7 @@ def send_telegram_message(chat_id, text):
     try:
         bot.send_message(chat_id, text, parse_mode="HTML", disable_web_page_preview=True)
     except ApiTelegramException as e:
-        print(f"Ошибка HTML-парсеру Telegram ({e}). Отправка обычным текстом.")
+        print(f"Ошибка отправки HTML ({e}). Отправляем без разметки.")
         bot.send_message(chat_id, text)
 
 if __name__ == "__main__":
@@ -216,7 +203,4 @@ if __name__ == "__main__":
     
     if combined_data.strip():
         raw_json = generate_analytical_json(combined_data)
-        formatted_html = build_html_digest(raw_json)
-        
-        for i in range(0, len(formatted_html), 4000):
-            send_telegram_message(CHAT_ID, formatted_html[i:i+4000])
+        formatted_html = build_
