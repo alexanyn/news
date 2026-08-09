@@ -22,9 +22,9 @@ TG_CHANNELS = [
 ]
 
 # Инициализация клиентов
-client = genai.Client(api_key=os.environ["GEMINI_API_KEY"])
-bot = telebot.TeleBot(os.environ["TELEGRAM_BOT_TOKEN"])
-CHAT_ID = os.environ["TELEGRAM_CHAT_ID"]
+client = genai.Client(api_key=os.environ["AIzaSyAcwMkPTKky1TtqLn1Niwo97Jwva_IniCM"])
+bot = telebot.TeleBot(os.environ["8957822342:AAG4L2XltTQEcvRg7I21BbtPxiPmHxah7y4"])
+CHAT_ID = os.environ["-1003972268688"]
 
 def fetch_rss():
     text_data = ""
