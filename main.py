@@ -1,4 +1,4 @@
-print("=== ЗАПУСК СКРИПТА ВЕРСИИ 3.3 (STRICT_NO_SPORTS) ===")
+print("=== ЗАПУСК СКРИПТА ВЕРСИИ 3.4 (EXACT_TG_POST_LINKS) ===")
 
 import os
 import re
@@ -203,15 +203,30 @@ def collect_all_news(sent_urls):
             url = f"https://t.me/s/{channel}"
             res = requests.get(url, headers=headers, timeout=15)
             soup = BeautifulSoup(res.text, 'html.parser')
-            posts = soup.find_all('div', class_='tgme_widget_message_text', limit=2)
+            
+            # Вытаскиваем внешние контейнеры сообщений с атрибутом data-post
+            messages = soup.find_all('div', class_='tgme_widget_message', limit=2)
 
             canonical_source = resolve_canonical_name(channel)
 
-            for post in posts:
-                post_text = clean_input_text(post.get_text(strip=True))
-                post_hash = f"tg_{channel}_{hash(post_text[:100])}"
+            for msg in messages:
+                # Берем атрибут 'data-post' (напр: 'xtxixty/1234')
+                data_post = msg.get('data-post')
+                
+                # Поиск текста сообщения внутри контейнера
+                text_div = msg.find('div', class_='tgme_widget_message_text')
+                if not text_div:
+                    continue
 
-                if post_hash in sent_urls:
+                post_text = clean_input_text(text_div.get_text(strip=True))
+                
+                if data_post:
+                    # Прямая ссылка на точный пост без '/s/'
+                    post_url = f"https://t.me/{data_post}"
+                else:
+                    post_url = f"https://t.me/{channel}"
+
+                if post_url in sent_urls:
                     continue
 
                 news_id = item_counter
@@ -219,11 +234,11 @@ def collect_all_news(sent_urls):
 
                 news_db[news_id] = {
                     "source_name": canonical_source,
-                    "url": url
+                    "url": post_url
                 }
 
                 items_for_prompt.append(f"ID: {news_id}\nКонтекст: {post_text[:300]}\n---")
-                sent_urls.add(post_hash)
+                sent_urls.add(post_url)
         except Exception as e:
             print(f"Ошибка парсинга TG @{channel}: {e}")
 
