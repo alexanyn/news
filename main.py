@@ -1,8 +1,9 @@
-print("=== ЗАПУСК СКРИПТА ВЕРСИИ 3.6 (UP_TO_3_WITH_INT_QUOTA) ===")
+print("=== ЗАПУСК СКРИПТА ВЕРСИИ 3.7 (GROQ_RATE_LIMIT_PROTECTION) ===")
 
 import os
 import re
 import json
+import time
 import requests
 import feedparser
 from bs4 import BeautifulSoup
@@ -173,8 +174,7 @@ def collect_all_news(sent_urls):
             feed = feedparser.parse(feed_url)
             canonical_source = resolve_canonical_name(feed_url)
 
-            # БЕРАМ ДО 3 СВЕЖИХ НОВОСТЕЙ С КАЖДОГО RSS-ИСТОЧНИКА
-            for entry in feed.entries[:3]:
+            for entry in feed.entries[:2]:
                 link = getattr(entry, 'link', feed_url).strip()
                 if link in sent_urls:
                     continue
@@ -193,7 +193,8 @@ def collect_all_news(sent_urls):
                     "url": link
                 }
 
-                items_for_prompt.append(f"ID: {news_id}\nЗаголовок: {title}\nКонтекст: {summary[:300]}\n---")
+                # Сжимаем контекст до 200 символов ради экономии токенов
+                items_for_prompt.append(f"ID: {news_id}\nЗаголовок: {title}\nКонтекст: {summary[:200]}\n---")
                 sent_urls.add(link)
         except Exception as e:
             print(f"Ошибка парсинга RSS {feed_url}: {e}")
@@ -207,9 +208,7 @@ def collect_all_news(sent_urls):
             
             messages = soup.find_all('div', class_='tgme_widget_message')
             valid_messages = [m for m in messages if 'service_message' not in m.get('class', [])]
-            
-            # До 3 свежих постов из TG
-            recent_messages = valid_messages[-3:] if len(valid_messages) >= 3 else valid_messages
+            recent_messages = valid_messages[-2:] if len(valid_messages) >= 2 else valid_messages
 
             canonical_source = resolve_canonical_name(channel)
 
@@ -237,23 +236,25 @@ def collect_all_news(sent_urls):
                     "url": post_url
                 }
 
-                items_for_prompt.append(f"ID: {news_id}\nКонтекст: {post_text[:300]}\n---")
+                items_for_prompt.append(f"ID: {news_id}\nКонтекст: {post_text[:200]}\n---")
                 sent_urls.add(post_url)
         except Exception as e:
             print(f"Ошибка парсинга TG @{channel}: {e}")
 
-    return news_db, "\n".join(items_for_prompt)
+    # ЖЕСТКИЙ ЛИМИТ: передаем не более 45 самых свежих новостей за один раз
+    limited_items = items_for_prompt[:45]
+    return news_db, "\n".join(limited_items)
 
 def generate_analytical_json(raw_data_prompt):
     prompt_template = """
-    Ты — старший макроэкономический и международный аналитик. Проанализируй входящие данные со всех мировых и российских СМИ.
+    Ты — старший макроэкономический и международный аналитик. Проанализируй входящие данные.
 
-    ЖЕСТКИЕ ПРАВИЛА И КВОТА ИСТОЧНИКОВ:
-    1. ОБЯЗАТЕЛЬНО соблюдай международный баланс: не менее 30-40% итогового дайджеста ДОЛЖНЫ составлять зарубежные и международные источники (Foreign Affairs, Project Syndicate, Reuters, Politico, WSJ, Financial Times, The Guardian, Bruegel и др.).
-    2. Отбирай до 3-4 ключевых событий на каждую из 4 категорий. Не перегружай дайджест однотипными сводками российских информагентств (ТАСС, РИА Новости, Интерфакс)!
-    3. КАТЕГОРИЧЕСКИ ЗАПРЕЩЕНО включать новости о спорте (футбол, матчи), шоу-бизнесе, культуре, мелких ДТП и бытовых советах.
-    4. Переводи ВСЕ зарубежные материалы на русский язык.
-    5. Поле "summary_ru" должно содержать краткую развернутую суть на русском языке. КАТЕГОРИЧЕСКИ ЗАПРЕЩЕНО писать названия источников или вставлять скобки в "summary_ru"!
+    ЖЕСТКИЕ ПРАВИЛА:
+    1. Соблюдай баланс: отбирай как российские, так и зарубежные источники (Foreign Affairs, Reuters, Politico, WSJ и др.).
+    2. Отбирай до 3-4 ключевых событий на каждую из 4 категорий ("macro", "geopolitics", "industry", "risks").
+    3. КАТЕГОРИЧЕСКИ ЗАПРЕЩЕНО включать новости о спорте, шоу-бизнесе, культуре, мелких ДТП и бытовых советах.
+    4. Переводи все зарубежные материалы на русский язык.
+    5. Поле "summary_ru" должно содержать суть на русском языке без скобок и имен источников!
     6. Поле "id" должно содержать ТОЛЬКО ЦЕЛОЕ ЧИСЛО (ID из входящих данных).
 
     СТРУКТУРА JSON:
@@ -279,18 +280,29 @@ def generate_analytical_json(raw_data_prompt):
         "model": "llama-3.3-70b-versatile",
         "messages": [{"role": "user", "content": prompt}],
         "temperature": 0.1,
-        "max_tokens": 4000,
+        "max_tokens": 2500,
         "response_format": {"type": "json_object"}
     }
 
-    response = requests.post(
-        "https://api.groq.com/openai/v1/chat/completions",
-        headers=headers,
-        json=payload,
-        timeout=90
-    )
-    response.raise_for_status()
-    return response.json()["choices"][0]["message"]["content"]
+    # Цикл с автоматическим повтором при ошибке 429 (Rate Limit)
+    max_retries = 3
+    for attempt in range(max_retries):
+        response = requests.post(
+            "https://api.groq.com/openai/v1/chat/completions",
+            headers=headers,
+            json=payload,
+            timeout=90
+        )
+        if response.status_code == 429:
+            wait_time = 15 * (attempt + 1)
+            print(f"Превышен лимит токенов Groq (429). Ждем {wait_time} секунд (Попытка {attempt+1}/{max_retries})...")
+            time.sleep(wait_time)
+            continue
+            
+        response.raise_for_status()
+        return response.json()["choices"][0]["message"]["content"]
+        
+    raise RuntimeError("Не удалось получить ответ от Groq API из-за постоянных 429 ошибок.")
 
 def clean_json_str(raw_str):
     clean = raw_str.strip()
