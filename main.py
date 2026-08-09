@@ -39,7 +39,7 @@ def save_sent_urls(sent_set):
     except Exception as e:
         print(f"Ошибка сохранения истории: {e}")
 
-# 2. Таблица жесткого соответствия доменов каноничным именам
+# 2. Таблица каноничных названий (ЖЕСТКАЯ ПРИВЯЗКА К ДОМЕНАМ)
 FEED_CANONICAL_NAMES = {
     "cbr.ru": "ЦБ РФ",
     "kommersant.ru": "Коммерсантъ",
@@ -241,8 +241,8 @@ def generate_analytical_json(raw_data_prompt):
 
     СТРУКТУРА JSON:
     {{
-      "macro": [{"id": 1, "summary_ru": "Тезис на русском"}],
-      "geopolitics": [{"id": 2, "summary_ru": "Тезис на русском"}],
+      "macro": [{{"id": 1, "summary_ru": "Тезис на русском"}}],
+      "geopolitics": [{{"id": 2, "summary_ru": "Тезис на русском"}}],
       "industry": [],
       "risks": []
     }}
