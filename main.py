@@ -35,19 +35,23 @@ TG_CHANNELS = [
     "solidfin"
 ]
 
+def clean_source_name(name):
+    """Очищает суффиксы RSS и Feed из названий источников"""
+    cleaned = re.sub(r'(?i)\b(rss|feed)\b', '', name)
+    return cleaned.strip()
+
 def fetch_content_via_jina(url):
-    """Обходит Cloudflare и пайволы через Jina Reader API, вытаскивая чистый текст"""
+    """Обходит блокировки и вытаскивает текст статьи через Jina Reader"""
     try:
         jina_url = f"https://r.jina.ai/{url}"
         headers = {'User-Agent': 'Mozilla/5.0'}
         res = requests.get(jina_url, headers=headers, timeout=10)
         if res.status_code == 200:
-            # Берем первые 600 символов чистого текста статьи
             clean_text = res.text.strip()
-            # Убираем служебный заголовок Jina
             if "Markdown Content:" in clean_text:
                 clean_text = clean_text.split("Markdown Content:")[1]
-            return clean_text[:600].replace('\n', ' ')
+            # Возвращаем первые 700 символов
+            return clean_text[:700].replace('\n', ' ')
     except Exception as e:
         print(f"Ошибка Jina Reader для {url}: {e}")
     return ""
@@ -57,9 +61,8 @@ def fetch_rss():
     for url in RSS_FEEDS:
         try:
             feed = feedparser.parse(url)
-            # Чистим техническое имя источника
             raw_source_name = feed.feed.get('title', 'Источник')
-            source_name = raw_source_name.replace(" RSS", "").replace("Feed", "").strip()
+            source_name = clean_source_name(raw_source_name)
 
             for entry in feed.entries[:3]:
                 title = entry.title
@@ -70,13 +73,13 @@ def fetch_rss():
                 
                 link = getattr(entry, 'link', url)
                 
-                # Если анонс пустой или короткий (как у Foreign Affairs), вытаскиваем текст через Jina
-                if len(summary) < 50 and link:
+                # Если текст короче 100 символов или совпадает с заголовком, дотягиваем его через Jina
+                if (not summary or len(summary) < 100 or summary.strip() == title.strip()) and link:
                     jina_text = fetch_content_via_jina(link)
                     if jina_text:
                         summary = jina_text
 
-                text_data += f"\nИсточник_Имя: {source_name}\nURL: {link}\nЗаголовок: {title}\nТекст: {summary[:500]}\n---"
+                text_data += f"\nИсточник_Имя: {source_name}\nURL: {link}\nЗаголовок: {title}\nКонтекст: {summary[:600]}\n---"
         except Exception as e:
             print(f"Ошибка парсинга RSS {url}: {e}")
     return text_data
@@ -91,42 +94,43 @@ def fetch_telegram_public():
             soup = BeautifulSoup(res.text, 'html.parser')
             posts = soup.find_all('div', class_='tgme_widget_message_text', limit=3)
             for post in posts:
-                text_data += f"\nИсточник_Имя: Telegram @{channel}\nURL: {url}\nТекст: {post.get_text(strip=True)[:400]}\n---"
+                text_data += f"\nИсточник_Имя: Telegram @{channel}\nURL: {url}\nКонтекст: {post.get_text(strip=True)[:400]}\n---"
         except Exception as e:
             print(f"Ошибка парсинга TG @{channel}: {e}")
     return text_data
 
 def generate_analytical_digest(raw_data):
     prompt = f"""
-    Ты — старший аналитик по международным отношениям и экономике. Проанализируй данные и сформируй дайджест.
+    Ты — международный макроэкономический аналитик. Проанализируй входящий массив данных и составь аналитический дайджест.
 
-    ЖЕСТКИЕ ТРЕБОВАНИЯ К ТЕКСТУ:
+    КРИТИЧЕСКИЕ ПРАВИЛА (НАРУШЕНИЕ ЗАПРЕЩЕНО):
     1. ИТОГОВЫЙ ТЕКСТ ДОЛЖЕН БЫТЬ 100% НА РУССКОМ ЯЗЫКЕ.
-    2. КАТЕГОРИЧЕСКИ ЗАПРЕЩЕНО просто дублировать английские заголовки! 
-       Даже если в источнике был только заголовок "China’s Legal Weapon", переведи его и напиши понятную развернутую суть:
-       • Китай формирует собственную правовую систему для борьбы с юридическим давлением США (<a href="...">Foreign Affairs</a>).
-    3. Запрещено использовать аббревиатуры вроде "FA RSS". Пиши нормальное имя: "Foreign Affairs", "CSIS", "Pew Research".
+    2. КАТЕГОРИЧЕСКИ ЗАПРЕЩЕНО выводить сырые английские заголовки! 
+       Каждая новость должна содержать осмысленный аналитический вывод на русском языке, объясняющий сути событий.
+       ПРИМЕР ОШИБКИ: • China’s Legal Weapon (<a href="...">Foreign Affairs</a>)
+       ПРИМЕР ПРАВИЛЬНОГО ВЫВОДА: • Пекин выстраивает собственную нормативно-правовую базу для защиты компаний от санкций США (<a href="...">Foreign Affairs</a>).
+    3. Имя источника очищай от 'RSS' и 'Feed'. Пиши строго: "Foreign Affairs", "CSIS", "Pew Research", "Коммерсантъ".
 
-    СТРОГИЙ ФОРМАТ ВЫВОДА (Используй ТОЛЬКО HTML-теги: <b> и <a href="...">):
+    СТРОГИЙ HTML-ФОРМАТ ВЫВОДА:
 
     <b>📊 МАКРОЭКОНОМИКА И ФИНАНСЫ</b>
-    • Развернутая аналитическая суть новости на русском (<a href="URL">Имя Источника</a>)
+    • Детальный аналитический тезис на русском (<a href="URL">Имя Источника</a>)
 
     <b>🌍 ГЕОПОЛИТИКА И БЕЗОПАСНОСТЬ</b>
-    • Развернутая аналитическая суть новости на русском (<a href="URL">Имя Источника</a>)
+    • Детальный аналитический тезис на русском (<a href="URL">Имя Источника</a>)
 
     <b>💼 ОТРАСЛЕВЫЕ ТРЕНДЫ И B2B</b>
-    • Развернутая аналитическая суть новости на русском (<a href="URL">Имя Источника</a>)
+    • Детальный аналитический тезис на русском (<a href="URL">Имя Источника</a>)
 
     <b>⚠️ СКРЫТЫЕ РИСКИ</b>
-    • Развернутая аналитическая суть новости на русском (<a href="URL">Имя Источника</a>)
+    • Детальный аналитический тезис на русском (<a href="URL">Имя Источника</a>)
 
-    ПРАВИЛА:
-    1. Заголовки блоков ОБЯЗАТЕЛЬНО оборачивай в <b>...</b>.
-    2. Каждый пункт начинай СТРОГО с эмодзи-точки `• `.
-    3. Ссылку оформляй строго в скобках: (<a href="URL">Источник</a>).
+    Правила синтаксиса:
+    - Заголовки блоков оборачивай только в <b>...</b>.
+    - Пункты списков начинай строго с `• `.
+    - Ссылка должна быть внутри скобок: (<a href="URL">Источник</a>).
 
-    Массив данных:
+    Входящие данные:
     {raw_data}
     """
     
