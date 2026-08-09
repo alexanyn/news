@@ -158,7 +158,6 @@ def collect_all_news(sent_urls):
     items_for_prompt = []
     item_counter = 1
 
-    # Парсинг RSS
     for feed_url in RSS_FEEDS:
         try:
             feed = feedparser.parse(feed_url)
@@ -187,7 +186,6 @@ def collect_all_news(sent_urls):
         except Exception as e:
             print(f"Ошибка парсинга RSS {feed_url}: {e}")
 
-    # Парсинг Telegram
     headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)'}
     for channel in TG_CHANNELS:
         try:
@@ -226,9 +224,9 @@ def generate_analytical_json(raw_data_prompt):
 
     КРИТИЧЕСКИЕ ПРАВИЛА:
     1. Ответ верни СТРОГО в формате JSON.
-    2. Поле "summary_ru" должно содержать развернутый тезис новости СТРОГО НА РУССКОМ ЯЗЫКЕ.
-    3. Поле "id" должно содержать ТОЛЬКО ЦЕЛОЕ ЧИСЛО (ID из входящих данных). Никаких названий источников и ссылок не пиши!
-    4. Игнорируй мелкие бытовые происшествия, криминал и мелкие ДТП.
+    2. Поле "summary_ru" должно содержать ТОЛЬКО смысловой тезис новости СТРОГО НА РУССКОМ ЯЗЫКЕ.
+    3. КАТЕГОРИЧЕСКИ ЗАПРЕЩЕНО писать названия источников или вставлять скобки в "summary_ru"!
+    4. Поле "id" должно содержать ТОЛЬКО ЦЕЛОЕ ЧИСЛО (ID из входящих данных).
 
     СТРУКТУРА JSON:
     {{
@@ -273,6 +271,12 @@ def clean_json_str(raw_str):
         clean = clean[:-3]
     return clean.strip()
 
+def sanitize_summary_text(text):
+    """Принудительное удаление мусорных хвостов со скобками из ответа нейросети"""
+    # Удаляем скобки вроде (FA RSS), (CNews.ru), (Новое на сайте), (Коммерсантъ. Лента новостей)
+    text = re.sub(r'\s*\([^)]*(FA RSS|CNews|Новое на сайте|Лента новостей|Коммерсантъ)[^)]*\)', '', text, flags=re.IGNORECASE)
+    return text.strip()
+
 def build_html_digest(raw_response, news_db):
     json_clean = clean_json_str(raw_response)
     try:
@@ -299,7 +303,7 @@ def build_html_digest(raw_response, news_db):
                 except (ValueError, TypeError):
                     continue
 
-                summary = item.get("summary_ru", "").strip()
+                summary = sanitize_summary_text(item.get("summary_ru", ""))
 
                 if news_id in news_db and summary:
                     source_name = news_db[news_id]["source_name"]
