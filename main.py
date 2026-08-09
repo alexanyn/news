@@ -19,12 +19,10 @@ CHAT_ID = chat_id
 
 # 2. Источники
 RSS_FEEDS = [
-    # Базовые источники
     "https://www.kommersant.ru/RSS/news.xml",
     "https://cbr.ru/rss/RssNews",
     "https://www.foreignaffairs.com/rss.xml",
     "https://www.cnews.ru/inc/rss/news.xml",
-    # Новые валидные RSS-ленты аналитических центров
     "https://www.pewresearch.org/feed/",
     "https://www.cfr.org/rss.xml",
     "https://www.csis.org/rss/all",
@@ -37,6 +35,21 @@ TG_CHANNELS = [
     "solidfin"
 ]
 
+def fetch_web_description(url):
+    """Подтягивает OpenGraph описание статьи, если RSS вернул только заголовок"""
+    try:
+        headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)'}
+        res = requests.get(url, headers=headers, timeout=5)
+        soup = BeautifulSoup(res.text, 'html.parser')
+        
+        # Ищем meta description или og:description
+        og_desc = soup.find('meta', property='og:description') or soup.find('meta', attrs={'name': 'description'})
+        if og_desc and og_desc.get('content'):
+            return og_desc['content'].strip()[:300]
+    except Exception:
+        pass
+    return ""
+
 def fetch_rss():
     text_data = ""
     for url in RSS_FEEDS:
@@ -46,8 +59,20 @@ def fetch_rss():
             for entry in feed.entries[:3]:
                 title = entry.title
                 summary = getattr(entry, 'summary', '')
+                
+                # Чистим HTML-теги из summary, если они есть
+                if summary:
+                    summary = BeautifulSoup(summary, 'html.parser').get_text(strip=True)
+                
                 link = getattr(entry, 'link', url)
-                text_data += f"\nИсточник: {source_name}\nURL: {link}\nЗаголовок: {title}\nТекст: {summary[:300]}\n---"
+                
+                # Если summary слишком короткое/пустое — идем за тегом описания на страницу
+                if len(summary) < 30 and link:
+                    web_desc = fetch_web_description(link)
+                    if web_desc:
+                        summary = web_desc
+
+                text_data += f"\nИсточник: {source_name}\nURL: {link}\nЗаголовок: {title}\nТекст: {summary[:400]}\n---"
         except Exception as e:
             print(f"Ошибка парсинга RSS {url}: {e}")
     return text_data
@@ -69,26 +94,32 @@ def fetch_telegram_public():
 
 def generate_analytical_digest(raw_data):
     prompt = f"""
-    Ты — старший аналитик. Проанализируй данные и сформируй дайджест.
+    Ты — старший аналитик по международным отношениям и экономике. Проанализируй данные и сформируй дайджест.
 
-    СТРОГИЙ ФОРМАТ ВЫВОДА (Используй ТОЛЬКО эти HTML-теги: <b> и <a href="...">):
+    ТРЕБОВАНИЯ К ПЕРЕВОДУ И АНАЛИЗУ:
+    1. Весь итоговый текст должен быть СТРОГО на РУССКОМ языке. Переводи все английские заголовки и термины.
+    2. ЗАПРЕЩЕНО выводить сухие английские заголовки статей! 
+       Вместо "China’s Legal Weapon (<a href="...">FA RSS</a>)" пиши развернутую суть новости:
+       • "Китай развивает правовую систему для ослабления юридической гегемонии США (<a href="...">Foreign Affairs</a>)."
+
+    СТРОГИЙ ФОРМАТ ВЫВОДА (Используй ТОЛЬКО HTML-теги: <b> и <a href="...">):
 
     <b>📊 МАКРОЭКОНОМИКА И ФИНАНСЫ</b>
-    • Суть новости (<a href="URL">Имя Источника</a>)
+    • Суть новости с переведенным смыслом (<a href="URL">Имя Источника</a>)
 
     <b>🌍 ГЕОПОЛИТИКА И БЕЗОПАСНОСТЬ</b>
-    • Суть новости (<a href="URL">Имя Источника</a>)
+    • Суть новости с переведенным смыслом (<a href="URL">Имя Источника</a>)
 
     <b>💼 ОТРАСЛЕВЫЕ ТРЕНДЫ И B2B</b>
-    • Суть новости (<a href="URL">Имя Источника</a>)
+    • Суть новости с переведенным смыслом (<a href="URL">Имя Источника</a>)
 
     <b>⚠️ СКРЫТЫЕ РИСКИ</b>
-    • Суть новости (<a href="URL">Имя Источника</a>)
+    • Суть новости с переведенным смыслом (<a href="URL">Имя Источника</a>)
 
     ПРАВИЛА:
     1. Заголовки блоков ОБЯЗАТЕЛЬНО оборачивай в <b>...</b>.
-    2. Пункты начинай СТРОГО с эмодзи-точки `• `.
-    3. Ссылку оформляй строго в скобках: (<a href="URL">Источник</a>). Никаких квадратных скобок `[]` или звездочек `**`.
+    2. Каждый пункт начинай СТРОГО с эмодзи-точки `• `.
+    3. Ссылку оформляй строго в скобках: (<a href="URL">Источник</a>).
 
     Массив данных:
     {raw_data}
@@ -115,7 +146,6 @@ def generate_analytical_digest(raw_data):
     return response.json()["choices"][0]["message"]["content"]
 
 def sanitize_html(text):
-    # Автоматическая подчистка: если модель сбилась и выдала Markdown-заголовки
     text = re.sub(r'\*\*(.*?)\*\*', r'<b>\1</b>', text)
     text = re.sub(r'\[(.*?)\]\((.*?)\)', r'<a href="\2">\1</a>', text)
     return text
