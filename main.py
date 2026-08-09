@@ -5,9 +5,20 @@ from bs4 import BeautifulSoup
 import telebot
 from google import genai
 
-# --- НАСТРОЙКА ИСТОЧНИКОВ ---
+# 1. Считываем переменные окружения и проверяем их наличие
+api_key = os.environ.get("GEMINI_API_KEY")
+bot_token = os.environ.get("TELEGRAM_BOT_TOKEN")
+chat_id = os.environ.get("TELEGRAM_CHAT_ID")
 
-# 1. Обычные RSS-ленты
+if not api_key or not bot_token or not chat_id:
+    raise ValueError("Ошибка: Одно или несколько обязательных секретов (GEMINI_API_KEY, TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID) не найдены в GitHub Secrets!")
+
+# 2. Инициализация клиентов
+client = genai.Client(api_key=api_key)
+bot = telebot.TeleBot(bot_token)
+CHAT_ID = chat_id
+
+# 3. Список RSS-источников
 RSS_FEEDS = [
     "https://www.kommersant.ru/RSS/news.xml",
     "https://cbr.ru/rss/RssNews",
@@ -15,16 +26,11 @@ RSS_FEEDS = [
     "https://www.cnews.ru/inc/rss/news.xml"
 ]
 
-# 2. Telegram-каналы (только юзернейм без @)
+# 4. Список Telegram-каналов (без знака @)
 TG_CHANNELS = [
     "mmi_ru",
     "solidfin"
 ]
-
-# Инициализация клиентов
-client = genai.Client(api_key=os.environ["AIzaSyAcwMkPTKky1TtqLn1Niwo97Jwva_IniCM"])
-bot = telebot.TeleBot(os.environ["8957822342:AAG4L2XltTQEcvRg7I21BbtPxiPmHxah7y4"])
-CHAT_ID = os.environ["-1003972268688"]
 
 def fetch_rss():
     text_data = ""
@@ -85,6 +91,6 @@ if __name__ == "__main__":
     if combined_data.strip():
         digest = generate_analytical_digest(combined_data)
         
-        # Отправка сообщений блоками (лимит Telegram — 4096 символов)
+        # Разбивка сообщения по 4000 символов под лимит Telegram
         for i in range(0, len(digest), 4000):
             bot.send_message(CHAT_ID, digest[i:i+4000])
