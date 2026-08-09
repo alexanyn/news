@@ -18,9 +18,28 @@ if not groq_api_key or not bot_token or not chat_id:
 bot = telebot.TeleBot(bot_token)
 CHAT_ID = chat_id
 
-# 2. Полный массив RSS-источников (Прямые XML + Google News RSS для сайтов с Paywall)
+HISTORY_FILE = "sent_urls.json"
+
+def load_sent_urls():
+    if os.path.exists(HISTORY_FILE):
+        try:
+            with open(HISTORY_FILE, "r", encoding="utf-8") as f:
+                return set(json.load(f))
+        except Exception as e:
+            print(f"Ошибка чтения файла истории: {e}")
+    return set()
+
+def save_sent_urls(sent_set):
+    # Храним только последние 1000 ссылок, чтобы файл не разрастался
+    urls_list = list(sent_set)[-1000:]
+    try:
+        with open(HISTORY_FILE, "w", encoding="utf-8") as f:
+            json.dump(urls_list, f, ensure_ascii=False, indent=2)
+    except Exception as e:
+        print(f"Ошибка сохранения истории: {e}")
+
+# 2. Массив RSS-источников
 RSS_FEEDS = [
-    # Российские СМИ и Финансы
     "https://tass.ru/rss/v2.xml",
     "https://ria.ru/export/rss2/archive/index.xml",
     "https://www.interfax.ru/rss.asp",
@@ -44,8 +63,6 @@ RSS_FEEDS = [
     "https://fom.ru/rss.xml",
     "https://wciom.ru/rss.xml",
     "https://www.levada.ru/feed/",
-    
-    # Зарубежная аналитика и Открытые СМИ (Прямой RSS)
     "https://www.foreignaffairs.com/rss.xml",
     "https://www.pewresearch.org/feed/",
     "https://www.cfr.org/rss.xml",
@@ -60,8 +77,6 @@ RSS_FEEDS = [
     "https://www.statnews.com/feed/",
     "https://www.retaildive.com/feeds/news/",
     "https://www.project-syndicate.org/rss",
-    
-    # Зарубежные СМИ с жестким Paywall / Cloudflare (Через Google News RSS)
     "https://news.google.com/rss/search?q=site:reuters.com/world",
     "https://news.google.com/rss/search?q=site:apnews.com/world-news",
     "https://news.google.com/rss/search?q=site:bloomberg.com",
@@ -75,7 +90,6 @@ RSS_FEEDS = [
     "https://news.google.com/rss/search?q=site:msci.com"
 ]
 
-# 3. Публичные Telegram-каналы
 TG_CHANNELS = [
     "mmi_ru",
     "solidfin",
@@ -83,7 +97,6 @@ TG_CHANNELS = [
     "russianmacro"
 ]
 
-# 4. Карта очистки имен источников
 SOURCE_CLEAN_MAP = {
     "тасс": "ТАСС",
     "риа новости": "РИА Новости",
@@ -111,14 +124,10 @@ SOURCE_CLEAN_MAP = {
     "pew research": "Pew Research",
     "reuters": "Reuters",
     "associated press": "AP News",
-    "ap news": "AP News",
     "bloomberg": "Bloomberg",
     "financial times": "Financial Times",
-    "ft.com": "Financial Times",
     "wall street journal": "WSJ",
-    "wsj": "WSJ",
     "new york times": "NYT",
-    "nyt": "NYT",
     "guardian": "The Guardian",
     "economist": "The Economist",
     "al jazeera": "Al Jazeera",
@@ -155,29 +164,38 @@ def clean_source_name(name):
             
     return name if name else "Источник"
 
-def fetch_rss():
+def fetch_rss(sent_urls):
     text_data = ""
+    new_found_count = 0
+    
     for url in RSS_FEEDS:
         try:
             feed = feedparser.parse(url)
             raw_source_name = feed.feed.get('title', 'Источник')
             source_name = clean_source_name(raw_source_name)
 
-            for entry in feed.entries[:2]:
+            for entry in feed.entries[:3]:
+                link = getattr(entry, 'link', url).strip()
+                
+                # Игнорируем новости, которые уже отправлялись раньше
+                if link in sent_urls:
+                    continue
+
                 title = entry.title
                 summary = getattr(entry, 'summary', '')
-                
                 if summary:
                     summary = BeautifulSoup(summary, 'html.parser').get_text(strip=True)
-                
-                link = getattr(entry, 'link', url)
 
                 text_data += f"\nИсточник_Имя: {source_name}\nURL: {link}\nЗаголовок: {title}\nКонтекст: {summary[:400]}\n---"
+                sent_urls.add(link)
+                new_found_count += 1
         except Exception as e:
             print(f"Ошибка парсинга RSS {url}: {e}")
+            
+    print(f"Найдено новых материалов в RSS: {new_found_count}")
     return text_data
 
-def fetch_telegram_public():
+def fetch_telegram_public(sent_urls):
     text_data = ""
     headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)'}
     for channel in TG_CHANNELS:
@@ -190,7 +208,15 @@ def fetch_telegram_public():
             clean_channel_name = clean_source_name(channel)
             
             for post in posts:
-                text_data += f"\nИсточник_Имя: {clean_channel_name}\nURL: {url}\nКонтекст: {post.get_text(strip=True)[:400]}\n---"
+                post_text = post.get_text(strip=True)
+                # Хэш от текста для идентификации уникальности поста
+                post_id = f"tg_{channel}_{hash(post_text[:100])}"
+                
+                if post_id in sent_urls:
+                    continue
+
+                text_data += f"\nИсточник_Имя: {clean_channel_name}\nURL: {url}\nКонтекст: {post_text[:400]}\n---"
+                sent_urls.add(post_id)
         except Exception as e:
             print(f"Ошибка парсинга TG @{channel}: {e}")
     return text_data
@@ -202,7 +228,7 @@ def generate_analytical_json(raw_data):
     ЖЕСТКИЕ ПРАВИЛА:
     1. ИТОГОВЫЙ ТЕКСТ В ПОЛЕ "summary_ru" ДОЛЖЕН БЫТЬ СТРОГО НА РУССКОМ ЯЗЫКЕ. Переводи все зарубежные материалы!
     2. Агрегируй новости: отбирай ТОЛЬКО самые важные макроэкономические сдвиги, решения регуляторов, геополитику, социологию и технологические тренды.
-    3. Отсекай мелкий бытовой и криминальный шум.
+    3. Исключай дублирующиеся события от разных СМИ: выбирай один наиболее информативный источник.
 
     СТРУКТУРА JSON:
     {{
@@ -295,11 +321,19 @@ def send_telegram_message(chat_id, text):
         bot.send_message(chat_id, text)
 
 if __name__ == "__main__":
-    combined_data = fetch_rss() + "\n" + fetch_telegram_public()
+    sent_urls_history = load_sent_urls()
+    
+    combined_data = fetch_rss(sent_urls_history) + "\n" + fetch_telegram_public(sent_urls_history)
     
     if combined_data.strip():
         raw_json = generate_analytical_json(combined_data)
         formatted_html = build_html_digest(raw_json)
         
-        for i in range(0, len(formatted_html), 4000):
-            send_telegram_message(CHAT_ID, formatted_html[i:i+4000])
+        if formatted_html.strip():
+            for i in range(0, len(formatted_html), 4000):
+                send_telegram_message(CHAT_ID, formatted_html[i:i+4000])
+            
+            # Сохраняем обновленную историю только при успешной генерации
+            save_sent_urls(sent_urls_history)
+    else:
+        print("Новых материалов за прошедшие часы не обнаружено.")
