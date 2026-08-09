@@ -30,7 +30,6 @@ def load_sent_urls():
     return set()
 
 def save_sent_urls(sent_set):
-    # Храним только последние 1000 ссылок, чтобы файл не разрастался
     urls_list = list(sent_set)[-1000:]
     try:
         with open(HISTORY_FILE, "w", encoding="utf-8") as f:
@@ -97,11 +96,21 @@ TG_CHANNELS = [
     "russianmacro"
 ]
 
+# Точная карта маппинга названий источников
 SOURCE_CLEAN_MAP = {
+    "коммерсантъ. лента новостей": "Коммерсантъ",
+    "коммерсантъ": "Коммерсантъ",
+    "коммерсант": "Коммерсантъ",
+    "новое на сайте": "ЦБ РФ",
+    "банк россии": "ЦБ РФ",
+    "cbr": "ЦБ РФ",
+    "fa rss": "Foreign Affairs",
+    "foreign affairs": "Foreign Affairs",
+    "cnews.ru": "CNews",
+    "cnews": "CNews",
     "тасс": "ТАСС",
     "риа новости": "РИА Новости",
     "интерфакс": "Интерфакс",
-    "коммерсант": "Коммерсантъ",
     "ведомости": "Ведомости",
     "известия": "Известия",
     "рбк": "РБК",
@@ -110,15 +119,12 @@ SOURCE_CLEAN_MAP = {
     "звезда": "ТК Звезда",
     "прайм": "Прайм",
     "frank media": "Frank Media",
-    "cnews": "CNews",
     "n + 1": "N+1",
     "фармацевтический вестник": "Фармвестник",
     "vademecum": "Vademecum",
     "retail.ru": "Retail.ru",
     "россия в глобальной политике": "Россия в глоб. политике",
     "валдай": "Валдай",
-    "банк россии": "Банк России",
-    "foreign affairs": "Foreign Affairs",
     "cfr": "CFR",
     "csis": "CSIS",
     "pew research": "Pew Research",
@@ -153,14 +159,17 @@ def clean_source_name(name):
     if not name:
         return "Источник"
     
-    name = re.sub(r'\.\s*Лента\s+новостей', '', name, flags=re.IGNORECASE)
-    name = re.sub(r'(?i)\b(rss|feed|export|official|- Google News)\b', '', name)
-    name = name.strip(' .-_')
+    low = name.lower().strip()
     
-    low = name.lower()
+    # Сначала проверяем точные и частичные совпадения по карте
     for key, val in SOURCE_CLEAN_MAP.items():
         if key in low:
             return val
+
+    # Резервная регулярная очистка
+    name = re.sub(r'\.\s*Лента\s+новостей', '', name, flags=re.IGNORECASE)
+    name = re.sub(r'(?i)\b(rss|feed|export|official|- Google News)\b', '', name)
+    name = name.strip(' .-_')
             
     return name if name else "Источник"
 
@@ -177,7 +186,6 @@ def fetch_rss(sent_urls):
             for entry in feed.entries[:3]:
                 link = getattr(entry, 'link', url).strip()
                 
-                # Игнорируем новости, которые уже отправлялись раньше
                 if link in sent_urls:
                     continue
 
@@ -209,7 +217,6 @@ def fetch_telegram_public(sent_urls):
             
             for post in posts:
                 post_text = post.get_text(strip=True)
-                # Хэш от текста для идентификации уникальности поста
                 post_id = f"tg_{channel}_{hash(post_text[:100])}"
                 
                 if post_id in sent_urls:
@@ -229,6 +236,7 @@ def generate_analytical_json(raw_data):
     1. ИТОГОВЫЙ ТЕКСТ В ПОЛЕ "summary_ru" ДОЛЖЕН БЫТЬ СТРОГО НА РУССКОМ ЯЗЫКЕ. Переводи все зарубежные материалы!
     2. Агрегируй новости: отбирай ТОЛЬКО самые важные макроэкономические сдвиги, решения регуляторов, геополитику, социологию и технологические тренды.
     3. Исключай дублирующиеся события от разных СМИ: выбирай один наиболее информативный источник.
+    4. Сохраняй исходное значение поля "source_name" ровно в том виде, в котором оно передано во входящих данных (не меняй имена "ЦБ РФ", "Коммерсантъ", "Foreign Affairs", "CNews").
 
     СТРУКТУРА JSON:
     {{
@@ -333,7 +341,6 @@ if __name__ == "__main__":
             for i in range(0, len(formatted_html), 4000):
                 send_telegram_message(CHAT_ID, formatted_html[i:i+4000])
             
-            # Сохраняем обновленную историю только при успешной генерации
             save_sent_urls(sent_urls_history)
     else:
         print("Новых материалов за прошедшие часы не обнаружено.")
