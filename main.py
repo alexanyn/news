@@ -1,4 +1,4 @@
-print("=== ЗАПУСК СКРИПТА ВЕРСИИ 4.9 (BALANCED_CONTEXT_LIMITS) ===")
+print("=== ЗАПУСК СКРИПТА ВЕРСИИ 5.1 (LLAMA_3.3_70B_12K_TPM) ===")
 
 import os
 import re
@@ -242,8 +242,7 @@ def collect_all_news(sent_urls):
             feed = feedparser.parse(feed_url)
             canonical_source = resolve_canonical_name(feed_url)
 
-            # Оптимизировано: Берём до 6 новых записей с RSS-фида за запуск
-            for entry in feed.entries[:6]:
+            for entry in feed.entries[:4]:
                 link = getattr(entry, 'link', feed_url).strip()
                 if link in sent_urls:
                     continue
@@ -265,7 +264,6 @@ def collect_all_news(sent_urls):
                     "url": link
                 }
 
-                # Контекст сжат до 120 символов для защиты от ошибки 400
                 items_for_prompt.append(f"ID: {news_id}\nЗаголовок: {title}\nКонтекст: {summary[:120]}\n---")
                 sent_urls.add(link)
         except Exception as e:
@@ -282,8 +280,7 @@ def collect_all_news(sent_urls):
             valid_messages = [m for m in messages if 'service_message' not in m.get('class', [])]
             canonical_source = resolve_canonical_name(channel)
 
-            # Оптимизировано: Берём до 5 свежих сообщений из Telegram
-            for msg in valid_messages[-5:]:
+            for msg in valid_messages[-3:]:
                 data_post = msg.get('data-post')
                 text_div = msg.find('div', class_='tgme_widget_message_text')
                 if not text_div:
@@ -312,31 +309,31 @@ def collect_all_news(sent_urls):
         except Exception as e:
             print(f"Ошибка парсинга TG @{channel}: {e}")
 
-    # Ограничение 120 элементов за раз — безопасный порог для Context Window в Groq
-    limited_items = items_for_prompt[:120]
+    # Лимит 60 новостей — оптимизировано под 12,000 TPM у llama-3.3-70b-versatile
+    limited_items = items_for_prompt[:60]
     return news_db, "\n".join(limited_items)
 
 def generate_analytical_json(raw_data_prompt):
     prompt_template = """
-    Ты — старший международный аналитик. Проанализируй входящие данные и отбери все значимые события.
+    Ты — старший международный аналитик. Проанализируй входящие данные и отбери самые важные события.
 
     КАТЕГОРИИ:
-    1. "politics": Законодательство, госуправление, геополитика, международные решения, выборы.
-    2. "conflicts": Военные действия, оборона, спецслужбы, международная безопасность.
-    3. "economy": Макроэкономика, рынки, инфляция, банковские ставки, курсы валют, данные Росстата, ЦБ, ОПЕК, ВТО, РОМИР.
-    4. "b2b_retail": B2B-тренды, ритейл, торговые сети, рекламный рынок (Sostav, AdIndex, Mediascope, NielsenIQ), логистика, промышленность.
-    5. "tech_health": IT-сектор, ИИ, фармакология, медицина, научные разработки, медиатехнологии (Код).
-    6. "society": Общественные тренды, социологические опросы (ФОМ, ВЦИОМ, Левада, РОМИР), макро-социальные явления.
+    1. "politics": Законодательство, госуправление, геополитика, выборы.
+    2. "conflicts": Военные действия, оборона, спецслужбы, безопасность.
+    3. "economy": Макроэкономика, рынки, инфляция, ставки, ЦБ, ОПЕК, ВТО.
+    4. "b2b_retail": B2B, ритейл, реклама (Sostav, AdIndex, Mediascope), логистика.
+    5. "tech_health": IT, ИИ, фармакология, медицина, Код.
+    6. "society": Общество, социологические опросы (ФОМ, ВЦИОМ, Левада, РОМИР).
 
-    ЖЕСТКИЕ ПРАВИЛА:
-    1. Обязательно выдерживай международный баланс! Не менее 40% дайджеста должны составлять зарубежные и аналитические источники (Financial Times, NYT, The Economist, Washington Post, Associated Press, Reuters, Bloomberg, ВТО, ОПЕК, BlackRock, ВЭФ и др.).
-    2. Отбирай до 4 главнейших событий на каждую категорию.
-    3. КАТЕГОРИЧЕСКИ ИСКЛЮЧАЙ: бытовую недвижимость (аренда квартир), ремонт дорог, эстакады, спорт, шоу-бизнес, бытовые ДТП и бытовые советы.
-    4. Переводи ВСЕ зарубежные материалы на русский язык.
-    5. Поле "summary_ru" должно содержать суть на русском языке без скобок и названий источников!
-    6. Поле "id" должно содержать ТОЛЬКО ЦЕЛОЕ ЧИСЛО (ID из входящих данных).
+    ПРАВИЛА:
+    1. Выдерживай международный баланс (не менее 40% зарубежных медиа).
+    2. Отбирай до 4 событий на категорию.
+    3. ИСКЛЮЧАЙ: бытовую недвижимость, ремонт дорог, спорт, шоу-бизнес, бытовые ДТП.
+    4. Переводи всё на русский язык.
+    5. "summary_ru" — суть без скобок и названий источников.
+    6. "id" — целое число.
 
-    СТРУКТУРА JSON:
+    JSON СТРУКТУРА:
     {
       "politics": [{"id": 1, "summary_ru": "Суть"}],
       "conflicts": [],
@@ -358,10 +355,10 @@ def generate_analytical_json(raw_data_prompt):
     }
 
     payload = {
-        "model": "llama-3.1-8b-instant",
+        "model": "llama-3.3-70b-versatile",
         "messages": [{"role": "user", "content": prompt}],
         "temperature": 0.1,
-        "max_tokens": 2500,
+        "max_tokens": 2000,
         "response_format": {"type": "json_object"}
     }
 
