@@ -1,4 +1,4 @@
-print("=== ЗАПУСК СКРИПТА ВЕРСИИ 5.1 (LLAMA_3.3_70B_12K_TPM) ===")
+print("=== ЗАПУСК СКРИПТА ВЕРСИИ 5.2 (STRICT_HASH_ID_MATCHING_FIX) ===")
 
 import os
 import re
@@ -42,7 +42,6 @@ def save_sent_urls(sent_set):
 
 # 2. Таблица каноничных названий
 FEED_CANONICAL_NAMES = {
-    # Премиальные и профильные прокси (явные ID + фрагменты URL)
     "8szapkg4dk4ugsj": "The Information",
     "theinformation": "The Information",
     "hwdohujjvtdlecen": "NielsenIQ",
@@ -65,8 +64,6 @@ FEED_CANONICAL_NAMES = {
     "weforum": "ВЭФ",
     "a6qznawxvjrfdtau": "Mediascope",
     "mediascope": "Mediascope",
-
-    # Государственные структуры, социология и статистика
     "cbr.ru": "ЦБ РФ",
     "4n9gkl2gmfhjdlx2": "ЦБ РФ",
     "xq3dpenk8t6kkzde": "РОМИР",
@@ -76,8 +73,6 @@ FEED_CANONICAL_NAMES = {
     "fom.ru": "ФОМ",
     "wciom.ru": "ВЦИОМ",
     "levada.ru": "Левада-Центр",
-
-    # Маркетинг, IT, реклама и медиабизнес
     "kod.ru": "Код",
     "sostav.ru": "Состав",
     "adindex.ru": "AdIndex",
@@ -86,8 +81,6 @@ FEED_CANONICAL_NAMES = {
     "pharmvestnik.ru": "Фармвестник",
     "vademec.ru": "Vademecum",
     "retail.ru": "Retail.ru",
-
-    # Российские деловые СМИ
     "kommersant.ru": "Коммерсантъ",
     "tass.ru": "ТАСС",
     "ria.ru": "РИА Новости",
@@ -102,8 +95,6 @@ FEED_CANONICAL_NAMES = {
     "frankmedia.ru": "Frank Media",
     "globalaffairs.ru": "Россия в глоб. политике",
     "valdaiclub.com": "Валдай",
-
-    # Международные информагентства
     "xn8geg0kjxjnedsc": "Associated Press",
     "apnews": "Associated Press",
     "bloomberg": "Bloomberg",
@@ -111,8 +102,6 @@ FEED_CANONICAL_NAMES = {
     "politico": "Politico",
     "9f4zackjgycpaee7": "Reuters",
     "reuters": "Reuters",
-
-    # Независимые и аналитические международные институты
     "foreignaffairs.com": "Foreign Affairs",
     "pewresearch.org": "Pew Research",
     "cfr.org": "CFR",
@@ -125,15 +114,11 @@ FEED_CANONICAL_NAMES = {
     "statnews.com": "STAT News",
     "retaildive.com": "Retail Dive",
     "project-syndicate.org": "Project Syndicate",
-
-    # Независимые русскоязычные медиа
     "istories.media": "Важные истории",
     "zona.media": "Медиазона",
     "currenttime.tv": "Настоящее Время",
     "dw.com": "Deutsche Welle",
     "xz567x8w88wqe8iz": "Инфо-источник",
-
-    # Telegram
     "mmi_ru": "MMI",
     "solidfin": "Solid Financial",
     "xtxixty": "Твёрдые цифры",
@@ -141,39 +126,30 @@ FEED_CANONICAL_NAMES = {
 }
 
 RSS_FEEDS = [
-    # 1. Новые премиальные прокси-источники
-    "https://rss.app/feeds/vbq995yof2htzK6g.xml",  # Financial Times
-    "https://rss.app/feeds/f5bCrXyyEC7MWoqu.xml",  # NYT
-    "https://rss.app/feeds/3zHq2kSOmYI842d3.xml",  # The Economist
-    "https://rss.app/feeds/CWnxBM8vpMgcKNsL.xml",  # Washington Post
-    "https://rss.app/feeds/8sZapkG4DK4u7gSj.xml",  # The Information
-    "https://rss.app/feeds/G3Y3Fke9lxj30Mus.xml",  # ВТО / WTO
-    "https://rss.app/feeds/hWDoHUUjvtDleceN.xml",  # NielsenIQ
-    "https://rss.app/feeds/VTA4mv1lSKM5cONW.xml",  # ОПЕК / OPEC
-    "https://rss.app/feeds/gL0Q2MprqQui5vYX.xml",  # BlackRock
-    "https://rss.app/feeds/hdKObk5WtxkvPz5L.xml",  # ВЭФ / WEF
-    "https://rss.app/feeds/a6QZNawxvjrfDtaU.xml",  # Mediascope
-
-    # 2. Российские госорганы, социология и макростатистика
-    "https://rss.app/feeds/4N9GkL2gMfHjdlx2.xml",  # ЦБ РФ
-    "https://rss.app/feeds/XQ3dPeNk8t6KKZDe.xml",  # РОМИР
-    "https://rss.app/feeds/WDCmvjy7BajGRTCc.xml",  # Росстат
+    "https://rss.app/feeds/vbq995yof2htzK6g.xml",
+    "https://rss.app/feeds/f5bCrXyyEC7MWoqu.xml",
+    "https://rss.app/feeds/3zHq2kSOmYI842d3.xml",
+    "https://rss.app/feeds/CWnxBM8vpMgcKNsL.xml",
+    "https://rss.app/feeds/8sZapkG4DK4u7gSj.xml",
+    "https://rss.app/feeds/G3Y3Fke9lxj30Mus.xml",
+    "https://rss.app/feeds/hWDoHUUjvtDleceN.xml",
+    "https://rss.app/feeds/VTA4mv1lSKM5cONW.xml",
+    "https://rss.app/feeds/gL0Q2MprqQui5vYX.xml",
+    "https://rss.app/feeds/hdKObk5WtxkvPz5L.xml",
+    "https://rss.app/feeds/a6QZNawxvjrfDtaU.xml",
+    "https://rss.app/feeds/4N9GkL2gMfHjdlx2.xml",
+    "https://rss.app/feeds/XQ3dPeNk8t6KKZDe.xml",
+    "https://rss.app/feeds/WDCmvjy7BajGRTCc.xml",
     "https://fom.ru/rss.xml",
     "https://wciom.ru/rss.xml",
     "https://www.levada.ru/feed/",
-
-    # 3. Маркетинг, IT, реклама и медиабизнес
     "https://kod.ru/rss",
     "https://www.sostav.ru/rss",
     "https://adindex.ru/news/news.rss",
-
-    # 4. Международные прокси-медиа
-    "https://rss.app/feeds/Xn8gEg0kjXjnedSc.xml",  # Associated Press
-    "https://feeds.bloomberg.com/business/news.rss",  # Bloomberg
-    "https://rss.app/feeds/OZpLB3ix17VahZIY.xml",  # Politico
-    "https://rss.app/feeds/9F4ZacKjgYCPaEE7.xml",  # Reuters
-
-    # 5. Российские деловые СМИ
+    "https://rss.app/feeds/Xn8gEg0kjXjnedSc.xml",
+    "https://feeds.bloomberg.com/business/news.rss",
+    "https://rss.app/feeds/OZpLB3ix17VahZIY.xml",
+    "https://rss.app/feeds/9F4ZacKjgYCPaEE7.xml",
     "https://tass.ru/rss/v2.xml",
     "https://ria.ru/export/rss2/archive/index.xml",
     "https://www.interfax.ru/rss.asp",
@@ -193,15 +169,11 @@ RSS_FEEDS = [
     "https://www.retail.ru/rss/news/",
     "https://globalaffairs.ru/feed/",
     "https://ru.valdaiclub.com/rss/",
-
-    # 6. Независимые и международные русскоязычные медиа
-    "https://istories.media/rss/all.xml",  # Важные истории
-    "https://zona.media/rss",  # Медиазона
-    "https://www.currenttime.tv/api/z$gqiteyq_gt",  # Настоящее Время
-    "https://rss.dw.com/xml/rss-ru-all",  # DW на русском
+    "https://istories.media/rss/all.xml",
+    "https://zona.media/rss",
+    "https://www.currenttime.tv/api/z$gqiteyq_gt",
+    "https://rss.dw.com/xml/rss-ru-all",
     "https://rss.app/feeds/Xz567X8w88wqe8IZ.xml",
-
-    # 7. Международная аналитика и профильные институты
     "https://www.foreignaffairs.com/rss.xml",
     "https://www.pewresearch.org/feed/",
     "https://www.cfr.org/rss.xml",
@@ -256,7 +228,8 @@ def collect_all_news(sent_urls):
                     summary = BeautifulSoup(summary, 'html.parser').get_text(strip=True)
                 summary = clean_input_text(summary)
 
-                news_id = item_counter
+                # ИСПРАВЛЕНИЕ: Используем строковые токены N_1, N_2 во избежание сброса индексацией в LLM
+                news_id = f"N_{item_counter}"
                 item_counter += 1
 
                 news_db[news_id] = {
@@ -264,7 +237,7 @@ def collect_all_news(sent_urls):
                     "url": link
                 }
 
-                items_for_prompt.append(f"ID: {news_id}\nЗаголовок: {title}\nКонтекст: {summary[:120]}\n---")
+                items_for_prompt.append(f"ID: {news_id} | Источник: {canonical_source}\nЗаголовок: {title}\nКонтекст: {summary[:140]}\n---")
                 sent_urls.add(link)
         except Exception as e:
             print(f"Ошибка парсинга RSS {feed_url}: {e}")
@@ -296,7 +269,7 @@ def collect_all_news(sent_urls):
                 if post_url in sent_urls:
                     continue
 
-                news_id = item_counter
+                news_id = f"N_{item_counter}"
                 item_counter += 1
 
                 news_db[news_id] = {
@@ -304,13 +277,12 @@ def collect_all_news(sent_urls):
                     "url": post_url
                 }
 
-                items_for_prompt.append(f"ID: {news_id}\nКонтекст: {post_text[:120]}\n---")
+                items_for_prompt.append(f"ID: {news_id} | Источник: {canonical_source}\nКонтекст: {post_text[:140]}\n---")
                 sent_urls.add(post_url)
         except Exception as e:
             print(f"Ошибка парсинга TG @{channel}: {e}")
 
-    # Лимит 60 новостей — оптимизировано под 12,000 TPM у llama-3.3-70b-versatile
-    limited_items = items_for_prompt[:60]
+    limited_items = items_for_prompt[:55]
     return news_db, "\n".join(limited_items)
 
 def generate_analytical_json(raw_data_prompt):
@@ -325,17 +297,17 @@ def generate_analytical_json(raw_data_prompt):
     5. "tech_health": IT, ИИ, фармакология, медицина, Код.
     6. "society": Общество, социологические опросы (ФОМ, ВЦИОМ, Левада, РОМИР).
 
-    ПРАВИЛА:
-    1. Выдерживай международный баланс (не менее 40% зарубежных медиа).
-    2. Отбирай до 4 событий на категорию.
-    3. ИСКЛЮЧАЙ: бытовую недвижимость, ремонт дорог, спорт, шоу-бизнес, бытовые ДТП.
-    4. Переводи всё на русский язык.
-    5. "summary_ru" — суть без скобок и названий источников.
-    6. "id" — целое число.
+    СТРОЖАЙШИЕ ПРАВИЛА:
+    1. Поле "id" ДОЛЖНО СТРОГО СОВПАДАТЬ с ID из входящего блока (например, "N_14"). КАТЕГОРИЧЕСКИ ЗАПРЕЩЕНО заменять ID на числа 1, 2, 3 или придумывать новые!
+    2. Поле "source_name" должно совпадать с источником, указанным под этим ID.
+    3. Выдерживай международный баланс (не менее 40% зарубежных медиа).
+    4. ИСКЛЮЧАЙ: бытовую недвижимость, ремонт дорог, спорт, шоу-бизнес, бытовые ДТП.
+    5. Переводи всё на русский язык.
+    6. "summary_ru" — суть без скобок и названий источников.
 
     JSON СТРУКТУРА:
     {
-      "politics": [{"id": 1, "summary_ru": "Суть"}],
+      "politics": [{"id": "N_14", "source_name": "Financial Times", "summary_ru": "Суть"}],
       "conflicts": [],
       "economy": [],
       "b2b_retail": [],
@@ -426,18 +398,17 @@ def build_html_digest(raw_response, news_db):
         valid_items_count = 0
         if items:
             for item in items:
-                try:
-                    news_id = int(item.get("id"))
-                except (ValueError, TypeError):
-                    continue
-
+                news_id = str(item.get("id", "")).strip()
                 summary = sanitize_summary_text(item.get("summary_ru", ""))
 
+                # ИСПРАВЛЕНИЕ: Жёсткая валидация. Ссылка подтягивается ТОЛЬКО если ID реально существует в news_db
                 if news_id in news_db and summary:
                     source_name = news_db[news_id]["source_name"]
                     url = news_db[news_id]["url"]
                     html_output += f"• {summary} (<a href=\"{url}\">{source_name}</a>)\n"
                     valid_items_count += 1
+                else:
+                    print(f"Отброшена галлюцинация модели с некорректным ID: {news_id}")
 
         if valid_items_count == 0:
             html_output += "• <i>Существенных сдвигов за прошедшие часы не зафиксировано</i>\n"
