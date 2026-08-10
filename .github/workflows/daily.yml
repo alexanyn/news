@@ -2,10 +2,10 @@ name: Automated Intelligence Pipeline
 
 on:
   schedule:
-    # 05:00 UTC = 08:00 МСК
-    # 10:00 UTC = 13:00 МСК
-    # 17:00 UTC = 20:00 МСК
-    - cron: '0 5,10,17 * * *'
+    # 05:12 UTC = 08:12 МСК (Обход пиковой нагрузки GitHub в :00)
+    # 10:12 UTC = 13:12 МСК
+    # 17:12 UTC = 20:12 МСК
+    - cron: '12 5,10,17 * * *'
   workflow_dispatch:
 
 permissions:
