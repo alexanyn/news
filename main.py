@@ -1,4 +1,4 @@
-print("=== ЗАПУСК СКРИПТА ВЕРСИИ 4.7 (FIX_CANONICAL_NAMES_MATCHING) ===")
+print("=== ЗАПУСК СКРИПТА ВЕРСИИ 4.8 (FIX_FULL_INTERNALS_COLLECTION) ===")
 
 import os
 import re
@@ -33,14 +33,15 @@ def load_sent_urls():
     return set()
 
 def save_sent_urls(sent_set):
-    urls_list = list(sent_set)[-1000:]
+    # Увеличено до 5000, чтобы не терять память о ссылках при частых запусках
+    urls_list = list(sent_set)[-5000:]
     try:
         with open(HISTORY_FILE, "w", encoding="utf-8") as f:
             json.dump(urls_list, f, ensure_ascii=False, indent=2)
     except Exception as e:
         print(f"Ошибка сохранения истории: {e}")
 
-# 2. Расширенная и пуленепробиваемая таблица каноничных названий
+# 2. Таблица каноничных названий
 FEED_CANONICAL_NAMES = {
     # Премиальные и профильные прокси (явные ID + фрагменты URL)
     "8szapkg4dk4ugsj": "The Information",
@@ -240,15 +241,14 @@ def collect_all_news(sent_urls):
     for feed_url in RSS_FEEDS:
         try:
             feed = feedparser.parse(feed_url)
-            # Извлекаем название с учётом как URL ленты, так и самой ссылки на статью
             canonical_source = resolve_canonical_name(feed_url)
 
-            for entry in feed.entries[:2]:
+            # ИСПРАВЛЕНО: Забираем ВСЕ неизученные записи вместо ограничений [:2]
+            for entry in feed.entries:
                 link = getattr(entry, 'link', feed_url).strip()
                 if link in sent_urls:
                     continue
 
-                # Если для конкретного фида имя не распозналось по URL фида, проверяем URL статьи
                 if canonical_source == "Источник":
                     canonical_source = resolve_canonical_name(link)
 
@@ -266,7 +266,7 @@ def collect_all_news(sent_urls):
                     "url": link
                 }
 
-                items_for_prompt.append(f"ID: {news_id}\nЗаголовок: {title}\nКонтекст: {summary[:200]}\n---")
+                items_for_prompt.append(f"ID: {news_id}\nЗаголовок: {title}\nКонтекст: {summary[:250]}\n---")
                 sent_urls.add(link)
         except Exception as e:
             print(f"Ошибка парсинга RSS {feed_url}: {e}")
@@ -280,11 +280,11 @@ def collect_all_news(sent_urls):
             
             messages = soup.find_all('div', class_='tgme_widget_message')
             valid_messages = [m for m in messages if 'service_message' not in m.get('class', [])]
-            recent_messages = valid_messages[-2:] if len(valid_messages) >= 2 else valid_messages
-
+            
+            # ИСПРАВЛЕНО: Забираем все свежие посты из выборки веб-скрапинга, а не последние 2
             canonical_source = resolve_canonical_name(channel)
 
-            for msg in recent_messages:
+            for msg in valid_messages:
                 data_post = msg.get('data-post')
                 text_div = msg.find('div', class_='tgme_widget_message_text')
                 if not text_div:
@@ -308,13 +308,13 @@ def collect_all_news(sent_urls):
                     "url": post_url
                 }
 
-                items_for_prompt.append(f"ID: {news_id}\nКонтекст: {post_text[:200]}\n---")
+                items_for_prompt.append(f"ID: {news_id}\nКонтекст: {post_text[:250]}\n---")
                 sent_urls.add(post_url)
         except Exception as e:
             print(f"Ошибка парсинга TG @{channel}: {e}")
 
-    limited_items = items_for_prompt[:80]
-    return news_db, "\n".join(limited_items)
+    # ИСПРАВЛЕНО: Убрана искусственная срезка [:80], отдаём все уникальные новости в модель
+    return news_db, "\n".join(items_for_prompt)
 
 def generate_analytical_json(raw_data_prompt):
     prompt_template = """
@@ -361,7 +361,7 @@ def generate_analytical_json(raw_data_prompt):
         "model": "llama-3.1-8b-instant",
         "messages": [{"role": "user", "content": prompt}],
         "temperature": 0.1,
-        "max_tokens": 2500,
+        "max_tokens": 3000,
         "response_format": {"type": "json_object"}
     }
 
