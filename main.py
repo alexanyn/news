@@ -1,4 +1,4 @@
-print("=== ЗАПУСК СКРИПТА ВЕРСИИ 5.3 (MACRO_GLOBAL_US_FILTER_FIX) ===")
+print("=== ЗАПУСК СКРИПТА ВЕРСИИ 5.4 (FIX_REGEX_SHUFFLE_TOKENS) ===")
 
 import os
 import re
@@ -6,6 +6,7 @@ import json
 import time
 import requests
 import feedparser
+import random
 from bs4 import BeautifulSoup
 import telebot
 from telebot.apihelper import ApiTelegramException
@@ -281,7 +282,10 @@ def collect_all_news(sent_urls):
         except Exception as e:
             print(f"Ошибка парсинга TG @{channel}: {e}")
 
-    limited_items = items_for_prompt[:55]
+    # Перемешиваем перед срезом для честной выборки источников со всего списка
+    random.shuffle(items_for_prompt)
+    limited_items = items_for_prompt[:60]
+    
     return news_db, "\n".join(limited_items)
 
 def generate_analytical_json(raw_data_prompt):
@@ -334,7 +338,7 @@ def generate_analytical_json(raw_data_prompt):
         "model": "llama-3.3-70b-versatile",
         "messages": [{"role": "user", "content": prompt}],
         "temperature": 0.1,
-        "max_tokens": 2000,
+        "max_tokens": 4000,
         "response_format": {"type": "json_object"}
     }
 
