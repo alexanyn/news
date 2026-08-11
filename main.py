@@ -1,4 +1,4 @@
-print("=== ЗАПУСК СКРИПТА ВЕРСИИ 6.0 (GEMINI_SWITCH) ===")
+print("=== ЗАПУСК СКРИПТА ВЕРСИИ 6.2 (ROBUST_RSS_FETCH_DIAGNOSTICS) ===")
 
 import os
 import re
@@ -10,6 +10,8 @@ import random
 from bs4 import BeautifulSoup
 import telebot
 from telebot.apihelper import ApiTelegramException
+import urllib3
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 # 1. Переменные окружения
 gemini_api_key = os.environ.get("GEMINI_API_KEY")
@@ -254,6 +256,25 @@ def clean_input_text(text):
     text = re.sub(r'\s+', ' ', text)
     return text.strip()
 
+RSS_USER_AGENT = (
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+    "(KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36"
+)
+
+def fetch_feed(feed_url):
+    """Загружает ленту через requests с браузерным User-Agent и таймаутом,
+    затем отдаёт байты в feedparser. В отличие от feedparser.parse(url) напрямую,
+    здесь видно РЕАЛЬНУЮ причину сбоя (403, таймаут, SSL, редирект) —
+    feedparser молча глотает такие ошибки и просто возвращает пустой feed."""
+    try:
+        resp = requests.get(feed_url, headers={"User-Agent": RSS_USER_AGENT}, timeout=15)
+    except requests.exceptions.SSLError:
+        # У некоторых сайтов (в т.ч. госорганизаций) кривой/самоподписанный сертификат.
+        print(f"SSL-ошибка на {feed_url}, повтор без проверки сертификата")
+        resp = requests.get(feed_url, headers={"User-Agent": RSS_USER_AGENT}, timeout=15, verify=False)
+    resp.raise_for_status()
+    return feedparser.parse(resp.content)
+
 def collect_all_news(sent_urls):
     news_db = {}
     items_for_prompt = []
@@ -261,8 +282,13 @@ def collect_all_news(sent_urls):
 
     for feed_url in RSS_FEEDS:
         try:
-            feed = feedparser.parse(feed_url)
+            feed = fetch_feed(feed_url)
             canonical_source = resolve_canonical_name(feed_url)
+
+            if not feed.entries:
+                reason = feed.get("bozo_exception", "лента пуста, причина не определена")
+                print(f"Пустая/битая лента [{canonical_source}] {feed_url}: {reason}")
+                continue
 
             for entry in feed.entries[:4]:
                 link = getattr(entry, 'link', feed_url).strip()
@@ -293,7 +319,7 @@ def collect_all_news(sent_urls):
                 items_for_prompt.append(f"ID: {news_id} | Источник: {canonical_source}\nЗаголовок: {title}\nКонтекст: {summary[:140]}\n---")
                 sent_urls.add(link)
         except Exception as e:
-            print(f"Ошибка парсинга RSS {feed_url}: {e}")
+            print(f"Ошибка парсинга RSS [{resolve_canonical_name(feed_url)}] {feed_url}: {type(e).__name__}: {e}")
 
     headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)'}
     for channel in TG_CHANNELS:
