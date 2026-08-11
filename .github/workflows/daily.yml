@@ -2,41 +2,47 @@ name: Automated Intelligence Pipeline
 
 on:
   schedule:
-    # 05:12 UTC = 08:12 МСК (Обход пиковой нагрузки GitHub в :00)
-    # 10:12 UTC = 13:12 МСК
-    # 17:12 UTC = 20:12 МСК
-    - cron: '12 5,10,17 * * *'
-  workflow_dispatch:
-
-permissions:
-  contents: write
+    # ВНИМАНИЕ: Сейчас скрипт настроен на запуск каждые 3 часа.
+    # Замените это значение на то, которое было в вашем старом файле!
+    - cron: '0 */3 * * *' 
+  workflow_dispatch: # Оставляет возможность ручного запуска кнопкой
 
 jobs:
   run-analytics-pipeline:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0 # Критически важно для работы git pull --rebase
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.10'
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.10' # Версия, которая фигурировала в ваших логах
 
-      - name: Install dependencies
-        run: pip install -r requirements.txt
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        # Устанавливаем все библиотеки, необходимые для main.py
+        pip install requests feedparser beautifulsoup4 pyTelegramBotAPI
 
-      - name: Run analysis script
-        env:
-          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
-          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
-        run: python main.py
+    - name: Run Python script
+      env:
+        GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+        TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+        TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+      run: python main.py
 
-      - name: Commit and push sent news history
-        run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add sent_urls.json
-          git commit -m "Update sent news history [skip ci]" || exit 0
-          git push
+    - name: Commit and push sent news history
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add sent_urls.json
+        # Сохраняем изменения локально, если они есть
+        git commit -m "Update sent news history [skip ci]" || echo "No changes to commit"
+        # Скачиваем ваши ручные изменения из репозитория и накладываем поверх них историю ссылок
+        git pull --rebase origin main
+        # Отправляем объединенный результат обратно на сервер
+        git push
