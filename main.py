@@ -1,4 +1,4 @@
-print("=== ЗАПУСК СКРИПТА ВЕРСИИ 6.7 (FINAL_INTEGRATION) ===")
+print("=== ЗАПУСК СКРИПТА ВЕРСИИ 6.2 (ROBUST_RSS_FETCH_DIAGNOSTICS) ===")
 
 import os
 import re
@@ -30,202 +30,165 @@ def load_sent_urls():
     if os.path.exists(HISTORY_FILE):
         try:
             with open(HISTORY_FILE, "r", encoding="utf-8") as f:
-                data = json.load(f)
-                if data and isinstance(data[0], str):
-                    return {url: time.time() for url in data}
-                return {item["url"]: item["added_at"] for item in data}
+                return set(json.load(f))
         except Exception as e:
             print(f"Ошибка чтения файла истории: {e}")
-    return {}
+    return set()
 
-def save_sent_urls(sent_dict):
-    current_time = time.time()
-    cleaned_dict = {
-        url: ts for url, ts in sent_dict.items() 
-        if (current_time - ts) <= (7 * 24 * 3600)
-    }
-    
-    structured_list = [
-        {"url": url, "added_at": ts, "source": "parsed_feed"} 
-        for url, ts in cleaned_dict.items()
-    ]
-    
+def save_sent_urls(sent_set):
+    urls_list = list(sent_set)[-5000:]
     try:
         with open(HISTORY_FILE, "w", encoding="utf-8") as f:
-            json.dump(structured_list, f, ensure_ascii=False, indent=2)
+            json.dump(urls_list, f, ensure_ascii=False, indent=2)
     except Exception as e:
         print(f"Ошибка сохранения истории: {e}")
 
-# 2. Таблица каноничных названий
+# 2. Таблица каноничных названий (Код удален)
 FEED_CANONICAL_NAMES = {
-    "reuters.com": "Reuters",
-    "apnews.com": "Associated Press",
-    "bbci.co.uk": "BBC World News",
-    "aljazeera.com": "Al Jazeera",
+    "8szapkg4dk4ugsj": "The Information",
+    "theinformation": "The Information",
+    "hwdohujjvtdlecen": "NielsenIQ",
+    "nielseniq": "NielsenIQ",
+    "3zhqk2somyi842d3": "The Economist",
+    "economist": "The Economist",
+    "vbq995yof2htzk6g": "Financial Times",
     "ft.com": "Financial Times",
-    "bloomberg.com": "Bloomberg",
-    "dj.com": "Wall Street Journal",
-    "interfax.ru": "Интерфакс",
-    "kommersant.ru": "Коммерсантъ",
-    "themoscowtimes.com": "The Moscow Times",
-    "meduza.io": "Meduza",
-    "foreignaffairs.com": "Foreign Affairs",
-    "foreignpolicy.com": "Foreign Policy",
-    "worldpoliticsreview.com": "World Politics Review",
-    "eng.globalaffairs.ru": "Russia in Global Affairs",
-    "globalaffairs.ru": "Россия в глобальной политике",
-    "expert.ru": "Эксперт",
-    "csis.org": "CSIS",
-    "chathamhouse.org": "Chatham House",
-    "cfr.org": "Council on Foreign Relations",
-    "rand.org": "RAND Corporation",
-    "iiss.org": "IISS",
-    "carnegieendowment.org": "Carnegie Endowment",
-    "atlanticcouncil.org": "Atlantic Council",
-    "brookings.edu": "Brookings Institution",
-    "crisisgroup.org": "International Crisis Group",
-    "russiancouncil.ru": "РСМД",
-    "valdaiclub.com": "Валдайский клуб",
-    "imemo.ru": "ИМЭМО РАН",
-    "veb.ru": "Институт ВЭБ",
-    "csr.ru": "ЦСР",
-    "forecast.ru": "ЦМАКП",
-    "imf.org": "IMF",
-    "bis.org": "BIS",
-    "worldbank.org": "World Bank",
-    "oecd.org": "OECD",
+    "f5bcrxyyec7mwoqu": "The New York Times",
+    "nytimes": "The New York Times",
+    "cwnxbm8vpmgcknsl": "Washington Post",
+    "washingtonpost": "Washington Post",
+    "g3y3fke9lxj30mus": "ВТО",
     "wto.org": "ВТО",
-    "fred.stlouisfed.org": "FRED",
-    "project-syndicate.org": "Project Syndicate",
-    "cepr.org": "VoxEU",
-    "capitaleconomics": "Capital Economics",
-    "mckinsey.com": "McKinsey",
-    "bcg.com": "BCG",
-    "bain.com": "Bain",
-    "deloitte.com": "Deloitte",
-    "imaa-institute.org": "IMAA",
-    "due+diligence": "FT Due Diligence",
-    "sec.gov": "SEC",
-    "technologyreview.com": "MIT Tech Review",
-    "theinformation.com": "The Information",
-    "stratechery.com": "Stratechery",
-    "techcrunch.com": "TechCrunch",
-    "restofworld.org": "Rest of World",
-    "iea.org": "IEA",
-    "eia.gov": "EIA",
+    "vta4mv1lskm5conw": "ОПЕК",
     "opec.org": "ОПЕК",
-    "nato.int": "NATO",
-    "whitehouse.gov": "White House",
-    "state.gov": "U.S. State Department",
-    "treasury.gov": "U.S. Treasury",
-    "federalreserve.gov": "Federal Reserve",
-    "congress.gov": "Congress",
-    "ec.europa.eu": "European Commission",
-    "ecb.europa.eu": "European Central Bank",
-    "un.org": "UN News",
-    "kremlin.ru": "Kremlin",
-    "government.ru": "Правительство РФ",
-    "duma.gov.ru": "Госдума",
-    "mid.ru": "МИД РФ",
+    "gl0q2mprqqui5vyx": "BlackRock",
+    "blackrock": "BlackRock",
+    "hdkobk5wtxkvpz5l": "ВЭФ",
+    "weforum": "ВЭФ",
+    "a6qznawxvjrfdtau": "Mediascope",
+    "mediascope": "Mediascope",
     "cbr.ru": "ЦБ РФ",
-    "minfin.gov.ru": "Минфин РФ",
-    "rosstat.gov.ru": "Росстат",
+    "4n9gkl2gmfhjdlx2": "ЦБ РФ",
+    "xq3dpenk8t6kkzde": "РОМИР",
+    "romir": "РОМИР",
+    "wdcmvjy7bajgrtcc": "Росстат",
+    "rosstat": "Росстат",
+    "fom.ru": "ФОМ",
+    "wciom.ru": "ВЦИОМ",
+    "levada.ru": "Левада-Центр",
+    "sostav.ru": "Состав",
+    "adindex.ru": "AdIndex",
+    "cnews.ru": "CNews",
+    "nplus1.ru": "N+1",
+    "pharmvestnik.ru": "Фармвестник",
+    "vademec.ru": "Vademecum",
+    "retail.ru": "Retail.ru",
+    "kommersant.ru": "Коммерсантъ",
+    "tass.ru": "ТАСС",
+    "ria.ru": "РИА Новости",
+    "interfax.ru": "Интерфакс",
+    "vedomosti.ru": "Ведомости",
+    "iz.ru": "Известия",
     "rbc.ru": "РБК",
-    "money+stuff": "Bloomberg Money Stuff",
-    "axios.com": "Axios",
-    "firstft": "FT FirstFT",
-    "politico.com": "Politico",
-    "gzero": "Eurasia Group / GZERO",
-    "econs.online": "Econs",
-    "thebell.io": "The Bell",
-    "ourworldindata.org": "Our World in Data"
+    "forbes.ru": "Forbes",
+    "rg.ru": "Российская Газета",
+    "tvzvezda.ru": "ТК Звезда",
+    "1prime.ru": "Прайм",
+    "frankmedia.ru": "Frank Media",
+    "globalaffairs.ru": "Россия в глоб. политике",
+    "valdaiclub.com": "Валдай",
+    "xn8geg0kjxjnedsc": "Associated Press",
+    "apnews": "Associated Press",
+    "bloomberg": "Bloomberg",
+    "ozplb3ix17vahziy": "Politico",
+    "politico": "Politico",
+    "9f4zackjgycpaee7": "Reuters",
+    "reuters": "Reuters",
+    "foreignaffairs.com": "Foreign Affairs",
+    "pewresearch.org": "Pew Research",
+    "cfr.org": "CFR",
+    "csis.org": "CSIS",
+    "bruegel.org": "Bruegel",
+    "carnegieendowment.org": "Carnegie",
+    "theguardian.com": "The Guardian",
+    "aljazeera.com": "Al Jazeera",
+    "lemonde.fr": "Le Monde",
+    "statnews.com": "STAT News",
+    "retaildive.com": "Retail Dive",
+    "project-syndicate.org": "Project Syndicate",
+    "istories.media": "Важные истории",
+    "zona.media": "Медиазона",
+    "currenttime.tv": "Настоящее Время",
+    "dw.com": "Deutsche Welle",
+    "xz567x8w88wqe8iz": "Инфо-источник",
+    "mmi_ru": "MMI",
+    "solidfin": "Solid Financial",
+    "xtxixty": "Твёрдые цифры",
+    "russianmacro": "Russianmacro"
 }
 
 RSS_FEEDS = [
-    "https://news.google.com/rss/search?q=site:reuters.com&hl=en-US&gl=US&ceid=US:en",
-    "https://news.google.com/rss/search?q=site:apnews.com&hl=en-US&gl=US&ceid=US:en",
-    "http://feeds.bbci.co.uk/news/world/rss.xml",
-    "https://www.aljazeera.com/xml/rss/all.xml",
-    "https://www.ft.com/world?format=rss",
-    "https://news.google.com/rss/search?q=site:bloomberg.com&hl=en-US&gl=US&ceid=US:en",
-    "https://feeds.a.dj.com/rss/RSSWorldNews.xml",
+    "https://rss.app/feeds/vbq995yof2htzK6g.xml",
+    "https://rss.app/feeds/f5bCrXyyEC7MWoqu.xml",
+    "https://rss.app/feeds/3zHq2kSOmYI842d3.xml",
+    "https://rss.app/feeds/CWnxBM8vpMgcKNsL.xml",
+    "https://rss.app/feeds/8sZapkG4DK4u7gSj.xml",
+    "https://rss.app/feeds/G3Y3Fke9lxj30Mus.xml",
+    "https://rss.app/feeds/hWDoHUUjvtDleceN.xml",
+    "https://rss.app/feeds/VTA4mv1lSKM5cONW.xml",
+    "https://rss.app/feeds/gL0Q2MprqQui5vYX.xml",
+    "https://rss.app/feeds/hdKObk5WtxkvPz5L.xml",
+    "https://rss.app/feeds/a6QZNawxvjrfDtaU.xml",
+    "https://rss.app/feeds/4N9GkL2gMfHjdlx2.xml",
+    "https://rss.app/feeds/XQ3dPeNk8t6KKZDe.xml",
+    "https://rss.app/feeds/WDCmvjy7BajGRTCc.xml",
+    "https://fom.ru/rss.xml",
+    "https://wciom.ru/rss.xml",
+    "https://www.levada.ru/feed/",
+    "https://www.sostav.ru/rss",
+    "https://adindex.ru/news/news.rss",
+    "https://rss.app/feeds/Xn8gEg0kjXjnedSc.xml",
+    "https://feeds.bloomberg.com/business/news.rss",
+    "https://rss.app/feeds/OZpLB3ix17VahZIY.xml",
+    "https://rss.app/feeds/9F4ZacKjgYCPaEE7.xml",
+    "https://tass.ru/rss/v2.xml",
+    "https://ria.ru/export/rss2/archive/index.xml",
     "https://www.interfax.ru/rss.asp",
     "https://www.kommersant.ru/RSS/news.xml",
-    "https://www.themoscowtimes.com/rss/news",
-    "https://meduza.io/rss/all",
-    "https://www.foreignaffairs.com/rss.xml",
-    "https://foreignpolicy.com/feed/",
-    "https://www.worldpoliticsreview.com/feed/",
-    "https://eng.globalaffairs.ru/feed/",
-    "https://globalaffairs.ru/feed/",
-    "https://expert.ru/rss/all/",
-    "https://www.csis.org/analysis/rss.xml",
-    "https://www.chathamhouse.org/rss/all",
-    "https://www.cfr.org/rss.xml",
-    "https://www.rand.org/pubs/recent.xml",
-    "https://www.iiss.org/rss/",
-    "https://carnegieendowment.org/rss/solr/?fa=pubs",
-    "https://www.atlanticcouncil.org/feed/",
-    "https://www.brookings.edu/feed/",
-    "https://www.crisisgroup.org/rss.xml",
-    "https://russiancouncil.ru/rss/",
-    "https://ru.valdaiclub.com/rss/",
-    "https://news.google.com/rss/search?q=site:imemo.ru&hl=ru&gl=RU&ceid=RU:ru",
-    "https://news.google.com/rss/search?q=site:veb.ru+институт&hl=ru&gl=RU&ceid=RU:ru",
-    "https://www.csr.ru/rss/",
-    "https://news.google.com/rss/search?q=site:forecast.ru&hl=ru&gl=RU&ceid=RU:ru",
-    "https://www.imf.org/en/News/rss?language=eng",
-    "https://www.bis.org/doclist/all_rss.xml",
-    "https://www.worldbank.org/en/news/all.rss",
-    "https://www.oecd.org/newsroom/rss.xml",
-    "https://www.wto.org/english/news_e/news_e.rss",
-    "https://news.google.com/rss/search?q=site:fred.stlouisfed.org&hl=en-US&gl=US&ceid=US:en",
-    "https://www.project-syndicate.org/rss",
-    "https://cepr.org/rss/all-columns",
-    "https://news.google.com/rss/search?q=%22Capital+Economics%22&hl=en-US&gl=US&ceid=US:en",
-    "https://www.mckinsey.com/insights/rss",
-    "https://news.google.com/rss/search?q=site:bcg.com&hl=en-US&gl=US&ceid=US:en",
-    "https://news.google.com/rss/search?q=site:bain.com+insights&hl=en-US&gl=US&ceid=US:en",
-    "https://news.google.com/rss/search?q=site:deloitte.com+M%26A+trends&hl=en-US&gl=US&ceid=US:en",
-    "https://imaa-institute.org/feed/",
-    "https://news.google.com/rss/search?q=%22FT+Due+Diligence%22&hl=en-US&gl=US&ceid=US:en",
-    "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&type=10-K&dateb=&owner=include&count=40&output=atom",
-    "https://www.interfax.ru/business/rss.asp",
-    "https://www.technologyreview.com/feed/",
-    "https://www.theinformation.com/feed",
-    "https://stratechery.com/feed/",
-    "https://techcrunch.com/feed/",
-    "https://restofworld.org/feed/",
-    "https://www.iea.org/rss/news",
-    "https://www.eia.gov/rss/todayinenergy.xml",
-    "https://www.opec.org/opec_web/en/rss/press_releases.xml",
-    "https://www.nato.int/rss/news.xml",
-    "https://www.whitehouse.gov/feed/",
-    "https://www.state.gov/feed/",
-    "https://home.treasury.gov/rss/press-releases",
-    "https://www.federalreserve.gov/feeds/press_all.xml",
-    "https://news.google.com/rss/search?q=site:congress.gov&hl=en-US&gl=US&ceid=US:en",
-    "https://ec.europa.eu/commission/presscorner/api/rss",
-    "https://www.ecb.europa.eu/rss/press.xml",
-    "https://news.un.org/feed/subscribe/en/news/all/rss.xml",
-    "http://kremlin.ru/events/all/feed",
-    "http://government.ru/all/rss/",
-    "https://news.google.com/rss/search?q=site:duma.gov.ru&hl=ru&gl=RU&ceid=RU:ru",
-    "https://www.mid.ru/ru/rss/",
-    "http://www.cbr.ru/rss/RssNews",
-    "https://news.google.com/rss/search?q=site:minfin.gov.ru&hl=ru&gl=RU&ceid=RU:ru",
-    "https://news.google.com/rss/search?q=site:rosstat.gov.ru&hl=ru&gl=RU&ceid=RU:ru",
+    "https://www.vedomosti.ru/rss/news",
+    "https://iz.ru/xml/rss/all.xml",
     "https://rssexport.rbc.ru/rbcnews/news/30/full.rss",
-    "https://news.google.com/rss/search?q=%22Money+Stuff%22+Matt+Levine&hl=en-US&gl=US&ceid=US:en",
-    "https://api.axios.com/feed/markets.rss",
-    "https://news.google.com/rss/search?q=%22FirstFT%22&hl=en-US&gl=US&ceid=US:en",
-    "https://www.politico.com/rss/playbook.xml",
-    "https://news.google.com/rss/search?q=%22GZERO%22+Eurasia+Group&hl=en-US&gl=US&ceid=US:en",
-    "https://econs.online/feed/",
-    "https://thebell.io/feed",
-    "https://ourworldindata.org/atom.xml",
-    "https://news.google.com/rss/search?q=site:data.worldbank.org&hl=en-US&gl=US&ceid=US:en"
+    "https://www.forbes.ru/new-rss.xml",
+    "https://rg.ru/xml/index.xml",
+    "https://tvzvezda.ru/export/rss.xml",
+    "https://1prime.ru/export/rss2/index.xml",
+    "https://frankmedia.ru/feed",
+    "https://www.cnews.ru/inc/rss/news.xml",
+    "https://nplus1.ru/rss",
+    "https://pharmvestnik.ru/rss/news.xml",
+    "https://vademec.ru/rss/",
+    "https://www.retail.ru/rss/news/",
+    "https://globalaffairs.ru/feed/",
+    "https://ru.valdaiclub.com/rss/",
+    "https://istories.media/rss/all.xml",
+    "https://zona.media/rss",
+    "https://www.currenttime.tv/api/z$gqiteyq_gt",
+    "https://rss.dw.com/xml/rss-ru-all",
+    "https://rss.app/feeds/Xz567X8w88wqe8IZ.xml",
+    "https://www.foreignaffairs.com/rss.xml",
+    "https://www.pewresearch.org/feed/",
+    "https://www.cfr.org/rss.xml",
+    "https://www.csis.org/rss/all",
+    "https://www.bruegel.org/rss.xml",
+    "https://carnegieendowment.org/rss/solr/publications",
+    "https://www.theguardian.com/world/rss",
+    "https://www.aljazeera.com/xml/rss/all.xml",
+    "https://www.statnews.com/feed/",
+    "https://www.retaildive.com/feeds/news/",
+    "https://www.project-syndicate.org/rss"
 ]
+
+TG_CHANNELS = ["mmi_ru", "solidfin", "xtxixty", "russianmacro"]
 
 # 3. Пре-фильтры
 JUNK_KEYWORDS_RU = [
@@ -235,6 +198,7 @@ JUNK_KEYWORDS_RU = [
     "открытие магазина", "открыл магазин", "новый филиал", "магазина сети",
     "расширяет сеть", "открылся первый", "новая точка",
     "подкаст", "аудиоверсия",
+    # Городская афиша и лайфстайл
     "бесплатно", "музеи", "выставка", "выставки", "парк горького", "вднх", "фестиваль",
     "зумер", "миллениал", "психолог посоветовал", "психологи рассказали", "лайфхак"
 ]
@@ -249,11 +213,13 @@ MEDIA_JUNK_REGEX = re.compile(
     re.IGNORECASE
 )
 
+# Фильтр криминала и ЧП
 CRIME_JUNK_REGEX = re.compile(
     r'\b(выпал из окна|выпала из окна|найден труп|поножовщин|дтп|сбили пешехода|задержан|возбуждено уголовное дело|убийств)\b', 
     re.IGNORECASE
 )
 
+# 4. Пост-фильтр
 LOCAL_POLITICS_KEYWORDS = [
     "праймериз", "пелоси", "бланше", "муницип", "мэр ", "мэра ", "мэрии",
     "городского совета", "городской думы", "местного самоуправления",
@@ -296,9 +262,14 @@ RSS_USER_AGENT = (
 )
 
 def fetch_feed(feed_url):
+    """Загружает ленту через requests с браузерным User-Agent и таймаутом,
+    затем отдаёт байты в feedparser. В отличие от feedparser.parse(url) напрямую,
+    здесь видно РЕАЛЬНУЮ причину сбоя (403, таймаут, SSL, редирект) —
+    feedparser молча глотает такие ошибки и просто возвращает пустой feed."""
     try:
         resp = requests.get(feed_url, headers={"User-Agent": RSS_USER_AGENT}, timeout=15)
     except requests.exceptions.SSLError:
+        # У некоторых сайтов (в т.ч. госорганизаций) кривой/самоподписанный сертификат.
         print(f"SSL-ошибка на {feed_url}, повтор без проверки сертификата")
         resp = requests.get(feed_url, headers={"User-Agent": RSS_USER_AGENT}, timeout=15, verify=False)
     resp.raise_for_status()
@@ -334,7 +305,7 @@ def collect_all_news(sent_urls):
                 summary = clean_input_text(summary)
 
                 if is_junk_topic(title) or is_junk_topic(summary):
-                    sent_urls[link] = time.time()
+                    sent_urls.add(link)
                     continue
 
                 news_id = f"N_{item_counter}"
@@ -346,12 +317,56 @@ def collect_all_news(sent_urls):
                 }
 
                 items_for_prompt.append(f"ID: {news_id} | Источник: {canonical_source}\nЗаголовок: {title}\nКонтекст: {summary[:140]}\n---")
-                sent_urls[link] = time.time()
+                sent_urls.add(link)
         except Exception as e:
             print(f"Ошибка парсинга RSS [{resolve_canonical_name(feed_url)}] {feed_url}: {type(e).__name__}: {e}")
 
+    headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)'}
+    for channel in TG_CHANNELS:
+        try:
+            url = f"https://t.me/s/{channel}"
+            res = requests.get(url, headers=headers, timeout=15)
+            soup = BeautifulSoup(res.text, 'html.parser')
+            
+            messages = soup.find_all('div', class_='tgme_widget_message')
+            valid_messages = [m for m in messages if 'service_message' not in m.get('class', [])]
+            canonical_source = resolve_canonical_name(channel)
+
+            for msg in valid_messages[-3:]:
+                data_post = msg.get('data-post')
+                text_div = msg.find('div', class_='tgme_widget_message_text')
+                if not text_div:
+                    continue
+
+                post_text = clean_input_text(text_div.get_text(strip=True))
+                
+                if data_post:
+                    post_url = f"https://t.me/{data_post}"
+                else:
+                    post_url = f"https://t.me/{channel}"
+
+                if post_url in sent_urls:
+                    continue
+
+                if is_junk_topic(post_text):
+                    sent_urls.add(post_url)
+                    continue
+
+                news_id = f"N_{item_counter}"
+                item_counter += 1
+
+                news_db[news_id] = {
+                    "source_name": canonical_source,
+                    "url": post_url
+                }
+
+                items_for_prompt.append(f"ID: {news_id} | Источник: {canonical_source}\nКонтекст: {post_text[:140]}\n---")
+                sent_urls.add(post_url)
+        except Exception as e:
+            print(f"Ошибка парсинга TG @{channel}: {e}")
+
     random.shuffle(items_for_prompt)
-    limited_items = items_for_prompt[:150]
+    limited_items = items_for_prompt[:150]  # Gemini free tier легко тянет больше items, чем Groq
     
     return news_db, "\n".join(limited_items)
 
@@ -361,15 +376,15 @@ def generate_analytical_json(raw_data_prompt):
     ОСОБЫЙ ФОКУС — на макро-решениях и России.
 
     КАТЕГОРИИ:
-    1. "geopolitics": Геополитика и макро-решения.
-    2. "economics": Экономика и институты.
-    3. "business": Бизнес и M&A.
-    4. "technology": Технологии и инновации.
-    5. "energy": Энергетика и ресурсы.
-    6. "security": Безопасность и конфликты.
+    1. "politics": Законодательство, госуправление, геополитика, национальные выборы.
+    2. "conflicts": Военные действия, оборона, безопасность.
+    3. "economy": Макроэкономика, рынки, ЦБ, ОПЕК.
+    4. "b2b_retail": B2B, макро-ритейл, логистика.
+    5. "tech_health": IT, ИИ, фармакология.
+    6. "society": Общество, социологические опросы.
 
     СТРОЖАЙШИЕ ПРАВИЛА:
-    1. РАЗДЕЛЬНЫЕ КВОТЫ ВНУТРИ КАТЕГОРИЙ: В каждую рубрику отбирай СТРОГО НЕ БОЛЕЕ 3 событий про Россию (is_russia=true) И СТРОГО НЕ БОЛЕЕ 3 событий про остальной мир (is_russia=false).
+    1. ЖЕСТКИЙ ЛИМИТ: Отбирай СТРОГО НЕ БОЛЕЕ 4 самых важных событий на каждую рубрику. 
     2. ИЗ-ЗА ЛИМИТА ТЫ ОБЯЗАН ОБЪЕДИНЯТЬ ДУБЛИКАТЫ: если разные источники пишут про одно и то же, выбери ТОЛЬКО ОДИН ID, самый содержательный. Не трать слоты рубрики на дубли!
     3. Поле "id" ДОЛЖНО СТРОГО СОВПАДАТЬ с ID из входящего блока.
     4. Поле "source_name" должно совпадать с источником под этим ID.
@@ -380,17 +395,18 @@ def generate_analytical_json(raw_data_prompt):
        - Местечковый корпоративный PR (открытия отдельных магазинов, новые филиалы, мелкие запуски продуктов).
        - Городскую афишу и быт (работа музеев, выставок, парков, бесплатные мероприятия, ЖКХ).
        - Хронику происшествий и криминал (ДТП, выпал из окна, убийства, пожары, аресты обычных граждан).
-       - Лайфстайл, спорт.
-    8. "summary_ru" — факт + краткий контекст (что это значит. Но не нужно начинать предложение с «что это значит» и использовать «Важно:». Просто обозначение новости). До 220 символов. Переводи на русский.
+       - Лайфстайл и поп-психологию (советы зумерам/миллениалам, диеты, отношения).
+       - Бытовую недвижимость, шоу-бизнес, спорт.
+    8. "summary_ru" — факт + краткий контекст (почему важно). До 220 символов. Переводи на русский.
 
     JSON СТРУКТУРА:
     {
-      "geopolitics": [{"id": "N_14", "source_name": "Financial Times", "summary_ru": "Факт. Почему важно: контекст.", "is_russia": false}],
-      "economics": [],
-      "business": [],
-      "technology": [],
-      "energy": [],
-      "security": []
+      "politics": [{"id": "N_14", "source_name": "Financial Times", "summary_ru": "Факт. Почему важно: контекст.", "is_russia": false}],
+      "conflicts": [],
+      "economy": [],
+      "b2b_retail": [],
+      "tech_health": [],
+      "society": []
     }
 
     Входящие новости:
@@ -399,6 +415,10 @@ def generate_analytical_json(raw_data_prompt):
     
     prompt = prompt_template.replace("__INPUT_DATA__", raw_data_prompt)
 
+    # Модель: gemini-3.6-flash — актуальная GA-версия на август 2026.
+    # Google меняет доступность моделей быстрее, чем документация — если снова
+    # вылетит 404 "no longer available", смотри актуальное имя здесь:
+    # https://ai.google.dev/gemini-api/docs/models
     url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent?key={gemini_api_key}"
 
     payload = {
@@ -413,37 +433,30 @@ def generate_analytical_json(raw_data_prompt):
 
     max_retries = 3
     for attempt in range(max_retries):
-        try:
-            response = requests.post(url, json=payload, timeout=90)
+        response = requests.post(url, json=payload, timeout=90)
 
-            if response.status_code in [429, 500, 502, 503, 504]:
-                wait_time = 15 * (attempt + 1)
-                print(f"Временная ошибка API ({response.status_code}). Ждем {wait_time} секунд...")
-                time.sleep(wait_time)
-                continue
+        if response.status_code == 429:
+            wait_time = 15 * (attempt + 1)
+            print(f"Превышен лимит Gemini (429). Ждем {wait_time} секунд...")
+            time.sleep(wait_time)
+            continue
 
-            if response.status_code == 404:
-                print(f"Модель недоступна (404): {response.text}\nПроверь актуальное имя модели.")
-                break
+        if response.status_code == 404:
+            print(f"Модель недоступна (404): {response.text}\nПроверь актуальное имя модели: https://ai.google.dev/gemini-api/docs/models")
 
-            response.raise_for_status()
-            result = response.json()
+        if response.status_code != 200:
+            print(f"Ошибка Gemini API ({response.status_code}): {response.text}")
 
-            finish_reason = result.get("candidates", [{}])[0].get("finishReason", "")
-            if finish_reason == "MAX_TOKENS":
-                print("ВНИМАНИЕ: ответ модели обрезан по лимиту maxOutputTokens.")
+        response.raise_for_status()
+        result = response.json()
 
-            return result["candidates"][0]["content"]["parts"][0]["text"]
+        finish_reason = result.get("candidates", [{}])[0].get("finishReason", "")
+        if finish_reason == "MAX_TOKENS":
+            print("ВНИМАНИЕ: ответ модели обрезан по лимиту maxOutputTokens — увеличь лимит в generate_analytical_json.")
 
-        except requests.exceptions.RequestException as e:
-            print(f"Сетевая ошибка при обращении к Gemini: {e}")
-            if attempt < max_retries - 1:
-                time.sleep(15 * (attempt + 1))
-                continue
-            else:
-                break
+        return result["candidates"][0]["content"]["parts"][0]["text"]
 
-    raise RuntimeError("Не удалось получить ответ от Gemini API после всех попыток.")
+    raise RuntimeError("Не удалось получить ответ от Gemini API.")
 
 def clean_json_str(raw_str):
     clean = raw_str.strip()
@@ -471,17 +484,16 @@ def build_html_digest(raw_response, news_db):
         return "", ""
 
     sections = [
-        ("geopolitics", "🌍 ГЕОПОЛИТИКА И МАКРО-РЕШЕНИЯ"),
-        ("economics", "📈 ЭКОНОМИКА И ИНСТИТУТЫ"),
-        ("business", "💼 БИЗНЕС И M&A"),
-        ("technology", "🧬 ТЕХНОЛОГИИ И ИННОВАЦИИ"),
-        ("energy", "⚡ ЭНЕРГЕТИКА И РЕСУРСЫ"),
-        ("security", "🪖 БЕЗОПАСНОСТЬ И КОНФЛИКТЫ")
+        ("politics", "🏛 ПОЛИТИКА И ГОСУПРАВЛЕНИЕ"),
+        ("conflicts", "🪖 КОНФЛИКТЫ И БЕЗОПАСНОСТЬ"),
+        ("economy", "📈 ЭКОНОМИКА И ФИНАНСЫ"),
+        ("b2b_retail", "💼 ОТРАСЛЕВОЙ B2B И РИТЕЙЛ"),
+        ("tech_health", "🧬 ТЕХНОЛОГИИ И ЗДРАВООХРАНЕНИЕ"),
+        ("society", "👥 ОБЩЕСТВО И СОЦИОЛОГИЯ")
     ]
 
-    seen_urls_in_digest = set()
-
     def build_one(target_is_russia, header):
+        seen_urls_in_digest = set()
         html_output = f"{header}\n\n"
         any_valid_anywhere = False
 
