@@ -1,4 +1,4 @@
-print("=== ЗАПУСК СКРИПТА ВЕРСИИ 6.5 (NO_TELEGRAM) ===")
+print("=== ЗАПУСК СКРИПТА ВЕРСИИ 6.6 (CLEAN_THEMATIC_CATEGORIES) ===")
 
 import os
 import re
@@ -43,7 +43,7 @@ def save_sent_urls(sent_set):
     except Exception as e:
         print(f"Ошибка сохранения истории: {e}")
 
-# 2. Таблица каноничных названий (обновлена под новые источники OPML)
+# 2. Таблица каноничных названий
 FEED_CANONICAL_NAMES = {
     "reuters.com": "Reuters",
     "apnews.com": "Associated Press",
@@ -348,12 +348,12 @@ def generate_analytical_json(raw_data_prompt):
     ОСОБЫЙ ФОКУС — на макро-решениях и России.
 
     КАТЕГОРИИ:
-    1. "politics": Законодательство, госуправление, геополитика, национальные выборы.
-    2. "conflicts": Военные действия, оборона, безопасность.
-    3. "economy": Макроэкономика, рынки, ЦБ, ОПЕК.
-    4. "b2b_retail": B2B, макро-ритейл, логистика.
-    5. "tech_health": IT, ИИ, фармакология.
-    6. "society": Общество, социологические опросы.
+    1. "geopolitics": Геополитика и макро-решения.
+    2. "economics": Экономика и институты.
+    3. "business": Бизнес и M&A.
+    4. "technology": Технологии и инновации.
+    5. "energy": Энергетика и ресурсы.
+    6. "security": Безопасность и конфликты.
 
     СТРОЖАЙШИЕ ПРАВИЛА:
     1. РАЗДЕЛЬНЫЕ КВОТЫ ВНУТРИ КАТЕГОРИЙ: В каждую рубрику отбирай СТРОГО НЕ БОЛЕЕ 3 событий про Россию (is_russia=true) И СТРОГО НЕ БОЛЕЕ 3 событий про остальной мир (is_russia=false).
@@ -372,12 +372,12 @@ def generate_analytical_json(raw_data_prompt):
 
     JSON СТРУКТУРА:
     {
-      "politics": [{"id": "N_14", "source_name": "Financial Times", "summary_ru": "Факт. Почему важно: контекст.", "is_russia": false}],
-      "conflicts": [],
-      "economy": [],
-      "b2b_retail": [],
-      "tech_health": [],
-      "society": []
+      "geopolitics": [{"id": "N_14", "source_name": "Financial Times", "summary_ru": "Факт. Почему важно: контекст.", "is_russia": false}],
+      "economics": [],
+      "business": [],
+      "technology": [],
+      "energy": [],
+      "security": []
     }
 
     Входящие новости:
@@ -458,12 +458,12 @@ def build_html_digest(raw_response, news_db):
         return "", ""
 
     sections = [
-        ("politics", "🏛 ПОЛИТИКА И ГОСУПРАВЛЕНИЕ"),
-        ("conflicts", "🪖 КОНФЛИКТЫ И БЕЗОПАСНОСТЬ"),
-        ("economy", "📈 ЭКОНОМИКА И ФИНАНСЫ"),
-        ("b2b_retail", "💼 ОТРАСЛЕВОЙ B2B И РИТЕЙЛ"),
-        ("tech_health", "🧬 ТЕХНОЛОГИИ И ЗДРАВООХРАНЕНИЕ"),
-        ("society", "👥 ОБЩЕСТВО И СОЦИОЛОГИЯ")
+        ("geopolitics", "🌍 ГЕОПОЛИТИКА И МАКРО-РЕШЕНИЯ"),
+        ("economics", "📈 ЭКОНОМИКА И ИНСТИТУТЫ"),
+        ("business", "💼 БИЗНЕС И M&A"),
+        ("technology", "🧬 ТЕХНОЛОГИИ И ИННОВАЦИИ"),
+        ("energy", "⚡ ЭНЕРГЕТИКА И РЕСУРСЫ"),
+        ("security", "🪖 БЕЗОПАСНОСТЬ И КОНФЛИКТЫ")
     ]
 
     seen_urls_in_digest = set()
