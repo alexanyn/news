@@ -389,9 +389,11 @@ def generate_analytical_json(raw_data_prompt):
     
     prompt = prompt_template.replace("__INPUT_DATA__", raw_data_prompt)
 
-    # Модель можно сменить на актуальную из твоего Google AI Studio, если Google
-    # обновит рекомендуемую по умолчанию (например, на gemini-3-flash).
-    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key={gemini_api_key}"
+    # Модель: gemini-3.6-flash — актуальная GA-версия на август 2026.
+    # Google меняет доступность моделей быстрее, чем документация — если снова
+    # вылетит 404 "no longer available", смотри актуальное имя здесь:
+    # https://ai.google.dev/gemini-api/docs/models
+    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent?key={gemini_api_key}"
 
     payload = {
         "contents": [{"parts": [{"text": prompt}]}],
@@ -411,6 +413,9 @@ def generate_analytical_json(raw_data_prompt):
             print(f"Превышен лимит Gemini (429). Ждем {wait_time} секунд...")
             time.sleep(wait_time)
             continue
+
+        if response.status_code == 404:
+            print(f"Модель недоступна (404): {response.text}\nПроверь актуальное имя модели: https://ai.google.dev/gemini-api/docs/models")
 
         if response.status_code != 200:
             print(f"Ошибка Gemini API ({response.status_code}): {response.text}")
