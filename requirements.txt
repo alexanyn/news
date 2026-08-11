@@ -1,4 +1,4 @@
-pyTelegramBotAPI
+requests
 feedparser
 beautifulsoup4
-requests
+pyTelegramBotAPI
