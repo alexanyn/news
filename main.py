@@ -1,4 +1,4 @@
-print("=== ЗАПУСК СКРИПТА ВЕРСИИ 5.10 (SPLIT_WORLD_RUSSIA_FIXED_QUOTAS) ===")
+print("=== ЗАПУСК СКРИПТА ВЕРСИИ 6.0 (GEMINI_SWITCH) ===")
 
 import os
 import re
@@ -12,12 +12,12 @@ import telebot
 from telebot.apihelper import ApiTelegramException
 
 # 1. Переменные окружения
-groq_api_key = os.environ.get("GROQ_API_KEY")
+gemini_api_key = os.environ.get("GEMINI_API_KEY")
 bot_token = os.environ.get("TELEGRAM_BOT_TOKEN")
 chat_id = os.environ.get("TELEGRAM_CHAT_ID")
 
-if not groq_api_key or not bot_token or not chat_id:
-    raise ValueError("Ошибка: Проверьте GROQ_API_KEY, TELEGRAM_BOT_TOKEN и TELEGRAM_CHAT_ID в GitHub Secrets!")
+if not gemini_api_key or not bot_token or not chat_id:
+    raise ValueError("Ошибка: Проверьте GEMINI_API_KEY, TELEGRAM_BOT_TOKEN и TELEGRAM_CHAT_ID в GitHub Secrets!")
 
 bot = telebot.TeleBot(bot_token)
 CHAT_ID = chat_id
@@ -41,7 +41,7 @@ def save_sent_urls(sent_set):
     except Exception as e:
         print(f"Ошибка сохранения истории: {e}")
 
-# 2. Таблица каноничных названий
+# 2. Таблица каноничных названий (Код удален)
 FEED_CANONICAL_NAMES = {
     "8szapkg4dk4ugsj": "The Information",
     "theinformation": "The Information",
@@ -188,6 +188,7 @@ RSS_FEEDS = [
 
 TG_CHANNELS = ["mmi_ru", "solidfin", "xtxixty", "russianmacro"]
 
+# 3. Пре-фильтры
 JUNK_KEYWORDS_RU = [
     "инопланет", "нло ", "гороскоп", "звёзды шоу-бизнеса", "шоу-бизнес",
     "свадьб", "рецепт", "знаменитост", "поженил", "развелся", "развелась",
@@ -195,6 +196,7 @@ JUNK_KEYWORDS_RU = [
     "открытие магазина", "открыл магазин", "новый филиал", "магазина сети",
     "расширяет сеть", "открылся первый", "новая точка",
     "подкаст", "аудиоверсия",
+    # Городская афиша и лайфстайл
     "бесплатно", "музеи", "выставка", "выставки", "парк горького", "вднх", "фестиваль",
     "зумер", "миллениал", "психолог посоветовал", "психологи рассказали", "лайфхак"
 ]
@@ -209,11 +211,13 @@ MEDIA_JUNK_REGEX = re.compile(
     re.IGNORECASE
 )
 
+# Фильтр криминала и ЧП
 CRIME_JUNK_REGEX = re.compile(
     r'\b(выпал из окна|выпала из окна|найден труп|поножовщин|дтп|сбили пешехода|задержан|возбуждено уголовное дело|убийств)\b', 
     re.IGNORECASE
 )
 
+# 4. Пост-фильтр
 LOCAL_POLITICS_KEYWORDS = [
     "праймериз", "пелоси", "бланше", "муницип", "мэр ", "мэра ", "мэрии",
     "городского совета", "городской думы", "местного самоуправления",
@@ -336,7 +340,7 @@ def collect_all_news(sent_urls):
             print(f"Ошибка парсинга TG @{channel}: {e}")
 
     random.shuffle(items_for_prompt)
-    limited_items = items_for_prompt[:60]
+    limited_items = items_for_prompt[:150]  # Gemini free tier легко тянет больше items, чем Groq
     
     return news_db, "\n".join(limited_items)
 
@@ -354,18 +358,19 @@ def generate_analytical_json(raw_data_prompt):
     6. "society": Общество, социологические опросы.
 
     СТРОЖАЙШИЕ ПРАВИЛА:
-    1. РАЗДЕЛЬНЫЕ КВОТЫ ВНУТРИ КАТЕГОРИЙ: В каждую рубрику отбирай СТРОГО НЕ БОЛЕЕ 3 событий про Россию (is_russia=true) И СТРОГО НЕ БОЛЕЕ 3 событий про остальной мир (is_russia=false).
+    1. ЖЕСТКИЙ ЛИМИТ: Отбирай СТРОГО НЕ БОЛЕЕ 4 самых важных событий на каждую рубрику. 
     2. ИЗ-ЗА ЛИМИТА ТЫ ОБЯЗАН ОБЪЕДИНЯТЬ ДУБЛИКАТЫ: если разные источники пишут про одно и то же, выбери ТОЛЬКО ОДИН ID, самый содержательный. Не трать слоты рубрики на дубли!
     3. Поле "id" ДОЛЖНО СТРОГО СОВПАДАТЬ с ID из входящего блока.
     4. Поле "source_name" должно совпадать с источником под этим ID.
-    5. Поле "is_russia" (true/false) — ставь true, ЕСЛИ новость напрямую касается России: её государства, экономики, армии, компаний, регионов, решений властей, ИЛИ если это реакция других стран/институтов непосредственно на Россию. Во всех остальных случаях — false.
+    5. Поле "is_russia" (true/false) — ставь true, ЕСЛИ новость напрямую касается России: её государства, экономики, армии, компаний, регионов, решений властей, ИЛИ если это реакция других стран/институтов непосредственно на Россию. Во всех остальных случаях (мировая политика, экономика других стран, глобальные события без прямой привязки к РФ) — false.
     6. ВЗАИМОИСКЛЮЧЕНИЕ КАТЕГОРИЙ: Каждый ID может быть использован строго в ОДНОЙ категории.
     7. КАТЕГОРИЧЕСКИ ИСКЛЮЧАЙ мусор (даже если он про Россию): 
-       - Локальную внутреннюю политика.
-       - Местечковый корпоративный PR.
-       - Городскую афиша и быт.
-       - Хронику происшествий и криминал.
-       - Лайфстайл, спорт.
+       - Локальную внутреннюю политику (праймериз, назначения мэров).
+       - Местечковый корпоративный PR (открытия отдельных магазинов, новые филиалы, мелкие запуски продуктов).
+       - Городскую афишу и быт (работа музеев, выставок, парков, бесплатные мероприятия, ЖКХ).
+       - Хронику происшествий и криминал (ДТП, выпал из окна, убийства, пожары, аресты обычных граждан).
+       - Лайфстайл и поп-психологию (советы зумерам/миллениалам, диеты, отношения).
+       - Бытовую недвижимость, шоу-бизнес, спорт.
     8. "summary_ru" — факт + краткий контекст (почему важно). До 220 символов. Переводи на русский.
 
     JSON СТРУКТУРА:
@@ -384,40 +389,37 @@ def generate_analytical_json(raw_data_prompt):
     
     prompt = prompt_template.replace("__INPUT_DATA__", raw_data_prompt)
 
-    headers = {
-        "Authorization": f"Bearer {groq_api_key}",
-        "Content-Type": "application/json"
-    }
+    # Модель можно сменить на актуальную из твоего Google AI Studio, если Google
+    # обновит рекомендуемую по умолчанию (например, на gemini-3-flash).
+    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key={gemini_api_key}"
 
     payload = {
-        "model": "llama-3.3-70b-versatile",
-        "messages": [{"role": "user", "content": prompt}],
-        "temperature": 0.1,
-        "max_tokens": 3000,
-        "response_format": {"type": "json_object"}
+        "contents": [{"parts": [{"text": prompt}]}],
+        "generationConfig": {
+            "temperature": 0.1,
+            "maxOutputTokens": 4000,
+            "responseMimeType": "application/json"
+        }
     }
 
     max_retries = 3
     for attempt in range(max_retries):
-        response = requests.post(
-            "https://api.groq.com/openai/v1/chat/completions",
-            headers=headers,
-            json=payload,
-            timeout=90
-        )
+        response = requests.post(url, json=payload, timeout=90)
+
         if response.status_code == 429:
-            wait_time = 10 * (attempt + 1)
-            print(f"Превышен лимит Groq (429). Ждем {wait_time} секунд...")
+            wait_time = 15 * (attempt + 1)
+            print(f"Превышен лимит Gemini (429). Ждем {wait_time} секунд...")
             time.sleep(wait_time)
             continue
-            
+
         if response.status_code != 200:
-            print(f"Ошибка Groq API ({response.status_code}): {response.text}")
+            print(f"Ошибка Gemini API ({response.status_code}): {response.text}")
 
         response.raise_for_status()
-        return response.json()["choices"][0]["message"]["content"]
-        
-    raise RuntimeError("Не удалось получить ответ от Groq API.")
+        result = response.json()
+        return result["candidates"][0]["content"]["parts"][0]["text"]
+
+    raise RuntimeError("Не удалось получить ответ от Gemini API.")
 
 def clean_json_str(raw_str):
     clean = raw_str.strip()
@@ -453,10 +455,8 @@ def build_html_digest(raw_response, news_db):
         ("society", "👥 ОБЩЕСТВО И СОЦИОЛОГИЯ")
     ]
 
-    # Единый реестр ссылок для обоих дайджестов, чтобы исключить кросс-дублирование
-    seen_urls_in_digest = set()
-
     def build_one(target_is_russia, header):
+        seen_urls_in_digest = set()
         html_output = f"{header}\n\n"
         any_valid_anywhere = False
 
