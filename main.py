@@ -1,4 +1,4 @@
-print("=== ЗАПУСК СКРИПТА ВЕРСИИ 5.8 (RU_MACRO_STRICT_NO_CRIME_KOD) ===")
+print("=== ЗАПУСК СКРИПТА ВЕРСИИ 5.9 (SPLIT_WORLD_RUSSIA_POSTS) ===")
 
 import os
 import re
@@ -362,7 +362,7 @@ def generate_analytical_json(raw_data_prompt):
     2. ИЗ-ЗА ЛИМИТА ТЫ ОБЯЗАН ОБЪЕДИНЯТЬ ДУБЛИКАТЫ: если разные источники пишут про одно и то же, выбери ТОЛЬКО ОДИН ID, самый содержательный. Не трать слоты рубрики на дубли!
     3. Поле "id" ДОЛЖНО СТРОГО СОВПАДАТЬ с ID из входящего блока.
     4. Поле "source_name" должно совпадать с источником под этим ID.
-    5. РОССИЯ — ПРИОРИТЕТ, ставь её первыми пунктами в категории (если это важная федеральная/макроэкономическая новость).
+    5. Поле "is_russia" (true/false) — ставь true, ЕСЛИ новость напрямую касается России: её государства, экономики, армии, компаний, регионов, решений властей, ИЛИ если это реакция других стран/институтов непосредственно на Россию. Во всех остальных случаях (мировая политика, экономика других стран, глобальные события без прямой привязки к РФ) — false.
     6. ВЗАИМОИСКЛЮЧЕНИЕ КАТЕГОРИЙ: Каждый ID может быть использован строго в ОДНОЙ категории.
     7. КАТЕГОРИЧЕСКИ ИСКЛЮЧАЙ мусор (даже если он про Россию): 
        - Локальную внутреннюю политику (праймериз, назначения мэров).
@@ -375,7 +375,7 @@ def generate_analytical_json(raw_data_prompt):
 
     JSON СТРУКТУРА:
     {
-      "politics": [{"id": "N_14", "source_name": "Financial Times", "summary_ru": "Факт. Почему важно: контекст."}],
+      "politics": [{"id": "N_14", "source_name": "Financial Times", "summary_ru": "Факт. Почему важно: контекст.", "is_russia": false}],
       "conflicts": [],
       "economy": [],
       "b2b_retail": [],
@@ -447,7 +447,7 @@ def build_html_digest(raw_response, news_db):
         data = json.loads(json_clean)
     except Exception as e:
         print(f"Критическая ошибка парсинга JSON от модели: {e}")
-        return ""
+        return "", ""
 
     sections = [
         ("politics", "🏛 ПОЛИТИКА И ГОСУПРАВЛЕНИЕ"),
@@ -458,15 +458,16 @@ def build_html_digest(raw_response, news_db):
         ("society", "👥 ОБЩЕСТВО И СОЦИОЛОГИЯ")
     ]
 
-    seen_urls_in_digest = set()  
-    html_output = ""
-    
-    for key, title in sections:
-        items = data.get(key, [])
-        html_output += f"<b>{title}</b>\n"
-        
-        valid_items_count = 0
-        if items:
+    def build_one(target_is_russia, header):
+        seen_urls_in_digest = set()
+        html_output = f"{header}\n\n"
+        any_valid_anywhere = False
+
+        for key, title in sections:
+            items = [it for it in data.get(key, []) if bool(it.get("is_russia")) == target_is_russia]
+            html_output += f"<b>{title}</b>\n"
+
+            valid_items_count = 0
             for item in items:
                 news_id = str(item.get("id", "")).strip()
                 summary = sanitize_summary_text(item.get("summary_ru", ""))
@@ -489,12 +490,19 @@ def build_html_digest(raw_response, news_db):
                 html_output += f"• {summary} (<a href=\"{url}\">{source_name}</a>)\n"
                 valid_items_count += 1
 
-        if valid_items_count == 0:
-            html_output += "• <i>Существенных сдвигов за прошедшие часы не зафиксировано</i>\n"
+            if valid_items_count == 0:
+                html_output += "• <i>Существенных сдвигов за прошедшие часы не зафиксировано</i>\n"
+            else:
+                any_valid_anywhere = True
 
-        html_output += "\n"
+            html_output += "\n"
 
-    return html_output.strip()
+        return html_output.strip() if any_valid_anywhere else ""
+
+    world_html = build_one(False, "🌍 <b>МИРОВАЯ ПОВЕСТКА</b>")
+    russia_html = build_one(True, "🇷🇺 <b>РОССИЯ</b>")
+
+    return world_html, russia_html
 
 def send_telegram_message(chat_id, text):
     if not text.strip():
@@ -533,10 +541,20 @@ if __name__ == "__main__":
 
     if raw_data_prompt.strip():
         raw_json = generate_analytical_json(raw_data_prompt)
-        formatted_html = build_html_digest(raw_json, news_db)
+        world_html, russia_html = build_html_digest(raw_json, news_db)
 
-        if formatted_html.strip():
-            send_telegram_message(CHAT_ID, formatted_html)
+        sent_anything = False
+
+        if world_html.strip():
+            send_telegram_message(CHAT_ID, world_html)
+            sent_anything = True
+            time.sleep(2)
+
+        if russia_html.strip():
+            send_telegram_message(CHAT_ID, russia_html)
+            sent_anything = True
+
+        if sent_anything:
             save_sent_urls(sent_urls_history)
     else:
         print("Новых материалов за прошедшие часы не обнаружено.")
