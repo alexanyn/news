@@ -399,8 +399,9 @@ def generate_analytical_json(raw_data_prompt):
         "contents": [{"parts": [{"text": prompt}]}],
         "generationConfig": {
             "temperature": 0.1,
-            "maxOutputTokens": 4000,
-            "responseMimeType": "application/json"
+            "maxOutputTokens": 8192,
+            "responseMimeType": "application/json",
+            "thinkingConfig": {"thinkingLevel": "low"}
         }
     }
 
@@ -422,6 +423,11 @@ def generate_analytical_json(raw_data_prompt):
 
         response.raise_for_status()
         result = response.json()
+
+        finish_reason = result.get("candidates", [{}])[0].get("finishReason", "")
+        if finish_reason == "MAX_TOKENS":
+            print("ВНИМАНИЕ: ответ модели обрезан по лимиту maxOutputTokens — увеличь лимит в generate_analytical_json.")
+
         return result["candidates"][0]["content"]["parts"][0]["text"]
 
     raise RuntimeError("Не удалось получить ответ от Gemini API.")
