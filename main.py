@@ -1,4 +1,4 @@
-print("=== ЗАПУСК СКРИПТА ВЕРСИИ 6.4 (NEW_OPML_FEEDS) ===")
+print("=== ЗАПУСК СКРИПТА ВЕРСИИ 6.5 (NO_TELEGRAM) ===")
 
 import os
 import re
@@ -214,8 +214,6 @@ RSS_FEEDS = [
     "https://news.google.com/rss/search?q=site:data.worldbank.org&hl=en-US&gl=US&ceid=US:en"
 ]
 
-TG_CHANNELS = ["mmi_ru", "solidfin", "xtxixty", "russianmacro"]
-
 # 3. Пре-фильтры
 JUNK_KEYWORDS_RU = [
     "инопланет", "нло ", "гороскоп", "звёзды шоу-бизнеса", "шоу-бизнес",
@@ -338,50 +336,6 @@ def collect_all_news(sent_urls):
                 sent_urls.add(link)
         except Exception as e:
             print(f"Ошибка парсинга RSS [{resolve_canonical_name(feed_url)}] {feed_url}: {type(e).__name__}: {e}")
-
-    headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)'}
-    for channel in TG_CHANNELS:
-        try:
-            url = f"https://t.me/s/{channel}"
-            res = requests.get(url, headers=headers, timeout=15)
-            soup = BeautifulSoup(res.text, 'html.parser')
-            
-            messages = soup.find_all('div', class_='tgme_widget_message')
-            valid_messages = [m for m in messages if 'service_message' not in m.get('class', [])]
-            canonical_source = resolve_canonical_name(channel)
-
-            for msg in valid_messages[-3:]:
-                data_post = msg.get('data-post')
-                text_div = msg.find('div', class_='tgme_widget_message_text')
-                if not text_div:
-                    continue
-
-                post_text = clean_input_text(text_div.get_text(strip=True))
-                
-                if data_post:
-                    post_url = f"https://t.me/{data_post}"
-                else:
-                    post_url = f"https://t.me/{channel}"
-
-                if post_url in sent_urls:
-                    continue
-
-                if is_junk_topic(post_text):
-                    sent_urls.add(post_url)
-                    continue
-
-                news_id = f"N_{item_counter}"
-                item_counter += 1
-
-                news_db[news_id] = {
-                    "source_name": canonical_source,
-                    "url": post_url
-                }
-
-                items_for_prompt.append(f"ID: {news_id} | Источник: {canonical_source}\nКонтекст: {post_text[:140]}\n---")
-                sent_urls.add(post_url)
-        except Exception as e:
-            print(f"Ошибка парсинга TG @{channel}: {e}")
 
     random.shuffle(items_for_prompt)
     limited_items = items_for_prompt[:150]
