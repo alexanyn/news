@@ -1,4 +1,4 @@
-print("=== ЗАПУСК СКРИПТА ВЕРСИИ 6.2 (ROBUST_RSS_FETCH_DIAGNOSTICS) ===")
+print("=== ЗАПУСК СКРИПТА ВЕРСИИ 6.3 (CLEAN_FEEDS_AND_API_RETRY) ===")
 
 import os
 import re
@@ -43,7 +43,7 @@ def save_sent_urls(sent_set):
     except Exception as e:
         print(f"Ошибка сохранения истории: {e}")
 
-# 2. Таблица каноничных названий (Код удален)
+# 2. Таблица каноничных названий (очищена от 404/403/410 ошибок)
 FEED_CANONICAL_NAMES = {
     "8szapkg4dk4ugsj": "The Information",
     "theinformation": "The Information",
@@ -73,14 +73,11 @@ FEED_CANONICAL_NAMES = {
     "romir": "РОМИР",
     "wdcmvjy7bajgrtcc": "Росстат",
     "rosstat": "Росстат",
-    "fom.ru": "ФОМ",
-    "wciom.ru": "ВЦИОМ",
     "levada.ru": "Левада-Центр",
     "sostav.ru": "Состав",
     "adindex.ru": "AdIndex",
     "cnews.ru": "CNews",
     "nplus1.ru": "N+1",
-    "pharmvestnik.ru": "Фармвестник",
     "vademec.ru": "Vademecum",
     "retail.ru": "Retail.ru",
     "kommersant.ru": "Коммерсантъ",
@@ -96,7 +93,6 @@ FEED_CANONICAL_NAMES = {
     "1prime.ru": "Прайм",
     "frankmedia.ru": "Frank Media",
     "globalaffairs.ru": "Россия в глоб. политике",
-    "valdaiclub.com": "Валдай",
     "xn8geg0kjxjnedsc": "Associated Press",
     "apnews": "Associated Press",
     "bloomberg": "Bloomberg",
@@ -106,9 +102,6 @@ FEED_CANONICAL_NAMES = {
     "reuters": "Reuters",
     "foreignaffairs.com": "Foreign Affairs",
     "pewresearch.org": "Pew Research",
-    "cfr.org": "CFR",
-    "csis.org": "CSIS",
-    "bruegel.org": "Bruegel",
     "carnegieendowment.org": "Carnegie",
     "theguardian.com": "The Guardian",
     "aljazeera.com": "Al Jazeera",
@@ -142,8 +135,6 @@ RSS_FEEDS = [
     "https://rss.app/feeds/4N9GkL2gMfHjdlx2.xml",
     "https://rss.app/feeds/XQ3dPeNk8t6KKZDe.xml",
     "https://rss.app/feeds/WDCmvjy7BajGRTCc.xml",
-    "https://fom.ru/rss.xml",
-    "https://wciom.ru/rss.xml",
     "https://www.levada.ru/feed/",
     "https://www.sostav.ru/rss",
     "https://adindex.ru/news/news.rss",
@@ -165,11 +156,9 @@ RSS_FEEDS = [
     "https://frankmedia.ru/feed",
     "https://www.cnews.ru/inc/rss/news.xml",
     "https://nplus1.ru/rss",
-    "https://pharmvestnik.ru/rss/news.xml",
     "https://vademec.ru/rss/",
     "https://www.retail.ru/rss/news/",
     "https://globalaffairs.ru/feed/",
-    "https://ru.valdaiclub.com/rss/",
     "https://istories.media/rss/all.xml",
     "https://zona.media/rss",
     "https://www.currenttime.tv/api/z$gqiteyq_gt",
@@ -177,9 +166,6 @@ RSS_FEEDS = [
     "https://rss.app/feeds/Xz567X8w88wqe8IZ.xml",
     "https://www.foreignaffairs.com/rss.xml",
     "https://www.pewresearch.org/feed/",
-    "https://www.cfr.org/rss.xml",
-    "https://www.csis.org/rss/all",
-    "https://www.bruegel.org/rss.xml",
     "https://carnegieendowment.org/rss/solr/publications",
     "https://www.theguardian.com/world/rss",
     "https://www.aljazeera.com/xml/rss/all.xml",
@@ -198,7 +184,6 @@ JUNK_KEYWORDS_RU = [
     "открытие магазина", "открыл магазин", "новый филиал", "магазина сети",
     "расширяет сеть", "открылся первый", "новая точка",
     "подкаст", "аудиоверсия",
-    # Городская афиша и лайфстайл
     "бесплатно", "музеи", "выставка", "выставки", "парк горького", "вднх", "фестиваль",
     "зумер", "миллениал", "психолог посоветовал", "психологи рассказали", "лайфхак"
 ]
@@ -213,13 +198,11 @@ MEDIA_JUNK_REGEX = re.compile(
     re.IGNORECASE
 )
 
-# Фильтр криминала и ЧП
 CRIME_JUNK_REGEX = re.compile(
     r'\b(выпал из окна|выпала из окна|найден труп|поножовщин|дтп|сбили пешехода|задержан|возбуждено уголовное дело|убийств)\b', 
     re.IGNORECASE
 )
 
-# 4. Пост-фильтр
 LOCAL_POLITICS_KEYWORDS = [
     "праймериз", "пелоси", "бланше", "муницип", "мэр ", "мэра ", "мэрии",
     "городского совета", "городской думы", "местного самоуправления",
@@ -262,14 +245,9 @@ RSS_USER_AGENT = (
 )
 
 def fetch_feed(feed_url):
-    """Загружает ленту через requests с браузерным User-Agent и таймаутом,
-    затем отдаёт байты в feedparser. В отличие от feedparser.parse(url) напрямую,
-    здесь видно РЕАЛЬНУЮ причину сбоя (403, таймаут, SSL, редирект) —
-    feedparser молча глотает такие ошибки и просто возвращает пустой feed."""
     try:
         resp = requests.get(feed_url, headers={"User-Agent": RSS_USER_AGENT}, timeout=15)
     except requests.exceptions.SSLError:
-        # У некоторых сайтов (в т.ч. госорганизаций) кривой/самоподписанный сертификат.
         print(f"SSL-ошибка на {feed_url}, повтор без проверки сертификата")
         resp = requests.get(feed_url, headers={"User-Agent": RSS_USER_AGENT}, timeout=15, verify=False)
     resp.raise_for_status()
@@ -366,7 +344,7 @@ def collect_all_news(sent_urls):
             print(f"Ошибка парсинга TG @{channel}: {e}")
 
     random.shuffle(items_for_prompt)
-    limited_items = items_for_prompt[:150]  # Gemini free tier легко тянет больше items, чем Groq
+    limited_items = items_for_prompt[:150]
     
     return news_db, "\n".join(limited_items)
 
@@ -384,7 +362,7 @@ def generate_analytical_json(raw_data_prompt):
     6. "society": Общество, социологические опросы.
 
     СТРОЖАЙШИЕ ПРАВИЛА:
-    1. ЖЕСТКИЙ ЛИМИТ: Отбирай СТРОГО НЕ БОЛЕЕ 4 самых важных событий на каждую рубрику. 
+    1. РАЗДЕЛЬНЫЕ КВОТЫ ВНУТРИ КАТЕГОРИЙ: В каждую рубрику отбирай СТРОГО НЕ БОЛЕЕ 3 событий про Россию (is_russia=true) И СТРОГО НЕ БОЛЕЕ 3 событий про остальной мир (is_russia=false).
     2. ИЗ-ЗА ЛИМИТА ТЫ ОБЯЗАН ОБЪЕДИНЯТЬ ДУБЛИКАТЫ: если разные источники пишут про одно и то же, выбери ТОЛЬКО ОДИН ID, самый содержательный. Не трать слоты рубрики на дубли!
     3. Поле "id" ДОЛЖНО СТРОГО СОВПАДАТЬ с ID из входящего блока.
     4. Поле "source_name" должно совпадать с источником под этим ID.
@@ -395,8 +373,7 @@ def generate_analytical_json(raw_data_prompt):
        - Местечковый корпоративный PR (открытия отдельных магазинов, новые филиалы, мелкие запуски продуктов).
        - Городскую афишу и быт (работа музеев, выставок, парков, бесплатные мероприятия, ЖКХ).
        - Хронику происшествий и криминал (ДТП, выпал из окна, убийства, пожары, аресты обычных граждан).
-       - Лайфстайл и поп-психологию (советы зумерам/миллениалам, диеты, отношения).
-       - Бытовую недвижимость, шоу-бизнес, спорт.
+       - Лайфстайл, спорт.
     8. "summary_ru" — факт + краткий контекст (что это значит. Но не нужно начинать предложение с «что это значит»). До 220 символов. Переводи на русский.
 
     JSON СТРУКТУРА:
@@ -415,10 +392,6 @@ def generate_analytical_json(raw_data_prompt):
     
     prompt = prompt_template.replace("__INPUT_DATA__", raw_data_prompt)
 
-    # Модель: gemini-3.6-flash — актуальная GA-версия на август 2026.
-    # Google меняет доступность моделей быстрее, чем документация — если снова
-    # вылетит 404 "no longer available", смотри актуальное имя здесь:
-    # https://ai.google.dev/gemini-api/docs/models
     url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent?key={gemini_api_key}"
 
     payload = {
@@ -433,30 +406,37 @@ def generate_analytical_json(raw_data_prompt):
 
     max_retries = 3
     for attempt in range(max_retries):
-        response = requests.post(url, json=payload, timeout=90)
+        try:
+            response = requests.post(url, json=payload, timeout=90)
 
-        if response.status_code == 429:
-            wait_time = 15 * (attempt + 1)
-            print(f"Превышен лимит Gemini (429). Ждем {wait_time} секунд...")
-            time.sleep(wait_time)
-            continue
+            if response.status_code in [429, 500, 502, 503, 504]:
+                wait_time = 15 * (attempt + 1)
+                print(f"Временная ошибка API ({response.status_code}). Ждем {wait_time} секунд...")
+                time.sleep(wait_time)
+                continue
 
-        if response.status_code == 404:
-            print(f"Модель недоступна (404): {response.text}\nПроверь актуальное имя модели: https://ai.google.dev/gemini-api/docs/models")
+            if response.status_code == 404:
+                print(f"Модель недоступна (404): {response.text}\nПроверь актуальное имя модели.")
+                break
 
-        if response.status_code != 200:
-            print(f"Ошибка Gemini API ({response.status_code}): {response.text}")
+            response.raise_for_status()
+            result = response.json()
 
-        response.raise_for_status()
-        result = response.json()
+            finish_reason = result.get("candidates", [{}])[0].get("finishReason", "")
+            if finish_reason == "MAX_TOKENS":
+                print("ВНИМАНИЕ: ответ модели обрезан по лимиту maxOutputTokens.")
 
-        finish_reason = result.get("candidates", [{}])[0].get("finishReason", "")
-        if finish_reason == "MAX_TOKENS":
-            print("ВНИМАНИЕ: ответ модели обрезан по лимиту maxOutputTokens — увеличь лимит в generate_analytical_json.")
+            return result["candidates"][0]["content"]["parts"][0]["text"]
 
-        return result["candidates"][0]["content"]["parts"][0]["text"]
+        except requests.exceptions.RequestException as e:
+            print(f"Сетевая ошибка при обращении к Gemini: {e}")
+            if attempt < max_retries - 1:
+                time.sleep(15 * (attempt + 1))
+                continue
+            else:
+                break
 
-    raise RuntimeError("Не удалось получить ответ от Gemini API.")
+    raise RuntimeError("Не удалось получить ответ от Gemini API после всех попыток.")
 
 def clean_json_str(raw_str):
     clean = raw_str.strip()
@@ -492,8 +472,9 @@ def build_html_digest(raw_response, news_db):
         ("society", "👥 ОБЩЕСТВО И СОЦИОЛОГИЯ")
     ]
 
+    seen_urls_in_digest = set()
+
     def build_one(target_is_russia, header):
-        seen_urls_in_digest = set()
         html_output = f"{header}\n\n"
         any_valid_anywhere = False
 
