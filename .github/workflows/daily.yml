@@ -2,52 +2,34 @@ name: Automated Intelligence Pipeline
 
 on:
   schedule:
-    # 3 запуска в день по Москве, минуты сдвинуты с ровных :00 —
-    # на них у GitHub Actions самые большие задержки при высокой нагрузке.
-    - cron: '7 8 * * *'
+    - cron: '0 5 * * *'
       timezone: 'Europe/Moscow'
-    - cron: '13 13 * * *'
+    - cron: '0 10 * * *'
       timezone: 'Europe/Moscow'
-    - cron: '4 20 * * *'
+    - cron: '0 17 * * *'
       timezone: 'Europe/Moscow'
-  workflow_dispatch: # Оставляет возможность ручного запуска кнопкой
+  workflow_dispatch: {}
 
 jobs:
   run-analytics-pipeline:
     runs-on: ubuntu-latest
-
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
-      with:
-        fetch-depth: 0 # Критически важно для работы git pull --rebase
-
-    - name: Set up Python
-      uses: actions/setup-python@v5
-      with:
-        python-version: '3.10' # Версия, которая фигурировала в ваших логах
-
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        # Устанавливаем все библиотеки, необходимые для main.py
-        pip install requests feedparser beautifulsoup4 pyTelegramBotAPI
-
-    - name: Run Python script
-      env:
-        GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-        TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-        TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
-      run: python main.py
-
-    - name: Commit and push sent news history
-      run: |
-        git config --local user.email "action@github.com"
-        git config --local user.name "GitHub Action"
-        git add sent_urls.json
-        # Сохраняем изменения локально, если они есть
-        git commit -m "Update sent news history [skip ci]" || echo "No changes to commit"
-        # Скачиваем ваши ручные изменения из репозитория и накладываем поверх них историю ссылок
-        git pull --rebase origin main
-        # Отправляем объединенный результат обратно на сервер
-        git push
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+      - run: |
+          python -m pip install --upgrade pip
+          pip install requests feedparser beautifulsoup4
+      - run: python main.py
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+      - run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add sent_urls.json
+          git commit -m "Update sent news history [skip ci]" || echo "No changes to commit"
+          git pull --rebase origin main
+          git push
