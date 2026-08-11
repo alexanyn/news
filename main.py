@@ -1,4 +1,4 @@
-print("=== ЗАПУСК СКРИПТА ВЕРСИИ 6.6 (CLEAN_THEMATIC_CATEGORIES) ===")
+print("=== ЗАПУСК СКРИПТА ВЕРСИИ 6.7 (FINAL_INTEGRATION) ===")
 
 import os
 import re
@@ -30,16 +30,29 @@ def load_sent_urls():
     if os.path.exists(HISTORY_FILE):
         try:
             with open(HISTORY_FILE, "r", encoding="utf-8") as f:
-                return set(json.load(f))
+                data = json.load(f)
+                if data and isinstance(data[0], str):
+                    return {url: time.time() for url in data}
+                return {item["url"]: item["added_at"] for item in data}
         except Exception as e:
             print(f"Ошибка чтения файла истории: {e}")
-    return set()
+    return {}
 
-def save_sent_urls(sent_set):
-    urls_list = list(sent_set)[-5000:]
+def save_sent_urls(sent_dict):
+    current_time = time.time()
+    cleaned_dict = {
+        url: ts for url, ts in sent_dict.items() 
+        if (current_time - ts) <= (7 * 24 * 3600)
+    }
+    
+    structured_list = [
+        {"url": url, "added_at": ts, "source": "parsed_feed"} 
+        for url, ts in cleaned_dict.items()
+    ]
+    
     try:
         with open(HISTORY_FILE, "w", encoding="utf-8") as f:
-            json.dump(urls_list, f, ensure_ascii=False, indent=2)
+            json.dump(structured_list, f, ensure_ascii=False, indent=2)
     except Exception as e:
         print(f"Ошибка сохранения истории: {e}")
 
@@ -321,7 +334,7 @@ def collect_all_news(sent_urls):
                 summary = clean_input_text(summary)
 
                 if is_junk_topic(title) or is_junk_topic(summary):
-                    sent_urls.add(link)
+                    sent_urls[link] = time.time()
                     continue
 
                 news_id = f"N_{item_counter}"
@@ -333,7 +346,7 @@ def collect_all_news(sent_urls):
                 }
 
                 items_for_prompt.append(f"ID: {news_id} | Источник: {canonical_source}\nЗаголовок: {title}\nКонтекст: {summary[:140]}\n---")
-                sent_urls.add(link)
+                sent_urls[link] = time.time()
         except Exception as e:
             print(f"Ошибка парсинга RSS [{resolve_canonical_name(feed_url)}] {feed_url}: {type(e).__name__}: {e}")
 
