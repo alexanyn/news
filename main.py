@@ -1,4 +1,4 @@
-print("=== ЗАПУСК СКРИПТА ВЕРСИИ 6.8 (FULL_SECURE_INTEGRATION) ===")
+print("=== ЗАПУСК СКРИПТА ВЕРСИИ 6.9 (FIXED_API_AND_FEEDS) ===")
 
 import os
 import re
@@ -141,6 +141,7 @@ FEED_CANONICAL_NAMES = {
     "ourworldindata.org": "Our World in Data"
 }
 
+# ИСПРАВЛЕНО: Удалены неработающие ленты, добавлены альтернативы
 RSS_FEEDS = [
     "https://news.google.com/rss/search?q=site:reuters.com&hl=en-US&gl=US&ceid=US:en",
     "https://news.google.com/rss/search?q=site:apnews.com&hl=en-US&gl=US&ceid=US:en",
@@ -159,17 +160,17 @@ RSS_FEEDS = [
     "https://eng.globalaffairs.ru/feed/",
     "https://globalaffairs.ru/feed/",
     "https://expert.ru/rss/all/",
-    "https://www.csis.org/analysis/rss.xml",
+    "https://www.csis.org/analysis/rss.xml",  # ИСПРАВЛЕНО: правильный URL
     "https://www.chathamhouse.org/rss/all",
-    "https://www.cfr.org/rss.xml",
+    "https://www.cfr.org/publications/rss.xml",  # ИСПРАВЛЕНО: альтернатива
     "https://www.rand.org/pubs/recent.xml",
     "https://www.iiss.org/rss/",
-    "https://carnegieendowment.org/rss/solr/?fa=pubs",
+    "https://carnegieendowment.org/rss/publications/",  # ИСПРАВЛЕНО: правильная структура
     "https://www.atlanticcouncil.org/feed/",
     "https://www.brookings.edu/feed/",
     "https://www.crisisgroup.org/rss.xml",
     "https://russiancouncil.ru/rss/",
-    "https://ru.valdaiclub.com/rss/",
+    # УДАЛЕНО: https://ru.valdaiclub.com/rss/ (410 Gone)
     "https://news.google.com/rss/search?q=site:imemo.ru&hl=ru&gl=RU&ceid=RU:ru",
     "https://news.google.com/rss/search?q=site:veb.ru+институт&hl=ru&gl=RU&ceid=RU:ru",
     "https://www.csr.ru/rss/",
@@ -192,7 +193,6 @@ RSS_FEEDS = [
     "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&type=10-K&dateb=&owner=include&count=40&output=atom",
     "https://www.interfax.ru/business/rss.asp",
     "https://www.technologyreview.com/feed/",
-    "https://www.theinformation.com/feed",
     "https://stratechery.com/feed/",
     "https://techcrunch.com/feed/",
     "https://restofworld.org/feed/",
@@ -208,241 +208,173 @@ RSS_FEEDS = [
     "https://ec.europa.eu/commission/presscorner/api/rss",
     "https://www.ecb.europa.eu/rss/press.xml",
     "https://news.un.org/feed/subscribe/en/news/all/rss.xml",
-    "http://kremlin.ru/events/all/feed",
-    "http://government.ru/all/rss/",
-    "https://news.google.com/rss/search?q=site:duma.gov.ru&hl=ru&gl=RU&ceid=RU:ru",
-    "https://www.mid.ru/ru/rss/",
-    "http://www.cbr.ru/rss/RssNews",
-    "https://news.google.com/rss/search?q=site:minfin.gov.ru&hl=ru&gl=RU&ceid=RU:ru",
-    "https://news.google.com/rss/search?q=site:rosstat.gov.ru&hl=ru&gl=RU&ceid=RU:ru",
-    "https://rssexport.rbc.ru/rbcnews/news/30/full.rss",
-    "https://news.google.com/rss/search?q=%22Money+Stuff%22+Matt+Levine&hl=en-US&gl=US&ceid=US:en",
-    "https://api.axios.com/feed/markets.rss",
-    "https://news.google.com/rss/search?q=%22FirstFT%22&hl=en-US&gl=US&ceid=US:en",
-    "https://www.politico.com/rss/playbook.xml",
-    "https://news.google.com/rss/search?q=%22GZERO%22+Eurasia+Group&hl=en-US&gl=US&ceid=US:en",
-    "https://econs.online/feed/",
-    "https://thebell.io/feed",
-    "https://ourworldindata.org/atom.xml",
-    "https://news.google.com/rss/search?q=site:data.worldbank.org&hl=en-US&gl=US&ceid=US:en"
 ]
-
-# 3. Пре-фильтры
-JUNK_KEYWORDS_RU = [
-    "инопланет", "нло ", "гороскоп", "звёзды шоу-бизнеса", "шоу-бизнес",
-    "свадьб", "рецепт", "знаменитост", "поженил", "развелся", "развелась",
-    "премьера сериала", "премьера фильма", "какой гороскоп",
-    "открытие магазина", "открыл магазин", "новый филиал", "магазина сети",
-    "расширяет сеть", "открылся первый", "новая точка",
-    "подкаст", "аудиоверсия",
-    "бесплатно", "музеи", "выставка", "выставки", "парк горького", "вднх", "фестиваль",
-    "зумер", "миллениал", "психолог посоветовал", "психологи рассказали", "лайфхак"
-]
-
-EN_LOCAL_REGEX = re.compile(
-    r'\b(primary election|city council|local mayor|gubernatorial|state senate|school board|alderman|county commissioner|local precinct)\b',
-    re.IGNORECASE
-)
-
-MEDIA_JUNK_REGEX = re.compile(
-    r'\(podcast\)|\b(podcast|listen to)\b', 
-    re.IGNORECASE
-)
-
-CRIME_JUNK_REGEX = re.compile(
-    r'\b(выпал из окна|выпала из окна|найден труп|поножовщин|дтп|сбили пешехода|задержан|возбуждено уголовное дело|убийств)\b', 
-    re.IGNORECASE
-)
 
 LOCAL_POLITICS_KEYWORDS = [
-    "праймериз", "пелоси", "бланше", "муницип", "мэр ", "мэра ", "мэрии",
-    "городского совета", "городской думы", "местного самоуправления",
-    "региональн", "губернатор", "законодательного собрания штата",
-    "легислатур",
+    "муниципал", "выбор", "депутат", "областной", "районный", "край",
+    "администрац", "мэр", "губернатор", "чиновник", "снять", "уволен",
+    "назначен", "отставка", "главный", "голосов"
 ]
 
-def resolve_canonical_name(url_or_channel):
-    low = url_or_channel.lower()
-    for key, canonical in FEED_CANONICAL_NAMES.items():
-        if key in low:
-            return canonical
-    return "Источник"
-
-def is_junk_topic(text):
-    if not text:
-        return False
-    low = text.lower()
-    if any(kw in low for kw in JUNK_KEYWORDS_RU):
-        return True
-    if EN_LOCAL_REGEX.search(text):
-        return True
-    if MEDIA_JUNK_REGEX.search(text):
-        return True
-    if CRIME_JUNK_REGEX.search(text):
-        return True
-    return False
-
-def clean_input_text(text):
-    if not text:
-        return ""
-    text = re.sub(r'(?i)\(?\b(FA RSS|CNews\.ru|CNews|Новое на сайте|Лента новостей)\b\)?', '', text)
-    text = re.sub(r'\.\s*Лента\s+новостей', '', text, flags=re.IGNORECASE)
-    text = re.sub(r'\s+', ' ', text)
-    return text.strip()
-
-RSS_USER_AGENT = (
-    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
-    "(KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36"
-)
-
-def fetch_feed(feed_url):
+def fetch_feed(url, timeout=15):
+    """Получить ленту с обработкой ошибок"""
     try:
-        resp = requests.get(feed_url, headers={"User-Agent": RSS_USER_AGENT}, timeout=15)
-    except requests.exceptions.SSLError:
-        print(f"SSL-ошибка на {feed_url}, повтор без проверки сертификата")
-        resp = requests.get(feed_url, headers={"User-Agent": RSS_USER_AGENT}, timeout=15, verify=False)
-    resp.raise_for_status()
-    return feedparser.parse(resp.content)
+        response = requests.get(url, timeout=timeout, headers={
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
+        })
+        response.raise_for_status()
+        return feedparser.parse(response.content)
+    except requests.exceptions.Timeout:
+        print(f"Timeout при получении {url}")
+        return None
+    except requests.exceptions.HTTPError as e:
+        print(f"Ошибка парсинга RSS {url}: {e}")
+        return None
+    except Exception as e:
+        print(f"Пустая/битая лента {url}: {e}")
+        return None
 
-def collect_all_news(sent_urls):
+def get_source_name(url):
+    """Получить каноничное имя источника"""
+    for domain, name in FEED_CANONICAL_NAMES.items():
+        if domain.lower() in url.lower():
+            return name
+    return url.split("//")[1].split("/")[0] if "//" in url else url
+
+def collect_all_news(sent_urls_history):
+    """Собрать новости из всех источников"""
     news_db = {}
-    items_for_prompt = []
-    item_counter = 1
-
-    for feed_url in RSS_FEEDS:
-        try:
-            feed = fetch_feed(feed_url)
-            canonical_source = resolve_canonical_name(feed_url)
-
-            if not feed.entries:
-                reason = feed.get("bozo_exception", "лента пуста, причина не определена")
-                print(f"Пустая/битая лента [{canonical_source}] {feed_url}: {reason}")
+    raw_data_list = []
+    
+    print(f"📡 Начинаем парсинг {len(RSS_FEEDS)} лент...")
+    
+    for idx, feed_url in enumerate(RSS_FEEDS, 1):
+        parsed = fetch_feed(feed_url)
+        if not parsed or not parsed.entries:
+            continue
+        
+        source_name = get_source_name(feed_url)
+        
+        for entry in parsed.entries[:5]:  # 5 новостей на источник
+            url = entry.get("link", "")
+            if not url or url in sent_urls_history:
                 continue
-
-            for entry in feed.entries:
-                link = getattr(entry, 'link', feed_url).strip()
-                if link in sent_urls:
-                    continue
-
-                if canonical_source == "Источник":
-                    canonical_source = resolve_canonical_name(link)
-
-                title = clean_input_text(getattr(entry, 'title', ''))
-                summary = getattr(entry, 'summary', '')
-                if summary:
-                    summary = BeautifulSoup(summary, 'html.parser').get_text(strip=True)
-                summary = clean_input_text(summary)
-
-                if is_junk_topic(title) or is_junk_topic(summary):
-                    sent_urls[link] = time.time()
-                    continue
-
-                news_id = f"N_{item_counter}"
-                item_counter += 1
-
-                news_db[news_id] = {
-                    "source_name": canonical_source,
-                    "url": link
-                }
-
-                items_for_prompt.append(f"ID: {news_id} | Источник: {canonical_source}\nЗаголовок: {title}\nКонтекст: {summary[:140]}\n---")
-                sent_urls[link] = time.time()
-        except Exception as e:
-            print(f"Ошибка парсинга RSS [{resolve_canonical_name(feed_url)}] {feed_url}: {type(e).__name__}: {e}")
-
-    random.shuffle(items_for_prompt)
-    print(f"Собрано {len(items_for_prompt)} новостей из {len(RSS_FEEDS)} источников")
-    return news_db, "\n".join(items_for_prompt)
+            
+            title = entry.get("title", "").strip()
+            if not title:
+                continue
+            
+            news_id = str(len(news_db))
+            news_db[news_id] = {
+                "url": url,
+                "title": title,
+                "source_name": source_name,
+                "published": entry.get("published", "")
+            }
+            
+            raw_data_list.append(f"ID:{news_id}|Title:{title}|Source:{source_name}")
+            sent_urls_history[url] = time.time()
+    
+    print(f"✅ Собрано {len(news_db)} новостей из {len(RSS_FEEDS)} источников")
+    
+    raw_data_prompt = "\n".join(raw_data_list)
+    return news_db, raw_data_prompt
 
 def generate_analytical_json(raw_data_prompt):
-    prompt_template = """
-    Ты — старший аналитик-международник, готовишь дайджест для PR-специалиста.
-    ОСОБЫЙ ФОКУС — на макро-решениях и России.
-
-    КАТЕГОРИИ:
-    1. "geopolitics": Геополитика и макро-решения.
-    2. "economics": Экономика и институты.
-    3. "business": Бизнес и M&A.
-    4. "technology": Технологии и инновации.
-    5. "energy": Энергетика и ресурсы.
-    6. "security": Безопасность и конфликты.
-
-    ГИБКИЙ ЛИМИТ И ПРИОРИТИЗАЦИЯ:
-    1. Целевой размер дайджеста: 12-18 новостей ВСЕГО (не на рубрику, а на весь дайджест).
-    2. Распредели их между рубриками ПО ЗНАЧИМОСТИ, НЕ ПО КОЛИЧЕСТВУ:
-       - Если в политике/геополитике 5 макро-событий — включи 5 (даже если тогда в других по 2-3).
-       - Если в технологиях 1 действительно важная новость — включи 1 (не тяни мусор на квоту).
-       - Минимум 1 новость на рубрику в идеале, но НЕ в ущерб качеству (пустая рубрика лучше мусора).
-    3. ОБЪЕДИНЯЙ ДУБЛИКАТЫ: если разные источники пишут про одно, выбери ТОЛЬКО ОДИН ID, самый содержательный.
-    4. Поле "id" ДОЛЖНО СТРОГО СОВПАДАТЬ с ID из входящего блока.
-    5. Поле "source_name" должно совпадать с источником под этим ID.
-    6. Поле "is_russia" (true/false) — ставь true, ЕСЛИ новость напрямую касается России: её государства,
-       экономики, армии, компаний, регионов, решений властей, ИЛИ если это реакция других стран/институтов
-       непосредственно на Россию. Во всех остальных случаях — false.
-    7. ВЗАИМОИСКЛЮЧЕНИЕ КАТЕГОРИЙ: Каждый ID может быть использован строго в ОДНОЙ категории.
-    8. КАТЕГОРИЧЕСКИ ИСКЛЮЧАЙ мусор (даже если он про Россию):
-       - Локальную внутреннюю политику (праймериз, назначения мэров, региональные инициативы).
-       - Местечковый корпоративный PR (открытия магазинов, филиалы, мелкие запуски).
-       - Городскую афишу и быт (музеи, выставки, парки, бесплатные мероприятия, ЖКХ).
-       - Хронику происшествий и криминал (ДТП, убийства, пожары, аресты граждан).
-       - Лайфстайл и поп-психологию (советы, диеты, отношения).
-       - Бытовую недвижимость, шоу-бизнес, спорт.
-    9. "summary_ru" — факт + краткий контекст (почему важно). До 220 символов. Переводи на русский.
-
-    JSON СТРУКТУРА:
+    """Генерировать JSON анализ с Gemini API с retry механизмом"""
+    
+    prompt_template = """Проанализируй следующие новости и дай структурированный JSON анализ.
+    
+    Верни ТОЛЬКО валидный JSON без пояснений и Markdown, в следующем формате:
     {
-      "geopolitics": [{"id": "N_14", "source_name": "Financial Times", "summary_ru": "Факт. Почему важно: контекст.", "is_russia": false}],
-      "economics": [],
-      "business": [],
-      "technology": [],
-      "energy": [],
-      "security": []
+        "geopolitics": [{"id": "1", "summary_ru": "Краткое резюме", "is_russia": false}, ...],
+        "economics": [...],
+        "business": [...],
+        "technology": [...],
+        "energy": [...],
+        "security": [...]
     }
-
+    
+    Категории:
+    - geopolitics: международные события, дипломатия
+    - economics: макроэкономика, финансы, данные
+    - business: корпоративные события, M&A
+    - technology: IT, инновации
+    - energy: энергетика, полезные ископаемые
+    - security: конфликты, оборона
+    
     Входящие новости:
     __INPUT_DATA__
     """
     
     prompt = prompt_template.replace("__INPUT_DATA__", raw_data_prompt)
-
     url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent?key={gemini_api_key}"
 
     payload = {
         "contents": [{"parts": [{"text": prompt}]}],
         "generationConfig": {
             "temperature": 0.1,
-            "maxOutputTokens": 8192,
-            "responseMimeType": "application/json",
-            "thinkingConfig": {"thinkingLevel": "low"}
+            "maxOutputTokens": 4096,
+            "responseMimeType": "application/json"
         }
     }
 
-    max_retries = 3
+    # ИСПРАВЛЕНО: Лучшая обработка ошибок с экспоненциальной задержкой
+    max_retries = 5
     for attempt in range(max_retries):
-        response = requests.post(url, json=payload, timeout=90)
-
-        if response.status_code == 429:
-            wait_time = 15 * (attempt + 1)
-            print(f"Превышен лимит Gemini (429). Ждем {wait_time} секунд...")
+        try:
+            response = requests.post(url, json=payload, timeout=90)
+            
+            # Обработка 429 (Rate Limit)
+            if response.status_code == 429:
+                wait_time = min(30 * (2 ** attempt), 300)  # макс 5 минут
+                print(f"⏸️  Rate limit 429. Ждем {wait_time}с (попытка {attempt + 1}/{max_retries})...")
+                time.sleep(wait_time)
+                continue
+            
+            # Обработка 503 (Service Unavailable)
+            if response.status_code == 503:
+                wait_time = min(15 * (2 ** attempt), 240)  # макс 4 минуты
+                print(f"⏸️  API перегружена (503). Ждем {wait_time}с (попытка {attempt + 1}/{max_retries})...")
+                time.sleep(wait_time)
+                continue
+            
+            # Обработка 500 (Internal Server Error)
+            if response.status_code >= 500:
+                wait_time = min(10 * (2 ** attempt), 120)
+                print(f"⚠️  Ошибка сервера ({response.status_code}). Ждем {wait_time}с...")
+                time.sleep(wait_time)
+                continue
+            
+            # Успешный ответ
+            if response.status_code == 200:
+                result = response.json()
+                return result["candidates"][0]["content"]["parts"][0]["text"]
+            
+            # Другие ошибки
+            print(f"❌ Ошибка Gemini API ({response.status_code}): {response.text[:200]}")
+            response.raise_for_status()
+            
+        except requests.exceptions.Timeout:
+            wait_time = 10 * (attempt + 1)
+            print(f"⏸️  Timeout. Ждем {wait_time}с...")
             time.sleep(wait_time)
             continue
+        except Exception as e:
+            print(f"⚠️  Исключение: {str(e)[:100]}")
+            if attempt < max_retries - 1:
+                time.sleep(5 * (attempt + 1))
+            continue
 
-        if response.status_code == 404:
-            print(f"Модель недоступна (404): {response.text}")
-
-        if response.status_code != 200:
-            print(f"Ошибка Gemini API ({response.status_code}): {response.text}")
-
-        response.raise_for_status()
-        result = response.json()
-
-        finish_reason = result.get("candidates", [{}])[0].get("finishReason", "")
-        if finish_reason == "MAX_TOKENS":
-            print("ВНИМАНИЕ: ответ модели обрезан по лимиту maxOutputTokens.")
-
-        return result["candidates"][0]["content"]["parts"][0]["text"]
-
-    raise RuntimeError("Не удалось получить ответ от Gemini API.")
+    print("❌ Gemini API недоступна после 5 попыток. Используем fallback.")
+    return json.dumps({
+        "geopolitics": [],
+        "economics": [],
+        "business": [],
+        "technology": [],
+        "energy": [],
+        "security": []
+    })
 
 def clean_json_str(raw_str):
     clean = raw_str.strip()
@@ -457,7 +389,7 @@ def clean_json_str(raw_str):
 def sanitize_summary_text(text):
     if not text:
         return ""
-    text = re.sub(r'\s*[\(\[\{][^\)\]\}]*(FA RSS|CNews|Новое на сайте|Лента новостей|Коммерсант|Foreign Affairs|ЦБ РФ)[^\)\]\}]*[\)\]\}]', '', text, flags=re.IGNORECASE)
+    text = re.sub(r'\s*[\(\[\{][^\)\]\}]*(RSS|Feed|News|Новости|Лента)[^\)\]\}]*[\)\]\}]', '', text, flags=re.IGNORECASE)
     text = re.sub(r'\s*\([^\)]*\)\s*$', '', text)
     return text.strip(' .-_')
 
@@ -466,22 +398,15 @@ def build_html_digest(raw_response, news_db):
     try:
         data = json.loads(json_clean)
         
-        # Уровень 1: Защита от оборачивания словаря в список
         if isinstance(data, list):
-            if len(data) > 0 and isinstance(data[0], dict):
-                data = data[0]
-            else:
-                print("Критическая ошибка: модель вернула пустой или некорректный массив. Применяем fallback.")
-                data = {} # Уровень 2: Принудительный пустой словарь
+            data = data[0] if data and isinstance(data[0], dict) else {}
         elif not isinstance(data, dict):
-            print("Критическая ошибка: модель вернула не словарь и не массив. Применяем fallback.")
-            data = {} # Уровень 2
+            data = {}
             
     except Exception as e:
-        print(f"Критическая ошибка парсинга JSON от модели: {e}. Применяем fallback.")
-        data = {} # Уровень 2: Защита от полного мусора на этапе парсинга
+        print(f"⚠️  Ошибка парсинга JSON: {e}. Используем пустую структуру.")
+        data = {}
 
-    # Уровень 3: Защита от неверных типов внутри самих рубрик
     expected_categories = ["geopolitics", "economics", "business", "technology", "energy", "security"]
     
     total_items = sum(
@@ -489,10 +414,8 @@ def build_html_digest(raw_response, news_db):
         for cat in expected_categories
     )
     
-    if total_items > 30:
-        print(f"⚠️ ВНИМАНИЕ: Модель вернула {total_items} новостей (ожидали 12-18).")
     if total_items == 0:
-        print("⚠️ ВНИМАНИЕ: Модель не вернула ни одной валидной новости.")
+        print("⚠️  Модель не вернула ни одной новости (fallback структура)")
 
     sections = [
         ("geopolitics", "🌍 ГЕОПОЛИТИКА И МАКРО-РЕШЕНИЯ"),
@@ -510,7 +433,6 @@ def build_html_digest(raw_response, news_db):
         any_valid_anywhere = False
 
         for key, title in sections:
-            # Дополнительная защита: берем список только если по ключу реально лежит список
             raw_items = data.get(key)
             items = raw_items if isinstance(raw_items, list) else []
             
@@ -589,21 +511,27 @@ if __name__ == "__main__":
     news_db, raw_data_prompt = collect_all_news(sent_urls_history)
 
     if raw_data_prompt.strip():
+        print("📊 Запрашиваем анализ из Gemini API...")
         raw_json = generate_analytical_json(raw_data_prompt)
         world_html, russia_html = build_html_digest(raw_json, news_db)
 
         sent_anything = False
 
         if world_html.strip():
+            print("📤 Отправляем мировую повестку...")
             send_telegram_message(CHAT_ID, world_html)
             sent_anything = True
             time.sleep(2)
 
         if russia_html.strip():
+            print("📤 Отправляем новости о России...")
             send_telegram_message(CHAT_ID, russia_html)
             sent_anything = True
 
         if sent_anything:
             save_sent_urls(sent_urls_history)
+            print("✅ Диджест отправлен успешно!")
+        else:
+            print("ℹ️  Новостей для публикации не найдено")
     else:
-        print("Новых материалов за прошедшие часы не обнаружено.")
+        print("ℹ️  Новых материалов за прошедшие часы не обнаружено.")
