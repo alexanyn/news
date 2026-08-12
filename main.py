@@ -1,4 +1,4 @@
-print("=== ЗАПУСК СКРИПТА ВЕРСИИ 6.10 (FIXED_TOKENS_AND_TIMEOUTS) ===")
+print("=== ЗАПУСК СКРИПТА ВЕРСИИ 6.11 (FIXED_MODEL_HISTORY_AND_TELEGRAM_SAFETY) ===")
 
 import os
 import re
@@ -6,8 +6,7 @@ import json
 import time
 import requests
 import feedparser
-import random
-from bs4 import BeautifulSoup
+from html import escape as html_escape
 import telebot
 from telebot.apihelper import ApiTelegramException
 import urllib3
@@ -268,7 +267,13 @@ def collect_all_news(sent_urls_history):
             }
             
             raw_data_list.append(f"ID:{news_id}|Title:{title}|Source:{source_name}")
-            sent_urls_history[url] = time.time()
+            # ИСПРАВЛЕНО: URL больше НЕ добавляется в историю здесь.
+            # Раньше новость считалась "отправленной" уже на этапе сбора из RSS,
+            # то есть до того, как она реально прошла через Gemini и ушла в Telegram.
+            # Если Gemini или Telegram падали, новость терялась на 7 дней, хотя
+            # фактически никуда не отправлялась. Теперь запись в историю происходит
+            # только после подтверждённой отправки в Telegram (см. build_html_digest
+            # и блок __main__).
     
     print(f"✅ Собрано {len(news_db)} новостей из {len(RSS_FEEDS)} источников")
     
@@ -296,12 +301,18 @@ def generate_analytical_json(raw_data_prompt):
     - energy: энергетика, полезные ископаемые
     - security: конфликты, оборона
     
+    ВАЖНО: для КАЖДОЙ новости обязательно проставь поле "is_russia": true или false
+    (true — если новость о России или напрямую касается России, false — во всех
+    остальных случаях). Не пропускай это поле ни для одной новости.
+    
     Входящие новости:
     __INPUT_DATA__
     """
     
     prompt = prompt_template.replace("__INPUT_DATA__", raw_data_prompt)
-    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent?key={gemini_api_key}"
+    # ИСПРАВЛЕНО: gemini-3.6-flash — несуществующий эндпоинт (404 на каждый запрос).
+    # Используем актуальную модель.
+    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key={gemini_api_key}"
 
     payload = {
         "contents": [{"parts": [{"text": prompt}]}],
@@ -320,19 +331,27 @@ def generate_analytical_json(raw_data_prompt):
             response = requests.post(url, json=payload, timeout=120)
             
             if response.status_code == 429:
-                wait_time = min(30 * (2 ** attempt), 300)
+                # ИСПРАВЛЕНО: верхняя граница ожидания снижена (было до 300с за попытку,
+                # суммарно скрипт мог зависать на 15+ минут в cron-задаче).
+                wait_time = min(20 * (2 ** attempt), 90)
                 print(f"⏸️  Rate limit 429. Ждем {wait_time}с (попытка {attempt + 1}/{max_retries})...")
                 time.sleep(wait_time)
                 continue
             
             if response.status_code == 503:
-                wait_time = min(15 * (2 ** attempt), 240)
+                wait_time = min(15 * (2 ** attempt), 90)
                 print(f"⏸️  API перегружена (503). Ждем {wait_time}с (попытка {attempt + 1}/{max_retries})...")
                 time.sleep(wait_time)
                 continue
             
+            if response.status_code == 400:
+                # ИСПРАВЛЕНО: ошибка 400 (некорректный запрос) не исправится повтором —
+                # раньше скрипт всё равно уходил в retry-цикл впустую.
+                print(f"❌ Некорректный запрос к Gemini (400): {response.text[:200]}")
+                break
+            
             if response.status_code >= 500:
-                wait_time = min(10 * (2 ** attempt), 120)
+                wait_time = min(10 * (2 ** attempt), 90)
                 print(f"⚠️  Ошибка сервера ({response.status_code}). Ждем {wait_time}с...")
                 time.sleep(wait_time)
                 continue
@@ -420,6 +439,10 @@ def build_html_digest(raw_response, news_db):
     def build_one(target_is_russia, header):
         html_output = f"{header}\n\n"
         any_valid_anywhere = False
+        # ИСПРАВЛЕНО: собираем URL, реально попавшие именно в этот блок
+        # (world или russia отдельно), чтобы в историю попадали только те новости,
+        # чей блок был подтверждённо отправлен — после отправки, а не заранее.
+        section_urls = []
 
         for key, title in sections:
             raw_items = data.get(key)
@@ -447,8 +470,15 @@ def build_html_digest(raw_response, news_db):
                 seen_urls_in_digest.add(url)
 
                 source_name = news_db[news_id]["source_name"]
-                html_output += f"• {summary} (<a href=\"{url}\">{source_name}</a>)\n"
+                # ИСПРАВЛЕНО: экранируем URL и текст перед вставкой в HTML.
+                # Раньше спецсимволы (< > & ") из summary или URL могли сломать
+                # Telegram-сообщение и увести его в текстовый fallback вместе с тегами.
+                safe_url = html_escape(url, quote=True)
+                safe_summary = html_escape(summary, quote=False)
+                safe_source = html_escape(source_name, quote=False)
+                html_output += f"• {safe_summary} (<a href=\"{safe_url}\">{safe_source}</a>)\n"
                 valid_items_count += 1
+                section_urls.append(url)
 
             if valid_items_count == 0:
                 html_output += "• <i>Существенных сдвигов за прошедшие часы не зафиксировано</i>\n"
@@ -457,42 +487,59 @@ def build_html_digest(raw_response, news_db):
 
             html_output += "\n"
 
-        return html_output.strip() if any_valid_anywhere else ""
+        result_html = html_output.strip() if any_valid_anywhere else ""
+        return result_html, (section_urls if result_html else [])
 
-    world_html = build_one(False, "🌍 <b>МИРОВАЯ ПОВЕСТКА</b>")
-    russia_html = build_one(True, "🇷🇺 <b>РОССИЯ</b>")
+    world_html, world_urls = build_one(False, "🌍 <b>МИРОВАЯ ПОВЕСТКА</b>")
+    russia_html, russia_urls = build_one(True, "🇷🇺 <b>РОССИЯ</b>")
 
-    return world_html, russia_html
+    return world_html, russia_html, world_urls, russia_urls
+
+def _send_one_chunk(chat_id, chunk):
+    """Отправляет один чанк текста. Возвращает True при подтверждённом успехе."""
+    try:
+        bot.send_message(chat_id, chunk, parse_mode="HTML", disable_web_page_preview=True)
+        return True
+    except ApiTelegramException as e:
+        print(f"Ошибка отправки HTML ({e}). Отправка обычным текстом.")
+        try:
+            bot.send_message(chat_id, chunk)
+            return True
+        except Exception as e2:
+            # ИСПРАВЛЕНО: раньше повторная отправка обычным текстом ничем не была
+            # защищена — сетевая ошибка или проблема с chat_id роняла весь процесс.
+            print(f"❌ Не удалось отправить сообщение даже как обычный текст: {e2}")
+            return False
+    except Exception as e:
+        print(f"❌ Непредвиденная ошибка отправки в Telegram: {e}")
+        return False
+
 
 def send_telegram_message(chat_id, text):
+    # ИСПРАВЛЕНО: функция теперь возвращает bool — реально ли отправка удалась.
+    # Раньше вызывающий код считал любую попытку успешной, даже если Telegram
+    # отверг сообщение.
     if not text.strip():
-        return
-        
+        return False
+
     if len(text) <= 4000:
-        try:
-            bot.send_message(chat_id, text, parse_mode="HTML", disable_web_page_preview=True)
-        except ApiTelegramException as e:
-            print(f"Ошибка отправки HTML ({e}). Отправка обычным текстом.")
-            bot.send_message(chat_id, text)
-    else:
-        blocks = text.split("\n\n")
-        current_chunk = ""
-        for block in blocks:
-            if len(current_chunk) + len(block) + 2 <= 3900:
-                current_chunk += block + "\n\n"
-            else:
-                if current_chunk.strip():
-                    try:
-                        bot.send_message(chat_id, current_chunk.strip(), parse_mode="HTML", disable_web_page_preview=True)
-                    except ApiTelegramException:
-                        bot.send_message(chat_id, current_chunk.strip())
-                current_chunk = block + "\n\n"
-        
-        if current_chunk.strip():
-            try:
-                bot.send_message(chat_id, current_chunk.strip(), parse_mode="HTML", disable_web_page_preview=True)
-            except ApiTelegramException:
-                bot.send_message(chat_id, current_chunk.strip())
+        return _send_one_chunk(chat_id, text)
+
+    blocks = text.split("\n\n")
+    current_chunk = ""
+    all_ok = True
+    for block in blocks:
+        if len(current_chunk) + len(block) + 2 <= 3900:
+            current_chunk += block + "\n\n"
+        else:
+            if current_chunk.strip():
+                all_ok = _send_one_chunk(chat_id, current_chunk.strip()) and all_ok
+            current_chunk = block + "\n\n"
+
+    if current_chunk.strip():
+        all_ok = _send_one_chunk(chat_id, current_chunk.strip()) and all_ok
+
+    return all_ok
 
 if __name__ == "__main__":
     sent_urls_history = load_sent_urls()
@@ -502,25 +549,37 @@ if __name__ == "__main__":
     if raw_data_prompt.strip():
         print("📊 Запрашиваем анализ из Gemini API...")
         raw_json = generate_analytical_json(raw_data_prompt)
-        world_html, russia_html = build_html_digest(raw_json, news_db)
+        world_html, russia_html, world_urls, russia_urls = build_html_digest(raw_json, news_db)
 
         sent_anything = False
+        # ИСПРАВЛЕНО: в историю теперь попадают только те URL, чьи блоки были
+        # реально и успешно отправлены в Telegram — не все собранные из RSS.
+        confirmed_urls = []
 
         if world_html.strip():
             print("📤 Отправляем мировую повестку...")
-            send_telegram_message(CHAT_ID, world_html)
-            sent_anything = True
+            if send_telegram_message(CHAT_ID, world_html):
+                sent_anything = True
+                confirmed_urls.extend(world_urls)
+            else:
+                print("❌ Не удалось отправить мировую повестку — новости останутся необработанными для следующего запуска.")
             time.sleep(2)
 
         if russia_html.strip():
             print("📤 Отправляем новости о России...")
-            send_telegram_message(CHAT_ID, russia_html)
-            sent_anything = True
+            if send_telegram_message(CHAT_ID, russia_html):
+                sent_anything = True
+                confirmed_urls.extend(russia_urls)
+            else:
+                print("❌ Не удалось отправить новости о России — они останутся необработанными для следующего запуска.")
 
         if sent_anything:
+            now = time.time()
+            for url in confirmed_urls:
+                sent_urls_history[url] = now
             save_sent_urls(sent_urls_history)
             print("✅ Диджест отправлен успешно!")
         else:
-            print("ℹ️  Новостей для публикации не найдено")
+            print("ℹ️  Новостей для публикации не найдено, либо отправка не удалась — история не обновлена.")
     else:
         print("ℹ️  Новых материалов за прошедшие часы не обнаружено.")
