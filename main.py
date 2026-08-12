@@ -440,13 +440,19 @@ def generate_analytical_json(raw_data_prompt):
         }
     }
 
-    max_retries = 3
+    max_retries = 5
     for attempt in range(max_retries):
         response = requests.post(url, json=payload, timeout=90)
 
         if response.status_code == 429:
             wait_time = 15 * (attempt + 1)
             print(f"Превышен лимит Gemini (429). Ждем {wait_time} секунд...")
+            time.sleep(wait_time)
+            continue
+
+        if response.status_code == 503:
+            wait_time = 30 * (2 ** attempt)  # 30, 60, 120, 240, 480 сек
+            print(f"Gemini перегружен (503), попытка {attempt + 1}/{max_retries}. Ждем {wait_time} сек...")
             time.sleep(wait_time)
             continue
 
@@ -465,7 +471,7 @@ def generate_analytical_json(raw_data_prompt):
 
         return result["candidates"][0]["content"]["parts"][0]["text"]
 
-    raise RuntimeError("Не удалось получить ответ от Gemini API.")
+    raise RuntimeError("Не удалось получить ответ от Gemini API после 5 попыток.")
 
 def clean_json_str(raw_str):
     clean = raw_str.strip()
