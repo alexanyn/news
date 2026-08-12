@@ -310,17 +310,25 @@ def generate_analytical_json(raw_data_prompt):
     """
     
     prompt = prompt_template.replace("__INPUT_DATA__", raw_data_prompt)
-    # ИСПРАВЛЕНО: gemini-3.6-flash — несуществующий эндпоинт (404 на каждый запрос).
-    # Используем актуальную модель.
-    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key={gemini_api_key}"
+    # ИСПРАВЛЕНО (повторно, 12.08.2026): gemini-2.5-flash больше недоступна новым
+    # пользователям ("no longer available to new users" — Google снял её с эксплуатации
+    # раньше объявленного срока в октябре 2026). На момент этого исправления
+    # gemini-3.6-flash — актуальная стабильная GA-модель линейки Flash.
+    # Модель Gemini API меняется чаще, чем ожидалось: если 404 повторится, проверь
+    # актуальный список на https://ai.google.dev/gemini-api/docs/models
+    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent?key={gemini_api_key}"
 
     payload = {
         "contents": [{"parts": [{"text": prompt}]}],
         "generationConfig": {
-            "temperature": 0.1,
-            # ИСПРАВЛЕНО: возвращен лимит 8192 для предотвращения обрыва строки
+            # ИСПРАВЛЕНО: temperature/top_p/top_k у моделей линейки Gemini 3.x
+            # (включая gemini-3.6-flash) устарели и игнорируются — убраны, чтобы
+            # не вводить в заблуждение при чтении кода.
             "maxOutputTokens": 8192,
-            "responseMimeType": "application/json"
+            "responseMimeType": "application/json",
+            # thinking_level "minimal" — для задачи классификации/структурного
+            # вывода не нужен глубокий reasoning, это быстрее и дешевле.
+            "thinkingConfig": {"thinkingLevel": "minimal"}
         }
     }
 
