@@ -1,4 +1,4 @@
-print("=== ЗАПУСК СКРИПТА ВЕРСИИ 6.4 (STRICT_JSON_TYPE_CASTING) ===")
+print("=== ЗАПУСК СКРИПТА ВЕРСИИ 6.3 (FLEXIBLE_LIMITS_FULL_COLLECTION) ===")
 
 import os
 import re
@@ -43,7 +43,7 @@ def save_sent_urls(sent_set):
     except Exception as e:
         print(f"Ошибка сохранения истории: {e}")
 
-# 2. Таблица каноничных названий
+# 2. Таблица каноничных названий (Код удален)
 FEED_CANONICAL_NAMES = {
     "8szapkg4dk4ugsj": "The Information",
     "theinformation": "The Information",
@@ -142,6 +142,8 @@ RSS_FEEDS = [
     "https://rss.app/feeds/4N9GkL2gMfHjdlx2.xml",
     "https://rss.app/feeds/XQ3dPeNk8t6KKZDe.xml",
     "https://rss.app/feeds/WDCmvjy7BajGRTCc.xml",
+    "https://fom.ru/rss.xml",
+    "https://wciom.ru/rss.xml",
     "https://www.levada.ru/feed/",
     "https://www.sostav.ru/rss",
     "https://adindex.ru/news/news.rss",
@@ -186,7 +188,7 @@ RSS_FEEDS = [
     "https://www.project-syndicate.org/rss"
 ]
 
-TG_CHANNELS = ["mmi_ru", "solidfin", "xtxixty", "russianmacro"]
+TG_CHANNELS = ["mmi_ru", "solidfin", "xtxixty", "russianmacro", "minfin"]
 
 # 3. Пре-фильтры
 JUNK_KEYWORDS_RU = [
@@ -196,6 +198,7 @@ JUNK_KEYWORDS_RU = [
     "открытие магазина", "открыл магазин", "новый филиал", "магазина сети",
     "расширяет сеть", "открылся первый", "новая точка",
     "подкаст", "аудиоверсия",
+    # Городская афиша и лайфстайл
     "бесплатно", "музеи", "выставка", "выставки", "парк горького", "вднх", "фестиваль",
     "зумер", "миллениал", "психолог посоветовал", "психологи рассказали", "лайфхак"
 ]
@@ -210,11 +213,13 @@ MEDIA_JUNK_REGEX = re.compile(
     re.IGNORECASE
 )
 
+# Фильтр криминала и ЧП
 CRIME_JUNK_REGEX = re.compile(
     r'\b(выпал из окна|выпала из окна|найден труп|поножовщин|дтп|сбили пешехода|задержан|возбуждено уголовное дело|убийств)\b', 
     re.IGNORECASE
 )
 
+# 4. Пост-фильтр
 LOCAL_POLITICS_KEYWORDS = [
     "праймериз", "пелоси", "бланше", "муницип", "мэр ", "мэра ", "мэрии",
     "городского совета", "городской думы", "местного самоуправления",
@@ -257,9 +262,14 @@ RSS_USER_AGENT = (
 )
 
 def fetch_feed(feed_url):
+    """Загружает ленту через requests с браузерным User-Agent и таймаутом,
+    затем отдаёт байты в feedparser. В отличие от feedparser.parse(url) напрямую,
+    здесь видно РЕАЛЬНУЮ причину сбоя (403, таймаут, SSL, редирект) —
+    feedparser молча глотает такие ошибки и просто возвращает пустой feed."""
     try:
         resp = requests.get(feed_url, headers={"User-Agent": RSS_USER_AGENT}, timeout=15)
     except requests.exceptions.SSLError:
+        # У некоторых сайтов (в т.ч. госорганизаций) кривой/самоподписанный сертификат.
         print(f"SSL-ошибка на {feed_url}, повтор без проверки сертификата")
         resp = requests.get(feed_url, headers={"User-Agent": RSS_USER_AGENT}, timeout=15, verify=False)
     resp.raise_for_status()
@@ -276,8 +286,11 @@ def collect_all_news(sent_urls):
             canonical_source = resolve_canonical_name(feed_url)
 
             if not feed.entries:
+                reason = feed.get("bozo_exception", "лента пуста, причина не определена")
+                print(f"Пустая/битая лента [{canonical_source}] {feed_url}: {reason}")
                 continue
 
+            # Собираем ВСЕ новости из ленты, которых нет в истории (вместо [:4])
             for entry in feed.entries:
                 link = getattr(entry, 'link', feed_url).strip()
                 if link in sent_urls:
@@ -306,8 +319,8 @@ def collect_all_news(sent_urls):
 
                 items_for_prompt.append(f"ID: {news_id} | Источник: {canonical_source}\nЗаголовок: {title}\nКонтекст: {summary[:140]}\n---")
                 sent_urls.add(link)
-        except Exception:
-            pass
+        except Exception as e:
+            print(f"Ошибка парсинга RSS [{resolve_canonical_name(feed_url)}] {feed_url}: {type(e).__name__}: {e}")
 
     headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)'}
     for channel in TG_CHANNELS:
@@ -350,9 +363,10 @@ def collect_all_news(sent_urls):
 
                 items_for_prompt.append(f"ID: {news_id} | Источник: {canonical_source}\nКонтекст: {post_text[:140]}\n---")
                 sent_urls.add(post_url)
-        except Exception:
-            pass
+        except Exception as e:
+            print(f"Ошибка парсинга TG @{channel}: {e}")
 
+    # Перемешиваем, но НЕ ограничиваем — отправляем ВСЕ собранные (обычно 80-200 за 5 часов)
     random.shuffle(items_for_prompt)
     
     print(f"Собрано {len(items_for_prompt)} новостей из {len(RSS_FEEDS) + len(TG_CHANNELS)} источников")
@@ -410,6 +424,10 @@ def generate_analytical_json(raw_data_prompt):
     
     prompt = prompt_template.replace("__INPUT_DATA__", raw_data_prompt)
 
+    # Модель: gemini-3.6-flash — актуальная GA-версия на август 2026.
+    # Google меняет доступность моделей быстрее, чем документация — если снова
+    # вылетит 404 "no longer available", смотри актуальное имя здесь:
+    # https://ai.google.dev/gemini-api/docs/models
     url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent?key={gemini_api_key}"
 
     payload = {
@@ -424,29 +442,30 @@ def generate_analytical_json(raw_data_prompt):
 
     max_retries = 3
     for attempt in range(max_retries):
-        try:
-            response = requests.post(url, json=payload, timeout=90)
+        response = requests.post(url, json=payload, timeout=90)
 
-            if response.status_code in [429, 500, 502, 503, 504]:
-                wait_time = 15 * (attempt + 1)
-                time.sleep(wait_time)
-                continue
+        if response.status_code == 429:
+            wait_time = 15 * (attempt + 1)
+            print(f"Превышен лимит Gemini (429). Ждем {wait_time} секунд...")
+            time.sleep(wait_time)
+            continue
 
-            if response.status_code == 404:
-                break
+        if response.status_code == 404:
+            print(f"Модель недоступна (404): {response.text}\nПроверь актуальное имя модели: https://ai.google.dev/gemini-api/docs/models")
 
-            response.raise_for_status()
-            result = response.json()
-            return result["candidates"][0]["content"]["parts"][0]["text"]
+        if response.status_code != 200:
+            print(f"Ошибка Gemini API ({response.status_code}): {response.text}")
 
-        except requests.exceptions.RequestException:
-            if attempt < max_retries - 1:
-                time.sleep(15 * (attempt + 1))
-                continue
-            else:
-                break
+        response.raise_for_status()
+        result = response.json()
 
-    raise RuntimeError("Не удалось получить ответ от Gemini API после всех попыток.")
+        finish_reason = result.get("candidates", [{}])[0].get("finishReason", "")
+        if finish_reason == "MAX_TOKENS":
+            print("ВНИМАНИЕ: ответ модели обрезан по лимиту maxOutputTokens — увеличь лимит в generate_analytical_json.")
+
+        return result["candidates"][0]["content"]["parts"][0]["text"]
+
+    raise RuntimeError("Не удалось получить ответ от Gemini API.")
 
 def clean_json_str(raw_str):
     clean = raw_str.strip()
@@ -469,22 +488,16 @@ def build_html_digest(raw_response, news_db):
     json_clean = clean_json_str(raw_response)
     try:
         data = json.loads(json_clean)
-        if isinstance(data, list):
-            data = data[0] if (len(data) > 0 and isinstance(data[0], dict)) else {}
-        elif not isinstance(data, dict):
-            data = {}
     except Exception as e:
         print(f"Критическая ошибка парсинга JSON от модели: {e}")
         return "", ""
 
-    try:
-        total_items = sum(len(data.get(cat, [])) if isinstance(data.get(cat, []), list) else 0 for cat in ["politics", "conflicts", "economy", "b2b_retail", "tech_health", "society"])
-        if total_items > 30:
-            print(f"⚠️ ВНИМАНИЕ: Модель вернула {total_items} новостей (ожидали 12-18). Возможно, превышены токены или модель игнорировала лимит.")
-        if total_items == 0:
-            print("⚠️ ВНИМАНИЕ: Модель не вернула ни одной новости. Проверь промпт и входные данные.")
-    except Exception:
-        pass
+    # Страховка: если модель вышла из-под контроля
+    total_items = sum(len(data.get(cat, [])) for cat in ["politics", "conflicts", "economy", "b2b_retail", "tech_health", "society"])
+    if total_items > 30:
+        print(f"⚠️ ВНИМАНИЕ: Модель вернула {total_items} новостей (ожидали 12-18). Возможно, превышены токены или модель игнорировала лимит.")
+    if total_items == 0:
+        print("⚠️ ВНИМАНИЕ: Модель не вернула ни одной новости. Проверь промпт и входные данные.")
 
     sections = [
         ("politics", "🏛 ПОЛИТИКА И ГОСУПРАВЛЕНИЕ"),
@@ -501,11 +514,7 @@ def build_html_digest(raw_response, news_db):
         any_valid_anywhere = False
 
         for key, title in sections:
-            items_list = data.get(key, [])
-            if not isinstance(items_list, list):
-                continue
-                
-            items = [it for it in items_list if isinstance(it, dict) and bool(it.get("is_russia")) == target_is_russia]
+            items = [it for it in data.get(key, []) if bool(it.get("is_russia")) == target_is_russia]
             html_output += f"<b>{title}</b>\n"
 
             valid_items_count = 0
@@ -514,10 +523,12 @@ def build_html_digest(raw_response, news_db):
                 summary = sanitize_summary_text(item.get("summary_ru", ""))
 
                 if news_id not in news_db or not summary:
+                    print(f"Отброшена галлюцинация модели с некорректным ID: {news_id}")
                     continue
 
                 low_summary = summary.lower()
                 if any(kw in low_summary for kw in LOCAL_POLITICS_KEYWORDS):
+                    print(f"Отброшено пост-фильтром локальной политики: {summary[:80]}")
                     continue
 
                 url = news_db[news_id]["url"]
