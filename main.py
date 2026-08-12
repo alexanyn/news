@@ -1,4 +1,4 @@
-print("=== ЗАПУСК СКРИПТА ВЕРСИИ 6.9 (FIXED_API_AND_FEEDS) ===")
+print("=== ЗАПУСК СКРИПТА ВЕРСИИ 6.10 (FIXED_TOKENS_AND_TIMEOUTS) ===")
 
 import os
 import re
@@ -141,7 +141,6 @@ FEED_CANONICAL_NAMES = {
     "ourworldindata.org": "Our World in Data"
 }
 
-# ИСПРАВЛЕНО: Удалены неработающие ленты, добавлены альтернативы
 RSS_FEEDS = [
     "https://news.google.com/rss/search?q=site:reuters.com&hl=en-US&gl=US&ceid=US:en",
     "https://news.google.com/rss/search?q=site:apnews.com&hl=en-US&gl=US&ceid=US:en",
@@ -160,17 +159,16 @@ RSS_FEEDS = [
     "https://eng.globalaffairs.ru/feed/",
     "https://globalaffairs.ru/feed/",
     "https://expert.ru/rss/all/",
-    "https://www.csis.org/analysis/rss.xml",  # ИСПРАВЛЕНО: правильный URL
+    "https://www.csis.org/analysis/rss.xml",
     "https://www.chathamhouse.org/rss/all",
-    "https://www.cfr.org/publications/rss.xml",  # ИСПРАВЛЕНО: альтернатива
+    "https://www.cfr.org/publications/rss.xml",
     "https://www.rand.org/pubs/recent.xml",
     "https://www.iiss.org/rss/",
-    "https://carnegieendowment.org/rss/publications/",  # ИСПРАВЛЕНО: правильная структура
+    "https://carnegieendowment.org/rss/publications/",
     "https://www.atlanticcouncil.org/feed/",
     "https://www.brookings.edu/feed/",
     "https://www.crisisgroup.org/rss.xml",
     "https://russiancouncil.ru/rss/",
-    # УДАЛЕНО: https://ru.valdaiclub.com/rss/ (410 Gone)
     "https://news.google.com/rss/search?q=site:imemo.ru&hl=ru&gl=RU&ceid=RU:ru",
     "https://news.google.com/rss/search?q=site:veb.ru+институт&hl=ru&gl=RU&ceid=RU:ru",
     "https://www.csr.ru/rss/",
@@ -217,7 +215,6 @@ LOCAL_POLITICS_KEYWORDS = [
 ]
 
 def fetch_feed(url, timeout=15):
-    """Получить ленту с обработкой ошибок"""
     try:
         response = requests.get(url, timeout=timeout, headers={
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
@@ -235,14 +232,12 @@ def fetch_feed(url, timeout=15):
         return None
 
 def get_source_name(url):
-    """Получить каноничное имя источника"""
     for domain, name in FEED_CANONICAL_NAMES.items():
         if domain.lower() in url.lower():
             return name
     return url.split("//")[1].split("/")[0] if "//" in url else url
 
 def collect_all_news(sent_urls_history):
-    """Собрать новости из всех источников"""
     news_db = {}
     raw_data_list = []
     
@@ -255,7 +250,7 @@ def collect_all_news(sent_urls_history):
         
         source_name = get_source_name(feed_url)
         
-        for entry in parsed.entries[:5]:  # 5 новостей на источник
+        for entry in parsed.entries[:5]:
             url = entry.get("link", "")
             if not url or url in sent_urls_history:
                 continue
@@ -281,8 +276,6 @@ def collect_all_news(sent_urls_history):
     return news_db, raw_data_prompt
 
 def generate_analytical_json(raw_data_prompt):
-    """Генерировать JSON анализ с Gemini API с retry механизмом"""
-    
     prompt_template = """Проанализируй следующие новости и дай структурированный JSON анализ.
     
     Верни ТОЛЬКО валидный JSON без пояснений и Markdown, в следующем формате:
@@ -314,50 +307,46 @@ def generate_analytical_json(raw_data_prompt):
         "contents": [{"parts": [{"text": prompt}]}],
         "generationConfig": {
             "temperature": 0.1,
-            "maxOutputTokens": 4096,
+            # ИСПРАВЛЕНО: возвращен лимит 8192 для предотвращения обрыва строки
+            "maxOutputTokens": 8192,
             "responseMimeType": "application/json"
         }
     }
 
-    # ИСПРАВЛЕНО: Лучшая обработка ошибок с экспоненциальной задержкой
     max_retries = 5
     for attempt in range(max_retries):
         try:
-            response = requests.post(url, json=payload, timeout=90)
+            # ИСПРАВЛЕНО: Таймаут увеличен до 120, так как ответ на 8192 токенов генерируется долго
+            response = requests.post(url, json=payload, timeout=120)
             
-            # Обработка 429 (Rate Limit)
             if response.status_code == 429:
-                wait_time = min(30 * (2 ** attempt), 300)  # макс 5 минут
+                wait_time = min(30 * (2 ** attempt), 300)
                 print(f"⏸️  Rate limit 429. Ждем {wait_time}с (попытка {attempt + 1}/{max_retries})...")
                 time.sleep(wait_time)
                 continue
             
-            # Обработка 503 (Service Unavailable)
             if response.status_code == 503:
-                wait_time = min(15 * (2 ** attempt), 240)  # макс 4 минуты
+                wait_time = min(15 * (2 ** attempt), 240)
                 print(f"⏸️  API перегружена (503). Ждем {wait_time}с (попытка {attempt + 1}/{max_retries})...")
                 time.sleep(wait_time)
                 continue
             
-            # Обработка 500 (Internal Server Error)
             if response.status_code >= 500:
                 wait_time = min(10 * (2 ** attempt), 120)
                 print(f"⚠️  Ошибка сервера ({response.status_code}). Ждем {wait_time}с...")
                 time.sleep(wait_time)
                 continue
             
-            # Успешный ответ
             if response.status_code == 200:
                 result = response.json()
                 return result["candidates"][0]["content"]["parts"][0]["text"]
             
-            # Другие ошибки
             print(f"❌ Ошибка Gemini API ({response.status_code}): {response.text[:200]}")
             response.raise_for_status()
             
         except requests.exceptions.Timeout:
             wait_time = 10 * (attempt + 1)
-            print(f"⏸️  Timeout. Ждем {wait_time}с...")
+            print(f"⏸️  Timeout API. Ждем {wait_time}с...")
             time.sleep(wait_time)
             continue
         except Exception as e:
