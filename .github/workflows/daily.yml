@@ -2,11 +2,11 @@ name: Automated Intelligence Pipeline
 
 on:
   schedule:
-    - cron: '0 4 * * *'
+    - cron: '0 3 * * *'
       timezone: 'Europe/Moscow'
-    - cron: '0 9 * * *'
+    - cron: '0 8 * * *'
       timezone: 'Europe/Moscow'
-    - cron: '0 16 * * *'
+    - cron: '0 15 * * *'
       timezone: 'Europe/Moscow'
   workflow_dispatch: {}
 
