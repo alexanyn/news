@@ -7,6 +7,7 @@ import time
 import requests
 import feedparser
 from html import escape as html_escape
+from bs4 import BeautifulSoup
 import telebot
 from telebot.apihelper import ApiTelegramException
 import urllib3
@@ -145,7 +146,6 @@ RSS_FEEDS = [
     "https://news.google.com/rss/search?q=site:apnews.com&hl=en-US&gl=US&ceid=US:en",
     "http://feeds.bbci.co.uk/news/world/rss.xml",
     "https://www.aljazeera.com/xml/rss/all.xml",
-    "https://www.ft.com/world?format=rss",
     "https://news.google.com/rss/search?q=site:bloomberg.com&hl=en-US&gl=US&ceid=US:en",
     "https://feeds.a.dj.com/rss/RSSWorldNews.xml",
     "https://www.interfax.ru/rss.asp",
@@ -183,8 +183,8 @@ RSS_FEEDS = [
     "https://news.google.com/rss/search?q=%22Capital+Economics%22&hl=en-US&gl=US&ceid=US:en",
     "https://www.mckinsey.com/insights/rss",
     "https://news.google.com/rss/search?q=site:bcg.com&hl=en-US&gl=US&ceid=US:en",
-    "https://news.google.com/rss/search?q=site:bain.com+insights&hl=en-US&gl=US&ceid=US:en",
-    "https://news.google.com/rss/search?q=site:deloitte.com+M%26A+trends&hl=en-US&gl=US&ceid=US:en",
+    "https://news.google.com/rss/search?q=site:bain.com+insights+-jobs+-careers+-hiring&hl=en-US&gl=US&ceid=US:en",
+    "https://news.google.com/rss/search?q=site:deloitte.com+%22M%26A+trends%22+OR+report+OR+study+-jobs+-careers+-hiring&hl=en-US&gl=US&ceid=US:en",
     "https://imaa-institute.org/feed/",
     "https://news.google.com/rss/search?q=%22FT+Due+Diligence%22&hl=en-US&gl=US&ceid=US:en",
     "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&type=10-K&dateb=&owner=include&count=40&output=atom",
@@ -207,10 +207,27 @@ RSS_FEEDS = [
     "https://news.un.org/feed/subscribe/en/news/all/rss.xml",
 ]
 
+# Telegram-каналы обрабатываются отдельно от RSS_FEEDS: у них нет RSS-ленты,
+# контент собирается парсингом публичной веб-версии t.me/s/<channel>.
+# Financial Times заменён на этот канал вместо RSS с ft.com, так как сайт FT
+# требует подписку, а канал публикует статьи бесплатно (с переводом на русский).
+TELEGRAM_CHANNELS = [
+    {"username": "the_financial_times_journal", "source_name": "Financial Times (Telegram)"},
+]
+
 LOCAL_POLITICS_KEYWORDS = [
     "муниципал", "выбор", "депутат", "областной", "районный", "край",
     "администрац", "мэр", "губернатор", "чиновник", "снять", "уволен",
     "назначен", "отставка", "главный", "голосов"
+]
+
+# Страховочный фильтр на случай, если модель всё же пропустит локальную
+# криминальную хронику или бытовой курьёз без международного значения —
+# дополняет исключения, заданные в промпте для Gemini (см. generate_analytical_json).
+LOCAL_CRIME_AND_TRIVIA_KEYWORDS = [
+    "убил жену", "убил мужа", "убил дочь", "убил сына", "убил родствен",
+    "застрелил", "зарезал", "ДТП", "сбил насмерть", "поджог дома",
+    "бытовое убийство", "семейная ссора закончилась",
 ]
 
 def fetch_feed(url, timeout=15):
@@ -235,6 +252,75 @@ def get_source_name(url):
         if domain.lower() in url.lower():
             return name
     return url.split("//")[1].split("/")[0] if "//" in url else url
+
+def fetch_telegram_channel(username, timeout=15):
+    """
+    Парсит публичную веб-версию Telegram-канала (t.me/s/<username>) и возвращает
+    список сообщений в формате [{"title": str, "link": str, "published": str}, ...].
+    Не использует официальный Telegram API — работает с общедоступной HTML-страницей
+    предпросмотра, доступной без авторизации. Разметка (tgme_widget_message_*)
+    стабильна годами и используется в открытых проектах (RSSHub и др.), но при
+    изменении вёрстки Telegram парсинг может потребовать обновления селекторов.
+    """
+    url = f"https://t.me/s/{username}"
+    try:
+        response = requests.get(url, timeout=timeout, headers={
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
+        })
+        response.raise_for_status()
+    except requests.exceptions.Timeout:
+        print(f"Timeout при получении Telegram-канала {username}")
+        return []
+    except requests.exceptions.HTTPError as e:
+        print(f"Ошибка получения Telegram-канала {username}: {e}")
+        return []
+    except Exception as e:
+        print(f"Не удалось получить Telegram-канал {username}: {e}")
+        return []
+
+    try:
+        soup = BeautifulSoup(response.content, "html.parser")
+    except Exception as e:
+        print(f"Не удалось распарсить HTML Telegram-канала {username}: {e}")
+        return []
+
+    messages = []
+    for msg_div in soup.select("div.tgme_widget_message"):
+        post_id = msg_div.get("data-post", "")
+        if not post_id:
+            continue
+
+        text_div = msg_div.select_one(".tgme_widget_message_text")
+        if not text_div:
+            # Сообщение без текста (только фото/видео без подписи) — пропускаем,
+            # т.к. новостному дайджесту нужен текст для анализа.
+            continue
+
+        # Пост канала обычно оформлен как <b>заголовок</b> + <i>резюме</i>,
+        # за которыми следуют служебные ссылки ("Читать статью полностью",
+        # "Присоединиться к каналу") и хэштеги — их не берём, чтобы не
+        # засорять текст, который пойдёт в модель для анализа.
+        bold_tag = text_div.find("b")
+        italic_tag = text_div.find("i")
+        headline = bold_tag.get_text(strip=True) if bold_tag else ""
+        summary_part = italic_tag.get_text(strip=True) if italic_tag else ""
+
+        if headline:
+            title = f"{headline}. {summary_part}".strip() if summary_part else headline
+        else:
+            # Формат поста без <b>/<i> — берём текст целиком как есть
+            title = text_div.get_text(separator=" ", strip=True)
+
+        if not title:
+            continue
+
+        time_tag = msg_div.select_one(".tgme_widget_message_date time")
+        published = time_tag.get("datetime", "") if time_tag else ""
+
+        link = f"https://t.me/{post_id}"
+        messages.append({"title": title, "link": link, "published": published})
+
+    return messages
 
 def collect_all_news(sent_urls_history):
     news_db = {}
@@ -275,8 +361,40 @@ def collect_all_news(sent_urls_history):
             # только после подтверждённой отправки в Telegram (см. build_html_digest
             # и блок __main__).
     
-    print(f"✅ Собрано {len(news_db)} новостей из {len(RSS_FEEDS)} источников")
-    
+    print(f"✅ Собрано {len(news_db)} новостей из {len(RSS_FEEDS)} RSS-источников")
+
+    if TELEGRAM_CHANNELS:
+        print(f"📡 Начинаем парсинг {len(TELEGRAM_CHANNELS)} Telegram-каналов...")
+        tg_collected = 0
+        for channel in TELEGRAM_CHANNELS:
+            username = channel["username"]
+            source_name = channel["source_name"]
+            messages = fetch_telegram_channel(username)
+
+            # Как и для RSS, берём только несколько последних сообщений за проход,
+            # чтобы не заваливать Gemini старым контентом при первом запуске.
+            for msg in messages[-5:]:
+                url = msg["link"]
+                if not url or url in sent_urls_history:
+                    continue
+
+                title = msg["title"]
+                if not title:
+                    continue
+
+                news_id = str(len(news_db))
+                news_db[news_id] = {
+                    "url": url,
+                    "title": title,
+                    "source_name": source_name,
+                    "published": msg["published"]
+                }
+
+                raw_data_list.append(f"ID:{news_id}|Title:{title}|Source:{source_name}")
+                tg_collected += 1
+
+        print(f"✅ Собрано {tg_collected} новостей из Telegram-каналов")
+
     raw_data_prompt = "\n".join(raw_data_list)
     return news_db, raw_data_prompt
 
@@ -304,6 +422,25 @@ def generate_analytical_json(raw_data_prompt):
     ВАЖНО: для КАЖДОЙ новости обязательно проставь поле "is_russia": true или false
     (true — если новость о России или напрямую касается России, false — во всех
     остальных случаях). Не пропускай это поле ни для одной новости.
+    
+    ИСКЛЮЧИ ПОЛНОСТЬЮ (не включай в JSON вообще) следующие типы новостей, даже если
+    формально они пришли из релевантного источника:
+    1. Локальные криминальные и бытовые происшествия без международного или
+       политического резонанса — убийства, ДТП, пожары, местные преступления и т.п.,
+       касающиеся конкретного города/района/семьи и не имеющие значения за пределами
+       локального сообщества. Отличие: покушение на президента — оставляем (есть
+       политический резонанс); бытовое убийство в одной семье — исключаем.
+    2. Курьёзы, lifestyle-заметки, необычные бытовые тренды без практической или
+       аналитической ценности для делового/политического мониторинга — например,
+       "мода на X в стране Y", необычные потребительские привычки, вирусные истории
+       без значимых последствий.
+    3. Вакансии, карьерные страницы, списки открытых позиций в компаниях — это не
+       новости, даже если компания релевантна (Bain, Deloitte, McKinsey и т.п.).
+    
+    Если сомневаешься, оставлять новость или нет, — задай себе вопрос: "Повлияет ли
+    это на международную политику, экономику, бизнес или технологии, или это просто
+    любопытный факт/локальное происшествие?" Любопытные факты и локальные
+    происшествия — исключай.
     
     Входящие новости:
     __INPUT_DATA__
@@ -470,6 +607,8 @@ def build_html_digest(raw_response, news_db):
 
                 low_summary = summary.lower()
                 if any(kw in low_summary for kw in LOCAL_POLITICS_KEYWORDS):
+                    continue
+                if any(kw.lower() in low_summary for kw in LOCAL_CRIME_AND_TRIVIA_KEYWORDS):
                     continue
 
                 url = news_db[news_id]["url"]
