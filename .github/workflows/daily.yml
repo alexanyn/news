@@ -2,12 +2,21 @@ name: Automated Intelligence Pipeline
 
 on:
   schedule:
+    # Morning digest (логически 08:00, собирает новости 20:00 вчера – 08:00 сегодня)
+    # Запускаем в 3:00 для обработки и публикации к 8:00
     - cron: '0 3 * * *'
       timezone: 'Europe/Moscow'
+    
+    # Afternoon digest (логически 13:00, собирает новости 08:00 – 13:00)
+    # Запускаем в 8:00 для обработки и публикации к 13:00
     - cron: '0 8 * * *'
       timezone: 'Europe/Moscow'
-    - cron: '0 15 * * *'
+    
+    # Evening digest (логически 19:00, собирает новости 13:00 – 19:00)
+    # Запускаем в 14:00 для обработки и публикации к 19:00
+    - cron: '0 14 * * *'
       timezone: 'Europe/Moscow'
+  
   workflow_dispatch: {}
 
 jobs:
@@ -30,18 +39,55 @@ jobs:
         python -m pip install --upgrade pip
         pip install requests feedparser beautifulsoup4 pyTelegramBotAPI
 
-    - name: Run Python script
+    - name: Determine schedule name
+      id: schedule
+      run: |
+        # Определяем, какой дайджест запущен, по текущему времени (UTC+3 Moscow)
+        # 03:00 → morning, 08:00 → afternoon, 14:00 → evening
+        HOUR=$(date -u +%H)
+        MINUTE=$(date -u +%M)
+        # Конвертируем UTC в Moscow time (UTC+3)
+        MOSCOW_HOUR=$(( ($HOUR + 3) % 24 ))
+        
+        if [ "$MOSCOW_HOUR" -eq 3 ]; then
+          echo "schedule_name=morning" >> $GITHUB_OUTPUT
+        elif [ "$MOSCOW_HOUR" -eq 8 ]; then
+          echo "schedule_name=afternoon" >> $GITHUB_OUTPUT
+        elif [ "$MOSCOW_HOUR" -eq 14 ]; then
+          echo "schedule_name=evening" >> $GITHUB_OUTPUT
+        else
+          echo "schedule_name=morning" >> $GITHUB_OUTPUT  # default fallback
+        fi
+
+    - name: Run morning digest (08:00 logical)
+      if: steps.schedule.outputs.schedule_name == 'morning'
       env:
         GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
         TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
-      run: python main.py
+      run: python main.py morning
 
-    - name: Commit and push sent news history
+    - name: Run afternoon digest (13:00 logical)
+      if: steps.schedule.outputs.schedule_name == 'afternoon'
+      env:
+        GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+        TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+      run: python main.py afternoon
+
+    - name: Run evening digest (19:00 logical)
+      if: steps.schedule.outputs.schedule_name == 'evening'
+      env:
+        GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+        TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+      run: python main.py evening
+
+    - name: Commit and push sent news history and schedule tracking
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
-        git add sent_urls.json
-        git commit -m "Update sent news history [skip ci]" || echo "No changes to commit"
+        git add sent_urls.json last_run.json
+        git commit -m "Update news history and schedule tracking [skip ci]" || echo "No changes to commit"
         git pull --rebase origin main
         git push
