@@ -25,6 +25,84 @@ bot = telebot.TeleBot(bot_token)
 CHAT_ID = chat_id
 
 HISTORY_FILE = "sent_urls.json"
+LAST_RUN_FILE = "last_run.json"
+
+# Расписание: логическое время публикации дайджестов (UTC+0)
+# Скрипт может запускаться раньше этих времён (например, в 3:00 вместо 8:00),
+# но собирать новости будет ЛОГИЧЕСКИ за нужный промежуток времени.
+SCHEDULES = {
+    "morning": {"hour": 8, "minute": 0},      # 08:00 логически
+    "afternoon": {"hour": 13, "minute": 0},   # 13:00 логически
+    "evening": {"hour": 19, "minute": 0},     # 19:00 логически
+}
+
+def get_schedule_boundary(schedule_name):
+    """
+    Возвращает логическое время ГРАНИЧНОЕ дайджеста (время, ДО КОТОРОГО собираются новости).
+    
+    Если сейчас 03:15 и запущен "morning" дайджест:
+    - Логическая граница = 08:00 СЕГОДНЯ (если ещё не наступила) или ВЧЕРА (если уже прошла)
+    - Вчера в 08:00 был последний morning → собираем с вчера 08:00 до сегодня 08:00
+    
+    Если сейчас 09:15 и запущен "morning" дайджест:
+    - Логическая граница = 08:00 СЕГОДНЯ (уже прошла, используем как текущую)
+    """
+    if schedule_name not in SCHEDULES:
+        raise ValueError(f"Unknown schedule: {schedule_name}. Valid: {list(SCHEDULES.keys())}")
+    
+    sched = SCHEDULES[schedule_name]
+    hour, minute = sched["hour"], sched["minute"]
+    
+    now = time.time()
+    now_local = time.localtime(now)
+    
+    # Строим время "сегодня HH:MM:00"
+    today_boundary = time.mktime(time.struct_time((
+        now_local.tm_year,
+        now_local.tm_mon,
+        now_local.tm_mday,
+        hour, minute, 0,
+        0, 0, -1
+    )))
+    
+    # Если сейчас ДО этого времени, то граница — вчера, не сегодня
+    if now < today_boundary:
+        today_boundary -= 24 * 3600
+    
+    return today_boundary
+
+def get_last_run_time(schedule_name):
+    """Возвращает ЛОГИЧЕСКУЮ границу последнего запуска расписания (не реальное время)"""
+    if os.path.exists(LAST_RUN_FILE):
+        try:
+            with open(LAST_RUN_FILE, "r", encoding="utf-8") as f:
+                data = json.load(f)
+                if isinstance(data, dict) and schedule_name in data:
+                    return data[schedule_name]
+        except Exception as e:
+            print(f"Ошибка чтения файла last_run: {e}")
+    return None
+
+def save_run_time(schedule_name):
+    """Сохраняет ЛОГИЧЕСКУЮ границу текущего запуска (для отсчёта следующего окна)"""
+    data = {}
+    if os.path.exists(LAST_RUN_FILE):
+        try:
+            with open(LAST_RUN_FILE, "r", encoding="utf-8") as f:
+                data = json.load(f)
+        except Exception as e:
+            print(f"Ошибка чтения last_run при сохранении: {e}")
+    
+    # Сохраняем логическую границу расписания, а не реальное время запуска
+    boundary = get_schedule_boundary(schedule_name)
+    data[schedule_name] = boundary
+    
+    try:
+        with open(LAST_RUN_FILE, "w", encoding="utf-8") as f:
+            json.dump(data, f, indent=2)
+        print(f"💾 Сохранено время последнего запуска {schedule_name}: {time.ctime(boundary)}")
+    except Exception as e:
+        print(f"Ошибка записи last_run: {e}")
 
 def load_sent_urls():
     if os.path.exists(HISTORY_FILE):
@@ -247,6 +325,40 @@ def fetch_feed(url, timeout=15):
         print(f"Пустая/битая лента {url}: {e}")
         return None
 
+def parse_published_time(published_str):
+    """
+    Парсит дату публикации из RSS/Telegram в Unix timestamp.
+    Поддерживает форматы:
+    - RFC 2822 (RSS): "Mon, 13 Aug 2026 06:12:00 +0000"
+    - ISO 8601 (Telegram): "2026-08-13T06:12:00+00:00" или "2026-08-13T06:12:00Z"
+    
+    Возвращает Unix timestamp или None, если парсинг не удался.
+    """
+    if not published_str or not isinstance(published_str, str):
+        return None
+    
+    # Сначала пытаемся парсить как RFC 2822 (RSS)
+    try:
+        from email.utils import parsedate_to_datetime
+        dt = parsedate_to_datetime(published_str)
+        return dt.timestamp()
+    except Exception:
+        pass
+    
+    # Если RFC 2822 не сработал, пытаемся ISO 8601
+    try:
+        from datetime import datetime
+        # Нормализуем 'Z' на конце в '+00:00'
+        iso_str = published_str.replace('Z', '+00:00')
+        # Python 3.7+ поддерживает fromisoformat с timezone
+        dt = datetime.fromisoformat(iso_str)
+        return dt.timestamp()
+    except Exception:
+        pass
+    
+    # Оба формата не сработали — вернём None, фолбэк в collect_all_news
+    return None
+
 def get_source_name(url):
     for domain, name in FEED_CANONICAL_NAMES.items():
         if domain.lower() in url.lower():
@@ -322,10 +434,33 @@ def fetch_telegram_channel(username, timeout=15):
 
     return messages
 
-def collect_all_news(sent_urls_history):
+def collect_all_news(sent_urls_history, schedule_name="morning"):
+    """
+    Собирает новости для дайджеста в нужном ЛОГИЧЕСКОМ временном окне.
+    
+    schedule_name: 'morning' (08:00), 'afternoon' (13:00), 'evening' (19:00)
+    
+    Логика:
+    - Текущая логическая граница = get_schedule_boundary(schedule_name)
+    - Последняя логическая граница = get_last_run_time(schedule_name)
+    - Собираем новости, опубликованные МЕЖДУ этими двумя границами
+    
+    Это позволяет собирать новости за нужный промежуток (08:00–13:00, 13:00–19:00 и т.д.),
+    даже если физически скрипт запускается раньше логического времени публикации.
+    """
     news_db = {}
     raw_data_list = []
     
+    # Вычисляем окно сбора
+    current_boundary = get_schedule_boundary(schedule_name)
+    last_boundary = get_last_run_time(schedule_name)
+    
+    if last_boundary is None:
+        # Первый запуск этого расписания — берём новости с предыдущей логической границы
+        last_boundary = current_boundary - 24 * 3600
+        print(f"⚠️  Первый запуск {schedule_name} дайджеста, установлено окно в 24 часа назад")
+    
+    print(f"📅 {schedule_name.upper()} дайджест: собираем новости с {time.ctime(last_boundary)} до {time.ctime(current_boundary)}")
     print(f"📡 Начинаем парсинг {len(RSS_FEEDS)} лент...")
     
     for idx, feed_url in enumerate(RSS_FEEDS, 1):
@@ -340,6 +475,19 @@ def collect_all_news(sent_urls_history):
             if not url or url in sent_urls_history:
                 continue
             
+            # ===== КЛЮЧЕВОЙ ФИЛЬТР: по дате публикации и логическому окну =====
+            published_str = entry.get("published", "")
+            published_ts = parse_published_time(published_str)
+            
+            # Включаем новость только если её дата публикации попадает в нужное окно:
+            # last_boundary <= published < current_boundary
+            if published_ts is not None:
+                if published_ts < last_boundary or published_ts >= current_boundary:
+                    # Новость вне окна — пропускаем
+                    continue
+            # Если дата не парсится (published_ts is None), берём новость на доверие
+            # (предполагаем, что RSS отдаёт свежий контент в нужном порядке)
+            
             title = entry.get("title", "").strip()
             if not title:
                 continue
@@ -349,7 +497,7 @@ def collect_all_news(sent_urls_history):
                 "url": url,
                 "title": title,
                 "source_name": source_name,
-                "published": entry.get("published", "")
+                "published": published_str
             }
             
             raw_data_list.append(f"ID:{news_id}|Title:{title}|Source:{source_name}")
@@ -378,6 +526,14 @@ def collect_all_news(sent_urls_history):
                 if not url or url in sent_urls_history:
                     continue
 
+                # Аналогичный фильтр по дате для Telegram-сообщений
+                published_str = msg["published"]
+                published_ts = parse_published_time(published_str)
+                
+                if published_ts is not None:
+                    if published_ts < last_boundary or published_ts >= current_boundary:
+                        continue
+
                 title = msg["title"]
                 if not title:
                     continue
@@ -387,7 +543,7 @@ def collect_all_news(sent_urls_history):
                     "url": url,
                     "title": title,
                     "source_name": source_name,
-                    "published": msg["published"]
+                    "published": published_str
                 }
 
                 raw_data_list.append(f"ID:{news_id}|Title:{title}|Source:{source_name}")
@@ -689,9 +845,23 @@ def send_telegram_message(chat_id, text):
     return all_ok
 
 if __name__ == "__main__":
+    import sys
+    
+    # Читаем schedule_name из аргумента командной строки
+    # Использование: python main.py morning / python main.py afternoon / python main.py evening
+    schedule_name = "morning"  # default
+    if len(sys.argv) > 1:
+        arg = sys.argv[1].lower()
+        if arg in SCHEDULES:
+            schedule_name = arg
+        else:
+            print(f"⚠️  Неизвестное расписание '{arg}', используется 'morning'. Допустимые: {list(SCHEDULES.keys())}")
+    
+    print(f"🕐 Запущен дайджест: {schedule_name}")
+    
     sent_urls_history = load_sent_urls()
 
-    news_db, raw_data_prompt = collect_all_news(sent_urls_history)
+    news_db, raw_data_prompt = collect_all_news(sent_urls_history, schedule_name)
 
     if raw_data_prompt.strip():
         print("📊 Запрашиваем анализ из Gemini API...")
@@ -725,6 +895,13 @@ if __name__ == "__main__":
             for url in confirmed_urls:
                 sent_urls_history[url] = now
             save_sent_urls(sent_urls_history)
+            
+            # ===== ВАЖНО: сохраняем ЛОГИЧЕСКОЕ время этого расписания =====
+            # Это позволяет следующему запуску этого расписания знать, с какой
+            # логической границы начинать сбор новостей, независимо от того,
+            # когда физически запустился скрипт.
+            save_run_time(schedule_name)
+            
             print("✅ Диджест отправлен успешно!")
         else:
             print("ℹ️  Новостей для публикации не найдено, либо отправка не удалась — история не обновлена.")
