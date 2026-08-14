@@ -459,6 +459,18 @@ def collect_all_news(sent_urls_history, schedule_name="morning"):
         # Первый запуск этого расписания — берём новости с предыдущей логической границы
         last_boundary = current_boundary - 24 * 3600
         print(f"⚠️  Первый запуск {schedule_name} дайджеста, установлено окно в 24 часа назад")
+    elif last_boundary >= current_boundary:
+        # Этот дайджест уже собирался сегодня (last_boundary "догнал" current_boundary).
+        # Обычно это значит, что скрипт для этого schedule_name запущен повторно
+        # в тот же логический день (например, вручную через workflow_dispatch после
+        # штатного запуска, или тестовый прогон). Окно не может быть нулевым/отрицательным —
+        # раздвигаем его назад на 24 часа от текущей границы, чтобы дайджест не оказался
+        # пустым, но явно предупреждаем, что это, вероятно, повторный запуск.
+        print(f"⚠️  {schedule_name} дайджест уже собирался для этого цикла (последняя граница "
+              f"{time.ctime(last_boundary)} >= текущей {time.ctime(current_boundary)}). "
+              f"Похоже на повторный/ручной запуск. Пересобираем окно за последние 24 часа "
+              f"вместо пустого/некорректного диапазона.")
+        last_boundary = current_boundary - 24 * 3600
     
     print(f"📅 {schedule_name.upper()} дайджест: собираем новости с {time.ctime(last_boundary)} до {time.ctime(current_boundary)}")
     print(f"📡 Начинаем парсинг {len(RSS_FEEDS)} лент...")
