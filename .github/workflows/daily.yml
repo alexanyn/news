@@ -17,7 +17,17 @@ on:
     - cron: '0 14 * * *'
       timezone: 'Europe/Moscow'
   
-  workflow_dispatch: {}
+  workflow_dispatch:
+    inputs:
+      schedule_name:
+        description: 'Какой дайджест запустить вручную'
+        required: true
+        default: 'afternoon'
+        type: choice
+        options:
+          - morning
+          - afternoon
+          - evening
 
 jobs:
   run-analytics-pipeline:
@@ -42,46 +52,34 @@ jobs:
     - name: Determine schedule name
       id: schedule
       run: |
-        # Определяем, какой дайджест запущен, по текущему времени (UTC+3 Moscow)
-        # 03:00 → morning, 08:00 → afternoon, 14:00 → evening
-        HOUR=$(date -u +%H)
-        MINUTE=$(date -u +%M)
-        # Конвертируем UTC в Moscow time (UTC+3)
-        MOSCOW_HOUR=$(( ($HOUR + 3) % 24 ))
-        
-        if [ "$MOSCOW_HOUR" -eq 3 ]; then
+        # ВАЖНО: определяем schedule_name НЕ по вычисленному текущему часу
+        # (это было хрупко — GitHub Actions cron может опаздывать на 5-40+ минут
+        # при нагрузке, из-за чего вычисленный час "съезжал" и попадал в неверную
+        # ветку, либо ни в одну, что приводило к дублированию/пропуску дайджестов).
+        #
+        # Вместо этого используем github.event.schedule — точную cron-строку,
+        # которая реально инициировала запуск. Это значение проставляет сам
+        # GitHub при срабатывании триггера, оно не зависит от времени выполнения.
+        if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+          echo "schedule_name=${{ github.event.inputs.schedule_name }}" >> $GITHUB_OUTPUT
+        elif [ "${{ github.event.schedule }}" = "0 3 * * *" ]; then
           echo "schedule_name=morning" >> $GITHUB_OUTPUT
-        elif [ "$MOSCOW_HOUR" -eq 8 ]; then
+        elif [ "${{ github.event.schedule }}" = "0 8 * * *" ]; then
           echo "schedule_name=afternoon" >> $GITHUB_OUTPUT
-        elif [ "$MOSCOW_HOUR" -eq 14 ]; then
+        elif [ "${{ github.event.schedule }}" = "0 14 * * *" ]; then
           echo "schedule_name=evening" >> $GITHUB_OUTPUT
         else
-          echo "schedule_name=morning" >> $GITHUB_OUTPUT  # default fallback
+          echo "❌ Неизвестный триггер расписания: '${{ github.event.schedule }}'"
+          exit 1
         fi
+        echo "Определено расписание: $(cat $GITHUB_OUTPUT)"
 
-    - name: Run morning digest (08:00 logical)
-      if: steps.schedule.outputs.schedule_name == 'morning'
+    - name: Run digest
       env:
         GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
         TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
-      run: python main.py morning
-
-    - name: Run afternoon digest (13:00 logical)
-      if: steps.schedule.outputs.schedule_name == 'afternoon'
-      env:
-        GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-        TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-        TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
-      run: python main.py afternoon
-
-    - name: Run evening digest (19:00 logical)
-      if: steps.schedule.outputs.schedule_name == 'evening'
-      env:
-        GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-        TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-        TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
-      run: python main.py evening
+      run: python main.py ${{ steps.schedule.outputs.schedule_name }}
 
     - name: Commit and push sent news history and schedule tracking
       run: |
