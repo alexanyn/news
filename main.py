@@ -216,7 +216,20 @@ FEED_CANONICAL_NAMES = {
     "gzero": "Eurasia Group / GZERO",
     "econs.online": "Econs",
     "thebell.io": "The Bell",
-    "ourworldindata.org": "Our World in Data"
+    "ourworldindata.org": "Our World in Data",
+
+    # rss.app feed ID → каноническое имя источника. get_source_name ищет
+    # подстроку в URL ленты; для rss.app-ссылок URL не содержит домен
+    # оригинального сайта (только rss.app/feeds/<id>.xml), поэтому сопоставляем
+    # по уникальному ID фида, который сохраняется в конце URL.
+    "QTDcfTTqQ0hm1o91.xml": "Эксперт",
+    "iuMD8g2rxB14m0mz.xml": "Эксперт",
+    "iT2Pt3BurL81siKW.xml": "Council on Foreign Relations",
+    "O80a99tgLfAFfWZa.xml": "Council on Foreign Relations",
+    "AOv0nmn998dUthN2.xml": "CSIS",
+    "0UicvtRq1ayThLrG.xml": "RAND Corporation",
+    "3OxJShbgzLo6cbye.xml": "NATO",
+    "jqU6AAh8tOqfvcuN.xml": "VoxEU"
 }
 
 RSS_FEEDS = [
@@ -235,12 +248,6 @@ RSS_FEEDS = [
     "https://www.worldpoliticsreview.com/feed/",
     "https://eng.globalaffairs.ru/feed/",
     "https://globalaffairs.ru/feed/",
-    "https://expert.ru/rss/all/",
-    "https://www.csis.org/analysis/rss.xml",
-    "https://www.chathamhouse.org/rss/all",
-    "https://www.cfr.org/publications/rss.xml",
-    "https://www.rand.org/pubs/recent.xml",
-    "https://www.iiss.org/rss/",
     "https://carnegieendowment.org/rss/publications/",
     "https://www.atlanticcouncil.org/feed/",
     "https://www.brookings.edu/feed/",
@@ -250,14 +257,9 @@ RSS_FEEDS = [
     "https://news.google.com/rss/search?q=site:veb.ru+институт&hl=ru&gl=RU&ceid=RU:ru",
     "https://www.csr.ru/rss/",
     "https://news.google.com/rss/search?q=site:forecast.ru&hl=ru&gl=RU&ceid=RU:ru",
-    "https://www.imf.org/en/News/rss?language=eng",
-    "https://www.bis.org/doclist/all_rss.xml",
-    "https://www.worldbank.org/en/news/all.rss",
-    "https://www.oecd.org/newsroom/rss.xml",
     "https://www.wto.org/english/news_e/news_e.rss",
     "https://news.google.com/rss/search?q=site:fred.stlouisfed.org&hl=en-US&gl=US&ceid=US:en",
     "https://www.project-syndicate.org/rss",
-    "https://cepr.org/rss/all-columns",
     "https://news.google.com/rss/search?q=%22Capital+Economics%22&hl=en-US&gl=US&ceid=US:en",
     "https://www.mckinsey.com/insights/rss",
     "https://news.google.com/rss/search?q=site:bcg.com&hl=en-US&gl=US&ceid=US:en",
@@ -274,15 +276,25 @@ RSS_FEEDS = [
     "https://www.iea.org/rss/news",
     "https://www.eia.gov/rss/todayinenergy.xml",
     "https://www.opec.org/opec_web/en/rss/press_releases.xml",
-    "https://www.nato.int/rss/news.xml",
-    "https://www.whitehouse.gov/feed/",
     "https://www.state.gov/feed/",
-    "https://home.treasury.gov/rss/press-releases",
     "https://www.federalreserve.gov/feeds/press_all.xml",
     "https://news.google.com/rss/search?q=site:congress.gov&hl=en-US&gl=US&ceid=US:en",
     "https://ec.europa.eu/commission/presscorner/api/rss",
     "https://www.ecb.europa.eu/rss/press.xml",
     "https://news.un.org/feed/subscribe/en/news/all/rss.xml",
+
+    # ===== Замена умерших RSS через rss.app (обновление раз в 24ч на бесплатном тарифе) =====
+    # Оригинальные RSS этих источников отдавали 403/404 напрямую — сайты либо
+    # удалили RSS-ленту, либо блокируют автоматические запросы. rss.app скрейпит
+    # сайт сам и отдаёт результат в виде RSS, обходя эти ограничения.
+    "https://rss.app/feeds/QTDcfTTqQ0hm1o91.xml",  # expert.ru
+    "https://rss.app/feeds/iuMD8g2rxB14m0mz.xml",  # expert.ru/mnenie
+    "https://rss.app/feeds/iT2Pt3BurL81siKW.xml",  # cfr.org/expert-takes
+    "https://rss.app/feeds/O80a99tgLfAFfWZa.xml",  # cfr.org/backgrounders
+    "https://rss.app/feeds/AOv0nmn998dUthN2.xml",  # csis.org/analysis
+    "https://rss.app/feeds/0UicvtRq1ayThLrG.xml",  # rand.org/pubs.html
+    "https://rss.app/feeds/3OxJShbgzLo6cbye.xml",  # nato.int/news-and-events/articles/news
+    "https://rss.app/feeds/jqU6AAh8tOqfvcuN.xml",  # cepr.org
 ]
 
 # Telegram-каналы обрабатываются отдельно от RSS_FEEDS: у них нет RSS-ленты,
@@ -309,14 +321,46 @@ LOCAL_CRIME_AND_TRIVIA_KEYWORDS = [
 ]
 
 def fetch_feed(url, timeout=15):
+    # Увеличенный таймаут для источников, которые исторически падали по TIMEOUT
+    # (нестабильные/медленные серверы — русские аналитические центры).
+    req_timeout = 30 if ("globalaffairs.ru" in url or "csr.ru" in url) else timeout
+
+    # ВНИМАНИЕ: отключение проверки SSL-сертификата — это компромисс по
+    # безопасности, применяется точечно ТОЛЬКО для csr.ru из-за конкретной
+    # ошибки "hostname mismatch" на их сертификате (не наша проблема, а
+    # неправильно настроенный сертификат на стороне csr.ru). Если сайт
+    # почему-либо станет отдавать вредоносный контент через MITM, это не
+    # будет обнаружено. Риск невысокий (публичный RSS госоргана), но стоит
+    # знать, что это осознанное исключение, а не общее правило.
+    verify_ssl = False if "csr.ru" in url else True
+
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+        "Accept": "application/rss+xml, application/xml, text/xml, */*",
+        "Accept-Language": "en-US,en;q=0.9,ru;q=0.8"
+    }
+
+    # SEC.gov требует специфичный формат User-Agent вида "Имя email@domain",
+    # иначе блокирует запрос (это их официальное требование к автоматическим
+    # обращениям, не обход защиты). Замени email на свой реальный адрес —
+    # SEC может заблокировать IP при массовых запросах без валидного контакта.
+    if "sec.gov" in url:
+        headers["User-Agent"] = "NewsDigestBot your_email@example.com"
+
     try:
-        response = requests.get(url, timeout=timeout, headers={
-            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
-        })
+        response = requests.get(
+            url,
+            timeout=req_timeout,
+            headers=headers,
+            verify=verify_ssl
+        )
         response.raise_for_status()
         return feedparser.parse(response.content)
     except requests.exceptions.Timeout:
         print(f"Timeout при получении {url}")
+        return None
+    except requests.exceptions.SSLError as e:
+        print(f"Ошибка SSL {url}: {e}")
         return None
     except requests.exceptions.HTTPError as e:
         print(f"Ошибка парсинга RSS {url}: {e}")
