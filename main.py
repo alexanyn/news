@@ -1,9 +1,10 @@
-print("=== ЗАПУСК СКРИПТА ВЕРСИИ 6.11 (FIXED_MODEL_HISTORY_AND_TELEGRAM_SAFETY) ===")
+print("=== ЗАПУСК СКРИПТА ВЕРСИИ 6.12 (FIXED_TIMEZONE_AND_PUBLISH_WAIT) ===")
 
 import os
 import re
 import json
 import time
+import datetime
 import requests
 import feedparser
 from html import escape as html_escape
@@ -27,25 +28,44 @@ CHAT_ID = chat_id
 HISTORY_FILE = "sent_urls.json"
 LAST_RUN_FILE = "last_run.json"
 
-# Расписание: логическое время публикации дайджестов (UTC+0)
+# ВАЖНО: GitHub Actions раннеры работают в UTC, независимо от `timezone:` в
+# cron-триггере (тот `timezone:` влияет только на МОМЕНТ СРАБАТЫВАНИЯ cron,
+# а не на системное время самой машины). Раньше SCHEDULES ниже интерпретировались
+# через time.localtime()/time.mktime(), которые на раннере читают именно UTC —
+# то есть "08:00" по факту означало 08:00 UTC = 11:00 МСК, а не 08:00 МСК, как
+# задумывалось. Из-за этого расписание "плыло" на 3 часа относительно ожиданий.
+#
+# Исправление: все вычисления границ расписания ниже явно делаются в московском
+# времени (UTC+3, без перехода на летнее/зимнее время — Россия его не использует).
+MOSCOW_OFFSET = datetime.timedelta(hours=3)
+MOSCOW_TZ = datetime.timezone(MOSCOW_OFFSET)
+
+def now_moscow():
+    """Текущее время как offset-aware datetime в московском часовом поясе."""
+    return datetime.datetime.now(datetime.timezone.utc).astimezone(MOSCOW_TZ)
+
+# Расписание: логическое время публикации дайджестов (по Москве)
 # Скрипт может запускаться раньше этих времён (например, в 3:00 вместо 8:00),
-# но собирать новости будет ЛОГИЧЕСКИ за нужный промежуток времени.
+# но собирать новости будет ЛОГИЧЕСКИ за нужный промежуток времени, а
+# ПУБЛИКОВАТЬ будет строго не раньше момента наступления этого времени
+# (см. wait_until_publish_time).
 SCHEDULES = {
-    "morning": {"hour": 8, "minute": 0},      # 08:00 логически
-    "afternoon": {"hour": 13, "minute": 0},   # 13:00 логически
-    "evening": {"hour": 19, "minute": 0},     # 19:00 логически
+    "morning": {"hour": 8, "minute": 0},      # 08:00 МСК логически
+    "afternoon": {"hour": 13, "minute": 0},   # 13:00 МСК логически
+    "evening": {"hour": 19, "minute": 0},     # 19:00 МСК логически
 }
 
 def get_schedule_boundary(schedule_name):
     """
-    Возвращает логическое время ГРАНИЧНОЕ дайджеста (время, ДО КОТОРОГО собираются новости).
+    Возвращает логическое время ГРАНИЧНОЕ дайджеста (время, ДО КОТОРОГО собираются
+    новости), как Unix timestamp. Считается в московском времени (см. выше).
     
-    Если сейчас 03:15 и запущен "morning" дайджест:
-    - Логическая граница = 08:00 СЕГОДНЯ (если ещё не наступила) или ВЧЕРА (если уже прошла)
+    Если сейчас 03:15 МСК и запущен "morning" дайджест:
+    - Логическая граница = 08:00 МСК СЕГОДНЯ (если ещё не наступила) или ВЧЕРА (если уже прошла)
     - Вчера в 08:00 был последний morning → собираем с вчера 08:00 до сегодня 08:00
     
-    Если сейчас 09:15 и запущен "morning" дайджест:
-    - Логическая граница = 08:00 СЕГОДНЯ (уже прошла, используем как текущую)
+    Если сейчас 09:15 МСК и запущен "morning" дайджест:
+    - Логическая граница = 08:00 МСК СЕГОДНЯ (уже прошла, используем как текущую)
     """
     if schedule_name not in SCHEDULES:
         raise ValueError(f"Unknown schedule: {schedule_name}. Valid: {list(SCHEDULES.keys())}")
@@ -53,23 +73,80 @@ def get_schedule_boundary(schedule_name):
     sched = SCHEDULES[schedule_name]
     hour, minute = sched["hour"], sched["minute"]
     
-    now = time.time()
-    now_local = time.localtime(now)
+    now_dt = now_moscow()
     
-    # Строим время "сегодня HH:MM:00"
-    today_boundary = time.mktime(time.struct_time((
-        now_local.tm_year,
-        now_local.tm_mon,
-        now_local.tm_mday,
-        hour, minute, 0,
-        0, 0, -1
-    )))
+    today_boundary_dt = now_dt.replace(hour=hour, minute=minute, second=0, microsecond=0)
     
     # Если сейчас ДО этого времени, то граница — вчера, не сегодня
-    if now < today_boundary:
-        today_boundary -= 24 * 3600
+    if now_dt < today_boundary_dt:
+        today_boundary_dt -= datetime.timedelta(days=1)
     
-    return today_boundary
+    return today_boundary_dt.timestamp()
+
+def get_next_publish_time(schedule_name):
+    """
+    Возвращает Unix timestamp СЛЕДУЮЩЕГО наступления логического времени публикации
+    (по Москве) для данного расписания — то есть момент, до которого скрипт должен
+    ДОЖДАТЬСЯ перед фактической отправкой в Telegram, чтобы afternoon/evening не
+    публиковались сразу после сбора (что и вызывало эффект "дайджест выходит через
+    минуты после запуска workflow", а не в заявленное время).
+    
+    В отличие от get_schedule_boundary (которая может вернуть уже ПРОШЕДШУЮ границу
+    для расчёта окна сбора), эта функция всегда возвращает БУДУЩИЙ момент.
+    """
+    if schedule_name not in SCHEDULES:
+        raise ValueError(f"Unknown schedule: {schedule_name}. Valid: {list(SCHEDULES.keys())}")
+    
+    sched = SCHEDULES[schedule_name]
+    hour, minute = sched["hour"], sched["minute"]
+    
+    now_dt = now_moscow()
+    target_dt = now_dt.replace(hour=hour, minute=minute, second=0, microsecond=0)
+    
+    # Если целевое время уже прошло сегодня — значит, публикация должна быть
+    # СЕГОДНЯ (мы просто запустились рано и должны подождать), либо, если время
+    # уже давно прошло (запуск сильно задержался), публикуем немедленно.
+    # Логика: цель всегда "ближайшее наступление hour:minute, которое не более
+    # чем на PUBLISH_GRACE_SECONDS в прошлом" — иначе (сильное опоздание) публикуем сразу.
+    if now_dt > target_dt:
+        seconds_late = (now_dt - target_dt).total_seconds()
+        if seconds_late > PUBLISH_GRACE_SECONDS:
+            # Опоздали слишком сильно (например, ручной запуск днём) — не ждать
+            # до следующего дня, публикуем немедленно.
+            return now_dt.timestamp()
+    
+    return target_dt.timestamp()
+
+# Если запуск задержался больше чем на это время после целевого часа публикации,
+# считаем ожидание бессмысленным и публикуем сразу, а не ждём почти сутки.
+PUBLISH_GRACE_SECONDS = 30 * 60  # 30 минут
+
+def wait_until_publish_time(schedule_name):
+    """
+    Блокирует выполнение до наступления логического времени публикации (по Москве),
+    либо возвращается немедленно, если это время уже наступило (в пределах
+    PUBLISH_GRACE_SECONDS) или было пропущено намного раньше.
+    
+    Именно это устраняет проблему "дайджест публикуется сразу после запуска
+    workflow вместо заявленного времени": сбор новостей может начаться заранее
+    (в 03:00/08:00/14:00), но реальная отправка в Telegram откладывается до
+    08:00/13:00/19:00 включительно.
+    """
+    target_ts = get_next_publish_time(schedule_name)
+    now_ts = time.time()
+    wait_seconds = target_ts - now_ts
+    
+    if wait_seconds <= 0:
+        print(f"⏱️  Целевое время публикации уже наступило, публикуем немедленно.")
+        return
+    
+    target_readable = datetime.datetime.fromtimestamp(target_ts, MOSCOW_TZ).strftime("%H:%M:%S МСК")
+    print(f"⏳ Ждём до {target_readable} перед публикацией ({int(wait_seconds)} сек)...")
+    time.sleep(wait_seconds)
+
+def fmt_msk(ts):
+    """Форматирует Unix timestamp как читаемую строку в московском времени (для логов)."""
+    return datetime.datetime.fromtimestamp(ts, MOSCOW_TZ).strftime("%a %b %d %H:%M:%S %Y МСК")
 
 def get_last_run_time(schedule_name):
     """Возвращает ЛОГИЧЕСКУЮ границу последнего запуска расписания (не реальное время)"""
@@ -100,7 +177,7 @@ def save_run_time(schedule_name):
     try:
         with open(LAST_RUN_FILE, "w", encoding="utf-8") as f:
             json.dump(data, f, indent=2)
-        print(f"💾 Сохранено время последнего запуска {schedule_name}: {time.ctime(boundary)}")
+        print(f"💾 Сохранено время последнего запуска {schedule_name}: {fmt_msk(boundary)}")
     except Exception as e:
         print(f"Ошибка записи last_run: {e}")
 
@@ -345,7 +422,7 @@ def fetch_feed(url, timeout=15):
     # обращениям, не обход защиты). Замени email на свой реальный адрес —
     # SEC может заблокировать IP при массовых запросах без валидного контакта.
     if "sec.gov" in url:
-        headers["User-Agent"] = "NewsDigestBot arsenalexanyn@gmail.com"
+        headers["User-Agent"] = "NewsDigestBot your_email@example.com"
 
     try:
         response = requests.get(
@@ -511,12 +588,12 @@ def collect_all_news(sent_urls_history, schedule_name="morning"):
         # раздвигаем его назад на 24 часа от текущей границы, чтобы дайджест не оказался
         # пустым, но явно предупреждаем, что это, вероятно, повторный запуск.
         print(f"⚠️  {schedule_name} дайджест уже собирался для этого цикла (последняя граница "
-              f"{time.ctime(last_boundary)} >= текущей {time.ctime(current_boundary)}). "
+              f"{fmt_msk(last_boundary)} >= текущей {fmt_msk(current_boundary)}). "
               f"Похоже на повторный/ручной запуск. Пересобираем окно за последние 24 часа "
               f"вместо пустого/некорректного диапазона.")
         last_boundary = current_boundary - 24 * 3600
     
-    print(f"📅 {schedule_name.upper()} дайджест: собираем новости с {time.ctime(last_boundary)} до {time.ctime(current_boundary)}")
+    print(f"📅 {schedule_name.upper()} дайджест: собираем новости с {fmt_msk(last_boundary)} до {fmt_msk(current_boundary)}")
     print(f"📡 Начинаем парсинг {len(RSS_FEEDS)} лент...")
     
     for idx, feed_url in enumerate(RSS_FEEDS, 1):
@@ -923,6 +1000,16 @@ if __name__ == "__main__":
         print("📊 Запрашиваем анализ из Gemini API...")
         raw_json = generate_analytical_json(raw_data_prompt)
         world_html, russia_html, world_urls, russia_urls = build_html_digest(raw_json, news_db)
+
+        # ВАЖНО: сбор новостей и обращение к Gemini могут завершиться намного
+        # раньше заявленного времени публикации (например, workflow запущен в
+        # 08:00, чтобы успеть обработать afternoon-дайджест к 13:00, но сама
+        # обработка занимает 3-5 минут). Раньше скрипт публиковал сразу же —
+        # из-за этого дайджесты выходили "вслед за запуском workflow", а не в
+        # заявленное время (08:00/13:00/19:00 МСК), и казалось, что несколько
+        # дайджестов подряд выходят почти одновременно. Теперь публикация
+        # намеренно откладывается до точного момента (см. wait_until_publish_time).
+        wait_until_publish_time(schedule_name)
 
         sent_anything = False
         # ИСПРАВЛЕНО: в историю теперь попадают только те URL, чьи блоки были
