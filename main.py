@@ -341,7 +341,7 @@ RSS_FEEDS = [
 # Financial Times заменён на этот канал вместо RSS с ft.com, так как сайт FT
 # требует подписку, а канал публикует статьи бесплатно (с переводом на русский).
 TELEGRAM_CHANNELS = [
-    {"username": "the_financial_times_journal", "source_name": "Financial Times (Telegram)"},
+    {"username": "the_financial_times_journal", "source_name": "Financial Times"},
 ]
 
 LOCAL_POLITICS_KEYWORDS = [
