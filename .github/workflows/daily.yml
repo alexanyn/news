@@ -2,19 +2,19 @@ name: Automated Intelligence Pipeline
 
 on:
   schedule:
-    # Morning digest (логически 08:00, собирает новости 20:00 вчера – 08:00 сегодня)
-    # Запускаем в 3:00 для обработки и публикации к 8:00
-    - cron: '0 3 * * *'
+    # Morning digest (логически 08:00 МСК, собирает новости 20:00 вчера – 08:00 сегодня)
+    # Запускаем в 7:30 МСК — скрипт соберёт новости и ДОЖДЁТСЯ 08:00 перед публикацией
+    - cron: '30 7 * * *'
       timezone: 'Europe/Moscow'
     
-    # Afternoon digest (логически 13:00, собирает новости 08:00 – 13:00)
-    # Запускаем в 8:00 для обработки и публикации к 13:00
-    - cron: '0 8 * * *'
+    # Afternoon digest (логически 13:00 МСК, собирает новости 08:00 – 13:00)
+    # Запускаем в 12:30 МСК — скрипт дождётся 13:00 перед публикацией
+    - cron: '30 12 * * *'
       timezone: 'Europe/Moscow'
     
-    # Evening digest (логически 19:00, собирает новости 13:00 – 19:00)
-    # Запускаем в 14:00 для обработки и публикации к 19:00
-    - cron: '0 14 * * *'
+    # Evening digest (логически 19:00 МСК, собирает новости 13:00 – 19:00)
+    # Запускаем в 18:30 МСК — скрипт дождётся 19:00 перед публикацией
+    - cron: '30 18 * * *'
       timezone: 'Europe/Moscow'
   
   workflow_dispatch:
@@ -32,6 +32,12 @@ on:
 jobs:
   run-analytics-pipeline:
     runs-on: ubuntu-latest
+    # Скрипт теперь может ждать до ~30-40 минут перед публикацией (см.
+    # wait_until_publish_time в main.py), плюс время на сбор RSS/Telegram и
+    # анализ Gemini. 60 минут — достаточный запас с учётом сетевых задержек;
+    # если что-то реально зависло дольше, лучше упасть с ошибкой, чем висеть
+    # до дефолтных 360 минут GitHub Actions.
+    timeout-minutes: 60
 
     steps:
     - name: Checkout repository
@@ -62,11 +68,11 @@ jobs:
         # GitHub при срабатывании триггера, оно не зависит от времени выполнения.
         if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
           echo "schedule_name=${{ github.event.inputs.schedule_name }}" >> $GITHUB_OUTPUT
-        elif [ "${{ github.event.schedule }}" = "0 3 * * *" ]; then
+        elif [ "${{ github.event.schedule }}" = "30 7 * * *" ]; then
           echo "schedule_name=morning" >> $GITHUB_OUTPUT
-        elif [ "${{ github.event.schedule }}" = "0 8 * * *" ]; then
+        elif [ "${{ github.event.schedule }}" = "30 12 * * *" ]; then
           echo "schedule_name=afternoon" >> $GITHUB_OUTPUT
-        elif [ "${{ github.event.schedule }}" = "0 14 * * *" ]; then
+        elif [ "${{ github.event.schedule }}" = "30 18 * * *" ]; then
           echo "schedule_name=evening" >> $GITHUB_OUTPUT
         else
           echo "❌ Неизвестный триггер расписания: '${{ github.event.schedule }}'"
