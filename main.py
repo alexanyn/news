@@ -293,20 +293,7 @@ FEED_CANONICAL_NAMES = {
     "gzero": "Eurasia Group / GZERO",
     "econs.online": "Econs",
     "thebell.io": "The Bell",
-    "ourworldindata.org": "Our World in Data",
-
-    # rss.app feed ID → каноническое имя источника. get_source_name ищет
-    # подстроку в URL ленты; для rss.app-ссылок URL не содержит домен
-    # оригинального сайта (только rss.app/feeds/<id>.xml), поэтому сопоставляем
-    # по уникальному ID фида, который сохраняется в конце URL.
-    "QTDcfTTqQ0hm1o91.xml": "Эксперт",
-    "iuMD8g2rxB14m0mz.xml": "Эксперт",
-    "iT2Pt3BurL81siKW.xml": "Council on Foreign Relations",
-    "O80a99tgLfAFfWZa.xml": "Council on Foreign Relations",
-    "AOv0nmn998dUthN2.xml": "CSIS",
-    "0UicvtRq1ayThLrG.xml": "RAND Corporation",
-    "3OxJShbgzLo6cbye.xml": "NATO",
-    "jqU6AAh8tOqfvcuN.xml": "VoxEU"
+    "ourworldindata.org": "Our World in Data"
 }
 
 RSS_FEEDS = [
@@ -323,8 +310,6 @@ RSS_FEEDS = [
     "https://www.foreignaffairs.com/rss.xml",
     "https://foreignpolicy.com/feed/",
     "https://www.worldpoliticsreview.com/feed/",
-    "https://eng.globalaffairs.ru/feed/",
-    "https://globalaffairs.ru/feed/",
     "https://carnegieendowment.org/rss/publications/",
     "https://www.atlanticcouncil.org/feed/",
     "https://www.brookings.edu/feed/",
@@ -332,7 +317,6 @@ RSS_FEEDS = [
     "https://russiancouncil.ru/rss/",
     "https://news.google.com/rss/search?q=site:imemo.ru&hl=ru&gl=RU&ceid=RU:ru",
     "https://news.google.com/rss/search?q=site:veb.ru+институт&hl=ru&gl=RU&ceid=RU:ru",
-    "https://www.csr.ru/rss/",
     "https://news.google.com/rss/search?q=site:forecast.ru&hl=ru&gl=RU&ceid=RU:ru",
     "https://www.wto.org/english/news_e/news_e.rss",
     "https://news.google.com/rss/search?q=site:fred.stlouisfed.org&hl=en-US&gl=US&ceid=US:en",
@@ -345,33 +329,11 @@ RSS_FEEDS = [
     "https://imaa-institute.org/feed/",
     "https://news.google.com/rss/search?q=%22FT+Due+Diligence%22&hl=en-US&gl=US&ceid=US:en",
     "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&type=10-K&dateb=&owner=include&count=40&output=atom",
-    "https://www.interfax.ru/business/rss.asp",
     "https://www.technologyreview.com/feed/",
     "https://stratechery.com/feed/",
     "https://techcrunch.com/feed/",
     "https://restofworld.org/feed/",
-    "https://www.iea.org/rss/news",
     "https://www.eia.gov/rss/todayinenergy.xml",
-    "https://www.opec.org/opec_web/en/rss/press_releases.xml",
-    "https://www.state.gov/feed/",
-    "https://www.federalreserve.gov/feeds/press_all.xml",
-    "https://news.google.com/rss/search?q=site:congress.gov&hl=en-US&gl=US&ceid=US:en",
-    "https://ec.europa.eu/commission/presscorner/api/rss",
-    "https://www.ecb.europa.eu/rss/press.xml",
-    "https://news.un.org/feed/subscribe/en/news/all/rss.xml",
-
-    # ===== Замена умерших RSS через rss.app (обновление раз в 24ч на бесплатном тарифе) =====
-    # Оригинальные RSS этих источников отдавали 403/404 напрямую — сайты либо
-    # удалили RSS-ленту, либо блокируют автоматические запросы. rss.app скрейпит
-    # сайт сам и отдаёт результат в виде RSS, обходя эти ограничения.
-    "https://rss.app/feeds/QTDcfTTqQ0hm1o91.xml",  # expert.ru
-    "https://rss.app/feeds/iuMD8g2rxB14m0mz.xml",  # expert.ru/mnenie
-    "https://rss.app/feeds/iT2Pt3BurL81siKW.xml",  # cfr.org/expert-takes
-    "https://rss.app/feeds/O80a99tgLfAFfWZa.xml",  # cfr.org/backgrounders
-    "https://rss.app/feeds/AOv0nmn998dUthN2.xml",  # csis.org/analysis
-    "https://rss.app/feeds/0UicvtRq1ayThLrG.xml",  # rand.org/pubs.html
-    "https://rss.app/feeds/3OxJShbgzLo6cbye.xml",  # nato.int/news-and-events/articles/news
-    "https://rss.app/feeds/jqU6AAh8tOqfvcuN.xml",  # cepr.org
 ]
 
 # Telegram-каналы обрабатываются отдельно от RSS_FEEDS: у них нет RSS-ленты,
@@ -398,19 +360,6 @@ LOCAL_CRIME_AND_TRIVIA_KEYWORDS = [
 ]
 
 def fetch_feed(url, timeout=15):
-    # Увеличенный таймаут для источников, которые исторически падали по TIMEOUT
-    # (нестабильные/медленные серверы — русские аналитические центры).
-    req_timeout = 30 if ("globalaffairs.ru" in url or "csr.ru" in url) else timeout
-
-    # ВНИМАНИЕ: отключение проверки SSL-сертификата — это компромисс по
-    # безопасности, применяется точечно ТОЛЬКО для csr.ru из-за конкретной
-    # ошибки "hostname mismatch" на их сертификате (не наша проблема, а
-    # неправильно настроенный сертификат на стороне csr.ru). Если сайт
-    # почему-либо станет отдавать вредоносный контент через MITM, это не
-    # будет обнаружено. Риск невысокий (публичный RSS госоргана), но стоит
-    # знать, что это осознанное исключение, а не общее правило.
-    verify_ssl = False if "csr.ru" in url else True
-
     headers = {
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
         "Accept": "application/rss+xml, application/xml, text/xml, */*",
@@ -427,9 +376,8 @@ def fetch_feed(url, timeout=15):
     try:
         response = requests.get(
             url,
-            timeout=req_timeout,
-            headers=headers,
-            verify=verify_ssl
+            timeout=timeout,
+            headers=headers
         )
         response.raise_for_status()
         return feedparser.parse(response.content)
