@@ -253,7 +253,7 @@ FEED_CANONICAL_NAMES = {
     "fred.stlouisfed.org": "FRED",
     "project-syndicate.org": "Project Syndicate",
     "cepr.org": "VoxEU",
-    "capitaleconomics": "Capital Economics",
+    "capital+economics": "Capital Economics",  # исправлено 2026-08-16: было "capitaleconomics" (без +), не совпадало с URL ниже и никогда не резолвилось
     "mckinsey.com": "McKinsey",
     "bcg.com": "BCG",
     "bain.com": "Bain",
@@ -293,7 +293,12 @@ FEED_CANONICAL_NAMES = {
     "gzero": "Eurasia Group / GZERO",
     "econs.online": "Econs",
     "thebell.io": "The Bell",
-    "ourworldindata.org": "Our World in Data"
+    "ourworldindata.org": "Our World in Data",
+
+    # --- Добавлено 2026-08-16: источников не было в словаре вообще ---
+    "economist.com": "The Economist",
+    "dealbreaker.com": "Dealbreaker",
+    "minchenko": "Minchenko Consulting",
 }
 
 RSS_FEEDS = [
@@ -334,6 +339,89 @@ RSS_FEEDS = [
     "https://techcrunch.com/feed/",
     "https://restofworld.org/feed/",
     "https://www.eia.gov/rss/todayinenergy.xml",
+
+    # ============================================================
+    # Добавлено 2026-08-16.
+    #
+    # Важно: часть источников ниже УЖЕ ЧИСЛИЛАСЬ в FEED_CANONICAL_NAMES
+    # (CSIS, Chatham House, CFR, RAND, IISS, Валдай, ОПЕК, Белый дом,
+    # Госдеп, Минфин США, Еврокомиссия, ЕЦБ, ООН, Кремль, Правительство
+    # РФ, Госдума, МИД РФ, ЦБ РФ, Минфин РФ, Росстат, РБК), но ни для
+    # одного из них не было строки в RSS_FEEDS — то есть имя было
+    # "заготовлено", а лента никогда не парсилась. comparison_sources.md
+    # засчитывал их как "покрыто ✅" только по наличию имени в словаре,
+    # что и создавало иллюзию более высокого покрытия, чем есть на деле.
+    #
+    # Для 10 источников ниже (см. первый блок) найдены и вручную
+    # проверены прямые официальные RSS/Atom-ленты. Для остальных
+    # официального публичного RSS нет (современный JS-сайт без отдаваемого
+    # XML, либо сайт блокирует автоматические запросы без браузера) —
+    # для них используется тот же обходной путь через Google News,
+    # что уже применяется выше для Reuters/AP/Bloomberg/FRED/Capital
+    # Economics и т.д. Он не заменяет полноценный RSS 1:1, но даёт
+    # регулярный поток заголовков с этих сайтов.
+    #
+    # ВНИМАНИЕ (эксплуатационный риск): ниже добавлено ~25 новых
+    # запросов к news.google.com поверх уже имеющихся ~11. Google может
+    # начать резать/капчить массовые автоматические запросы с одного IP
+    # (особенно с общих раннеров GitHub Actions) — если после обновления
+    # начнут проваливаться СТАРЫЕ ленты через Google News, а не только
+    # новые, это первая вероятная причина. Решения: развести запуски по
+    # времени, поставить между fetch_feed вызовами time.sleep(1-2 сек),
+    # или в перспективе перейти на самостоятельно поднятый RSS-Bridge/
+    # RSSHub для части источников.
+    # ============================================================
+
+    # --- Прямые официальные ленты (проверены вручную 2026-08-16) ---
+    "https://www.federalreserve.gov/feeds/press_all.xml",                # Federal Reserve — все пресс-релизы
+    "https://news.un.org/feed/subscribe/en/news/all/rss.xml",            # UN News — общая лента
+    "https://www.ecb.europa.eu/rss/press.html",                          # ECB — пресс-релизы/речи/интервью (реальный XML; .html в пути — так устроены все RSS-адреса ЕЦБ, это не опечатка)
+    "https://ec.europa.eu/commission/presscorner/api/rss",               # European Commission — Daily news, press releases, statements
+    "http://en.kremlin.ru/events/president/news/feed",                   # Kremlin — официальная лента (англоязычная версия сайта президента)
+    "http://www.cbr.ru/rss/RssPress",                                    # ЦБ РФ — официальные пресс-релизы
+    "https://rssexport.rbc.ru/rbcnews/news/30/full.rss",                 # РБК — общая новостная лента
+    "https://www.chathamhouse.org/path/whatsnew.xml",                    # Chatham House — все новые материалы сайта
+    "https://www.whitehouse.gov/news/feed/",                             # White House — Releases
+    "https://rss.politico.com/playbook.xml",                             # Politico Playbook
+
+    # --- Международные институты и правительства без публичного RSS (Google News fallback) ---
+    "https://news.google.com/rss/search?q=site:imf.org&hl=en-US&gl=US&ceid=US:en",
+    "https://news.google.com/rss/search?q=site:worldbank.org&hl=en-US&gl=US&ceid=US:en",
+    "https://news.google.com/rss/search?q=site:oecd.org&hl=en-US&gl=US&ceid=US:en",
+    "https://news.google.com/rss/search?q=site:bis.org&hl=en-US&gl=US&ceid=US:en",
+    "https://news.google.com/rss/search?q=site:iea.org&hl=en-US&gl=US&ceid=US:en",
+    "https://news.google.com/rss/search?q=site:opec.org&hl=en-US&gl=US&ceid=US:en",
+    "https://news.google.com/rss/search?q=site:nato.int&hl=en-US&gl=US&ceid=US:en",
+    "https://news.google.com/rss/search?q=site:treasury.gov&hl=en-US&gl=US&ceid=US:en",
+    "https://news.google.com/rss/search?q=site:state.gov&hl=en-US&gl=US&ceid=US:en",
+    "https://news.google.com/rss/search?q=site:congress.gov&hl=en-US&gl=US&ceid=US:en",
+
+    # --- Think tanks без ленты, хотя имя уже было в словаре ---
+    "https://news.google.com/rss/search?q=site:csis.org&hl=en-US&gl=US&ceid=US:en",
+    "https://news.google.com/rss/search?q=site:cfr.org&hl=en-US&gl=US&ceid=US:en",
+    "https://news.google.com/rss/search?q=site:rand.org&hl=en-US&gl=US&ceid=US:en",
+    "https://news.google.com/rss/search?q=site:iiss.org&hl=en-US&gl=US&ceid=US:en",
+    "https://news.google.com/rss/search?q=site:valdaiclub.com&hl=ru&gl=RU&ceid=RU:ru",
+    "https://news.google.com/rss/search?q=site:csr.ru&hl=ru&gl=RU&ceid=RU:ru",
+    "https://news.google.com/rss/search?q=site:cepr.org+voxeu&hl=en-US&gl=US&ceid=US:en",
+    "https://news.google.com/rss/search?q=site:ourworldindata.org&hl=en-US&gl=US&ceid=US:en",
+
+    # --- Российские первоисточники без ленты ---
+    "https://news.google.com/rss/search?q=site:government.ru&hl=ru&gl=RU&ceid=RU:ru",
+    "https://news.google.com/rss/search?q=site:duma.gov.ru&hl=ru&gl=RU&ceid=RU:ru",
+    "https://news.google.com/rss/search?q=site:mid.ru&hl=ru&gl=RU&ceid=RU:ru",
+    "https://news.google.com/rss/search?q=site:minfin.gov.ru&hl=ru&gl=RU&ceid=RU:ru",
+    "https://news.google.com/rss/search?q=site:rosstat.gov.ru&hl=ru&gl=RU&ceid=RU:ru",
+
+    # --- "Критические пропуски" из missing_sources_summary.txt (аналитика/рассылки) ---
+    "https://news.google.com/rss/search?q=site:economist.com&hl=en-US&gl=US&ceid=US:en",
+    "https://news.google.com/rss/search?q=site:theinformation.com&hl=en-US&gl=US&ceid=US:en",
+    "https://news.google.com/rss/search?q=%22Money+Stuff%22+Bloomberg&hl=en-US&gl=US&ceid=US:en",       # Мэтт Левайн
+    "https://news.google.com/rss/search?q=site:axios.com+Markets&hl=en-US&gl=US&ceid=US:en",
+    "https://news.google.com/rss/search?q=site:gzeromedia.com&hl=en-US&gl=US&ceid=US:en",                # Eurasia Group / GZERO
+    "https://news.google.com/rss/search?q=site:econs.online&hl=ru&gl=RU&ceid=RU:ru",
+    "https://news.google.com/rss/search?q=site:dealbreaker.com&hl=en-US&gl=US&ceid=US:en",               # см. примечание в сопроводительном сообщении — сайт мог снизить активность, не проверял вручную
+    "https://news.google.com/rss/search?q=%22Minchenko+Consulting%22&hl=ru&gl=RU&ceid=RU:ru",
 ]
 
 # Telegram-каналы обрабатываются отдельно от RSS_FEEDS: у них нет RSS-ленты,
@@ -342,6 +430,11 @@ RSS_FEEDS = [
 # требует подписку, а канал публикует статьи бесплатно (с переводом на русский).
 TELEGRAM_CHANNELS = [
     {"username": "the_financial_times_journal", "source_name": "Financial Times"},
+    # Добавлено 2026-08-16: у The Bell нет публичного RSS (thebell.io — платная
+    # подписка), но есть официальный публичный Telegram-канал самого издания
+    # (проверено вручную 2026-08-16, канал активен). Издание маркировано в РФ
+    # как «иностранный агент» — как и Meduza, которая уже есть в этом скрипте.
+    {"username": "thebell_io", "source_name": "The Bell"},
 ]
 
 LOCAL_POLITICS_KEYWORDS = [
