@@ -345,7 +345,7 @@ def fetch_feed(url, timeout=15):
     # обращениям, не обход защиты). Замени email на свой реальный адрес —
     # SEC может заблокировать IP при массовых запросах без валидного контакта.
     if "sec.gov" in url:
-        headers["User-Agent"] = "NewsDigestBot your_email@example.com"
+        headers["User-Agent"] = "NewsDigestBot arsenalexanyn@gmail.com"
 
     try:
         response = requests.get(
