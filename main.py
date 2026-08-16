@@ -305,6 +305,17 @@ FEED_CANONICAL_NAMES = {
     "cnews.ru": "CNews",
     "tadviser.ru": "TAdviser",
     "energyland.info": "EnergyLand.info",
+
+    # --- Добавлено 2026-08-16 (третья итерация) ---
+    "asia.nikkei.com": "Nikkei Asia",
+    "readthediff.com": "The Diff",
+    "politico.eu": "Politico Europe",
+    "vedomosti.ru": "Ведомости",
+    "vc.ru": "VC.ru",
+    "scmp.com": "South China Morning Post",
+    "tass.com": "ТАСС",
+    "semafor.com": "Semafor",
+    "bruegel.org": "Bruegel",
 }
 
 RSS_FEEDS = [
@@ -413,7 +424,7 @@ RSS_FEEDS = [
     "https://news.google.com/rss/search?q=site:ourworldindata.org&hl=en-US&gl=US&ceid=US:en",
 
     # --- Российские первоисточники без ленты ---
-    "https://news.google.com/rss/search?q=site:government.ru&hl=ru&gl=RU&ceid=RU:ru",
+    "https://government.ru/en/all/rss",  # апгрейд 2026-08-16: нашлась прямая официальная лента, была на Google News fallback
     "https://news.google.com/rss/search?q=site:duma.gov.ru&hl=ru&gl=RU&ceid=RU:ru",
     "https://news.google.com/rss/search?q=site:mid.ru&hl=ru&gl=RU&ceid=RU:ru",
     "https://news.google.com/rss/search?q=site:minfin.gov.ru&hl=ru&gl=RU&ceid=RU:ru",
@@ -455,6 +466,42 @@ RSS_FEEDS = [
     # Neftegaz.ru: прямого публичного RSS не нашёл, зато есть официальный
     # Telegram-канал издания — см. TELEGRAM_CHANNELS ниже.
     "https://news.google.com/rss/search?q=site:energyland.info&hl=ru&gl=RU&ceid=RU:ru",                  # EnergyLand.info
+
+    # ============================================================
+    # Добавлено 2026-08-16 (третья итерация): источники по личному
+    # списку пользователя + критический отбор из подборки 5 ИИ
+    # (Grok/ChatGPT/Deepseek/Perplexity/Gemini, файл News_istochniki.rtf).
+    # Логика отбора и то, что сознательно НЕ добавлено — см. сопроводительное
+    # сообщение. Все URL ниже проверены вручную 2026-08-16.
+    # ============================================================
+
+    # --- Личный список пользователя ---
+    "https://asia.nikkei.com/rss/feed/nar",              # Nikkei Asia
+    "https://www.readthediff.com/feed",                  # The Diff (Byrne Hobart) — Substack, /feed работает на любом домене платформы
+    "https://www.politico.eu/feed",                      # Politico Europe
+    "https://www.vedomosti.ru/rss/news",                  # Ведомости
+    "https://vc.ru/rss/all",                              # VC.ru
+
+    # --- Критический отбор из списка 5 ИИ: geo/перспективный охват ---
+    # Азия — единственный полностью "слепой" регион до этого момента;
+    # все 5 ИИ независимо назвали SCMP/Nikkei топ-приоритетом.
+    "https://www.scmp.com/rss/91/feed",                   # South China Morning Post — общая лента (HK/Китай/мир)
+
+    # ТАСС — все 5 ИИ назвали его независимо; это госагентство-аналог
+    # Reuters/AP по скорости и охвату, отличается от уже имеющихся
+    # Интерфакса/Коммерсанта по характеру (агентская лента vs деловая пресса).
+    "http://tass.com/rss/v2.xml",                         # ТАСС (англоязычная официальная лента)
+
+    # Semafor — намеренно выбран из общего пула западных изданий (Guardian,
+    # NYT, WaPo, NPR, France24, DW и т.д. — НЕ добавлены, см. сообщение),
+    # т.к. это единственное издание, целенаправленно работающее на стыке
+    # геополитики+бизнеса+технологий, а не ещё один универсальный ньюсрум.
+    "https://semafor.com/rss.xml",                        # Semafor
+
+    # Bruegel — единственный европейский (не американский, не российский)
+    # think tank в списке; страница с их RSS не обновлялась с 2013 и сайт
+    # с тех пор переехал на новую CMS, поэтому вместо риска мёртвой ссылки — fallback.
+    "https://news.google.com/rss/search?q=site:bruegel.org&hl=en-US&gl=US&ceid=US:en",  # Bruegel
 ]
 
 # Telegram-каналы обрабатываются отдельно от RSS_FEEDS: у них нет RSS-ленты,
@@ -473,6 +520,10 @@ TELEGRAM_CHANNELS = [
     # самих изданий (проверено вручную 2026-08-16).
     {"username": "frank_media", "source_name": "Frank Media"},          # банки, финтех, регулирование ЦБ
     {"username": "neftegazchannel", "source_name": "Neftegaz.RU"},      # нефть и газ
+    # Добавлено 2026-08-16 (третья итерация): у обоих нет прямого RSS,
+    # только Telegram. Оба канала официальные, проверены вручную.
+    {"username": "rerussia_org", "source_name": "Re:Russia"},
+    {"username": "istories_media", "source_name": "Важные истории"},   # маркировано в РФ как нежелательная организация — как и у нескольких источников выше (Meduza, The Bell)
 ]
 
 LOCAL_POLITICS_KEYWORDS = [
@@ -859,7 +910,17 @@ def generate_analytical_json(raw_data_prompt):
             # ИСПРАВЛЕНО: temperature/top_p/top_k у моделей линейки Gemini 3.x
             # (включая gemini-3.6-flash) устарели и игнорируются — убраны, чтобы
             # не вводить в заблуждение при чтении кода.
-            "maxOutputTokens": 8192,
+            # ИСПРАВЛЕНО 2026-08-16: было 8192 — это всего ~12% от реального
+            # потолка gemini-3.6-flash (65 536 токенов, см. ai.google.dev/
+            # gemini-api/docs/models). При таком количестве источников, как
+            # раньше (~37 RSS), 8192 более-менее хватало. После расширения
+            # списка источников (92 RSS + 6 Telegram) сырого материала стало
+            # в разы больше, и есть риск, что JSON-ответ Gemini обрезался
+            # посреди массива — из-за чего json.loads() ловил ошибку и весь
+            # дайджест уходил в пустую fallback-структуру (см. except ниже).
+            # 32768 — с большим запасом (4x) для количества новостей, которое
+            # реалистично может набраться, но не вплотную к пределу модели.
+            "maxOutputTokens": 32768,
             "responseMimeType": "application/json",
             # thinking_level "minimal" — для задачи классификации/структурного
             # вывода не нужен глубокий reasoning, это быстрее и дешевле.
@@ -870,8 +931,11 @@ def generate_analytical_json(raw_data_prompt):
     max_retries = 5
     for attempt in range(max_retries):
         try:
-            # ИСПРАВЛЕНО: Таймаут увеличен до 120, так как ответ на 8192 токенов генерируется долго
-            response = requests.post(url, json=payload, timeout=120)
+            # ИСПРАВЛЕНО 2026-08-16: таймаут увеличен со 120 до 220 — ответ
+            # на бОльший maxOutputTokens (32768 вместо 8192) генерируется
+            # дольше; 220с даёт запас даже с учётом сниженной скорости при
+            # длинных ответах.
+            response = requests.post(url, json=payload, timeout=220)
             
             if response.status_code == 429:
                 # ИСПРАВЛЕНО: верхняя граница ожидания снижена (было до 300с за попытку,
@@ -1060,6 +1124,27 @@ def _send_one_chunk(chat_id, chunk):
         return False
 
 
+def _pack_into_chunks(units, limit, joiner):
+    """Упаковывает список текстовых единиц (units) в чанки не длиннее limit
+    символов, склеивая их через joiner. Не разбивает units по буквам —
+    если один unit сам по себе длиннее limit, он всё равно попадёт в чанк
+    целиком (вызывающий код отвечает за выбор достаточно мелкой единицы
+    дробления, см. send_telegram_message)."""
+    chunks = []
+    current = ""
+    for unit in units:
+        if not current:
+            current = unit
+        elif len(current) + len(joiner) + len(unit) <= limit:
+            current += joiner + unit
+        else:
+            chunks.append(current)
+            current = unit
+    if current:
+        chunks.append(current)
+    return chunks
+
+
 def send_telegram_message(chat_id, text):
     # ИСПРАВЛЕНО: функция теперь возвращает bool — реально ли отправка удалась.
     # Раньше вызывающий код считал любую попытку успешной, даже если Telegram
@@ -1070,19 +1155,37 @@ def send_telegram_message(chat_id, text):
     if len(text) <= 4000:
         return _send_one_chunk(chat_id, text)
 
-    blocks = text.split("\n\n")
-    current_chunk = ""
-    all_ok = True
-    for block in blocks:
-        if len(current_chunk) + len(block) + 2 <= 3900:
-            current_chunk += block + "\n\n"
-        else:
-            if current_chunk.strip():
-                all_ok = _send_one_chunk(chat_id, current_chunk.strip()) and all_ok
-            current_chunk = block + "\n\n"
+    # ИСПРАВЛЕНО 2026-08-16: раньше при делении по границам категорий
+    # (двойной перевод строки) единственный блок, который сам по себе
+    # превышал лимит Telegram (~4096 символов), отправлялся как есть —
+    # Telegram его отвергал, и вся категория молча пропадала из дайджеста.
+    # После расширения списка источников это стало реалистичным сценарием
+    # (в одной категории может набраться несколько десятков новостей).
+    # Теперь при переполнении блок дробится ещё мельче — по отдельным
+    # новостям (одна строка = одна новость), так что ни одна новость не
+    # теряется даже при очень длинной категории.
+    all_chunks = []
+    for block in _pack_into_chunks(text.split("\n\n"), limit=3900, joiner="\n\n"):
+        if len(block) <= 3900:
+            all_chunks.append(block.strip())
+            continue
+        for sub_chunk in _pack_into_chunks(block.split("\n"), limit=3900, joiner="\n"):
+            if sub_chunk.strip():
+                all_chunks.append(sub_chunk.strip())
 
-    if current_chunk.strip():
-        all_ok = _send_one_chunk(chat_id, current_chunk.strip()) and all_ok
+    # ИСПРАВЛЕНО 2026-08-16: после расширения списка источников итоговое
+    # число чанков в одном дайджесте может стать заметно больше, чем раньше
+    # (было обычно 1-2 на весь диджест, теперь реалистично больше). Отправка
+    # нескольких сообщений подряд без пауз рискует упереться в flood control
+    # Telegram (ошибка 429 "Too Many Requests: retry after..."), а
+    # _send_one_chunk при такой ошибке не ждёт и не повторяет попытку —
+    # чанк просто терялся бы. Пауза в 1с между сообщениями держит скорость
+    # отправки в безопасных пределах.
+    all_ok = True
+    for i, chunk in enumerate(all_chunks):
+        if i > 0:
+            time.sleep(1)
+        all_ok = _send_one_chunk(chat_id, chunk) and all_ok
 
     return all_ok
 
