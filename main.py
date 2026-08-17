@@ -12,6 +12,7 @@ from bs4 import BeautifulSoup
 import telebot
 from telebot.apihelper import ApiTelegramException
 import urllib3
+from concurrent.futures import ThreadPoolExecutor, as_completed
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 # 1. Переменные окружения
@@ -27,6 +28,20 @@ CHAT_ID = chat_id
 
 HISTORY_FILE = "sent_urls.json"
 LAST_RUN_FILE = "last_run.json"
+
+# ИСПРАВЛЕНО 2026-08-16: сбор новостей раньше шёл строго последовательно —
+# один запрос за другим. Со старым списком (~37 источников) это укладывалось
+# в разумное время, но после расширения списка до 92 RSS-лент (из них 43 —
+# через Google News, то есть много запросов к одному и тому же хосту подряд)
+# худший случай по времени вырос до ~15-20+ минут только на сбор, а ведь
+# после него ещё идёт обращение к Gemini (тоже с retry, тоже может занять
+# заметное время) — и всё это должно уложиться в timeout-minutes workflow.
+# Параллельные запросы (каждый со своим independent timeout=15с) сокращают
+# худший случай по времени примерно в MAX_FETCH_WORKERS раз, не трогая
+# таймаут отдельного запроса. Значение подобрано с запасом: достаточно,
+# чтобы кардинально сократить общее время, но не настолько агрессивно,
+# чтобы выглядеть как DDoS для отдельных небольших сайтов.
+MAX_FETCH_WORKERS = 10
 
 # ВАЖНО: GitHub Actions раннеры работают в UTC, независимо от `timezone:` в
 # cron-триггере (тот `timezone:` влияет только на МОМЕНТ СРАБАТЫВАНИЯ cron,
@@ -739,80 +754,49 @@ def collect_all_news(sent_urls_history, schedule_name="morning"):
         last_boundary = current_boundary - 24 * 3600
     
     print(f"📅 {schedule_name.upper()} дайджест: собираем новости с {fmt_msk(last_boundary)} до {fmt_msk(current_boundary)}")
-    print(f"📡 Начинаем парсинг {len(RSS_FEEDS)} лент...")
-    
-    for idx, feed_url in enumerate(RSS_FEEDS, 1):
-        parsed = fetch_feed(feed_url)
-        if not parsed or not parsed.entries:
-            continue
-        
-        source_name = get_source_name(feed_url)
-        
-        for entry in parsed.entries[:5]:
-            url = entry.get("link", "")
-            if not url or url in sent_urls_history:
-                continue
-            
-            # ===== КЛЮЧЕВОЙ ФИЛЬТР: по дате публикации и логическому окну =====
-            published_str = entry.get("published", "")
-            published_ts = parse_published_time(published_str)
-            
-            # Включаем новость только если её дата публикации попадает в нужное окно:
-            # last_boundary <= published < current_boundary
-            if published_ts is not None:
-                if published_ts < last_boundary or published_ts >= current_boundary:
-                    # Новость вне окна — пропускаем
-                    continue
-            # Если дата не парсится (published_ts is None), берём новость на доверие
-            # (предполагаем, что RSS отдаёт свежий контент в нужном порядке)
-            
-            title = entry.get("title", "").strip()
-            if not title:
-                continue
-            
-            news_id = str(len(news_db))
-            news_db[news_id] = {
-                "url": url,
-                "title": title,
-                "source_name": source_name,
-                "published": published_str
-            }
-            
-            raw_data_list.append(f"ID:{news_id}|Title:{title}|Source:{source_name}")
-            # ИСПРАВЛЕНО: URL больше НЕ добавляется в историю здесь.
-            # Раньше новость считалась "отправленной" уже на этапе сбора из RSS,
-            # то есть до того, как она реально прошла через Gemini и ушла в Telegram.
-            # Если Gemini или Telegram падали, новость терялась на 7 дней, хотя
-            # фактически никуда не отправлялась. Теперь запись в историю происходит
-            # только после подтверждённой отправки в Telegram (см. build_html_digest
-            # и блок __main__).
-    
-    print(f"✅ Собрано {len(news_db)} новостей из {len(RSS_FEEDS)} RSS-источников")
+    print(f"📡 Начинаем парсинг {len(RSS_FEEDS)} лент (параллельно, до {MAX_FETCH_WORKERS} одновременно)...")
 
-    if TELEGRAM_CHANNELS:
-        print(f"📡 Начинаем парсинг {len(TELEGRAM_CHANNELS)} Telegram-каналов...")
-        tg_collected = 0
-        for channel in TELEGRAM_CHANNELS:
-            username = channel["username"]
-            source_name = channel["source_name"]
-            messages = fetch_telegram_channel(username)
+    # ИСПРАВЛЕНО 2026-08-16: было — строго последовательный for-цикл, худший
+    # случай по времени рос линейно с числом лент. Теперь сетевые запросы
+    # (fetch_feed) выполняются в пуле потоков, а вся работа с news_db /
+    # raw_data_list (общее изменяемое состояние) по-прежнему выполняется
+    # ТОЛЬКО в главном потоке, в теле цикла ниже — это не гонка данных,
+    # т.к. рабочие потоки лишь скачивают и парсят фид и ничего не пишут в
+    # общие структуры.
+    with ThreadPoolExecutor(max_workers=MAX_FETCH_WORKERS) as executor:
+        future_to_url = {executor.submit(fetch_feed, url): url for url in RSS_FEEDS}
+        for future in as_completed(future_to_url):
+            feed_url = future_to_url[future]
+            try:
+                parsed = future.result()
+            except Exception as e:
+                print(f"⚠️  Необработанное исключение в потоке при получении {feed_url}: {e}")
+                continue
 
-            # Как и для RSS, берём только несколько последних сообщений за проход,
-            # чтобы не заваливать Gemini старым контентом при первом запуске.
-            for msg in messages[-5:]:
-                url = msg["link"]
+            if not parsed or not parsed.entries:
+                continue
+
+            source_name = get_source_name(feed_url)
+
+            for entry in parsed.entries[:5]:
+                url = entry.get("link", "")
                 if not url or url in sent_urls_history:
                     continue
 
-                # Аналогичный фильтр по дате для Telegram-сообщений
-                published_str = msg["published"]
+                # ===== КЛЮЧЕВОЙ ФИЛЬТР: по дате публикации и логическому окну =====
+                published_str = entry.get("published", "")
                 published_ts = parse_published_time(published_str)
-                
+
+                # Включаем новость только если её дата публикации попадает в нужное окно:
+                # last_boundary <= published < current_boundary
                 if published_ts is not None:
                     if published_ts < last_boundary or published_ts >= current_boundary:
+                        # Новость вне окна — пропускаем
                         continue
+                # Если дата не парсится (published_ts is None), берём новость на доверие
+                # (предполагаем, что RSS отдаёт свежий контент в нужном порядке)
 
-                title = msg["title"]
+                title = entry.get("title", "").strip()
                 if not title:
                     continue
 
@@ -825,7 +809,62 @@ def collect_all_news(sent_urls_history, schedule_name="morning"):
                 }
 
                 raw_data_list.append(f"ID:{news_id}|Title:{title}|Source:{source_name}")
-                tg_collected += 1
+                # ИСПРАВЛЕНО: URL больше НЕ добавляется в историю здесь.
+                # Раньше новость считалась "отправленной" уже на этапе сбора из RSS,
+                # то есть до того, как она реально прошла через Gemini и ушла в Telegram.
+                # Если Gemini или Telegram падали, новость терялась на 7 дней, хотя
+                # фактически никуда не отправлялась. Теперь запись в историю происходит
+                # только после подтверждённой отправки в Telegram (см. build_html_digest
+                # и блок __main__).
+    
+    print(f"✅ Собрано {len(news_db)} новостей из {len(RSS_FEEDS)} RSS-источников")
+
+    if TELEGRAM_CHANNELS:
+        print(f"📡 Начинаем парсинг {len(TELEGRAM_CHANNELS)} Telegram-каналов (параллельно)...")
+        tg_collected = 0
+        with ThreadPoolExecutor(max_workers=min(MAX_FETCH_WORKERS, len(TELEGRAM_CHANNELS))) as executor:
+            future_to_channel = {
+                executor.submit(fetch_telegram_channel, channel["username"]): channel
+                for channel in TELEGRAM_CHANNELS
+            }
+            for future in as_completed(future_to_channel):
+                channel = future_to_channel[future]
+                source_name = channel["source_name"]
+                try:
+                    messages = future.result()
+                except Exception as e:
+                    print(f"⚠️  Необработанное исключение при получении канала @{channel['username']}: {e}")
+                    continue
+
+                # Как и для RSS, берём только несколько последних сообщений за проход,
+                # чтобы не заваливать Gemini старым контентом при первом запуске.
+                for msg in messages[-5:]:
+                    url = msg["link"]
+                    if not url or url in sent_urls_history:
+                        continue
+
+                    # Аналогичный фильтр по дате для Telegram-сообщений
+                    published_str = msg["published"]
+                    published_ts = parse_published_time(published_str)
+
+                    if published_ts is not None:
+                        if published_ts < last_boundary or published_ts >= current_boundary:
+                            continue
+
+                    title = msg["title"]
+                    if not title:
+                        continue
+
+                    news_id = str(len(news_db))
+                    news_db[news_id] = {
+                        "url": url,
+                        "title": title,
+                        "source_name": source_name,
+                        "published": published_str
+                    }
+
+                    raw_data_list.append(f"ID:{news_id}|Title:{title}|Source:{source_name}")
+                    tg_collected += 1
 
         print(f"✅ Собрано {tg_collected} новостей из Telegram-каналов")
 
