@@ -2,20 +2,33 @@ name: Automated Intelligence Pipeline
 
 on:
   schedule:
+    # ИСПРАВЛЕНО 2026-08-17: убрали "timezone: Europe/Moscow", перешли на
+    # прямые UTC-времена. Причина: сегодняшний прогон morning (7:30 МСК по
+    # старому cron) не появился в Actions ВООБЩЕ — ни failed, ни cancelled,
+    # просто отсутствует, при этом afternoon/evening вчера отработали штатно.
+    # Это соответствует известному классу проблем на стороне GitHub: недавно
+    # изменённый scheduled workflow иногда не регистрируется планировщиком
+    # (см. github.com/orgs/community/discussions/185024 и #185081) — cron
+    # триггер молча не срабатывает, хотя workflow_dispatch работает нормально.
+    # Сообщество репортит, что новый push в репозиторий обычно чинит
+    # регистрацию — этот коммит сам по себе такой push.
+    # Заодно поле "timezone:" в cron — сравнительно новая фича GitHub Actions
+    # (появилась в марте 2026), а прямой UTC работает без сюрпризов с самого
+    # начала существования GitHub Actions. Москва не переходит на летнее
+    # время (постоянный UTC+3), поэтому конвертация ниже точная и не потребует
+    # пересмотра при смене сезона.
+
     # Morning digest (логически 08:00 МСК, собирает новости 20:00 вчера – 08:00 сегодня)
-    # Запускаем в 7:30 МСК — скрипт соберёт новости и ДОЖДЁТСЯ 08:00 перед публикацией
-    - cron: '30 7 * * *'
-      timezone: 'Europe/Moscow'
-    
+    # 7:30 МСК = 4:30 UTC — скрипт соберёт новости и ДОЖДЁТСЯ 08:00 МСК перед публикацией
+    - cron: '30 4 * * *'
+
     # Afternoon digest (логически 13:00 МСК, собирает новости 08:00 – 13:00)
-    # Запускаем в 12:30 МСК — скрипт дождётся 13:00 перед публикацией
-    - cron: '30 12 * * *'
-      timezone: 'Europe/Moscow'
-    
+    # 12:30 МСК = 9:30 UTC
+    - cron: '30 9 * * *'
+
     # Evening digest (логически 19:00 МСК, собирает новости 13:00 – 19:00)
-    # Запускаем в 18:30 МСК — скрипт дождётся 19:00 перед публикацией
-    - cron: '30 18 * * *'
-      timezone: 'Europe/Moscow'
+    # 18:30 МСК = 15:30 UTC
+    - cron: '30 15 * * *'
   
   workflow_dispatch:
     inputs:
@@ -68,11 +81,11 @@ jobs:
         # GitHub при срабатывании триггера, оно не зависит от времени выполнения.
         if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
           echo "schedule_name=${{ github.event.inputs.schedule_name }}" >> $GITHUB_OUTPUT
-        elif [ "${{ github.event.schedule }}" = "30 7 * * *" ]; then
+        elif [ "${{ github.event.schedule }}" = "30 4 * * *" ]; then
           echo "schedule_name=morning" >> $GITHUB_OUTPUT
-        elif [ "${{ github.event.schedule }}" = "30 12 * * *" ]; then
+        elif [ "${{ github.event.schedule }}" = "30 9 * * *" ]; then
           echo "schedule_name=afternoon" >> $GITHUB_OUTPUT
-        elif [ "${{ github.event.schedule }}" = "30 18 * * *" ]; then
+        elif [ "${{ github.event.schedule }}" = "30 15 * * *" ]; then
           echo "schedule_name=evening" >> $GITHUB_OUTPUT
         else
           echo "❌ Неизвестный триггер расписания: '${{ github.event.schedule }}'"
