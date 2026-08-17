@@ -2,33 +2,37 @@ name: Automated Intelligence Pipeline
 
 on:
   schedule:
-    # ИСПРАВЛЕНО 2026-08-17: убрали "timezone: Europe/Moscow", перешли на
-    # прямые UTC-времена. Причина: сегодняшний прогон morning (7:30 МСК по
-    # старому cron) не появился в Actions ВООБЩЕ — ни failed, ни cancelled,
-    # просто отсутствует, при этом afternoon/evening вчера отработали штатно.
-    # Это соответствует известному классу проблем на стороне GitHub: недавно
-    # изменённый scheduled workflow иногда не регистрируется планировщиком
-    # (см. github.com/orgs/community/discussions/185024 и #185081) — cron
-    # триггер молча не срабатывает, хотя workflow_dispatch работает нормально.
-    # Сообщество репортит, что новый push в репозиторий обычно чинит
-    # регистрацию — этот коммит сам по себе такой push.
-    # Заодно поле "timezone:" в cron — сравнительно новая фича GitHub Actions
-    # (появилась в марте 2026), а прямой UTC работает без сюрпризов с самого
-    # начала существования GitHub Actions. Москва не переходит на летнее
-    # время (постоянный UTC+3), поэтому конвертация ниже точная и не потребует
-    # пересмотра при смене сезона.
+    # ИСПРАВЛЕНО 2026-08-17 (вторая итерация): сегодня afternoon-прогон
+    # сработал сам, но с опозданием в 86 минут (должен был в 9:30 UTC,
+    # реально стартовал в 10:56 UTC). Это НЕ проблема регистрации из вчерашней
+    # правки — это официально задокументированное поведение GitHub Actions:
+    # "The schedule event can be delayed during periods of high loads...
+    # High load times include the start of every hour... If the load is
+    # sufficiently high enough, some queued jobs may be dropped. To decrease
+    # the chance of delay, schedule your workflow to run at a different
+    # time of the hour" (docs.github.com/actions, подтверждено в десятках
+    # обсуждений на github.com/orgs/community/discussions).
+    # Проблема в том, что ":30" — вторая по популярности минута в мире после
+    # ":00" (все, кто наивно ставит "каждые полчаса", ставят её же), из-за
+    # чего в момент :30 у GitHub скапливается очередь и задачи запускаются
+    # с опозданием, иногда — по документации — вообще отбрасываются.
+    # Сообщество рекомендует смещаться на "некруглую" минуту (7, 13, 17...),
+    # чтобы не стоять в этой толпе. Заодно увеличил буфер перед публикацией
+    # с 30 до 53 минут — 30-минутный запас сегодня не спас от 86-минутной
+    # задержки, 53 минуты не гарантия, но покрывает бОльшую часть типичных
+    # по документации задержек (5-30 мин, изредка больше).
 
-    # Morning digest (логически 08:00 МСК, собирает новости 20:00 вчера – 08:00 сегодня)
-    # 7:30 МСК = 4:30 UTC — скрипт соберёт новости и ДОЖДЁТСЯ 08:00 МСК перед публикацией
-    - cron: '30 4 * * *'
+    # Morning digest (логически 08:00 МСК)
+    # 7:07 МСК = 4:07 UTC
+    - cron: '7 4 * * *'
 
-    # Afternoon digest (логически 13:00 МСК, собирает новости 08:00 – 13:00)
-    # 12:30 МСК = 9:30 UTC
-    - cron: '30 9 * * *'
+    # Afternoon digest (логически 13:00 МСК)
+    # 12:07 МСК = 9:07 UTC
+    - cron: '7 9 * * *'
 
-    # Evening digest (логически 19:00 МСК, собирает новости 13:00 – 19:00)
-    # 18:30 МСК = 15:30 UTC
-    - cron: '30 15 * * *'
+    # Evening digest (логически 19:00 МСК)
+    # 18:07 МСК = 15:07 UTC
+    - cron: '7 15 * * *'
   
   workflow_dispatch:
     inputs:
@@ -45,12 +49,15 @@ on:
 jobs:
   run-analytics-pipeline:
     runs-on: ubuntu-latest
-    # Скрипт теперь может ждать до ~30-40 минут перед публикацией (см.
-    # wait_until_publish_time в main.py), плюс время на сбор RSS/Telegram и
-    # анализ Gemini. 60 минут — достаточный запас с учётом сетевых задержек;
-    # если что-то реально зависло дольше, лучше упасть с ошибкой, чем висеть
-    # до дефолтных 360 минут GitHub Actions.
-    timeout-minutes: 60
+    # ИСПРАВЛЕНО 2026-08-17: буфер ожидания вырос с ~30 до ~53 минут (см.
+    # комментарий у cron выше), плюс сбор RSS/Telegram (теперь параллельно,
+    # но в худшем случае — минуты), плюс Gemini с retry (до ~20 минут в
+    # худшем случае). 90 минут — запас с хорошим зазором даже для
+    # пессимистичного сценария (53 буфер, который перекрывается с
+    # обработкой, а не суммируется — см. пояснение в main.py у
+    # wait_until_publish_time); если что-то реально зависло дольше, лучше
+    # упасть с ошибкой, чем висеть до дефолтных 360 минут GitHub Actions.
+    timeout-minutes: 90
 
     steps:
     - name: Checkout repository
@@ -81,11 +88,11 @@ jobs:
         # GitHub при срабатывании триггера, оно не зависит от времени выполнения.
         if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
           echo "schedule_name=${{ github.event.inputs.schedule_name }}" >> $GITHUB_OUTPUT
-        elif [ "${{ github.event.schedule }}" = "30 4 * * *" ]; then
+        elif [ "${{ github.event.schedule }}" = "7 4 * * *" ]; then
           echo "schedule_name=morning" >> $GITHUB_OUTPUT
-        elif [ "${{ github.event.schedule }}" = "30 9 * * *" ]; then
+        elif [ "${{ github.event.schedule }}" = "7 9 * * *" ]; then
           echo "schedule_name=afternoon" >> $GITHUB_OUTPUT
-        elif [ "${{ github.event.schedule }}" = "30 15 * * *" ]; then
+        elif [ "${{ github.event.schedule }}" = "7 15 * * *" ]; then
           echo "schedule_name=evening" >> $GITHUB_OUTPUT
         else
           echo "❌ Неизвестный триггер расписания: '${{ github.event.schedule }}'"
