@@ -1,43 +1,19 @@
 name: Automated Intelligence Pipeline
 
 on:
-  schedule:
-    # ИСПРАВЛЕНО 2026-08-17 (вторая итерация): сегодня afternoon-прогон
-    # сработал сам, но с опозданием в 86 минут (должен был в 9:30 UTC,
-    # реально стартовал в 10:56 UTC). Это НЕ проблема регистрации из вчерашней
-    # правки — это официально задокументированное поведение GitHub Actions:
-    # "The schedule event can be delayed during periods of high loads...
-    # High load times include the start of every hour... If the load is
-    # sufficiently high enough, some queued jobs may be dropped. To decrease
-    # the chance of delay, schedule your workflow to run at a different
-    # time of the hour" (docs.github.com/actions, подтверждено в десятках
-    # обсуждений на github.com/orgs/community/discussions).
-    # Проблема в том, что ":30" — вторая по популярности минута в мире после
-    # ":00" (все, кто наивно ставит "каждые полчаса", ставят её же), из-за
-    # чего в момент :30 у GitHub скапливается очередь и задачи запускаются
-    # с опозданием, иногда — по документации — вообще отбрасываются.
-    # Сообщество рекомендует смещаться на "некруглую" минуту (7, 13, 17...),
-    # чтобы не стоять в этой толпе. Заодно увеличил буфер перед публикацией
-    # с 30 до 53 минут — 30-минутный запас сегодня не спас от 86-минутной
-    # задержки, 53 минуты не гарантия, но покрывает бОльшую часть типичных
-    # по документации задержек (5-30 мин, изредка больше).
-
-    # Morning digest (логически 08:00 МСК)
-    # 7:07 МСК = 4:07 UTC
-    - cron: '7 4 * * *'
-
-    # Afternoon digest (логически 13:00 МСК)
-    # 12:07 МСК = 9:07 UTC
-    - cron: '7 9 * * *'
-
-    # Evening digest (логически 19:00 МСК)
-    # 18:07 МСК = 15:07 UTC
-    - cron: '7 15 * * *'
-  
+  # ИСПРАВЛЕНО 2026-08-19: убрали "schedule:" — расписание теперь полностью
+  # на стороне cron-job.org (внешний планировщик дёргает workflow_dispatch
+  # по HTTP в нужное время), это подтверждённо работает надёжнее встроенного
+  # GitHub-овского cron (см. историю задержек до 86 минут и историю с полным
+  # непоявлением прогона — оба случая были на "schedule:", ни разу — на
+  # ручном/внешнем workflow_dispatch). Держать оба триггера одновременно
+  # означало бы риск редкого дублирования прогонов без реальной пользы —
+  # раз внешний планировщик работает, встроенный стал чистым риском без
+  # выгоды.
   workflow_dispatch:
     inputs:
       schedule_name:
-        description: 'Какой дайджест запустить вручную'
+        description: 'Какой дайджест запустить (обычно дёргается cron-job.org, вручную — для теста)'
         required: true
         default: 'afternoon'
         type: choice
@@ -49,11 +25,10 @@ on:
 jobs:
   run-analytics-pipeline:
     runs-on: ubuntu-latest
-    # ИСПРАВЛЕНО 2026-08-17: буфер ожидания вырос с ~30 до ~53 минут (см.
-    # комментарий у cron выше), плюс сбор RSS/Telegram (теперь параллельно,
-    # но в худшем случае — минуты), плюс Gemini с retry (до ~20 минут в
-    # худшем случае). 90 минут — запас с хорошим зазором даже для
-    # пессимистичного сценария (53 буфер, который перекрывается с
+    # Буфер перед публикацией (~53 минуты — см. настройку времени в
+    # cron-job.org) плюс сбор RSS/Telegram (параллельно, минуты) плюс Gemini
+    # с retry (до ~20 минут в худшем случае). 90 минут — запас с хорошим
+    # зазором даже для пессимистичного сценария (буфер перекрывается с
     # обработкой, а не суммируется — см. пояснение в main.py у
     # wait_until_publish_time); если что-то реально зависло дольше, лучше
     # упасть с ошибкой, чем висеть до дефолтных 360 минут GitHub Actions.
@@ -78,27 +53,16 @@ jobs:
     - name: Determine schedule name
       id: schedule
       run: |
-        # ВАЖНО: определяем schedule_name НЕ по вычисленному текущему часу
-        # (это было хрупко — GitHub Actions cron может опаздывать на 5-40+ минут
-        # при нагрузке, из-за чего вычисленный час "съезжал" и попадал в неверную
-        # ветку, либо ни в одну, что приводило к дублированию/пропуску дайджестов).
-        #
-        # Вместо этого используем github.event.schedule — точную cron-строку,
-        # которая реально инициировала запуск. Это значение проставляет сам
-        # GitHub при срабатывании триггера, оно не зависит от времени выполнения.
-        if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
-          echo "schedule_name=${{ github.event.inputs.schedule_name }}" >> $GITHUB_OUTPUT
-        elif [ "${{ github.event.schedule }}" = "7 4 * * *" ]; then
-          echo "schedule_name=morning" >> $GITHUB_OUTPUT
-        elif [ "${{ github.event.schedule }}" = "7 9 * * *" ]; then
-          echo "schedule_name=afternoon" >> $GITHUB_OUTPUT
-        elif [ "${{ github.event.schedule }}" = "7 15 * * *" ]; then
-          echo "schedule_name=evening" >> $GITHUB_OUTPUT
-        else
-          echo "❌ Неизвестный триггер расписания: '${{ github.event.schedule }}'"
-          exit 1
-        fi
-        echo "Определено расписание: $(cat $GITHUB_OUTPUT)"
+        # ИСПРАВЛЕНО 2026-08-19: упростили. Раньше здесь была развилка между
+        # workflow_dispatch (ручной/внешний запуск) и несколькими вариантами
+        # github.event.schedule (какая именно cron-строка сработала) — это
+        # было нужно, пока расписание висело на встроенном "schedule:"
+        # GitHub. Теперь единственный источник триггера — workflow_dispatch
+        # (либо от cron-job.org по HTTP, либо вручную из интерфейса GitHub),
+        # так что schedule_name всегда приходит явным входным параметром,
+        # разбирать cron-строки больше не от чего.
+        echo "schedule_name=${{ github.event.inputs.schedule_name }}" >> $GITHUB_OUTPUT
+        echo "Определено расписание: ${{ github.event.inputs.schedule_name }}"
 
     - name: Run digest
       env:
