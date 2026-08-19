@@ -1,4 +1,4 @@
-print("=== ЗАПУСК СКРИПТА ВЕРСИИ 6.12 (FIXED_TIMEZONE_AND_PUBLISH_WAIT) ===")
+print("=== ЗАПУСК СКРИПТА ВЕРСИИ 6.13 (RICH_MESSAGE_AND_BOUNDARY_FIX) ===")
 
 import os
 import re
@@ -9,8 +9,6 @@ import requests
 import feedparser
 from html import escape as html_escape
 from bs4 import BeautifulSoup
-import telebot
-from telebot.apihelper import ApiTelegramException
 import urllib3
 from concurrent.futures import ThreadPoolExecutor, as_completed
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
@@ -23,7 +21,10 @@ chat_id = os.environ.get("TELEGRAM_CHAT_ID")
 if not gemini_api_key or not bot_token or not chat_id:
     raise ValueError("Ошибка: Проверьте GEMINI_API_KEY, TELEGRAM_BOT_TOKEN и TELEGRAM_CHAT_ID в GitHub Secrets!")
 
-bot = telebot.TeleBot(bot_token)
+# ИСПРАВЛЕНО 2026-08-19: убран telebot.TeleBot — библиотека pyTelegramBotAPI
+# не поддерживает sendRichMessage (см. _send_one_chunk), поэтому отправка
+# теперь идёт напрямую через requests.post, а сам объект bot больше нигде
+# не используется. bot_token и CHAT_ID остаются — они нужны для URL запроса.
 CHAT_ID = chat_id
 
 HISTORY_FILE = "sent_urls.json"
@@ -88,28 +89,42 @@ def get_schedule_boundary(schedule_name):
     """
     Возвращает логическое время ГРАНИЧНОЕ дайджеста (время, ДО КОТОРОГО собираются
     новости), как Unix timestamp. Считается в московском времени (см. выше).
-    
-    Если сейчас 03:15 МСК и запущен "morning" дайджест:
-    - Логическая граница = 08:00 МСК СЕГОДНЯ (если ещё не наступила) или ВЧЕРА (если уже прошла)
-    - Вчера в 08:00 был последний morning → собираем с вчера 08:00 до сегодня 08:00
-    
-    Если сейчас 09:15 МСК и запущен "morning" дайджест:
-    - Логическая граница = 08:00 МСК СЕГОДНЯ (уже прошла, используем как текущую)
+
+    ИСПРАВЛЕНО 2026-08-19: раньше эта функция откатывала границу на вчера,
+    если текущее время ещё не достигло целевого часа расписания (например,
+    07:07 < 08:00 → граница "morning" съезжала на вчерашние 08:00). Это было
+    рассчитано на сценарий "скрипт запускается ровно в момент публикации или
+    позже неё" — но с cron-job.org скрипт систематически запускается ЗАРАНЕЕ
+    (например, около 07:07 для morning в 08:00), именно чтобы буфер
+    wait_until_publish_time успел отработать до заявленного часа. При таком
+    заблаговременном запуске "сегодня ещё не пробило 08:00" не означает
+    "текущий morning — это вчерашний", это означает "текущий morning — это
+    СЕГОДНЯШНИЙ, просто скрипт стартовал заранее". Старая логика путала эти
+    два случая, из-за чего current_boundary съезжал на день назад, ниже по
+    коду last_boundary (граница предыдущего расписания) внезапно оказывался
+    "в будущем" относительно current_boundary, срабатывала ветка "АНОМАЛИЯ" и
+    окно сбора аварийно откатывалось ещё на 24ч — а поскольку это окно почти
+    целиком уже было в sent_urls_history с прошлых прогонов, дайджест выходил
+    почти пустым (реальный случай: 19.08 утренний дайджест, см. лог с
+    "АНОМАЛИЯ" и итоговыми 3-5 новостей на категорию вместо обычных 8-12).
+
+    Правильная граница "текущего" расписания — это ВСЕГДА сегодняшний
+    hour:minute из SCHEDULES, независимо от того, наступил он уже по часам
+    или нет: если скрипт запущен под именем "morning", то это и есть
+    сегодняшний morning, а не вчерашний. Отката на вчера здесь больше нет —
+    вместо этого используется публикационное время как раньше (см.
+    get_next_publish_time), а сама граница сбора теперь всегда "сегодня".
     """
     if schedule_name not in SCHEDULES:
         raise ValueError(f"Unknown schedule: {schedule_name}. Valid: {list(SCHEDULES.keys())}")
-    
+
     sched = SCHEDULES[schedule_name]
     hour, minute = sched["hour"], sched["minute"]
-    
+
     now_dt = now_moscow()
-    
+
     today_boundary_dt = now_dt.replace(hour=hour, minute=minute, second=0, microsecond=0)
-    
-    # Если сейчас ДО этого времени, то граница — вчера, не сегодня
-    if now_dt < today_boundary_dt:
-        today_boundary_dt -= datetime.timedelta(days=1)
-    
+
     return today_boundary_dt.timestamp()
 
 def get_next_publish_time(schedule_name):
@@ -1287,27 +1302,70 @@ def build_html_digest(raw_response, news_db):
     return world_html, russia_html, world_urls, russia_urls
 
 def _send_one_chunk(chat_id, chunk):
-    """Отправляет один чанк текста. Возвращает True при подтверждённом успехе."""
+    """Отправляет один чанк текста через sendRichMessage. Возвращает True при
+    подтверждённом успехе.
+
+    ДОБАВЛЕНО 2026-08-19: переход с sendMessage (лимит 4096 символов) на
+    sendRichMessage (Telegram Bot API 10.1+, добавлен июнь 2026) — метод
+    подтверждённо работает с этим ботом и каналом (см. rich_message_test/,
+    реальный вызов дал HTTP 200 и корректно разобранную структуру блоков).
+    Используется простой режим InputRichMessage — тот же готовый HTML, что
+    скрипт и раньше формировал для parse_mode="HTML", просто передаётся в
+    поле rich_message.html вместо параметра text. Лимит на этот HTML —
+    32768 символов вместо 4096, поэтому дайджест почти всегда укладывается
+    в одно сообщение целиком (см. _pack_lines_into_chunks и её новый limit).
+
+    Вызывается напрямую через requests, в обход pyTelegramBotAPI — библиотека
+    метод не поддерживает (не единственная: python-telegram-bot на момент
+    проверки тоже без типизированной поддержки), а сам метод достаточно
+    простой, чтобы не тащить ради него отдельную зависимость.
+
+    Осознанно НЕТ отката на старый sendMessage при ошибке: если
+    sendRichMessage вдруг откажет, ошибка должна быть видна в логах прогона
+    как есть, а не маскироваться тихим переключением на другой формат
+    отправки — так проще заметить и разобраться, если Telegram изменит
+    поведение метода."""
+    # ВАЖНО: payload намеренно ограничен ровно теми полями, что были в
+    # реально проверенном тестовом вызове (rich_message_test/), который дал
+    # HTTP 200 — см. подтверждённую структуру ответа в логах теста от
+    # 2026-08-18. Параметр про отключение превью ссылок (был
+    # disable_web_page_preview=True в старом sendMessage через telebot) сюда
+    # намеренно НЕ добавлен: неизвестно, поддерживает ли sendRichMessage
+    # такое поле и как оно называется, а угадывать формат непроверенного
+    # параметра в боевом коде — плохая идея. Если после перехода в реальных
+    # дайджестах появятся крупные превью-карточки под ссылками, это будет
+    # видно сразу и параметр можно будет добавить осознанно, а не наугад.
+    url = f"https://api.telegram.org/bot{bot_token}/sendRichMessage"
+    payload = {
+        "chat_id": chat_id,
+        "rich_message": {"html": chunk},
+    }
     try:
-        bot.send_message(chat_id, chunk, parse_mode="HTML", disable_web_page_preview=True)
-        return True
-    except ApiTelegramException as e:
-        print(f"Ошибка отправки HTML ({e}). Отправка обычным текстом.")
-        try:
-            bot.send_message(chat_id, chunk)
+        response = requests.post(url, json=payload, timeout=30)
+        data = response.json()
+        if response.status_code == 200 and data.get("ok"):
             return True
-        except Exception as e2:
-            # ИСПРАВЛЕНО: раньше повторная отправка обычным текстом ничем не была
-            # защищена — сетевая ошибка или проблема с chat_id роняла весь процесс.
-            print(f"❌ Не удалось отправить сообщение даже как обычный текст: {e2}")
-            return False
+        print(f"❌ Telegram отклонил sendRichMessage (HTTP {response.status_code}): "
+              f"{data.get('description', data)}")
+        return False
+    except requests.exceptions.RequestException as e:
+        print(f"❌ Сетевая ошибка при отправке sendRichMessage: {e}")
+        return False
     except Exception as e:
         print(f"❌ Непредвиденная ошибка отправки в Telegram: {e}")
         return False
 
 
-def _pack_lines_into_chunks(text, limit=3900):
+def _pack_lines_into_chunks(text, limit=32000):
     """Разбивает text на сообщения не длиннее limit символов.
+
+    ИСПРАВЛЕНО 2026-08-19: limit поднят с 3900 (старый предел sendMessage,
+    4096 символов с запасом) до 32000 (новый предел sendRichMessage, 32768
+    символов с небольшим запасом — см. _send_one_chunk). При обычном объёме
+    дайджеста этого хватает, чтобы всё уместилось в один чанк вообще без
+    дробления; логика ниже остаётся на случай редкого насыщенного дня, когда
+    даже 32000 не хватает — тогда упаковка по-прежнему работает, просто
+    результат будет 2+ сообщений вместо обычного одного.
 
     ИСПРАВЛЕНО 2026-08-17: раньше упаковка шла в два уровня — сначала по
     границам категорий (двойной перевод строки), и только если ОТДЕЛЬНАЯ
@@ -1375,10 +1433,14 @@ def send_telegram_message(chat_id, text):
     if not text.strip():
         return False
 
-    if len(text) <= 4000:
+    # ИСПРАВЛЕНО 2026-08-19: порог короткого пути поднят с 4000 (под старый
+    # sendMessage) до 32000 (под sendRichMessage, см. _send_one_chunk и
+    # _pack_lines_into_chunks). При обычном объёме дайджеста весь текст
+    # проходит этим путём и уходит одним сообщением без дробления вообще.
+    if len(text) <= 32000:
         return _send_one_chunk(chat_id, text)
 
-    all_chunks = _pack_lines_into_chunks(text, limit=3900)
+    all_chunks = _pack_lines_into_chunks(text, limit=32000)
 
     # ИСПРАВЛЕНО 2026-08-16: после расширения списка источников итоговое
     # число чанков в одном дайджесте может стать заметно больше, чем раньше
@@ -1435,22 +1497,32 @@ if __name__ == "__main__":
         # реально и успешно отправлены в Telegram — не все собранные из RSS.
         confirmed_urls = []
 
-        if world_html.strip():
-            print("📤 Отправляем мировую повестку...")
-            if send_telegram_message(CHAT_ID, world_html):
-                sent_anything = True
-                confirmed_urls.extend(world_urls)
-            else:
-                print("❌ Не удалось отправить мировую повестку — новости останутся необработанными для следующего запуска.")
-            time.sleep(2)
+        # ИСПРАВЛЕНО 2026-08-19: мир и Россия раньше уходили ДВУМЯ отдельными
+        # сообщениями (лимит sendMessage в 4096 символов не позволял надёжно
+        # держать оба блока в одном). После перехода на sendRichMessage
+        # (лимит 32768, см. _send_one_chunk) весь дайджест почти всегда
+        # укладывается в одно сообщение целиком — решено объединить оба
+        # блока в один rich message, а не держать искусственное разделение,
+        # оставшееся от старого лимита.
+        #
+        # Побочный эффект объединения: отправка теперь атомарна — либо весь
+        # дайджест (мир + Россия) подтверждён и все его URL уходят в историю,
+        # либо ничего не подтверждено и всё остаётся на следующий запуск.
+        # Раньше при частичном сбое (например, мир ушёл, а Россия — нет из-за
+        # сетевой ошибки между двумя вызовами) один блок подтверждался, а
+        # другой нет; такой частичный случай больше невозможен по конструкции,
+        # так как это один вызов API, а не два подряд.
+        combined_parts = [html for html in (world_html, russia_html) if html.strip()]
+        combined_html = "\n\n".join(combined_parts)
+        combined_urls = world_urls + russia_urls
 
-        if russia_html.strip():
-            print("📤 Отправляем новости о России...")
-            if send_telegram_message(CHAT_ID, russia_html):
+        if combined_html.strip():
+            print("📤 Отправляем дайджест (мир + Россия)...")
+            if send_telegram_message(CHAT_ID, combined_html):
                 sent_anything = True
-                confirmed_urls.extend(russia_urls)
+                confirmed_urls.extend(combined_urls)
             else:
-                print("❌ Не удалось отправить новости о России — они останутся необработанными для следующего запуска.")
+                print("❌ Не удалось отправить дайджест — новости останутся необработанными для следующего запуска.")
 
         if sent_anything:
             now = time.time()
