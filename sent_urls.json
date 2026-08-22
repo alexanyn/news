@@ -1,105 +1,5 @@
 [
   {
-    "url": "https://www.project-syndicate.org/onpoint/institutional-genes-explain-how-china-totalitarian-institutions-survived-reform-era-by-chenggang-xu-2026-08",
-    "added_at": 1786773603.9503777,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.project-syndicate.org/commentary/middle-power-coalitions-of-the-willing-must-be-within-adjacent-to-multilateral-institutions-by-anne-marie-slaughter-2026-08",
-    "added_at": 1786773603.9503777,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://ec.europa.eu/commission/presscorner/detail/en/mex_26_1735",
-    "added_at": 1786773603.9503777,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://news.un.org/feed/view/en/story/2026/08/1168147",
-    "added_at": 1786773603.9503777,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://cepr.org/about/people/alan-wolff",
-    "added_at": 1786773603.9503777,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://cepr.org/about/people/jean-claude-trichet",
-    "added_at": 1786773603.9503777,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.technologyreview.com/2026/08/14/1142033/the-download-flock-new-rules-cloning-future/",
-    "added_at": 1786773603.9503777,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.technologyreview.com/2026/08/14/1141354/deanne-taylor-gene-expression-children/",
-    "added_at": 1786773603.9503777,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.technologyreview.com/2026/08/14/1141919/cloning-save-species-or-make-human-organ-sacks/",
-    "added_at": 1786773603.9503777,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.worldpoliticsreview.com/germany-bundeswehr-military-conscription-recruitment/",
-    "added_at": 1786773603.9503777,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://news.un.org/feed/view/en/story/2026/08/1168148",
-    "added_at": 1786773603.9503777,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://news.un.org/feed/view/en/story/2026/08/1168144",
-    "added_at": 1786773603.9503777,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://news.un.org/feed/view/en/story/2026/08/1168142",
-    "added_at": 1786773603.9503777,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://cepr.org/about/people/daniel-fiott",
-    "added_at": 1786773603.9503777,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://news.google.com/rss/articles/CBMivAFBVV95cUxPN1FBbThicWttam5JSXN6Q1BxM3FvX2h1ZkJiZnBCa084Mk1qZG9UZUwwQVZ5TUMzd0tqRnZYYjBKcHA0b2dOdElab0Z0dm5MTlhoT2hqTGNZT1hlVUdSRHU1WDI1aTByaVd5T1Vyc2RHTHM4N1hQLUt4NkJBblpuVmNQRVNZZENyRnppQzNWWWJUUlcyakZoaXZPUGtyUHc2V1RvRUdXSENQRkJDQlloaDYyQUtEdVVIazFPRg?oc=5",
-    "added_at": 1786773603.9503777,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://news.google.com/rss/articles/CBMihAFBVV95cUxPSVRLb0Vwak5DcjRhMWNzd1hBOTNoWE1pazFPU000b1dOVUQ5YmN1X0tEd3lCb3dwR1JrQVVmcWhTcncwaFh5czgxX0dvd0dTS0IzMlRLU3ZiVDZpMlZ1OHlxZndULURtdUwzOFZZOXRBcDJSUFVIakUzaDJ0bWIwZE9yYzM?oc=5",
-    "added_at": 1786773603.9503777,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.themoscowtimes.com/2026/08/14/russia-dismisses-calls-for-black-sea-ceasefire-a93499",
-    "added_at": 1786773603.9503777,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.themoscowtimes.com/2026/08/14/zabaikalsky-region-declares-state-of-emergency-following-summer-flooding-a93498",
-    "added_at": 1786773603.9503777,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.themoscowtimes.com/2026/08/14/state-prosecutors-seek-12-year-prison-sentence-for-lev-shlosberg-a93497",
-    "added_at": 1786773603.9503777,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.atlanticcouncil.org/blogs/ukrainealert/russian-atrocities-in-ukraine-are-escalating-and-demand-urgent-action/",
-    "added_at": 1786773603.9503777,
-    "source": "parsed_feed"
-  },
-  {
     "url": "https://news.google.com/rss/articles/CBMixgFBVV95cUxPZ1JDMTI4SDNkNEZwRUxyTG41ak5GRENmeEhtR05qemczcXZxWWlYTkthSEJva2V4cEVBSWlFTG9JMXpOSFFUX1hHT0tGaUg1bHZ2UzVFWUZZTV9xTDRIa3hZbHB0cHdDRlJLbXVBbGtNdmx6ZVlieHZ2TGJkdWYtM25uTlNJSzAtSm9OVTlFZ0tjNlBGMjRVc2Fjc1NFemxqejVtX1h4YVV0ZXEzdWZuS2NWRDVnX2VxOWp0azVRdjdnRVBBZ0E?oc=5",
     "added_at": 1786788209.6284099,
     "source": "parsed_feed"
@@ -3702,6 +3602,86 @@
   {
     "url": "https://tass.com/politics/2176343",
     "added_at": 1787374801.136602,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.vedomosti.ru/politics/news/2026/08/22/1222974-ministr-inostrannih-del",
+    "added_at": 1787392800.7951074,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.scmp.com/news/hong-kong/politics/article/3364918/hong-kong-hits-back-western-slander-over-verdict-tiananmen-vigil-leaders?utm_source=rss_feed",
+    "added_at": 1787392800.7951074,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.scmp.com/news/world/americas/article/3364917/brazils-lula-seeks-end-baseless-tariffs-call-trump?utm_source=rss_feed",
+    "added_at": 1787392800.7951074,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.aljazeera.com/video/newsfeed/2026/8/22/how-will-trumps-tariffs-affect-canadas-economy?traffic_source=rss",
+    "added_at": 1787392800.7951074,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://t.me/the_financial_times_journal/7762",
+    "added_at": 1787392800.7951074,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://t.me/the_financial_times_journal/7763",
+    "added_at": 1787392800.7951074,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://t.me/the_financial_times_journal/7764",
+    "added_at": 1787392800.7951074,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://news.google.com/rss/articles/CBMisgFBVV95cUxQWGw0X0lOUmZESVVqMWhVeV84V3ptaFJTWDhqSzdPUm9CUEF5QmppQUExYWVwN09OZjhqYnpOcUxaRDZHdngzTHNaWWtPZy1namVHODNULWtCNkpSV0hvSmRfMkRFeXQ2bkNIR05qQUFSdzc4bWV4ZFZud0ppWWVGQVVnbTR0ZXhSMUVWQ3Y5ZXluc1VrUXh6NUhmNEJ2RDAzdElkMjZKS3lqMXNHdHR1ZlJB?oc=5",
+    "added_at": 1787392800.7951074,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.interfax.ru/world/1110625",
+    "added_at": 1787392800.7951074,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.rbc.ru/rbcfreenews/6a87079c9a794720a17b80c5",
+    "added_at": 1787392800.7951074,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://tass.com/world/2176381",
+    "added_at": 1787392800.7951074,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://vc.ru/marketplace/3091703-ataka-bespilotnikov-na-sklad-ozon-v-samarskoy-oblasti?from=rss",
+    "added_at": 1787392800.7951074,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://meduza.io/news/2026/08/22/ukrainskie-bespilotniki-atakovali-eysk-v-krasnodarskom-krae-pogibli-dvoe-detey-na-territorii-porta-pozhar",
+    "added_at": 1787392800.7951074,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://meduza.io/news/2026/08/22/v-kieve-i-zaporozhie-pogibshie-v-rezultate-rossiyskih-udarov-v-odesskoy-oblasti-povrezhden-vokzal",
+    "added_at": 1787392800.7951074,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.vedomosti.ru/politics/news/2026/08/22/1222968-bespilotnik-vsu-atakoval",
+    "added_at": 1787392800.7951074,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://t.me/the_financial_times_journal/7765",
+    "added_at": 1787392800.7951074,
     "source": "parsed_feed"
   }
 ]
