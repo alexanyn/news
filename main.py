@@ -1,4 +1,4 @@
-print("=== ЗАПУСК СКРИПТА ВЕРСИИ 6.13 (RICH_MESSAGE_AND_BOUNDARY_FIX) ===")
+print("=== ЗАПУСК СКРИПТА ВЕРСИИ 6.14 (PR_SECTION_ADDED) ===")
 
 import os
 import re
@@ -360,6 +360,25 @@ FEED_CANONICAL_NAMES = {
     "tass.com": "ТАСС",
     "semafor.com": "Semafor",
     "bruegel.org": "Bruegel",
+
+    # --- Добавлено 2026-08-20: источники по профессиональной области
+    # пользователя (PR и коммуникации), см. RSS_FEEDS ниже для деталей по
+    # каждому источнику (прямая лента / fallback через Google News) ---
+    "provokemedia.com": "PRovoke Media",
+    # ВАЖНО: реальный URL прямой ленты PRWeek — через Feedburner, сам домен
+    # prweek.com в этом URL не встречается, поэтому ключ здесь именно под
+    # фактический адрес ленты, а не под домен издания.
+    "feedburner.com/PrweekUsNews": "PRWeek",
+    "prdaily.com": "PR Daily (Ragan)",
+    "cipr.co.uk": "CIPR",
+    "odwyerpr.com": "O'Dwyer's PR",
+    "sostav.ru": "Sostav.ru",
+    "raso.ru": "РАСО",
+    "akospr.ru": "АКОС",
+    "adweek.com": "Adweek",
+    "thedrum.com": "The Drum",
+    "adindex.ru": "AdIndex",
+    "cossa.ru": "Cossa",
 }
 
 RSS_FEEDS = [
@@ -546,6 +565,63 @@ RSS_FEEDS = [
     # think tank в списке; страница с их RSS не обновлялась с 2013 и сайт
     # с тех пор переехал на новую CMS, поэтому вместо риска мёртвой ссылки — fallback.
     "https://news.google.com/rss/search?q=site:bruegel.org&hl=en-US&gl=US&ceid=US:en",  # Bruegel
+
+    # ============================================================
+    # Добавлено 2026-08-20: источники по профессиональной области
+    # пользователя (PR и коммуникации, работает в этой сфере). Задача была
+    # подобрать список у 6 независимых ИИ (Gemini/Claude/ChatGPT/DeepSeek/
+    # Perplexity/Grok) промптом с целевой пропорцией ~70% PR / 30% маркетинг,
+    # затем самостоятельно отобрать самое важное и вручную проверить ленты
+    # 2026-08-20 (тем же способом, что и для остальных источников в этом
+    # списке — прямой fetch реального содержимого, не только факт существования
+    # страницы). Итоговая пропорция здесь: 10 PR-источников (6 мир + 4 РФ) на
+    # 4 маркетинговых (2 мир + 2 РФ) = 71%/29%, вплотную к целевой.
+    #
+    # Отбор построен на КРОСС-СОГЛАСИИ между ИИ: в приоритете источники,
+    # которые независимо назвали 4+ из 6 моделей (PRovoke Media, PRWeek,
+    # PR Daily, Sostav.ru, РАСО, АКОС — универсальные топ-пики у всех
+    # опрошенных). Источники, которые не удалось ни подтвердить прямой
+    # лентой, ни найти хоть у кого-то с высоким консенсусом (например,
+    # "Советник" — часть ИИ прямо отметили его как архивный/неактивный),
+    # сознательно НЕ включены — лучше меньше, но рабочих источников.
+    # ============================================================
+
+    # --- PR, мир: прямые официальные ленты (проверены вручную 2026-08-20) ---
+    "https://www.provokemedia.com/newsfeed/provoke-media-latest",  # PRovoke Media — топ-1 у всех 6 опрошенных ИИ
+    "http://feeds.feedburner.com/PrweekUsNews",                    # PRWeek — топ-2 у всех 6 (Haymarket Media)
+    "https://www.prdaily.com/feed",                                 # PR Daily / Ragan Communications — топ-3 у всех 6
+    "https://newsroom.cipr.co.uk/feed/en",                          # CIPR (Chartered Institute of PR) — профессиональная ассоциация UK
+
+    # --- PR, мир: без подтверждённой прямой ленты (Google News fallback) ---
+    # O'Dwyer's: страница со списком RSS-лент (odwyerpr.com/rss_feeds/rss.htm)
+    # на момент проверки 2026-08-20 отдаёт 500-ю ошибку сервера, точный адрес
+    # самой ленты найти не удалось. Источник тем не менее важный (в топе у
+    # 4 из 6 ИИ, старейшее ежедневное издание отрасли) — используем fallback.
+    "https://news.google.com/rss/search?q=site:odwyerpr.com&hl=en-US&gl=US&ceid=US:en",  # O'Dwyer's PR
+
+    # --- PR, Россия: без подтверждённой прямой ленты (Google News fallback) ---
+    # Ни у sostav.ru, ни у raso.ru, ни у akospr.ru не нашлось явного прямого
+    # RSS-адреса при проверке 2026-08-20 (для сравнения: у adindex.ru и
+    # AdIndex ниже прямая лента нашлась и подтверждена). Все три при этом —
+    # универсальные топ-пики (Sostav.ru — единодушно у всех 6 ИИ; РАСО и
+    # АКОС — главные профессиональные ассоциации PR в РФ, у 4-5 из 6).
+    "https://news.google.com/rss/search?q=site:sostav.ru&hl=ru&gl=RU&ceid=RU:ru",     # Sostav.ru
+    "https://news.google.com/rss/search?q=site:raso.ru&hl=ru&gl=RU&ceid=RU:ru",       # РАСО
+    "https://news.google.com/rss/search?q=site:akospr.ru&hl=ru&gl=RU&ceid=RU:ru",     # АКОС
+
+    # --- Маркетинг (не более ~30% от PR-блока по объёму), мир ---
+    "https://www.adweek.com/feed/",                                 # Adweek — прямая лента, проверена 2026-08-20
+
+    # The Drum: у thedrum.com/topics/feed заголовок страницы содержит слово
+    # "Feed", но по факту это HTML, не XML (проверено 2026-08-20 прямым
+    # fetch содержимого) — прямой ленты не нашлось, fallback.
+    "https://news.google.com/rss/search?q=site:thedrum.com&hl=en-US&gl=US&ceid=US:en",  # The Drum
+
+    # --- Маркетинг (не более ~30% от PR-блока по объёму), Россия ---
+    "https://adindex.ru/news/news.rss",                             # AdIndex — прямая лента, проверена 2026-08-20
+
+    # Cossa.ru: прямой RSS-адрес не нашёлся при проверке 2026-08-20, fallback.
+    "https://news.google.com/rss/search?q=site:cossa.ru&hl=ru&gl=RU&ceid=RU:ru",      # Cossa
 ]
 
 # Telegram-каналы обрабатываются отдельно от RSS_FEEDS: у них нет RSS-ленты,
@@ -990,7 +1066,8 @@ def generate_analytical_json(raw_data_prompt):
         "business": [...],
         "technology": [...],
         "energy": [...],
-        "security": [...]
+        "security": [...],
+        "pr": [...]
     }
     
     Категории:
@@ -1000,6 +1077,22 @@ def generate_analytical_json(raw_data_prompt):
     - technology: IT, инновации
     - energy: энергетика, полезные ископаемые
     - security: конфликты, оборона
+    - pr: индустрия PR и коммуникаций — рынок и бизнес PR/коммуникационных
+      агентств, профессиональные ассоциации и премии (РАСО, АКОС, PRSA,
+      CIPR, ICCO, Серебряный Лучник и т.п.), репутационный менеджмент,
+      кризисные коммуникации, media relations, исследования эффективности
+      коммуникаций, крупные PR-кампании и кейсы, назначения на PR-позиции
+      в компаниях/агентствах
+    
+    ВАЖНО (pr vs business/technology): если новость по существу о PR или
+    коммуникационной индустрии — работа агентства, репутационный менеджмент,
+    media relations, кризисные коммуникации, PR-кампания, исследование или
+    рейтинг в сфере PR/коммуникаций — классифицируй её как pr, а не как
+    business/technology, даже если формально это тоже "компания сделала X".
+    Но если новость о технологической или бизнес-компании, которая просто
+    что-то анонсировала БЕЗ фокуса на её PR/коммуникационную деятельность —
+    это остаётся business/technology, а не pr. Один и тот же URL не должен
+    попадать в pr и одновременно в другую категорию.
     
     ВАЖНО (глубина summary_ru): читатель этого дайджеста хочет не просто знать,
     что что-то произошло, а ПОНИМАТЬ происходящее — почему это случилось и
@@ -1074,11 +1167,26 @@ def generate_analytical_json(raw_data_prompt):
        (сумма сделки, доля рынка, число пользователей и т.п.) — просто "компания
        сделала X" без масштаба обычно и есть рядовой пресс-релиз, который надо
        исключить.
+       ЭТО ПРАВИЛО НЕ РАСПРОСТРАНЯЕТСЯ на категорию pr — см. отдельный,
+       более мягкий порог для неё ниже.
+    
+    ВАЖНО (порог для категории pr — сознательно МЯГЧЕ, чем для business/
+    technology выше): читатель работает в PR и хочет видеть максимально
+    широкую картину своей профессиональной области, поэтому строгое правило
+    4 (про "рядовые пресс-релизы") для pr НЕ применяется. Включай сюда
+    заметно больше, чем для business/technology — PR-кампании и кейсы даже
+    без указания охвата или бюджета, назначения на PR-должности в компаниях
+    и агентствах, любые материалы профессиональных ассоциаций (РАСО, АКОС,
+    CIPR, PRSA, ICCO и т.п.), рейтинги и премии любого масштаба, исследования
+    и колонки мнений от отраслевых изданий. Исключай для pr только то, что
+    подпадает под правила 1-3 выше (локальный криминал, курьёзы, вакансии)
+    — то есть контент, не имеющий отношения к PR вообще, а не "недостаточно
+    масштабный" PR-контент.
     
     Если сомневаешься, оставлять новость или нет, — задай себе вопрос: "Повлияет ли
-    это на международную политику, экономику, бизнес или технологии, или это просто
-    любопытный факт/локальное происшествие?" Любопытные факты и локальные
-    происшествия — исключай.
+    это на международную политику, экономику, бизнес, технологии или PR-индустрию,
+    или это просто любопытный факт/локальное происшествие?" Любопытные факты и
+    локальные происшествия — исключай.
     
     Входящие новости:
     __INPUT_DATA__
@@ -1219,7 +1327,7 @@ def build_html_digest(raw_response, news_db):
         print(f"⚠️  Ошибка парсинга JSON: {e}. Используем пустую структуру.")
         data = {}
 
-    expected_categories = ["geopolitics", "economics", "business", "technology", "energy", "security"]
+    expected_categories = ["geopolitics", "economics", "business", "technology", "energy", "security", "pr"]
     
     total_items = sum(
         len(data.get(cat)) if isinstance(data.get(cat), list) else 0 
@@ -1229,7 +1337,13 @@ def build_html_digest(raw_response, news_db):
     if total_items == 0:
         print("⚠️  Модель не вернула ни одной новости (fallback структура)")
 
-    sections = [
+    # ИСПРАВЛЕНО 2026-08-20: sections разделён на два независимых набора,
+    # чтобы PR рендерился ОТДЕЛЬНЫМ блоком после Мира/России, а не смешивался
+    # с основными 6 категориями внутри одних и тех же "МИРОВАЯ ПОВЕСТКА" /
+    # "РОССИЯ". build_one теперь принимает список секций параметром вместо
+    # использования одного захардкоженного списка через замыкание — это и
+    # позволяет вызывать её отдельно для основного блока и для PR-блока.
+    MAIN_SECTIONS = [
         ("geopolitics", "🌍 ГЕОПОЛИТИКА И МАКРО-РЕШЕНИЯ"),
         ("economics", "📈 ЭКОНОМИКА И ИНСТИТУТЫ"),
         ("business", "💼 БИЗНЕС И M&A"),
@@ -1237,10 +1351,23 @@ def build_html_digest(raw_response, news_db):
         ("energy", "⚡ ЭНЕРГЕТИКА И РЕСУРСЫ"),
         ("security", "🪖 БЕЗОПАСНОСТЬ И КОНФЛИКТЫ")
     ]
+    PR_SECTIONS = [
+        ("pr", "📢 PR И КОММУНИКАЦИИ"),
+    ]
 
     seen_urls_in_digest = set()
 
-    def build_one(target_is_russia, header):
+    def build_one(target_is_russia, header, sections_to_render, force_show=False):
+        """force_show=True: заголовок блока показывается ВСЕГДА, даже если
+        ни по одной из sections_to_render не набралось валидных новостей
+        (с плейсхолдером "ничего значимого не зафиксировано"), вместо того
+        чтобы весь блок молча пропадал. Нужно для PR-блока: там всего одна
+        категория (а не шесть, как в основном блоке), поэтому вероятность
+        реально пустого окна заметно выше, и пользователю важно видеть, что
+        раздел жив, а не гадать, не сломалось ли что-то. Для основного блока
+        (Мир/Россия) поведение осталось прежним (force_show=False по
+        умолчанию) — там пустое окно по всем 6 категориям сразу — теоретически
+        возможная, но исчезающе редкая ситуация."""
         html_output = f"{header}\n\n"
         any_valid_anywhere = False
         # ИСПРАВЛЕНО: собираем URL, реально попавшие именно в этот блок
@@ -1248,7 +1375,7 @@ def build_html_digest(raw_response, news_db):
         # чей блок был подтверждённо отправлен — после отправки, а не заранее.
         section_urls = []
 
-        for key, title in sections:
+        for key, title in sections_to_render:
             raw_items = data.get(key)
             items = raw_items if isinstance(raw_items, list) else []
             
@@ -1293,13 +1420,17 @@ def build_html_digest(raw_response, news_db):
 
             html_output += "\n"
 
-        result_html = html_output.strip() if any_valid_anywhere else ""
+        show_block = any_valid_anywhere or force_show
+        result_html = html_output.strip() if show_block else ""
         return result_html, (section_urls if result_html else [])
 
-    world_html, world_urls = build_one(False, "🌍 <b>МИРОВАЯ ПОВЕСТКА</b>")
-    russia_html, russia_urls = build_one(True, "🇷🇺 <b>РОССИЯ</b>")
+    world_html, world_urls = build_one(False, "🌍 <b>МИРОВАЯ ПОВЕСТКА</b>", MAIN_SECTIONS)
+    russia_html, russia_urls = build_one(True, "🇷🇺 <b>РОССИЯ</b>", MAIN_SECTIONS)
+    pr_world_html, pr_world_urls = build_one(False, "📢 <b>PR В МИРЕ</b>", PR_SECTIONS, force_show=True)
+    pr_russia_html, pr_russia_urls = build_one(True, "📢 <b>PR В РОССИИ</b>", PR_SECTIONS, force_show=True)
 
-    return world_html, russia_html, world_urls, russia_urls
+    return (world_html, russia_html, pr_world_html, pr_russia_html,
+            world_urls, russia_urls, pr_world_urls, pr_russia_urls)
 
 def _send_one_chunk(chat_id, chunk):
     """Отправляет один чанк текста через sendRichMessage. Возвращает True при
@@ -1508,7 +1639,8 @@ if __name__ == "__main__":
     if raw_data_prompt.strip():
         print("📊 Запрашиваем анализ из Gemini API...")
         raw_json = generate_analytical_json(raw_data_prompt)
-        world_html, russia_html, world_urls, russia_urls = build_html_digest(raw_json, news_db)
+        (world_html, russia_html, pr_world_html, pr_russia_html,
+         world_urls, russia_urls, pr_world_urls, pr_russia_urls) = build_html_digest(raw_json, news_db)
 
         # ВАЖНО: сбор новостей и обращение к Gemini могут завершиться намного
         # раньше заявленного времени публикации (например, workflow запущен в
@@ -1533,19 +1665,29 @@ if __name__ == "__main__":
         # блока в один rich message, а не держать искусственное разделение,
         # оставшееся от старого лимита.
         #
+        # ДОБАВЛЕНО 2026-08-20: после Мира/России в то же сообщение добавлен
+        # третий блок — PR и коммуникации (профессиональная область
+        # пользователя), тоже с внутренним разделением на мир/Россия. PR-блоки
+        # построены с force_show=True (см. build_html_digest) — заголовки
+        # "PR В МИРЕ"/"PR В РОССИИ" показываются всегда, даже без значимых
+        # новостей за период, в отличие от Мира/России, которые могут молча
+        # пропасть целиком в исчезающе редком случае пустоты по всем 6
+        # категориям сразу.
+        #
         # Побочный эффект объединения: отправка теперь атомарна — либо весь
-        # дайджест (мир + Россия) подтверждён и все его URL уходят в историю,
-        # либо ничего не подтверждено и всё остаётся на следующий запуск.
-        # Раньше при частичном сбое (например, мир ушёл, а Россия — нет из-за
-        # сетевой ошибки между двумя вызовами) один блок подтверждался, а
-        # другой нет; такой частичный случай больше невозможен по конструкции,
-        # так как это один вызов API, а не два подряд.
-        combined_parts = [html for html in (world_html, russia_html) if html.strip()]
+        # дайджест (мир + Россия + PR) подтверждён и все его URL уходят в
+        # историю, либо ничего не подтверждено и всё остаётся на следующий
+        # запуск. Раньше при частичном сбое (например, мир ушёл, а Россия —
+        # нет из-за сетевой ошибки между двумя вызовами) один блок
+        # подтверждался, а другой нет; такой частичный случай больше
+        # невозможен по конструкции, так как это один вызов API, а не
+        # несколько подряд.
+        combined_parts = [html for html in (world_html, russia_html, pr_world_html, pr_russia_html) if html.strip()]
         combined_html = "\n\n".join(combined_parts)
-        combined_urls = world_urls + russia_urls
+        combined_urls = world_urls + russia_urls + pr_world_urls + pr_russia_urls
 
         if combined_html.strip():
-            print("📤 Отправляем дайджест (мир + Россия)...")
+            print("📤 Отправляем дайджест (мир + Россия + PR)...")
             if send_telegram_message(CHAT_ID, combined_html):
                 sent_anything = True
                 confirmed_urls.extend(combined_urls)
