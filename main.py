@@ -369,7 +369,7 @@ FEED_CANONICAL_NAMES = {
     # prweek.com в этом URL не встречается, поэтому ключ здесь именно под
     # фактический адрес ленты, а не под домен издания.
     "feedburner.com/PrweekUsNews": "PRWeek",
-    "prdaily.com": "PR Daily (Ragan)",
+    "prdaily.com": "PR Daily",
     "cipr.co.uk": "CIPR",
     "odwyerpr.com": "O'Dwyer's PR",
     "sostav.ru": "Sostav.ru",
