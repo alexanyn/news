@@ -15,12 +15,14 @@ on:
       schedule_name:
         description: 'Какой дайджест запустить (обычно дёргается cron-job.org, вручную — для теста)'
         required: true
-        default: 'afternoon'
+        default: '12:00'
         type: choice
         options:
-          - morning
-          - afternoon
-          - evening
+          - '09:00'
+          - '12:00'
+          - '15:00'
+          - '18:00'
+          - '21:00'
 
 jobs:
   run-analytics-pipeline:
