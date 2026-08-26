@@ -1,225 +1,5 @@
 [
   {
-    "url": "https://www.foreignaffairs.com/united-states/abandoned-order-world-mark-leonard",
-    "added_at": 1787133604.504257,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.foreignaffairs.com/united-states/how-alliances-survive-campbell-doshi",
-    "added_at": 1787133604.504257,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.chathamhouse.org/events/all/standard-event/can-syria-build-lasting-accountability",
-    "added_at": 1787133604.504257,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.whitehouse.gov/releases/2026/08/president-trump-delivers-largest-prescription-drug-price-drop-in-over-60-years/",
-    "added_at": 1787133604.504257,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://news.google.com/rss/articles/CBMiswFBVV95cUxPeFZtR2lMUlJxOFd0emtSeFdnWnNQZEVIV21zbjRnVGFTMlpiRUx1akg3ZWQ5dGFNOEdPZGZFTTBuYXZjeUZFRDU0dmZPYVZmM0xTRWdyV0JxRXBTLXMtbmVCUUd2Vzh1QUJNdnZ3TWMzcHJkMXNnQ2tJU1ctcS04VktjSFBSWXUyMHhybVRRUlZDT0VYeXVzNko5ME9MNnU0WFlzT0FEUUxNMTBiZFFtNzE1QQ?oc=5",
-    "added_at": 1787133604.504257,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://asia.nikkei.com/business/companies/indian-firms-profit-growth-hits-3-year-high-despite-war-shock",
-    "added_at": 1787133604.504257,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://asia.nikkei.com/business/companies/hong-kong-bourse-posts-record-first-half-earnings-on-ipo-trading-boom",
-    "added_at": 1787133604.504257,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://asia.nikkei.com/spotlight/work/singapore-expands-elite-visa-program-to-lure-top-fund-managers",
-    "added_at": 1787133604.504257,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://asia.nikkei.com/business/tech/semiconductors/sk-hynix-announces-28.6bn-buyback-plan-to-boost-stock-price",
-    "added_at": 1787133604.504257,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.technologyreview.com/2026/08/18/1142188/ai-recursive-self-improvement/",
-    "added_at": 1787133604.504257,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://asia.nikkei.com/business/markets/ipo/unitree-shares-soar-in-humanoid-maker-s-landmark-shanghai-ipo",
-    "added_at": 1787133604.504257,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.whitehouse.gov/releases/2026/08/icymi-uss-lincoln-performance-for-the-ages/",
-    "added_at": 1787133604.504257,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://ec.europa.eu/commission/presscorner/detail/en/ip_26_1738",
-    "added_at": 1787133604.504257,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTFBNdVIweFVYRG1xakc4ei14eVRwa0dBQkRSbW5DMjVXVEdrblFTY01ENm5OR2QxNXZTVVlYdnJUM05BMTV6MkVKRFJ1Ykt4ejNjTU4tVk5aQTlMdw?oc=5",
-    "added_at": 1787133604.504257,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://news.google.com/rss/articles/CBMiREFVX3lxTE91VjJRY0xIVzh4b1JZT1pQZnYyZDNTY0tGYWQ4NGZ4bEFsVEtTc0tyLVRsYnU1dnFKZmh1T0lEY3Y3eDRR?oc=5",
-    "added_at": 1787133604.504257,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://news.google.com/rss/articles/CBMijAFBVV95cUxNX3JuY1RfTlBvamd0VkNpTHZEeVB3MG5FWDFjaGVHYXR6bEpzWGVlYzlfd01kc1drd3lCcGhOcHRCRnRxcnlFRWxYMmxFQjN2dnFQbmNqbGo3b0JLb2l0Vi12TmpUR2k0QVdIZUZvQkVHQlV0YVhGZmpia0pXUEE4YTYzUEhwNzVxZXZGQQ?oc=5",
-    "added_at": 1787133604.504257,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.bbc.co.uk/news/articles/cnvn0j31qj8o?at_medium=RSS&at_campaign=rss",
-    "added_at": 1787138560.8650758,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://news.google.com/rss/articles/CBMiuAFBVV95cUxPeTdCNlA1LTNVZ0ttZ2VXTGJLVnR5YjBnUnZMNFVWVzc5cUJEcHdxekdHLXBzcDNLUnp1TUx4N3J6SzJQQ0pOTEtSRFVWOTJpZC1xZEd4QTA1TkpEaG1mOXdTM2pQWU5kV3FqWTM3SlJUZEYyb180ZWxMRHlSZlVveDMtWkNJMTFwMWs0VTB6R1M1aHhNRVAzdXc2V29oOVBBRV8wM2FmWnE4OTNJVWpWU3E0Z0VBcnQ4?oc=5",
-    "added_at": 1787138560.8650758,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://news.google.com/rss/articles/CBMivwFBVV95cUxOWjlHMXpDTU1lN0ZxdTV0cWJwMktYTG52MU5RX1JXVTFaemlzbl9TdzZRWS1IN3dCM0d4ZmdLaGtTVjI1NHU5U1N1Mi02bGVteGtDZXlOZWpOcmlMbExyMnpnX0V1WG5hUWJ2ZmlULUVxU1RjZWo3SllHU04tLVFIbmV0WDJEV1hFdllaRHR5Y0I4NkVNTjFub3VqTHV5aUFYdFhGMkU1SV96NlFsdEtHQmZNeGNVeVhPdHlwZDhBVQ?oc=5",
-    "added_at": 1787138560.8650758,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://news.google.com/rss/articles/CBMitgFBVV95cUxPc2NfaWFEcUVLTFRqSjVpRy1xejZJOGtlWDZjOWx3ZXRhaXowZTVGcDJjV212WVJRcGhjbG1GYVk2c1BuWkp2R0NnaGE2amViWUpUVXJPYkREaDZoMGxwZjU0WjhTMWI5dk51VGlYRjgyVzJycDNESVlwc2lnbXZ6c3JnV3BFS280TGpzYU5KSWM4VnFENWVYRzI3dUZwYTVpRjJLNlVoWkpqai1hX0d6OHV2eUI1QQ?oc=5",
-    "added_at": 1787138560.8650758,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://news.google.com/rss/articles/CBMitAFBVV95cUxPN3NZanBFc1prbVpSMUVUSjNwTDJRc2lQaF9fakpVWVBfTW02TjhzMWg0eVg5c3g2RDltektRb24yR0IzV1RHRWJlNHZ0QTJpS2toNzhYbWVvWm9Vdi1iVFlMb3puZ2RFWG1OZl9BVUZwZzY1WGotNzllZWVST05ZUjVLZDJhUnI1ZWtDeGVzMzFyRGwzYS03TTd2bE1RbldubGJmVDY4ajVOWi1SNWs3SENtcEg?oc=5",
-    "added_at": 1787138560.8650758,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.ecb.europa.eu//press/key/date/2026/html/ecb.sp260819~98ddf24b7b.en.html",
-    "added_at": 1787138560.8650758,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://t.me/the_financial_times_journal/7686",
-    "added_at": 1787138560.8650758,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://news.google.com/rss/articles/CBMirAFBVV95cUxQdDhMWjBTWjBuQTRnWndwbGRUYWppa0oyLVM4U2I1VUYwSHNuX19LMlkxR3c3V2lESldkU2lXb2lsaVNUQTRxX2VRbFFjY1Exc29mM3F3RnR0UHRUa3hYdVdrLXM3NmNmVlNtWGlRQllFRDdMeVZZSzM0ZHFWOXM5c2Y0NFQyWTRQU0NvR0IxNlB4Z1Z5Y1Q3b05WTWowOUl4eUI1OWtpem5hSEZn?oc=5",
-    "added_at": 1787138560.8650758,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://asia.nikkei.com/business/transportation/japan-to-have-its-first-large-shipbuilding-dock-since-2017",
-    "added_at": 1787138560.8650758,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://t.me/the_financial_times_journal/7687",
-    "added_at": 1787138560.8650758,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://asia.nikkei.com/business/technology/china-s-robot-bodies-and-ai-brains-take-center-stage-at-beijing-expos",
-    "added_at": 1787138560.8650758,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://vc.ru/money/3086352-anthropic-oboshla-openai-po-vyruchke?from=rss",
-    "added_at": 1787138560.8650758,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://vc.ru/future/3086571-kosmicheskiy-startap-landspace-uspeno-posadil-pervuyu-stupen-rakety-zhuque-3?from=rss",
-    "added_at": 1787138560.8650758,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://news.google.com/rss/articles/CBMiswFBVV95cUxQemNha2xvdVFJTjVYaVg3SWtCUG1nTVhpUC1zY0pTQTltTVpwdHdvNWpndXk0dy1OUXYwSXN0QXRiOE9UcU5MWDVaOFZCenpLY212azNrTlg0eVhPU01LM3hCbGc3LVdYNmFieWdTY2pDUnBYYXF0aC1jVDlpUS1SUFdOTjBTeFF3elhDY1Bub1pLNjFZM3hmX2hFVmpEc0R2enBZcEkzZU5Md19PaVNWZk1PZw?oc=5",
-    "added_at": 1787138560.8650758,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.themoscowtimes.com/2026/08/19/adviser-to-russian-transportation-minister-resigns-after-azerbaijan-issues-warrant-for-his-arrest-a93529",
-    "added_at": 1787138560.8650758,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://news.google.com/rss/articles/CBMiswFBVV95cUxOLWlWVTh4SHQtVndlUE9yV0hKLXVlUEZYeUVLN2gwcHY1dDlYTlRuWVRETFlSU1VWNEFKVFktT3BXWThnTDVVU2pIc0lEZkMwVmFyOHA2X25vczlySUpCZE1BNFlvZGJNaE5xSHlqcnpnOTAzempYVERnN3dUWUNfSC14eHRKWGVuaXFkaUh5SElINkE4VDhCQUI4Xzh1bDE3VzBIallsY25meG1SNDktYWl2WQ?oc=5",
-    "added_at": 1787138560.8650758,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "http://en.kremlin.ru/events/president/news/80559",
-    "added_at": 1787138560.8650758,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.finmarket.ru/main/article/6688125",
-    "added_at": 1787138560.8650758,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.finmarket.ru/main/article/6688122",
-    "added_at": 1787138560.8650758,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://t.me/thebell_io/38764",
-    "added_at": 1787138560.8650758,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.finmarket.ru/main/article/6688148",
-    "added_at": 1787138560.8650758,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://vc.ru/legal/3086395-obshchestvenniki-trebuet-ot-tripcom-lokalizatsii-v-rossii?from=rss",
-    "added_at": 1787138560.8650758,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.finmarket.ru/main/article/6688198",
-    "added_at": 1787138560.8650758,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://meduza.io/news/2026/08/19/v-moskve-snova-ogranichili-prodazhu-benzina",
-    "added_at": 1787138560.8650758,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.finmarket.ru/main/article/6688176",
-    "added_at": 1787138560.8650758,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.themoscowtimes.com/2026/08/19/ukrainian-drone-strikes-oil-refinery-in-bashkortostan-a93527",
-    "added_at": 1787138560.8650758,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.aljazeera.com/news/2026/8/19/at-least-five-killed-in-russian-air-attacks-on-ukraine?traffic_source=rss",
-    "added_at": 1787138560.8650758,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://meduza.io/news/2026/08/19/rossiya-i-ukraina-snova-obmenyalis-voennoplennymi-103-na-103-cheloveka",
-    "added_at": 1787138560.8650758,
-    "source": "parsed_feed"
-  },
-  {
     "url": "https://news.google.com/rss/articles/CBMirgFBVV95cUxPdmJmMHZhNFVhVVpWNjlGcTkxZjFKdUZYNFhiRFl1c01OLVJ2Y2lwYzMtcGVndHpucnhiMFdPb0d4Q0REaXF6VTVuNXo2ak1HSUh6S2lVNW1FbVEyS01WTU1kMkVWcDgyNTUtMzlaaHZ0THFCQXhwNDhaOTdtc2ctcWV4dnd0QUIzMWhjbDEzSlpWVGxNTDk0SFM3MEhtakxnV0ZELXVaNmRPWlQzWWc?oc=5",
     "added_at": 1787155201.1427417,
     "source": "parsed_feed"
@@ -3812,6 +3592,146 @@
   {
     "url": "https://adindex.ru/news/researches/2026/08/26/348340.phtml",
     "added_at": 1787734800.759583,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.aljazeera.com/news/2026/8/26/chinas-xi-to-visit-kyrgyzstan-egypt?traffic_source=rss",
+    "added_at": 1787745601.159521,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.aljazeera.com/news/2026/8/26/is-japan-trying-to-build-bridges-with-china-after-taiwan-spat?traffic_source=rss",
+    "added_at": 1787745601.159521,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.aljazeera.com/economy/2026/8/26/one-us-dollar-now-costs-2-million-rials-in-iran-and-heres-what-it-can-buy?traffic_source=rss",
+    "added_at": 1787745601.159521,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.scmp.com/tech/big-tech/article/3365341/minimax-revenue-surges-283-remains-behind-pace-meet-forecast-amid-crowded-ai-race?utm_source=rss_feed",
+    "added_at": 1787745601.159521,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://t.me/the_financial_times_journal/7851",
+    "added_at": 1787745601.159521,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://news.google.com/rss/articles/CBMisgFBVV95cUxQcFAzZElBMXB2bzloV0FDMnV0ZGE3QjBKb1RTT3JMWVNZTEJaUzdoY0dFM2lGWFRoejJWMUhWcS1kSHpSbG5YVjh5VElENTVOZW82ODQ3SW1heHc2cUhOVHBxOFJTd0JLaXFnT3kyRXVjUmlJSWhDWEhnREZSdWxydHB1MjdFQXJEQXlEQVFhZ1dobWtNVkEzT3c5VDJaanoxbkduWHRFTGd4bzBQa0dNdmd3?oc=5",
+    "added_at": 1787745601.159521,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://techcrunch.com/2026/08/26/runable-hits-21m-to-bet-ai-agents-can-go-from-building-businesses-to-growing-them/",
+    "added_at": 1787745601.159521,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.scmp.com/economy/china-economy/article/3365332/china-targets-hi-tech-pillars-2030-fuel-economic-growth?utm_source=rss_feed",
+    "added_at": 1787745601.159521,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.interfax.ru/business/1111357",
+    "added_at": 1787745601.159521,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://t.me/neftegazchannel/27649",
+    "added_at": 1787745601.159521,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.interfax.ru/world/1111351",
+    "added_at": 1787745601.159521,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://ec.europa.eu/commission/presscorner/detail/en/mex_26_1761",
+    "added_at": 1787745601.159521,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.kommersant.ru/doc/8908743",
+    "added_at": 1787745601.159521,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.rbc.ru/politics/09/08/2026/6a78740e9a794703bbd030c5",
+    "added_at": 1787745601.159521,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.rbc.ru/politics/26/08/2026/6a8ec79fd0145c98111df70f",
+    "added_at": 1787745601.159521,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.interfax.ru/business/1111358",
+    "added_at": 1787745601.159521,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.kommersant.ru/doc/8908780",
+    "added_at": 1787745601.159521,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.kommersant.ru/doc/8908755",
+    "added_at": 1787745601.159521,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.interfax.ru/business/1111350",
+    "added_at": 1787745601.159521,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://vc.ru/services/3098222-wildberries-zapustil-messendzher-wb-chat?from=rss",
+    "added_at": 1787745601.159521,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://news.google.com/rss/articles/CBMioAFBVV95cUxPYUxESF8xeHBrTkhlcjZ1NFBkbDhkZDlXWlY2Zk4xOHRuSEFJNlFjR3dNNnFCR2ZsTEZhemtscE5paUlmcm9oQVdGcnNmZ2Q2d0ZLWGFIVmsycDBjbWVPdVFEYUw1QVM4dXhEdC1vLW1MOFlxWVhvSDMzUi1QQXNIOWpoQTdHU1dKYmJuWEIwQ1NwVnlJWXk3MmF0N1lPZHdp?oc=5",
+    "added_at": 1787745601.159521,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://t.me/neftegazchannel/27648",
+    "added_at": 1787745601.159521,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.interfax.ru/russia/1111356",
+    "added_at": 1787745601.159521,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.rbc.ru/politics/12/11/2025/6914235c9a7947c81354c054",
+    "added_at": 1787745601.159521,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.prdaily.com/the-real-reasons-employees-leave/",
+    "added_at": 1787745601.159521,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.prdaily.com/reddits-citation-drop-is-a-warning-to-diversify-your-geo-strategy/",
+    "added_at": 1787745601.159521,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.prdaily.com/your-human-voice-is-your-leadership-advantage/",
+    "added_at": 1787745601.159521,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://adindex.ru/news/creative/2026/08/26/348356.phtml",
+    "added_at": 1787745601.159521,
     "source": "parsed_feed"
   }
 ]
