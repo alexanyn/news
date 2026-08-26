@@ -78,9 +78,16 @@ jobs:
 
     - name: Commit and push sent news history and schedule tracking
       run: |
+        # ДОБАВЛЕНО 2026-08-26: recent_titles.json — история заголовков
+        # реально отправленных новостей, используется для дедупликации по
+        # похожести заголовков МЕЖДУ прогонами (см. TITLE_SIMILARITY_
+        # THRESHOLD_CROSS_RUN и load_recent_titles/save_recent_titles в
+        # main.py). Без коммита этого файла между прогонами GitHub Actions
+        # runner эфемерен — файл создавался бы заново пустым при каждом
+        # запуске, и кросс-дайджест дедупликация молча не работала бы.
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
-        git add sent_urls.json last_run.json
+        git add sent_urls.json last_run.json recent_titles.json
         git commit -m "Update news history and schedule tracking [skip ci]" || echo "No changes to commit"
         git pull --rebase origin main
         git push
