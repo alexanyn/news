@@ -1,9 +1,10 @@
-print("=== ЗАПУСК СКРИПТА ВЕРСИИ 6.15 (PR_FIX_AND_EXPANDED_VOLUME) ===")
+print("=== ЗАПУСК СКРИПТА ВЕРСИИ 6.16 (SIMILAR_TITLE_DEDUP) ===")
 
 import os
 import re
 import json
 import time
+import difflib
 import datetime
 import requests
 import feedparser
@@ -252,6 +253,138 @@ def save_run_time(schedule_name):
     except Exception as e:
         print(f"Ошибка записи last_run: {e}")
 
+# ДОБАВЛЕНО 2026-08-26: программная дедупликация по похожести заголовков.
+# Контекст и мотивация (по итогам обратной связи пользователя — в дайджестах
+# попадались одинаковые новости, иногда даже несколько внутри ОДНОГО
+# дайджеста): раньше единственной защитой от дублей был точный URL-match
+# (sent_urls_history) + мягкая инструкция Gemini "не включай несколько
+# записей об одном и том же событии" внутри ОДНОГО вызова. Это не покрывало
+# два реальных случая:
+#   1) Несколько источников (например Reuters и Bloomberg) освещают одно и то
+#      же событие РАЗНЫМИ URL, в ОДНОМ окне сбора — Gemini иногда включает
+#      оба как "разные" новости, дайджест получает 2 почти идентичных пункта.
+#   2) То же самое, но растянутое по времени: источник A публикует материал в
+#      окне дайджеста N, источник B освещает то же событие чуть позже, в окне
+#      дайджеста N+1 — для sent_urls_history (чистый URL-match) это выглядит
+#      как "новая" новость, а Gemini в дайджесте N+1 физически не видит, что
+#      было в дайджесте N (нет памяти между вызовами API) — читатель второй
+#      раз видит по сути одно и то же от другого источника.
+# Решение — два взаимодополняющих слоя:
+#   Слой А (этот блок + проверки в collect_all_news): сравниваем
+#     НОРМАЛИЗОВАННЫЕ заголовки по лексической похожести (0.0-1.0). Дёшево,
+#     детерминированно, ловит почти-дословные повторы и близкие переформулировки
+#     НАДЁЖНО. Проверено на реальных примерах: чётко отделяет дубли типа "ЦБ
+#     снизил ставку до 18%" / "Банк России понизил ставку до 18 процентов"
+#     (0.58) от связанных, но РАЗНЫХ новостей типа "оползень унёс 5 жизней" /
+#     "число жертв оползня выросло до 12" (0.51) — близкие числа, но это два
+#     разных факта, подавлять такое нельзя.
+#   Слой Б (recent_block в generate_analytical_json): то, что чисто лексическое
+#     сравнение принципиально не ловит — например, одно и то же событие на
+#     разных языках ("ЦБ снизил ставку" vs "Bank of Russia cuts key rate") —
+#     передаём Gemini как список "уже опубликовано недавно", модель может
+#     распознать это семантически, а не по буквальному совпадению слов.
+# Слой А и Б не заменяют, а дополняют друг друга — Слой А убирает явные
+# повторы ДО того, как они займут место в промпте, Слой Б ловит смысловые
+# совпадения, которые Слой А пропускает по конструкции.
+
+# Похожесть >= порога считается дублем. Два отдельных порога, а не один:
+#   SAME_RUN — сравнение ВНУТРИ одного прогона (разные источники, ОДНО и то
+#   же окно сбора, разница в минутах/часах) — здесь моментальное совпадение
+#   почти наверняка значит "одно и то же событие", можно резать чуть агрессивнее.
+#   CROSS_RUN — сравнение с ИСТОРИЕЙ прошлых дайджестов (разница в часы,
+#   иногда больше суток) — здесь выше риск, что похожий заголовок это
+#   ОБНОВЛЕНИЕ развивающейся истории (см. пример с оползнем выше), а не
+#   дубль, поэтому порог заметно строже (нужна более высокая похожесть).
+# Значения подобраны и проверены на наборе реальных примеров (см. комментарий
+# выше) — не взяты "с потолка". Тюнинг по итогам живой работы: если в логе
+# видно "🔁 Похоже на уже..." на парах, которые на самом деле РАЗНЫЕ новости —
+# подними соответствующий порог на 0.03-0.05. Если дубли по-прежнему
+# проскакивают в дайджест — опусти на столько же. Меняй по одному порогу за
+# раз и смотри на лог следующих 2-3 прогонов, прежде чем трогать второй.
+TITLE_SIMILARITY_THRESHOLD_SAME_RUN = 0.55
+TITLE_SIMILARITY_THRESHOLD_CROSS_RUN = 0.62
+
+# Как долго заголовок остаётся в recent_titles.json для CROSS_RUN проверки.
+# 48 часов покрывает предыдущие сутки целиком плюс все дайджесты текущего дня
+# — достаточно, чтобы поймать "то же событие всплыло через 1-2 дайджеста", но
+# не настолько долго, чтобы блокировать законный новый виток той же истории
+# несколько дней спустя (это уже другая новость по сути, а не повтор).
+RECENT_TITLES_WINDOW_HOURS = 48
+RECENT_TITLES_FILE = "recent_titles.json"
+
+# Из этой же истории строится КОРОТКИЙ список для промпта Gemini — Слой Б
+# выше (см. generate_analytical_json) — только последние 12ч и не больше N
+# заголовков, чтобы не раздувать промпт: цель этого списка — напомнить модели
+# про "буквально только что было в предыдущих 2-4 дайджестах", а не тащить
+# туда всю 48-часовую историю целиком.
+RECENT_PROMPT_WINDOW_SECONDS = 12 * 3600
+RECENT_PROMPT_MAX_ITEMS = 150
+
+_TITLE_STOPWORDS = {
+    # русские служебные слова
+    "и", "в", "во", "не", "на", "с", "со", "по", "для", "из", "от", "до",
+    "за", "к", "ко", "о", "об", "у", "а", "но", "или", "что", "это", "как",
+    "его", "её", "их", "он", "она", "они", "мы", "вы", "будет", "было",
+    "были", "есть", "чем", "также", "уже", "после", "при", "же", "то",
+    # английские служебные слова
+    "the", "a", "an", "and", "or", "of", "to", "in", "on", "for", "with",
+    "at", "by", "from", "is", "are", "was", "were", "be", "been", "as",
+    "it", "its", "this", "that", "will", "has", "have", "had",
+}
+
+def _normalize_title(title):
+    """Нижний регистр, без пунктуации, схлопнутые пробелы — общая подготовка
+    заголовка перед сравнением похожести."""
+    t = title.lower()
+    t = re.sub(r"[^\w\s]", " ", t, flags=re.UNICODE)
+    t = re.sub(r"\s+", " ", t).strip()
+    return t
+
+def _prep_title(title):
+    """Предвычисляет нормализованную форму + множество значимых слов — чтобы
+    не пересчитывать это на каждое попарное сравнение в горячем цикле
+    collect_all_news (кандидатов и истории может быть суммарно несколько
+    сотен, сравнений — многие тысячи). Числа сохраняем НЕЗАВИСИМО от длины
+    ("18", "5") — это часто и есть главный отличительный признак между
+    похожими по структуре заголовками ("5 погибших" vs "12 погибших"), в
+    отличие от коротких служебных слов, которые действительно стоит
+    игнорировать."""
+    norm = _normalize_title(title)
+    words = {w for w in norm.split() if (len(w) > 2 or w.isdigit()) and w not in _TITLE_STOPWORDS}
+    return norm, words
+
+def _similarity_prepped(prep_a, prep_b):
+    """Похожесть двух ПРЕДВЫЧИСЛЕННЫХ (см. _prep_title) заголовков, 0.0-1.0.
+    Берём МАКСИМУМ из двух метрик — у них разные слепые зоны:
+      - SequenceMatcher (посимвольная схожесть подстрок) хорошо ловит почти
+        идентичные строки с небольшими вариациями (опечатки, разные падежные
+        окончания), но проседает при сильно разном порядке слов.
+      - Jaccard по значимым словам хорошо ловит разный порядок слов при
+        совпадающей сути, но не видит связи между однокоренными словами с
+        разными окончаниями (специфика русской морфологии).
+    Максимум из двух страхует от слепой зоны каждого метода по отдельности."""
+    norm_a, words_a = prep_a
+    norm_b, words_b = prep_b
+    if not norm_a or not norm_b:
+        return 0.0
+    seq_ratio = difflib.SequenceMatcher(None, norm_a, norm_b).ratio()
+    if words_a and words_b:
+        jaccard = len(words_a & words_b) / len(words_a | words_b)
+    else:
+        jaccard = 0.0
+    return max(seq_ratio, jaccard)
+
+def _find_similar_title(prep, pool, threshold):
+    """pool — список (исходный_заголовок, prep). Возвращает исходный текст
+    первого найденного похожего заголовка (похожесть >= threshold), иначе
+    None. Используется в collect_all_news для обоих циклов сбора (RSS и
+    Telegram) и с обоими порогами (SAME_RUN и CROSS_RUN, см. выше)."""
+    for other_title, other_prep in pool:
+        if _similarity_prepped(prep, other_prep) >= threshold:
+            return other_title
+    return None
+
+
 def load_sent_urls():
     if os.path.exists(HISTORY_FILE):
         try:
@@ -281,6 +414,38 @@ def save_sent_urls(sent_dict):
             json.dump(structured_list, f, ensure_ascii=False, indent=2)
     except Exception as e:
         print(f"Ошибка сохранения истории: {e}")
+
+def load_recent_titles():
+    """Загружает недавно ОПУБЛИКОВАННЫЕ (реально отправленные в Telegram)
+    заголовки — используется для CROSS_RUN проверки похожести в
+    collect_all_news (см. TITLE_SIMILARITY_THRESHOLD_CROSS_RUN выше). Формат:
+    список {"title": str, "added_at": unix_ts}. Сознательно ОТДЕЛЬНЫЙ файл от
+    sent_urls.json, а не расширение его схемы — там уже есть своя логика
+    поддержки legacy-формата (см. load_sent_urls выше), проще и безопаснее
+    держать это самодостаточной структурой, не трогая рабочий формат."""
+    if os.path.exists(RECENT_TITLES_FILE):
+        try:
+            with open(RECENT_TITLES_FILE, "r", encoding="utf-8") as f:
+                return json.load(f)
+        except Exception as e:
+            print(f"Ошибка чтения файла недавних заголовков: {e}")
+    return []
+
+def save_recent_titles(titles_list):
+    """Сохраняет недавние заголовки, попутно вычищая всё старше
+    RECENT_TITLES_WINDOW_HOURS (тот же принцип ротации, что и в
+    save_sent_urls, только окно короче — заголовкам не нужно 7 дней)."""
+    current_time = time.time()
+    cutoff = RECENT_TITLES_WINDOW_HOURS * 3600
+    cleaned = [
+        item for item in titles_list
+        if (current_time - item.get("added_at", 0)) <= cutoff
+    ]
+    try:
+        with open(RECENT_TITLES_FILE, "w", encoding="utf-8") as f:
+            json.dump(cleaned, f, ensure_ascii=False, indent=2)
+    except Exception as e:
+        print(f"Ошибка сохранения файла недавних заголовков: {e}")
 
 # 2. Таблица каноничных названий
 FEED_CANONICAL_NAMES = {
@@ -865,7 +1030,7 @@ def fetch_telegram_channel(username, timeout=15):
 
     return messages
 
-def collect_all_news(sent_urls_history, schedule_name="09:00"):
+def collect_all_news(sent_urls_history, recent_titles_history, schedule_name="09:00"):
     """
     Собирает новости для дайджеста в нужном ЛОГИЧЕСКОМ временном окне.
     
@@ -952,7 +1117,22 @@ def collect_all_news(sent_urls_history, schedule_name="09:00"):
     # просто в затишье новостей. Теперь видно разбивку по причине пропуска,
     # это делает будущую диагностику подобных ситуаций вопросом одной
     # секунды, а не догадок по коду.
-    stats = {"raw_seen": 0, "skip_sent": 0, "skip_window": 0, "skip_no_title": 0, "included": 0}
+    stats = {"raw_seen": 0, "skip_sent": 0, "skip_window": 0, "skip_no_title": 0, "skip_similar_title": 0, "included": 0}
+
+    # ДОБАВЛЕНО 2026-08-26: пулы для дедупликации по похожести заголовков (см.
+    # блок констант/функций перед load_sent_urls в начале файла).
+    # accepted_title_pool — заголовки, уже принятые В ЭТОМ прогоне: растёт по
+    # ходу сбора, ОБЩИЙ для циклов RSS и Telegram ниже (событие может
+    # задублироваться и между ними, например RSS-статья + телеграм-репост
+    # того же самого).
+    # recent_title_pool — заголовки из ПРОШЛЫХ дайджестов (recent_titles_history,
+    # см. load_recent_titles), не меняется в течение этого прогона, строится
+    # один раз здесь заранее.
+    accepted_title_pool = []
+    recent_title_pool = [
+        (item["title"], _prep_title(item["title"]))
+        for item in recent_titles_history if item.get("title")
+    ]
 
     # ИСПРАВЛЕНО 2026-08-16: было — строго последовательный for-цикл, худший
     # случай по времени рос линейно с числом лент. Теперь сетевые запросы
@@ -1002,6 +1182,26 @@ def collect_all_news(sent_urls_history, schedule_name="09:00"):
                     stats["skip_no_title"] += 1
                     continue
 
+                # ДОБАВЛЕНО 2026-08-26: проверка на похожесть заголовка — см.
+                # блок констант/функций перед load_sent_urls. Ловит дубли
+                # ВНУТРИ этого прогона (одно событие, разные источники → разные
+                # URL, Gemini мог не заметить при большом объёме кандидатов) И
+                # против НЕДАВНО ОПУБЛИКОВАННОГО из прошлых дайджестов
+                # (recent_title_pool) — второе решает случай "та же новость
+                # снова всплыла в следующем дайджесте от другого источника с
+                # другим URL", когда чистый URL-дедуп бессилен по конструкции.
+                this_title_prep = _prep_title(title)
+                dup_match = (
+                    _find_similar_title(this_title_prep, accepted_title_pool, TITLE_SIMILARITY_THRESHOLD_SAME_RUN)
+                    or _find_similar_title(this_title_prep, recent_title_pool, TITLE_SIMILARITY_THRESHOLD_CROSS_RUN)
+                )
+                if dup_match:
+                    stats["skip_similar_title"] += 1
+                    print(f"   🔁 Похоже на уже включённое/опубликованное, пропущено: "
+                          f"\"{title[:70]}\" ≈ \"{dup_match[:70]}\"")
+                    continue
+                accepted_title_pool.append((title, this_title_prep))
+
                 # ИСПРАВЛЕНО 2026-08-18: раньше Gemini получала только голый
                 # заголовок — этого достаточно для факта "что случилось", но
                 # недостаточно, чтобы объяснить "почему" и "что дальше" (по
@@ -1037,12 +1237,13 @@ def collect_all_news(sent_urls_history, schedule_name="09:00"):
     print(f"✅ Собрано {len(news_db)} новостей из {len(RSS_FEEDS)} RSS-источников")
     print(f"   📊 Разбивка RSS: всего просмотрено {stats['raw_seen']}, "
           f"уже отправлялось ранее {stats['skip_sent']}, вне окна времени {stats['skip_window']}, "
-          f"без заголовка {stats['skip_no_title']}, включено {stats['included']}")
+          f"без заголовка {stats['skip_no_title']}, похоже на уже опубликованное {stats['skip_similar_title']}, "
+          f"включено {stats['included']}")
 
     if TELEGRAM_CHANNELS:
         print(f"📡 Начинаем парсинг {len(TELEGRAM_CHANNELS)} Telegram-каналов (параллельно)...")
         tg_collected = 0
-        tg_stats = {"raw_seen": 0, "skip_sent": 0, "skip_window": 0}
+        tg_stats = {"raw_seen": 0, "skip_sent": 0, "skip_window": 0, "skip_similar_title": 0}
         with ThreadPoolExecutor(max_workers=min(MAX_FETCH_WORKERS, len(TELEGRAM_CHANNELS))) as executor:
             future_to_channel = {
                 executor.submit(fetch_telegram_channel, channel["username"]): channel
@@ -1079,6 +1280,21 @@ def collect_all_news(sent_urls_history, schedule_name="09:00"):
                     if not title:
                         continue
 
+                    # ДОБАВЛЕНО 2026-08-26: см. аналогичную проверку в цикле
+                    # RSS выше — та же логика, тот же общий accepted_title_pool
+                    # (событие может задублироваться между RSS и Telegram).
+                    this_title_prep = _prep_title(title)
+                    dup_match = (
+                        _find_similar_title(this_title_prep, accepted_title_pool, TITLE_SIMILARITY_THRESHOLD_SAME_RUN)
+                        or _find_similar_title(this_title_prep, recent_title_pool, TITLE_SIMILARITY_THRESHOLD_CROSS_RUN)
+                    )
+                    if dup_match:
+                        tg_stats["skip_similar_title"] += 1
+                        print(f"   🔁 Похоже на уже включённое/опубликованное (Telegram), пропущено: "
+                              f"\"{title[:70]}\" ≈ \"{dup_match[:70]}\"")
+                        continue
+                    accepted_title_pool.append((title, this_title_prep))
+
                     news_id = str(len(news_db))
                     news_db[news_id] = {
                         "url": url,
@@ -1093,12 +1309,50 @@ def collect_all_news(sent_urls_history, schedule_name="09:00"):
         print(f"✅ Собрано {tg_collected} новостей из Telegram-каналов")
         print(f"   📊 Разбивка Telegram: всего просмотрено {tg_stats['raw_seen']}, "
               f"уже отправлялось ранее {tg_stats['skip_sent']}, вне окна времени {tg_stats['skip_window']}, "
-              f"включено {tg_collected}")
+              f"похоже на уже опубликованное {tg_stats['skip_similar_title']}, включено {tg_collected}")
+
+    # ДОБАВЛЕНО 2026-08-26: отдельный (более узкий — 12ч, а не полные 48ч
+    # файла) список недавно опубликованных заголовков — передаётся в Gemini
+    # как контекст, Слой Б дедупликации (см. блок констант в начале файла и
+    # generate_analytical_json ниже). Нужен для случаев, которые фильтр
+    # похожести ВЫШЕ (Слой А) принципиально не ловит — например, одно и то же
+    # событие сформулировано на разных языках: точная/похожая строковая
+    # метрика такое не увидит, а Gemini как языковая модель может.
+    now_ts = time.time()
+    recently_published_for_prompt = [
+        item["title"] for item in recent_titles_history
+        if item.get("title") and (now_ts - item.get("added_at", 0)) <= RECENT_PROMPT_WINDOW_SECONDS
+    ][:RECENT_PROMPT_MAX_ITEMS]
 
     raw_data_prompt = "\n".join(raw_data_list)
-    return news_db, raw_data_prompt
+    return news_db, raw_data_prompt, recently_published_for_prompt
 
-def generate_analytical_json(raw_data_prompt):
+def generate_analytical_json(raw_data_prompt, recently_published_titles=None):
+    # ДОБАВЛЕНО 2026-08-26: Слой Б дедупликации — контекст "уже опубликовано
+    # недавно" (см. collect_all_news / recently_published_for_prompt и общий
+    # комментарий про два слоя перед load_sent_urls в начале файла). Работает
+    # ПОВЕРХ программной фильтрации по похожести заголовков (которая уже
+    # отсекла большинство явных дублей ДО того, как они попали в
+    # raw_data_prompt) — нужен для случаев, которые чистое строковое
+    # сравнение не ловит по конструкции: например, одно и то же событие
+    # сформулировано на разных языках или очень разным стилем, но Gemini как
+    # языковая модель это распознаёт семантически.
+    recently_published_titles = recently_published_titles or []
+    if recently_published_titles:
+        recent_block = (
+            "\n    СПРАВОЧНО — эти заголовки уже были опубликованы в недавних "
+            "дайджестах (последние ~12 часов), читатель их уже видел. Если "
+            "среди входящих новостей ниже есть такая, что по сути описывает "
+            "ТО ЖЕ САМОЕ событие, что и один из этих заголовков — даже другим "
+            "источником, другими словами или на другом языке — НЕ включай её "
+            "снова. Включай повторно ТОЛЬКО если новость содержит существенно "
+            "НОВУЮ фактуру (не просто другую формулировку того же факта):\n"
+            + "\n".join(f"    - {t}" for t in recently_published_titles)
+            + "\n"
+        )
+    else:
+        recent_block = ""
+
     prompt_template = """Проанализируй следующие новости и дай структурированный JSON анализ.
     
     Верни ТОЛЬКО валидный JSON без пояснений и Markdown, в следующем формате:
@@ -1203,7 +1457,7 @@ def generate_analytical_json(raw_data_prompt):
     рассказавший об этом. Это правило НЕ относится к по-настоящему РАЗНЫМ
     новостям на одну тему — например, "ЦБ снизил ставку" и "рынки отреагировали
     ростом на решение ЦБ" это два разных, валидных пункта, а не дубли.
-    
+    __RECENT_CONTEXT__
     ИСКЛЮЧИ ПОЛНОСТЬЮ (не включай в JSON вообще) следующие типы новостей, даже если
     формально они пришли из релевантного источника:
     1. Локальные криминальные и бытовые происшествия без международного или
@@ -1269,7 +1523,8 @@ def generate_analytical_json(raw_data_prompt):
     __INPUT_DATA__
     """
     
-    prompt = prompt_template.replace("__INPUT_DATA__", raw_data_prompt)
+    prompt = prompt_template.replace("__RECENT_CONTEXT__", recent_block)
+    prompt = prompt.replace("__INPUT_DATA__", raw_data_prompt)
     # ИСПРАВЛЕНО (повторно, 12.08.2026): gemini-2.5-flash больше недоступна новым
     # пользователям ("no longer available to new users" — Google снял её с эксплуатации
     # раньше объявленного срока в октябре 2026). На момент этого исправления
@@ -1722,12 +1977,15 @@ if __name__ == "__main__":
     print(f"🕐 Запущен дайджест: {schedule_name}")
     
     sent_urls_history = load_sent_urls()
+    recent_titles_history = load_recent_titles()
 
-    news_db, raw_data_prompt = collect_all_news(sent_urls_history, schedule_name)
+    news_db, raw_data_prompt, recently_published_titles = collect_all_news(
+        sent_urls_history, recent_titles_history, schedule_name
+    )
 
     if raw_data_prompt.strip():
         print("📊 Запрашиваем анализ из Gemini API...")
-        raw_json = generate_analytical_json(raw_data_prompt)
+        raw_json = generate_analytical_json(raw_data_prompt, recently_published_titles)
         (world_html, russia_html, pr_world_html, pr_russia_html,
          world_urls, russia_urls, pr_world_urls, pr_russia_urls) = build_html_digest(raw_json, news_db)
 
@@ -1788,6 +2046,19 @@ if __name__ == "__main__":
             for url in confirmed_urls:
                 sent_urls_history[url] = now
             save_sent_urls(sent_urls_history)
+
+            # ДОБАВЛЕНО 2026-08-26: сохраняем заголовки реально отправленных
+            # новостей — это и есть персистентная "история недавно
+            # опубликованного", по которой СЛЕДУЮЩИЙ запуск (collect_all_news,
+            # см. recent_title_pool и TITLE_SIMILARITY_THRESHOLD_CROSS_RUN)
+            # отфильтровывает повтор того же события от другого источника с
+            # другим URL — именно то, что чистый URL-дедуп поймать не может.
+            url_to_title = {v["url"]: v["title"] for v in news_db.values()}
+            for url in confirmed_urls:
+                title = url_to_title.get(url)
+                if title:
+                    recent_titles_history.append({"title": title, "added_at": now})
+            save_recent_titles(recent_titles_history)
             
             # ===== ВАЖНО: сохраняем ЛОГИЧЕСКОЕ время этого расписания =====
             # Это позволяет следующему запуску этого расписания знать, с какой
