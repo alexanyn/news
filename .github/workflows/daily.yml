@@ -74,6 +74,20 @@ jobs:
         GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
         TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        # ДОБАВЛЕНО 2026-08-27: оба секрета ниже ОПЦИОНАЛЬНЫ (см. send_alert
+        # в main.py) — если не заданы в Settings → Secrets репозитория,
+        # GitHub Actions подставит пустую строку, а main.py корректно
+        # трактует пустую строку так же, как отсутствие переменной (не
+        # падает, просто пропускает соответствующий канал оповещения).
+        # TELEGRAM_ALERT_CHAT_ID — отдельный чат/канал для алертов о сбоях,
+        # чтобы не мешать их с самими дайджестами (если не задан, алерты
+        # идут в тот же TELEGRAM_CHAT_ID, что и дайджест, с явной пометкой).
+        # ALERT_WEBHOOK_URL — Slack/Discord incoming webhook или любой другой
+        # POST-эндпоинт, принимающий {"text": "..."} — независимый от
+        # Telegram канал оповещения на случай, если недоступен сам Telegram
+        # Bot API, а не только конкретное сообщение.
+        TELEGRAM_ALERT_CHAT_ID: ${{ secrets.TELEGRAM_ALERT_CHAT_ID }}
+        ALERT_WEBHOOK_URL: ${{ secrets.ALERT_WEBHOOK_URL }}
       run: python main.py ${{ steps.schedule.outputs.schedule_name }}
 
     - name: Generate dashboard
