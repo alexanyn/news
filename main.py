@@ -1,4 +1,4 @@
-print("=== ЗАПУСК СКРИПТА ВЕРСИИ 6.17 (RUN_METRICS_VISIBILITY) ===")
+print("=== ЗАПУСК СКРИПТА ВЕРСИИ 6.18 (RELIABILITY_ALERTS_RETRY) ===")
 
 import os
 import re
@@ -484,6 +484,131 @@ def save_run_metrics(metrics):
             f.write(json.dumps(metrics, ensure_ascii=False) + "\n")
     except Exception as e:
         print(f"Ошибка сохранения метрик: {e}")
+
+# ДОБАВЛЕНО 2026-08-27: статусы прогона, при которых стоит отправить алерт
+# (см. send_alert и вызов из __main__). Не только явные сбои (crashed,
+# send_failed), но и оба варианта "пусто": при 104 RSS-источниках + 6
+# Telegram-каналах получить вообще НОЛЬ кандидатов за окно сбора, или
+# получить кандидатов, но не пройти фильтр Gemini ни по одной из 7
+# категорий — статистически маловероятный исход для здоровой системы,
+# скорее сигнал проблемы (сеть, сломанный промпт, сбой парсинга), чем
+# "и правда не было новостей". Если на практике "empty_*" начнёт срабатывать
+# слишком часто на реально тихие периоды (а не на поломку) — можно убрать
+# соответствующий статус из этого множества, больше ничего менять не нужно.
+ALERT_ON_STATUSES = {"crashed", "send_failed", "empty_no_candidates", "empty_no_digest_items"}
+
+
+def _count_recent_consecutive_failures():
+    """Считает, сколько ПОСЛЕДНИХ подряд идущих прогонов (по данным уже
+    сохранённых в METRICS_FILE — то есть НЕ считая текущий, который на
+    момент вызова этой функции ещё не записан) закончились НЕ статусом
+    'sent'. Используется для обогащения алерта (см. send_alert), чтобы сразу
+    было видно "это разовый сбой" или "уже который раз подряд что-то не
+    так" — второе гораздо тревожнее первого и заслуживает более быстрой
+    реакции."""
+    if not os.path.exists(METRICS_FILE):
+        return 0
+    try:
+        with open(METRICS_FILE, encoding="utf-8") as f:
+            lines = [line for line in f if line.strip()]
+    except Exception:
+        return 0
+
+    count = 0
+    for line in reversed(lines):
+        try:
+            entry = json.loads(line)
+        except json.JSONDecodeError:
+            continue
+        if entry.get("status") == "sent":
+            break
+        count += 1
+    return count
+
+
+def send_alert(run_metrics):
+    """Отправляет короткое уведомление о проблемном прогоне.
+
+    По умолчанию — через тот же Telegram Bot API, что и сам дайджест (в
+    TELEGRAM_ALERT_CHAT_ID, если задан отдельным GitHub Secret, иначе в тот
+    же CHAT_ID, что и дайджест, с явной пометкой "АЛЕРТ") — это работает "из
+    коробки" без какой-либо новой настройки: токен и инфраструктура отправки
+    уже есть и уже проверены боевыми дайджестами. Рекомендуется всё же
+    завести отдельный чат/канал для алертов и передать его ID через
+    TELEGRAM_ALERT_CHAT_ID — так уведомления о сбоях не потеряются в потоке
+    самих дайджестов.
+
+    Дополнительно, если задан ALERT_WEBHOOK_URL (Slack incoming webhook,
+    Discord webhook или любой другой POST-эндпоинт, принимающий
+    {"text": "..."}) — дублирует туда же. Это даёт действительно НЕЗАВИСИМЫЙ
+    от Telegram канал: если сам Telegram Bot API недоступен (а не просто
+    конкретное сообщение отклонено), алерт через Telegram тоже не дойдёт —
+    вебхук закрывает эту слепую зону, если настроен. Ни один из двух
+    способов не обязателен — оба просто не сработают молча, если
+    соответствующая переменная не задана, и это нормальный, ожидаемый режим
+    работы, а не ошибка конфигурации.
+
+    Возвращает True, если удалось отправить хотя бы одним способом."""
+    status = run_metrics.get("status", "unknown")
+    schedule = run_metrics.get("schedule", "?")
+    errors = run_metrics.get("errors", [])
+
+    icon = "🔴" if status in ("crashed", "send_failed") else "🟡"
+    status_text = {
+        "crashed": "необработанный сбой (crash)",
+        "send_failed": "не удалось отправить в Telegram",
+        "empty_no_candidates": "ни один источник не дал новостей за окно сбора",
+        "empty_no_digest_items": "Gemini не отобрала ни одной новости",
+    }.get(status, status)
+
+    consecutive = _count_recent_consecutive_failures() + 1
+    streak_note = f"\n⚠️ {consecutive}-й проблемный прогон подряд" if consecutive > 1 else ""
+
+    lines = [f"{icon} <b>Дайджест {schedule}</b>: {status_text}{streak_note}"]
+    if errors:
+        lines.append("Детали: " + "; ".join(errors)[:400])
+    text = "\n".join(lines)
+
+    sent_via_telegram = False
+    alert_chat_id = os.environ.get("TELEGRAM_ALERT_CHAT_ID") or CHAT_ID
+    try:
+        sent_via_telegram = _send_one_chunk(alert_chat_id, text)
+    except Exception as e:
+        print(f"⚠️  Не удалось отправить алерт в Telegram: {e}")
+
+    sent_via_webhook = False
+    webhook_url = os.environ.get("ALERT_WEBHOOK_URL")
+    if webhook_url:
+        try:
+            resp = requests.post(webhook_url, json={"text": text}, timeout=10)
+            sent_via_webhook = resp.status_code < 300
+            if not sent_via_webhook:
+                print(f"⚠️  Webhook алертов вернул HTTP {resp.status_code}")
+        except Exception as e:
+            print(f"⚠️  Не удалось отправить алерт на webhook: {e}")
+
+    if sent_via_telegram or sent_via_webhook:
+        via = " + ".join(filter(None, ["Telegram" if sent_via_telegram else None,
+                                        "webhook" if sent_via_webhook else None]))
+        print(f"📨 Алерт отправлен ({via})")
+    else:
+        print("⚠️  Алерт НЕ удалось отправить ни одним способом — см. ошибки выше")
+
+    return sent_via_telegram or sent_via_webhook
+
+
+def _finalize_run_metrics(run_metrics, run_start_time):
+    """Общий финальный шаг для __main__ — вызывается И из обычного
+    завершения, И из except-обработчика (см. ниже), чтобы не дублировать
+    эту логику в двух местах и не рисковать, что они разойдутся со
+    временем. Проставляет длительность прогона, при необходимости шлёт
+    алерт (см. ALERT_ON_STATUSES/send_alert выше) и пишет итоговую запись
+    в METRICS_FILE — именно в таком порядке, чтобы alert_sent попал в саму
+    записываемую метрику."""
+    run_metrics["duration_sec"] = round(time.time() - run_start_time, 1)
+    if run_metrics.get("status") in ALERT_ON_STATUSES:
+        run_metrics["alert_sent"] = send_alert(run_metrics)
+    save_run_metrics(run_metrics)
 
 # 2. Таблица каноничных названий
 FEED_CANONICAL_NAMES = {
@@ -1920,7 +2045,16 @@ def _send_one_chunk(chat_id, chunk):
     sendRichMessage вдруг откажет, ошибка должна быть видна в логах прогона
     как есть, а не маскироваться тихим переключением на другой формат
     отправки — так проще заметить и разобраться, если Telegram изменит
-    поведение метода."""
+    поведение метода.
+
+    ДОБАВЛЕНО 2026-08-27: retry с backoff. Раньше ОДНА неудачная попытка —
+    временный сетевой сбой, случайный 5xx, rate limit 429 — теряла весь
+    дайджест целиком: к этому моменту сбор новостей и обращение к Gemini уже
+    отработали, а итоговая доставка читателю зависела от единственного HTTP-
+    запроса без права на ошибку. Логика повторов идёт вслед за уже
+    проверенным паттерном generate_analytical_json (различие кодов ошибок,
+    экспоненциальный backoff, отказ от повтора там, где он заведомо не
+    поможет) — см. комментарии внутри цикла ниже."""
     # ВАЖНО: payload намеренно ограничен ровно теми полями, что были в
     # реально проверенном тестовом вызове (rich_message_test/), который дал
     # HTTP 200 — см. подтверждённую структуру ответа в логах теста от
@@ -1937,20 +2071,72 @@ def _send_one_chunk(chat_id, chunk):
         "chat_id": chat_id,
         "rich_message": {"html": html_for_api},
     }
-    try:
-        response = requests.post(url, json=payload, timeout=30)
-        data = response.json()
-        if response.status_code == 200 and data.get("ok"):
-            return True
-        print(f"❌ Telegram отклонил sendRichMessage (HTTP {response.status_code}): "
-              f"{data.get('description', data)}")
-        return False
-    except requests.exceptions.RequestException as e:
-        print(f"❌ Сетевая ошибка при отправке sendRichMessage: {e}")
-        return False
-    except Exception as e:
-        print(f"❌ Непредвиденная ошибка отправки в Telegram: {e}")
-        return False
+
+    max_retries = 3
+    for attempt in range(max_retries):
+        try:
+            response = requests.post(url, json=payload, timeout=30)
+
+            try:
+                data = response.json()
+            except ValueError:
+                # Тело ответа не JSON — типично для транзитных сетевых сбоев
+                # (например, прокси/CDN вернул HTML-страницу ошибки вместо
+                # ответа Telegram), а не для содержательного отказа API.
+                # Трактуем как временную проблему, как и 5xx/сетевые
+                # исключения ниже, а не как окончательный провал.
+                wait_time = 5 * (attempt + 1)
+                print(f"⚠️  Telegram вернул нераспознаваемый ответ (HTTP {response.status_code}), "
+                      f"попытка {attempt + 1}/{max_retries}, ждём {wait_time}с...")
+                time.sleep(wait_time)
+                continue
+
+            if response.status_code == 200 and data.get("ok"):
+                return True
+
+            if response.status_code == 429:
+                # Telegram возвращает рекомендованное время ожидания в
+                # data["parameters"]["retry_after"] (секунды) — используем
+                # его напрямую вместо угадывания задержки самостоятельно, с
+                # потолком на случай аномально большого значения.
+                retry_after = data.get("parameters", {}).get("retry_after", 5)
+                wait_time = min(retry_after, 60)
+                print(f"⏸️  Telegram rate limit (429). Ждём {wait_time}с (попытка {attempt + 1}/{max_retries})...")
+                time.sleep(wait_time)
+                continue
+
+            if response.status_code >= 500:
+                wait_time = min(5 * (2 ** attempt), 30)
+                print(f"⚠️  Telegram сервер вернул {response.status_code}. Ждём {wait_time}с "
+                      f"(попытка {attempt + 1}/{max_retries})...")
+                time.sleep(wait_time)
+                continue
+
+            # Прочие 4xx (400 некорректный запрос, 403 бот заблокирован в
+            # чате и т.п.) — повтор заведомо не поможет, та же самая ошибка
+            # повторится столько раз, сколько ни пытайся. Отказываемся сразу,
+            # не тратя оставшиеся попытки и время.
+            print(f"❌ Telegram отклонил sendRichMessage (HTTP {response.status_code}): "
+                  f"{data.get('description', data)}")
+            return False
+
+        except requests.exceptions.Timeout:
+            wait_time = 5 * (attempt + 1)
+            print(f"⏸️  Timeout при отправке в Telegram. Ждём {wait_time}с (попытка {attempt + 1}/{max_retries})...")
+            time.sleep(wait_time)
+            continue
+        except requests.exceptions.RequestException as e:
+            wait_time = 3 * (attempt + 1)
+            print(f"❌ Сетевая ошибка при отправке sendRichMessage (попытка {attempt + 1}/{max_retries}): {e}")
+            if attempt < max_retries - 1:
+                time.sleep(wait_time)
+            continue
+        except Exception as e:
+            print(f"❌ Непредвиденная ошибка отправки в Telegram: {e}")
+            return False
+
+    print(f"❌ Не удалось отправить чанк в Telegram после {max_retries} попыток")
+    return False
 
 
 def _pack_lines_into_chunks(text, limit=32000):
@@ -2219,12 +2405,11 @@ if __name__ == "__main__":
         # крах прогона) был бы ЕДИНСТВЕННЫМ, для которого нет вообще никакой
         # записи в metrics.jsonl. Исключение пробрасывается дальше (raise) —
         # GitHub Actions по-прежнему увидит прогон как failed job, это
-        # поведение не меняется, только дополняется записью в метриках.
+        # поведение не меняется, только дополняется записью в метриках (и,
+        # см. _finalize_run_metrics, попыткой отправить алерт).
         run_metrics["status"] = "crashed"
         run_metrics["errors"].append(f"{type(e).__name__}: {str(e)[:300]}")
-        run_metrics["duration_sec"] = round(time.time() - run_start_time, 1)
-        save_run_metrics(run_metrics)
+        _finalize_run_metrics(run_metrics, run_start_time)
         raise
 
-    run_metrics["duration_sec"] = round(time.time() - run_start_time, 1)
-    save_run_metrics(run_metrics)
+    _finalize_run_metrics(run_metrics, run_start_time)
