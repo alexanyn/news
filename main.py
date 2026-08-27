@@ -1,4 +1,4 @@
-print("=== ЗАПУСК СКРИПТА ВЕРСИИ 6.16 (SIMILAR_TITLE_DEDUP) ===")
+print("=== ЗАПУСК СКРИПТА ВЕРСИИ 6.17 (RUN_METRICS_VISIBILITY) ===")
 
 import os
 import re
@@ -19,14 +19,28 @@ gemini_api_key = os.environ.get("GEMINI_API_KEY")
 bot_token = os.environ.get("TELEGRAM_BOT_TOKEN")
 chat_id = os.environ.get("TELEGRAM_CHAT_ID")
 
-if not gemini_api_key or not bot_token or not chat_id:
-    raise ValueError("Ошибка: Проверьте GEMINI_API_KEY, TELEGRAM_BOT_TOKEN и TELEGRAM_CHAT_ID в GitHub Secrets!")
+# ДОБАВЛЕНО 2026-08-27: сама проверка (raise, если чего-то не хватает)
+# перенесена в _require_runtime_env_vars() ниже — вызывается явно из
+# if __name__ == "__main__", а не здесь на уровне модуля. Причина см. в
+# докстринге функции.
 
 # ИСПРАВЛЕНО 2026-08-19: убран telebot.TeleBot — библиотека pyTelegramBotAPI
 # не поддерживает sendRichMessage (см. _send_one_chunk), поэтому отправка
 # теперь идёт напрямую через requests.post, а сам объект bot больше нигде
 # не используется. bot_token и CHAT_ID остаются — они нужны для URL запроса.
 CHAT_ID = chat_id
+
+def _require_runtime_env_vars():
+    """Проверяет обязательные переменные окружения для РЕАЛЬНОГО запуска
+    дайджеста. ДОБАВЛЕНО 2026-08-27: раньше эта проверка была на уровне
+    модуля (выполнялась при любом import main), из-за чего вспомогательные
+    скрипты (например rss_health_check.py), которым нужны только константы
+    и функции сбора данных из этого файла, а не реальные API-ключи, не могли
+    его импортировать без фиктивных переменных окружения. Теперь проверка
+    вызывается явно, только при запуске main.py как скрипта (см.
+    if __name__ == "__main__" в конце файла) — импорт остаётся лёгким."""
+    if not gemini_api_key or not bot_token or not chat_id:
+        raise ValueError("Ошибка: Проверьте GEMINI_API_KEY, TELEGRAM_BOT_TOKEN и TELEGRAM_CHAT_ID в GitHub Secrets!")
 
 HISTORY_FILE = "sent_urls.json"
 LAST_RUN_FILE = "last_run.json"
@@ -312,6 +326,17 @@ TITLE_SIMILARITY_THRESHOLD_CROSS_RUN = 0.62
 RECENT_TITLES_WINDOW_HOURS = 48
 RECENT_TITLES_FILE = "recent_titles.json"
 
+# ДОБАВЛЕНО 2026-08-27: файл метрик для видимости (см. save_run_metrics
+# ниже и вызов из __main__). JSONL (одна JSON-строка на прогон), а не
+# обычный JSON-массив, как sent_urls.json/recent_titles.json — здесь
+# сознательно НЕТ ротации по времени (история метрик копится, это и есть
+# смысл — видеть тренды за недели/месяцы), поэтому append-only формат: не
+# нужно перечитывать и переписывать весь файл на каждый запуск, только
+# дописать одну строку. Если файл станет неудобно большим (за много
+# месяцев) — можно вручную заархивировать старую часть, скрипт это не
+# требует.
+METRICS_FILE = "metrics.jsonl"
+
 # Из этой же истории строится КОРОТКИЙ список для промпта Gemini — Слой Б
 # выше (см. generate_analytical_json) — только последние 12ч и не больше N
 # заголовков, чтобы не раздувать промпт: цель этого списка — напомнить модели
@@ -446,6 +471,19 @@ def save_recent_titles(titles_list):
             json.dump(cleaned, f, ensure_ascii=False, indent=2)
     except Exception as e:
         print(f"Ошибка сохранения файла недавних заголовков: {e}")
+
+def save_run_metrics(metrics):
+    """Дописывает одну запись метрик текущего прогона в METRICS_FILE (см.
+    комментарий у константы выше). Вызывается РОВНО один раз за прогон, в
+    самом конце __main__ (в любом исходе — успех, пустой дайджест, сбой
+    отправки, необработанное исключение) — это и есть источник данных для
+    generate_dashboard.py и для ответа на вопрос "как понять, что система
+    работает нормально", не читая сырые логи GitHub Actions вручную."""
+    try:
+        with open(METRICS_FILE, "a", encoding="utf-8") as f:
+            f.write(json.dumps(metrics, ensure_ascii=False) + "\n")
+    except Exception as e:
+        print(f"Ошибка сохранения метрик: {e}")
 
 # 2. Таблица каноничных названий
 FEED_CANONICAL_NAMES = {
@@ -1240,10 +1278,15 @@ def collect_all_news(sent_urls_history, recent_titles_history, schedule_name="09
           f"без заголовка {stats['skip_no_title']}, похоже на уже опубликованное {stats['skip_similar_title']}, "
           f"включено {stats['included']}")
 
+    # ДОБАВЛЕНО 2026-08-27: инициализация вынесена ДО "if TELEGRAM_CHANNELS:"
+    # (раньше была внутри) — иначе при пустом списке каналов эти переменные
+    # не существовали бы, и код ниже, который использует их для сводной
+    # статистики (collection_stats), падал бы с NameError.
+    tg_collected = 0
+    tg_stats = {"raw_seen": 0, "skip_sent": 0, "skip_window": 0, "skip_similar_title": 0}
+
     if TELEGRAM_CHANNELS:
         print(f"📡 Начинаем парсинг {len(TELEGRAM_CHANNELS)} Telegram-каналов (параллельно)...")
-        tg_collected = 0
-        tg_stats = {"raw_seen": 0, "skip_sent": 0, "skip_window": 0, "skip_similar_title": 0}
         with ThreadPoolExecutor(max_workers=min(MAX_FETCH_WORKERS, len(TELEGRAM_CHANNELS))) as executor:
             future_to_channel = {
                 executor.submit(fetch_telegram_channel, channel["username"]): channel
@@ -1325,7 +1368,21 @@ def collect_all_news(sent_urls_history, recent_titles_history, schedule_name="09
     ][:RECENT_PROMPT_MAX_ITEMS]
 
     raw_data_prompt = "\n".join(raw_data_list)
-    return news_db, raw_data_prompt, recently_published_for_prompt
+
+    # ДОБАВЛЕНО 2026-08-27: сводная статистика сбора — уходит в metrics.jsonl
+    # через run_metrics в __main__ (см. save_run_metrics). Собирает воедино
+    # то, что раньше было видно только построчно в логах GitHub Actions —
+    # чтобы отвечать на вопросы вида "почему в этом дайджесте было мало
+    # новостей" не копаясь в логах вручную, а глядя на числа в дашборде.
+    collection_stats = {
+        "rss_feeds_total": len(RSS_FEEDS),
+        "rss": dict(stats),
+        "telegram_channels_total": len(TELEGRAM_CHANNELS),
+        "telegram": dict(tg_stats),
+        "telegram_included": tg_collected,
+    }
+
+    return news_db, raw_data_prompt, recently_published_for_prompt, collection_stats
 
 def generate_analytical_json(raw_data_prompt, recently_published_titles=None):
     # ДОБАВЛЕНО 2026-08-26: Слой Б дедупликации — контекст "уже опубликовано
@@ -1558,8 +1615,17 @@ def generate_analytical_json(raw_data_prompt, recently_published_titles=None):
         }
     }
 
+    # ДОБАВЛЕНО 2026-08-27: замер времени и числа попыток — уходит в
+    # run_metrics (см. __main__) как gemini_meta. Меряем время СНАРУЖИ
+    # отдельных запросов (а не только успешного), чтобы latency отражала
+    # ПОЛНОЕ время до ответа, включая все ожидания между повторами —
+    # это и есть то время, которое реально тратится в критичном пути
+    # перед публикацией дайджеста.
+    gemini_call_start = time.time()
     max_retries = 5
+    attempts_made = 0
     for attempt in range(max_retries):
+        attempts_made = attempt + 1
         try:
             # ИСПРАВЛЕНО 2026-08-18: таймаут увеличен с 220 до 280 — вслед за
             # ростом maxOutputTokens до полного потолка модели (65536), ответ
@@ -1594,7 +1660,12 @@ def generate_analytical_json(raw_data_prompt, recently_published_titles=None):
             
             if response.status_code == 200:
                 result = response.json()
-                return result["candidates"][0]["content"]["parts"][0]["text"]
+                gemini_meta = {
+                    "latency_sec": round(time.time() - gemini_call_start, 1),
+                    "attempts_used": attempts_made,
+                    "fallback_used": False,
+                }
+                return result["candidates"][0]["content"]["parts"][0]["text"], gemini_meta
             
             print(f"❌ Ошибка Gemini API ({response.status_code}): {response.text[:200]}")
             response.raise_for_status()
@@ -1611,6 +1682,11 @@ def generate_analytical_json(raw_data_prompt, recently_published_titles=None):
             continue
 
     print("❌ Gemini API недоступна после 5 попыток. Используем fallback.")
+    gemini_meta = {
+        "latency_sec": round(time.time() - gemini_call_start, 1),
+        "attempts_used": attempts_made,
+        "fallback_used": True,
+    }
     return json.dumps({
         "geopolitics": [],
         "economics": [],
@@ -1618,7 +1694,7 @@ def generate_analytical_json(raw_data_prompt, recently_published_titles=None):
         "technology": [],
         "energy": [],
         "security": []
-    })
+    }), gemini_meta
 
 def clean_json_str(raw_str):
     clean = raw_str.strip()
@@ -1668,6 +1744,24 @@ def build_html_digest(raw_response, news_db):
     
     if total_items == 0:
         print("⚠️  Модель не вернула ни одной новости (fallback структура)")
+
+    # ДОБАВЛЕНО 2026-08-27: разбивка по категориям/регионам — уходит в
+    # run_metrics (см. __main__) как digest_stats. Считаем сразу здесь,
+    # пока data уже распарсена — не нужен повторный json.loads в __main__.
+    # ВАЖНО: это то, что вернул Gemini, ДО финального защитного дедупа по
+    # URL внутри build_one (см. seen_urls_in_digest ниже) — в редких случаях
+    # реально отрендеренное число может быть на 1-2 меньше, если тот
+    # защитный слой всё же сработал. Для целей мониторинга (видеть тренды,
+    # находить хронически пустые категории) это несущественно.
+    category_breakdown = {}
+    for cat in expected_categories:
+        items = data.get(cat)
+        items = items if isinstance(items, list) else []
+        world_count = sum(1 for it in items if isinstance(it, dict) and not it.get("is_russia", False))
+        russia_count = sum(1 for it in items if isinstance(it, dict) and it.get("is_russia", False))
+        category_breakdown[cat] = {"world": world_count, "russia": russia_count}
+
+    digest_stats = {"total_items": total_items, "by_category": category_breakdown}
 
     # ИСПРАВЛЕНО 2026-08-20: sections разделён на два независимых набора,
     # чтобы PR рендерился ОТДЕЛЬНЫМ блоком после Мира/России, а не смешивался
@@ -1773,7 +1867,8 @@ def build_html_digest(raw_response, news_db):
     pr_russia_html, pr_russia_urls = build_one(True, "📢 <b>PR В РОССИИ</b>", PR_SECTIONS, force_show=True)
 
     return (world_html, russia_html, pr_world_html, pr_russia_html,
-            world_urls, russia_urls, pr_world_urls, pr_russia_urls)
+            world_urls, russia_urls, pr_world_urls, pr_russia_urls,
+            digest_stats)
 
 def _send_one_chunk(chat_id, chunk):
     """Отправляет один чанк текста через sendRichMessage. Возвращает True при
@@ -1932,15 +2027,19 @@ def send_telegram_message(chat_id, text):
     # ИСПРАВЛЕНО: функция теперь возвращает bool — реально ли отправка удалась.
     # Раньше вызывающий код считал любую попытку успешной, даже если Telegram
     # отверг сообщение.
+    # ДОБАВЛЕНО 2026-08-27: возвращаемое значение расширено до (bool, int) —
+    # вторым элементом идёт число чанков, на которое разбился дайджест. Это
+    # уходит в run_metrics (см. __main__) — полезно видеть, как часто дайджест
+    # вообще дробится на несколько сообщений (при обычном объёме — 1 чанк).
     if not text.strip():
-        return False
+        return False, 0
 
     # ИСПРАВЛЕНО 2026-08-19: порог короткого пути поднят с 4000 (под старый
     # sendMessage) до 32000 (под sendRichMessage, см. _send_one_chunk и
     # _pack_lines_into_chunks). При обычном объёме дайджеста весь текст
     # проходит этим путём и уходит одним сообщением без дробления вообще.
     if len(text) <= 32000:
-        return _send_one_chunk(chat_id, text)
+        return _send_one_chunk(chat_id, text), 1
 
     all_chunks = _pack_lines_into_chunks(text, limit=32000)
 
@@ -1958,9 +2057,10 @@ def send_telegram_message(chat_id, text):
             time.sleep(1)
         all_ok = _send_one_chunk(chat_id, chunk) and all_ok
 
-    return all_ok
+    return all_ok, len(all_chunks)
 
 if __name__ == "__main__":
+    _require_runtime_env_vars()
     import sys
     
     # Читаем schedule_name из аргумента командной строки
@@ -1975,99 +2075,156 @@ if __name__ == "__main__":
             print(f"⚠️  Неизвестное расписание '{arg}', используется '09:00'. Допустимые: {list(SCHEDULES.keys())}")
     
     print(f"🕐 Запущен дайджест: {schedule_name}")
-    
-    sent_urls_history = load_sent_urls()
-    recent_titles_history = load_recent_titles()
 
-    news_db, raw_data_prompt, recently_published_titles = collect_all_news(
-        sent_urls_history, recent_titles_history, schedule_name
-    )
+    # ДОБАВЛЕНО 2026-08-27: run_metrics собирается по ходу выполнения и
+    # пишется РОВНО один раз в конце — в save_run_metrics(), в METRICS_FILE —
+    # независимо от исхода (см. try/except ниже: успех, пустой дайджест,
+    # сбой отправки и даже необработанное исключение все попадают в файл).
+    # Это основа для generate_dashboard.py и для ответа на вопрос "как
+    # понять, что система работает нормально", не читая сырые логи Actions.
+    run_start_time = time.time()
+    run_metrics = {
+        "run_started_at": now_moscow().isoformat(),
+        "schedule": schedule_name,
+        "status": "unknown",
+        "errors": [],
+    }
 
-    if raw_data_prompt.strip():
-        print("📊 Запрашиваем анализ из Gemini API...")
-        raw_json = generate_analytical_json(raw_data_prompt, recently_published_titles)
-        (world_html, russia_html, pr_world_html, pr_russia_html,
-         world_urls, russia_urls, pr_world_urls, pr_russia_urls) = build_html_digest(raw_json, news_db)
+    try:
+        sent_urls_history = load_sent_urls()
+        recent_titles_history = load_recent_titles()
 
-        # ВАЖНО: сбор новостей и обращение к Gemini могут завершиться намного
-        # раньше заявленного времени публикации (например, workflow запущен в
-        # 11:07, чтобы успеть обработать дайджест к 12:00, но сама обработка
-        # занимает 3-5 минут). Раньше скрипт публиковал сразу же — из-за этого
-        # дайджесты выходили "вслед за запуском workflow", а не в заявленное
-        # время (09:00/12:00/15:00/18:00/21:00 МСК), и казалось, что несколько
-        # дайджестов подряд выходят почти одновременно. Теперь публикация
-        # намеренно откладывается до точного момента (см. wait_until_publish_time).
-        wait_until_publish_time(schedule_name)
+        news_db, raw_data_prompt, recently_published_titles, collection_stats = collect_all_news(
+            sent_urls_history, recent_titles_history, schedule_name
+        )
+        run_metrics["collection"] = collection_stats
 
-        sent_anything = False
-        # ИСПРАВЛЕНО: в историю теперь попадают только те URL, чьи блоки были
-        # реально и успешно отправлены в Telegram — не все собранные из RSS.
-        confirmed_urls = []
+        if raw_data_prompt.strip():
+            print("📊 Запрашиваем анализ из Gemini API...")
+            raw_json, gemini_meta = generate_analytical_json(raw_data_prompt, recently_published_titles)
+            run_metrics["gemini"] = gemini_meta
+            if gemini_meta.get("fallback_used"):
+                run_metrics["errors"].append("Gemini недоступна после всех попыток — использован пустой fallback")
 
-        # ИСПРАВЛЕНО 2026-08-19: мир и Россия раньше уходили ДВУМЯ отдельными
-        # сообщениями (лимит sendMessage в 4096 символов не позволял надёжно
-        # держать оба блока в одном). После перехода на sendRichMessage
-        # (лимит 32768, см. _send_one_chunk) весь дайджест почти всегда
-        # укладывается в одно сообщение целиком — решено объединить оба
-        # блока в один rich message, а не держать искусственное разделение,
-        # оставшееся от старого лимита.
-        #
-        # ДОБАВЛЕНО 2026-08-20: после Мира/России в то же сообщение добавлен
-        # третий блок — PR и коммуникации (профессиональная область
-        # пользователя), тоже с внутренним разделением на мир/Россия. PR-блоки
-        # построены с force_show=True (см. build_html_digest) — заголовки
-        # "PR В МИРЕ"/"PR В РОССИИ" показываются всегда, даже без значимых
-        # новостей за период, в отличие от Мира/России, которые могут молча
-        # пропасть целиком в исчезающе редком случае пустоты по всем 6
-        # категориям сразу.
-        #
-        # Побочный эффект объединения: отправка теперь атомарна — либо весь
-        # дайджест (мир + Россия + PR) подтверждён и все его URL уходят в
-        # историю, либо ничего не подтверждено и всё остаётся на следующий
-        # запуск. Раньше при частичном сбое (например, мир ушёл, а Россия —
-        # нет из-за сетевой ошибки между двумя вызовами) один блок
-        # подтверждался, а другой нет; такой частичный случай больше
-        # невозможен по конструкции, так как это один вызов API, а не
-        # несколько подряд.
-        combined_parts = [html for html in (world_html, russia_html, pr_world_html, pr_russia_html) if html.strip()]
-        combined_html = "\n\n".join(combined_parts)
-        combined_urls = world_urls + russia_urls + pr_world_urls + pr_russia_urls
+            (world_html, russia_html, pr_world_html, pr_russia_html,
+             world_urls, russia_urls, pr_world_urls, pr_russia_urls,
+             digest_stats) = build_html_digest(raw_json, news_db)
+            run_metrics["digest"] = digest_stats
 
-        if combined_html.strip():
-            print("📤 Отправляем дайджест (мир + Россия + PR)...")
-            if send_telegram_message(CHAT_ID, combined_html):
-                sent_anything = True
-                confirmed_urls.extend(combined_urls)
+            # ВАЖНО: сбор новостей и обращение к Gemini могут завершиться намного
+            # раньше заявленного времени публикации (например, workflow запущен в
+            # 11:07, чтобы успеть обработать дайджест к 12:00, но сама обработка
+            # занимает 3-5 минут). Раньше скрипт публиковал сразу же — из-за этого
+            # дайджесты выходили "вслед за запуском workflow", а не в заявленное
+            # время (09:00/12:00/15:00/18:00/21:00 МСК), и казалось, что несколько
+            # дайджестов подряд выходят почти одновременно. Теперь публикация
+            # намеренно откладывается до точного момента (см. wait_until_publish_time).
+            wait_until_publish_time(schedule_name)
+
+            sent_anything = False
+            # ИСПРАВЛЕНО: в историю теперь попадают только те URL, чьи блоки были
+            # реально и успешно отправлены в Telegram — не все собранные из RSS.
+            confirmed_urls = []
+
+            # ИСПРАВЛЕНО 2026-08-19: мир и Россия раньше уходили ДВУМЯ отдельными
+            # сообщениями (лимит sendMessage в 4096 символов не позволял надёжно
+            # держать оба блока в одном). После перехода на sendRichMessage
+            # (лимит 32768, см. _send_one_chunk) весь дайджест почти всегда
+            # укладывается в одно сообщение целиком — решено объединить оба
+            # блока в один rich message, а не держать искусственное разделение,
+            # оставшееся от старого лимита.
+            #
+            # ДОБАВЛЕНО 2026-08-20: после Мира/России в то же сообщение добавлен
+            # третий блок — PR и коммуникации (профессиональная область
+            # пользователя), тоже с внутренним разделением на мир/Россия. PR-блоки
+            # построены с force_show=True (см. build_html_digest) — заголовки
+            # "PR В МИРЕ"/"PR В РОССИИ" показываются всегда, даже без значимых
+            # новостей за период, в отличие от Мира/России, которые могут молча
+            # пропасть целиком в исчезающе редком случае пустоты по всем 6
+            # категориям сразу.
+            #
+            # Побочный эффект объединения: отправка теперь атомарна — либо весь
+            # дайджест (мир + Россия + PR) подтверждён и все его URL уходят в
+            # историю, либо ничего не подтверждено и всё остаётся на следующий
+            # запуск. Раньше при частичном сбое (например, мир ушёл, а Россия —
+            # нет из-за сетевой ошибки между двумя вызовами) один блок
+            # подтверждался, а другой нет; такой частичный случай больше
+            # невозможен по конструкции, так как это один вызов API, а не
+            # несколько подряд.
+            combined_parts = [html for html in (world_html, russia_html, pr_world_html, pr_russia_html) if html.strip()]
+            combined_html = "\n\n".join(combined_parts)
+            combined_urls = world_urls + russia_urls + pr_world_urls + pr_russia_urls
+
+            if combined_html.strip():
+                print("📤 Отправляем дайджест (мир + Россия + PR)...")
+                send_ok, chunks_sent = send_telegram_message(CHAT_ID, combined_html)
+                run_metrics["telegram"] = {"success": send_ok, "chunks_sent": chunks_sent}
+                if send_ok:
+                    sent_anything = True
+                    confirmed_urls.extend(combined_urls)
+                else:
+                    print("❌ Не удалось отправить дайджест — новости останутся необработанными для следующего запуска.")
+                    run_metrics["errors"].append("Отправка в Telegram не удалась")
             else:
-                print("❌ Не удалось отправить дайджест — новости останутся необработанными для следующего запуска.")
+                # ДОБАВЛЕНО 2026-08-27: Gemini вернула кандидатов, но итоговый
+                # дайджест оказался пуст (все категории отфильтрованы) —
+                # отдельный статус от "нет кандидатов вообще" ниже, это разные
+                # диагностические ситуации.
+                run_metrics["status"] = "empty_no_digest_items"
 
-        if sent_anything:
-            now = time.time()
-            for url in confirmed_urls:
-                sent_urls_history[url] = now
-            save_sent_urls(sent_urls_history)
+            if sent_anything:
+                now = time.time()
+                for url in confirmed_urls:
+                    sent_urls_history[url] = now
+                save_sent_urls(sent_urls_history)
 
-            # ДОБАВЛЕНО 2026-08-26: сохраняем заголовки реально отправленных
-            # новостей — это и есть персистентная "история недавно
-            # опубликованного", по которой СЛЕДУЮЩИЙ запуск (collect_all_news,
-            # см. recent_title_pool и TITLE_SIMILARITY_THRESHOLD_CROSS_RUN)
-            # отфильтровывает повтор того же события от другого источника с
-            # другим URL — именно то, что чистый URL-дедуп поймать не может.
-            url_to_title = {v["url"]: v["title"] for v in news_db.values()}
-            for url in confirmed_urls:
-                title = url_to_title.get(url)
-                if title:
-                    recent_titles_history.append({"title": title, "added_at": now})
-            save_recent_titles(recent_titles_history)
-            
-            # ===== ВАЖНО: сохраняем ЛОГИЧЕСКОЕ время этого расписания =====
-            # Это позволяет следующему запуску этого расписания знать, с какой
-            # логической границы начинать сбор новостей, независимо от того,
-            # когда физически запустился скрипт.
-            save_run_time(schedule_name)
-            
-            print("✅ Диджест отправлен успешно!")
+                # ДОБАВЛЕНО 2026-08-26: сохраняем заголовки реально отправленных
+                # новостей — это и есть персистентная "история недавно
+                # опубликованного", по которой СЛЕДУЮЩИЙ запуск (collect_all_news,
+                # см. recent_title_pool и TITLE_SIMILARITY_THRESHOLD_CROSS_RUN)
+                # отфильтровывает повтор того же события от другого источника с
+                # другим URL — именно то, что чистый URL-дедуп поймать не может.
+                # ДОБАВЛЕНО 2026-08-27: заодно собираем source_name для тех же
+                # URL — уходит в run_metrics["sources_used"], видимость того,
+                # какие источники реально дали материал в этот дайджест.
+                url_meta = {v["url"]: {"title": v["title"], "source_name": v["source_name"]} for v in news_db.values()}
+                for url in confirmed_urls:
+                    meta = url_meta.get(url)
+                    if meta:
+                        recent_titles_history.append({"title": meta["title"], "added_at": now})
+                save_recent_titles(recent_titles_history)
+                run_metrics["sources_used"] = sorted({
+                    url_meta[u]["source_name"] for u in confirmed_urls if u in url_meta
+                })
+
+                # ===== ВАЖНО: сохраняем ЛОГИЧЕСКОЕ время этого расписания =====
+                # Это позволяет следующему запуску этого расписания знать, с какой
+                # логической границы начинать сбор новостей, независимо от того,
+                # когда физически запустился скрипт.
+                save_run_time(schedule_name)
+
+                run_metrics["status"] = "sent"
+                print("✅ Диджест отправлен успешно!")
+            else:
+                if run_metrics["status"] == "unknown":
+                    run_metrics["status"] = "send_failed"
+                print("ℹ️  Новостей для публикации не найдено, либо отправка не удалась — история не обновлена.")
         else:
-            print("ℹ️  Новостей для публикации не найдено, либо отправка не удалась — история не обновлена.")
-    else:
-        print("ℹ️  Новых материалов за прошедшие часы не обнаружено.")
+            run_metrics["status"] = "empty_no_candidates"
+            print("ℹ️  Новых материалов за прошедшие часы не обнаружено.")
+
+    except Exception as e:
+        # ДОБАВЛЕНО 2026-08-27: даже необработанное исключение оставляет след
+        # в METRICS_FILE — иначе самый важный для мониторинга случай (полный
+        # крах прогона) был бы ЕДИНСТВЕННЫМ, для которого нет вообще никакой
+        # записи в metrics.jsonl. Исключение пробрасывается дальше (raise) —
+        # GitHub Actions по-прежнему увидит прогон как failed job, это
+        # поведение не меняется, только дополняется записью в метриках.
+        run_metrics["status"] = "crashed"
+        run_metrics["errors"].append(f"{type(e).__name__}: {str(e)[:300]}")
+        run_metrics["duration_sec"] = round(time.time() - run_start_time, 1)
+        save_run_metrics(run_metrics)
+        raise
+
+    run_metrics["duration_sec"] = round(time.time() - run_start_time, 1)
+    save_run_metrics(run_metrics)
