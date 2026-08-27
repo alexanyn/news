@@ -76,6 +76,21 @@ jobs:
         TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
       run: python main.py ${{ steps.schedule.outputs.schedule_name }}
 
+    - name: Generate dashboard
+      # ДОБАВЛЕНО 2026-08-27: собирает dashboard.html из metrics.jsonl (и
+      # rss_health.json, если уже существует — см. отдельный workflow
+      # rss_health.yml). Сознательно НЕ должен ронять job, даже если упадёт
+      # с ошибкой (например, повреждённая строка в metrics.jsonl, которую
+      # сам generate_dashboard.py не смог пропустить, или любая другая
+      # непредвиденная причина) — дайджест к этому моменту уже отправлен
+      # и это самое важное, визуализация не должна быть точкой отказа для
+      # него. continue-on-error (а не "|| echo" как в шаге коммита ниже)
+      # выбран умышленно: шаг всё равно будет виден в интерфейсе Actions
+      # как жёлтый/failed, а не молча "успешным" — для дашборда мониторинга
+      # видимость его собственных сбоев тоже важна.
+      continue-on-error: true
+      run: python generate_dashboard.py
+
     - name: Commit and push sent news history and schedule tracking
       run: |
         # ДОБАВЛЕНО 2026-08-26: recent_titles.json — история заголовков
@@ -85,9 +100,35 @@ jobs:
         # main.py). Без коммита этого файла между прогонами GitHub Actions
         # runner эфемерен — файл создавался бы заново пустым при каждом
         # запуске, и кросс-дайджест дедупликация молча не работала бы.
+        #
+        # ДОБАВЛЕНО 2026-08-27: metrics.jsonl (метрики каждого прогона) и
+        # dashboard.html (собранная из них панель) — по той же причине,
+        # эфемерный runner.
+        #
+        # ИСПРАВЛЕНО 2026-08-27: раньше все файлы перечислялись в одном
+        # "git add file1 file2 file3" без проверки существования. Эмпирически
+        # проверено: если ХОТЯ БЫ ОДИН файл из списка не существует на диске,
+        # git add падает целиком с "fatal: pathspec '...' did not match any
+        # files" (exit 128) и НЕ добавляет вообще НИЧЕГО, включая остальные
+        # реально существующие файлы. sent_urls.json/last_run.json/
+        # recent_titles.json пишутся только внутри "if sent_anything:" в
+        # main.py — то есть на прогоне, где дайджест не был отправлен (пусто,
+        # сбой Telegram и т.п.), эти файлы могут не обновиться, а
+        # recent_titles.json на самом первом таком прогоне после деплоя может
+        # вообще ещё не существовать. dashboard.html аналогично зависит от
+        # исхода отдельного шага (см. "Generate dashboard" выше,
+        # continue-on-error). metrics.jsonl — единственный файл, который
+        # main.py пишет БЕЗУСЛОВНО при любом исходе (см. save_run_metrics в
+        # __main__), поэтому по факту всегда должен существовать, но проверка
+        # ниже всё равно ничего не стоит и делает код одинаково надёжным для
+        # всех файлов без специальных случаев.
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
-        git add sent_urls.json last_run.json recent_titles.json
-        git commit -m "Update news history and schedule tracking [skip ci]" || echo "No changes to commit"
+        for f in sent_urls.json last_run.json recent_titles.json metrics.jsonl dashboard.html; do
+          if [ -f "$f" ]; then
+            git add "$f"
+          fi
+        done
+        git commit -m "Update news history, metrics and dashboard [skip ci]" || echo "No changes to commit"
         git pull --rebase origin main
         git push
