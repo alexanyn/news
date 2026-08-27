@@ -1,185 +1,5 @@
 [
   {
-    "url": "https://www.bbc.co.uk/news/articles/c2k7e83ynj4o?at_medium=RSS&at_campaign=rss",
-    "added_at": 1787202000.8277397,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.aljazeera.com/news/2026/8/20/alarm-in-south-korea-as-iran-dispute-with-trump-shakes-a-72-year-alliance?traffic_source=rss",
-    "added_at": 1787202000.8277397,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.bbc.co.uk/news/articles/cp87g29r718o?at_medium=RSS&at_campaign=rss",
-    "added_at": 1787202000.8277397,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://foreignpolicy.com/2026/08/19/uae-iran-trade-financial-embargo-missile-strikes-war/",
-    "added_at": 1787202000.8277397,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.worldpoliticsreview.com/us-sanctions-campaign-rubio-icc/",
-    "added_at": 1787202000.8277397,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.atlanticcouncil.org/dispatches/bosnias-high-representative-fight-exposes-transatlantic-rift/",
-    "added_at": 1787202000.8277397,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.vedomosti.ru/politics/news/2026/08/20/1222399-armeniya-torgovlyu-s-azerbaidzhanom",
-    "added_at": 1787202000.8277397,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.scmp.com/news/world/middle-east/article/3364623/netanyahu-casts-turkey-israels-new-villain-amid-tough-re-election-fight?utm_source=rss_feed",
-    "added_at": 1787202000.8277397,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://news.google.com/rss/articles/CBMigwFBVV95cUxNT0NlakpDYU5qTWhFZm0wLUEtbmR3akx4YmNsV25UX0ZiRWdDaThaSkpBeUg3blJNUS0wZFFLLUhyaWdGVklzZElzdWV0UHl6bkM1Y3RqZGJhRndHT25WYThIWUhpTkZhSmpwS0MySmpuQmptQm5MY2ZfMU9aN3Q1bkdyTQ?oc=5",
-    "added_at": 1787202000.8277397,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.kommersant.ru/doc/8893334",
-    "added_at": 1787202000.8277397,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://asia.nikkei.com/economy/trade/japan-logged-trade-deficit-for-third-consecutive-month-in-july",
-    "added_at": 1787202000.8277397,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://t.me/the_financial_times_journal/7703",
-    "added_at": 1787202000.8277397,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://t.me/the_financial_times_journal/7704",
-    "added_at": 1787202000.8277397,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.interfax.ru/world/1110234",
-    "added_at": 1787202000.8277397,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.whitehouse.gov/releases/2026/08/president-trumps-trade-agenda-is-rebuilding-the-american-auto-industry/",
-    "added_at": 1787202000.8277397,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://asia.nikkei.com/politics/international-relations/us-china-tensions/ck-hutchison-seeks-1.5bn-in-damages-over-seized-panama-canal-ports",
-    "added_at": 1787202000.8277397,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.semafor.com/article/08/19/2026/sk-hynix-to-buy-back-286-billion-in-shares",
-    "added_at": 1787202000.8277397,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://t.me/the_financial_times_journal/7705",
-    "added_at": 1787202000.8277397,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://meduza.io/news/2026/08/19/openai-zamedlila-obuchenie-peredovyh-modeley-posle-togo-kak-ee-ii-agenty-vyshli-iz-pod-kontrolya-i-ustroili-hakerskuyu-ataku",
-    "added_at": 1787202000.8277397,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://techcrunch.com/2026/08/19/waymos-cheaper-next-gen-robotaxi-is-now-open-to-all-riders-in-these-three-cities/",
-    "added_at": 1787202000.8277397,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://techcrunch.com/2026/08/19/openai-seeks-to-one-up-anthropic-with-new-customer-privacy-protections/",
-    "added_at": 1787202000.8277397,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://news.google.com/rss/articles/CBMirgFBVV95cUxQcTR6TERvWTROSG5wazkwQWZTMTJGTnp2UTRmQW1oRUpRRFZUaGlvSjRVRGx5dW1ieU1Qd3hkWnAwYk94Uzh5TC1id0NPU3R3Mm9GZnFhUDEyUFBXNkNmV1JQd3lUWFBSUmQ2MzYtdm9UOVNIWkJ4SlV1dF9YMGo2VjRBVXBvamZHOWE3RXRWYVN0MVN0bnpGNUNpNDRaODh0TEdYbVhWcUVlWXN0dUE?oc=5",
-    "added_at": 1787202000.8277397,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://t.me/the_financial_times_journal/7707",
-    "added_at": 1787202000.8277397,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxOM1ZTcG5JRHQxeFFrOEd6Q0s4eWdFZGZwRmUyaFlPQkEwWEFLZ2xtLUJxMDFGRzZEZ1VEMjA5MjlMazgtZkJRM01FRXJ3Yk5wZUJSRW8yUEc5THM4VEZBd3V0LVhiRHBBWExnTElPMTRCX3d1ODhKR2lDdHVDVktTZS1BTUtuLXN2ZGRwUmpnNzhEdDJBZnp3cHExVndUYWlrenVEOXI0dVppdw?oc=5",
-    "added_at": 1787202000.8277397,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://t.me/the_financial_times_journal/7706",
-    "added_at": 1787202000.8277397,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://news.google.com/rss/articles/CBMiuAFBVV95cUxOdjh4SUp0a2ZhbFFhSGQzVERrREI3OFJQRXBVY3gyS2FQRkp4RTFyTUc4d3dJRDUzTzR5X1d1YkVCeU9nYTNyYnM5NmRjS25xXzVZWk03SksyVFlOWWdnM1dhQ0kyVFB3Vmt1RWZVeDlyNEZYMXpNbC1NdGNWbjZkSnBjM1ZqV1FrVjRpSmRNOThiT1d3OG5Ob3FQcHlTcnRNWWdqUktqa3FqLVRONmU1NmZWLURUV2lm?oc=5",
-    "added_at": 1787202000.8277397,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.vedomosti.ru/politics/news/2026/08/20/1222410-wsj-ssha-rasformiruyut",
-    "added_at": 1787202000.8277397,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.kommersant.ru/doc/8893346",
-    "added_at": 1787202000.8277397,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://tass.com/world/2175411",
-    "added_at": 1787202000.8277397,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://tass.com/politics/2175407",
-    "added_at": 1787202000.8277397,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.kommersant.ru/doc/8893336",
-    "added_at": 1787202000.8277397,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://t.me/thebell_io/38772",
-    "added_at": 1787202000.8277397,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.rbc.ru/rbcfreenews/6a194cc49a79479485b19303",
-    "added_at": 1787202000.8277397,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://news.google.com/rss/articles/CBMiugFBVV95cUxOQ2hpTTJYeTlzS2hqZHBTdkg1TjhTUklENW93WjNKNjgzZlJsaGxHTW1wTlliVEttM0lndVdGeGRBUHpHaWR4Q3JrTTJ3dThqMzl0VlJxUWZTMXdFS2R2QzlhdTRkaTFVNEoyTzFVZnptUlVqemxCUFJyS1lyVjZqNW1EOERzU3c3dW1rdmwxbjl6RGJMVmVtN1lmbHVscWNkMlVTWVhHeDd0MThsYzV3QnNCaURqb2c5b0E?oc=5",
-    "added_at": 1787202000.8277397,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.interfax.ru/russia/1110236",
-    "added_at": 1787202000.8277397,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://tass.com/defense/2175401",
-    "added_at": 1787202000.8277397,
-    "source": "parsed_feed"
-  },
-  {
     "url": "https://meduza.io/news/2026/08/20/axios-ssha-sozdali-sekretnyy-marshrut-v-ormuzskom-prolive-cherez-kotoryy-perevozyatsya-milliony-barreley-nefti",
     "added_at": 1787220000.8917346,
     "source": "parsed_feed"
@@ -3842,6 +3662,181 @@
   {
     "url": "https://news.google.com/rss/articles/CBMitwFBVV95cUxQWHdGaUF3Qm5kOFdFRTJoS0dtbm1zMVVERjZoZEVtQ3U0UFFoQ2JNc3dPSkpkb1FsaGYzb1FvNHF0b2FRMTlsVlhDeTBicWEzRUJHbFZHUDVXQjBObHhkdUtDdl9rSS1COGpFRk5hYUJlV2gtXzJLY1EyS2JJdHRqWGpOMmh5WDRkRzlwVlpOazktMFpKNVJrdTJzeDB1MTZNaDNqbFpqTVBybHFSZjRNZXM4aFdENGM?oc=5",
     "added_at": 1787767200.8993878,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.aljazeera.com/news/2026/8/27/qatars-prime-minister-to-visit-tehran-seeking-to-revive-us-iran-talks?traffic_source=rss",
+    "added_at": 1787810401.4163432,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.worldpoliticsreview.com/syria-kurds-sdf-join-syrian-army/",
+    "added_at": 1787810401.4163432,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.kommersant.ru/doc/8909257",
+    "added_at": 1787810401.4163432,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://news.google.com/rss/articles/CBMikgFBVV95cUxQdWdQR1Nqb3FRVG95ZjdkaHVNek03MDg5QnRkWjhkdXBOOTNDdWhWRGV3Ti1xU2QzY1F6eU15Y3ZVVl9kUVgtLVVuSFFoOWpKXzMtMk5pc0pxUDlReHZlSnU1eGM5SE5YRnhONjAyTU1xUDZKWk9pbkl2MmstVWNsZW4xaVpubzlTQ2xNS2xiVHpQUQ?oc=5",
+    "added_at": 1787810401.4163432,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://news.google.com/rss/articles/CBMirwFBVV95cUxPTkM5S1lxMTBFSFpjV1R6MkdIaG9xSzJWNkZ0NUtFM18xRF8wWDM3VHZXcG5QcE1acnc1elJWZ05zRUVvaWtCVXhCaUJJUVhvT2JXM3FhNElZSmU1THo1bW1XU09ORWJpZmFjUDhLb2lOaGJPYWJLd2ZCenlKLWgzdnlNRnRSUU0wTkVHbzZmY1ZKUnZCYlpLbGJTZWZ2cGYyRlJKLTI2OVVTa1lOc3NZ?oc=5",
+    "added_at": 1787810401.4163432,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://asia.nikkei.com/economy/bank-of-korea-delivers-back-to-back-rate-hikes-to-cope-with-inflation",
+    "added_at": 1787810401.4163432,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://news.google.com/rss/articles/CBMivgFBVV95cUxQcnRUV293OVVFOWdRY2o0c0tqNDhzYzRfMHVQdFBrT3ZZdmxiRGVOeDl0d3JiZmN6NnVBY3JvODV5MTdlRXZhWlZuM3ZfcldFSXlDR0RLNHVvYUFrVmR6VXBoR21tWlpXWE1YZ2ItQXJFeHAxWllIVnBtXzB1ci1uUHp2d296ZlRzU0VYOGlkbUlBZnl3X2FtV2tYaE5TdHQ5V1d1MTdVVloyNjhjS19mbkJtbDlBOXBLT2R6ZVdB?oc=5",
+    "added_at": 1787810401.4163432,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://t.me/the_financial_times_journal/7858",
+    "added_at": 1787810401.4163432,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://news.google.com/rss/articles/CBMioAFBVV95cUxQYVlsa1lmZEZNUjJReU4wWWtWbDA0aFBEbWxqd1BKMXBxSXoxWHllbnpFZWRqUUx3c0hUeTRwd212dU4xTHJrTjY5RndKMmlUZVBhVjdQamxWNlo2SHoydzg0VzhqdVk2SmF4VER4bjlNX1ZDV2lXUi0wUFVxRW5raEJaNjRlODZEczVURk04OXNiSzVrVEc3N0s1R0VteVNv?oc=5",
+    "added_at": 1787810401.4163432,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://news.google.com/rss/articles/CBMitgFBVV95cUxNQzFWdk5wc1BDUnZ0N0YtMlJHVkl5S1dLSlJGV0Q3R1pLWGpBR2pTMnBXa21DRlNMVk1QUklpYWFXdFR0MFM2Y2NmbUhyYk5YSXdxcUxjb044bEtLNjQ0RmJMMTZSSksyQUtBTHhvVEtxUFQybWMyYTR6V01ZbjJnZ3V5YXdkRkk3Zk1PU0pjb0p6a3dpdkh0RlNBOGF2M29QOUl5ZjMxQnhIZFJjUEY3ODRBaU9TQQ?oc=5",
+    "added_at": 1787810401.4163432,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.technologyreview.com/2026/08/26/1143013/the-inside-story-on-why-openai-agents-hacked-hugging-face/",
+    "added_at": 1787810401.4163432,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://techcrunch.com/2026/08/26/viral-ai-startup-instinct-has-raised-350-million-at-a-2-5-billion-valuation/",
+    "added_at": 1787810401.4163432,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://techcrunch.com/2026/08/26/amazon-just-tripled-its-order-of-nvidia-chips-over-surging-demand/",
+    "added_at": 1787810401.4163432,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://techcrunch.com/2026/08/26/anthropic-continues-compute-gobbling-streak-in-45-billion-deal-with-nscale/",
+    "added_at": 1787810401.4163432,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://news.google.com/rss/articles/CBMiwgFBVV95cUxQS3BzVVdsbG9iUHJoaGxwVFYzR256VFBDQnlQRlh1YVZfVnZmUE1jeXQzRXFHRDhuSnpyanlNZ1NHR0RHUy1TSm8teHRiVHJ1cTZSMDRJaW1MMFJXQ2ZpTmZrN081Y3V4OUM0Qk9lRXJMY2ZONzVZN0J4eWtZT1d4TTR1Uzg1bjR5NU9TRGFQdmpZb2RPQUpYbWI4NzdyVVhsczZkOWVjTzV1ZTRKbHV3RDMwcUJ5U2xTT1M2VFhrMlVpQQ?oc=5",
+    "added_at": 1787810401.4163432,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.atlanticcouncil.org/in-depth-research-reports/report/atoms-for-appalachia-building-state-capacity-for-nuclear-enabled-economic-development/",
+    "added_at": 1787810401.4163432,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.whitehouse.gov/presidential-actions/2026/08/declaring-a-national-emergency-to-secure-the-united-states-bulk-power-system/",
+    "added_at": 1787810401.4163432,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.aljazeera.com/news/2026/8/27/israel-continues-attacks-on-syria-lebanon-despite-us-push-for-diplomacy?traffic_source=rss",
+    "added_at": 1787810401.4163432,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.scmp.com/news/china/military/article/3365345/japan-fast-tracks-anti-drone-system-amid-chinas-military-build?utm_source=rss_feed",
+    "added_at": 1787810401.4163432,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.semafor.com/article/08/26/2026/uk-urges-public-to-stockpile-food",
+    "added_at": 1787810401.4163432,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://t.me/thebell_io/38854",
+    "added_at": 1787810401.4163432,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://news.google.com/rss/articles/CBMisgFBVV95cUxPY2ZVZUpjSEp5VjJyNDJUVktGMzVmVXlvWlNld1FsQ2REcTFzQ1JEZFRlc3BEcmtBSTNGcUhUUjNadmM2dUNnaW1zUXBSaDV1ZktCXzFqV0Q3anNFbUZPY0JXREMyUnFVdlFDeTFIVzMyR0g5OC1YbzVOUFZ6TExNTkhVdlVXZ2dQQ1VTUXBFUkN6VTJLamx5LURmNGwtUmNNMU9VQjFfUThOUHJxTF9HVWRB?oc=5",
+    "added_at": 1787810401.4163432,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.interfax.ru/russia/1111493",
+    "added_at": 1787810401.4163432,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://tass.com/world/2178137",
+    "added_at": 1787810401.4163432,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://meduza.io/feature/2026/08/27/vtoruyu-volnu-benzinovogo-krizisa-v-rossii-nazyvayut-novoy-toplivnoy-realnostyu-naskolko-vse-ploho",
+    "added_at": 1787810401.4163432,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.kommersant.ru/doc/8909168",
+    "added_at": 1787810401.4163432,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.vedomosti.ru/technology/news/2026/08/26/1224015-svyaz-5g-poyavitsya",
+    "added_at": 1787810401.4163432,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://tass.com/economy/2178133",
+    "added_at": 1787810401.4163432,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://tass.com/world/2178141",
+    "added_at": 1787810401.4163432,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.prweek.com/article/1968462/notified-partners-hearst-media-expand-press-release-reach",
+    "added_at": 1787810401.4163432,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.prweek.com/article/1968461/conagras-jon-harris-unveils-unreleased-interview-dolly-parton",
+    "added_at": 1787810401.4163432,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.provokemedia.com/latest/article/maslansky-partners-names-keith-yazmir-president",
+    "added_at": 1787810401.4163432,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.semafor.com/article/08/26/2026/uta-goes-to-war-with-hollywood-news-giant",
+    "added_at": 1787810401.4163432,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://adindex.ru/news/digital/2026/08/27/348372.phtml",
+    "added_at": 1787810401.4163432,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://adindex.ru/news/tendencies/2026/08/27/348373.phtml",
+    "added_at": 1787810401.4163432,
     "source": "parsed_feed"
   }
 ]
