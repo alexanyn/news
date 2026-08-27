@@ -163,12 +163,12 @@
     <span class="status-dot ok"></span>
     <h1>Пульт дайджеста · Мониторинг пайплайна</h1>
   </div>
-  <div class="meta">Обновлено 27.08.2026 12:00:00 МСК</div>
+  <div class="meta">Обновлено 27.08.2026 15:00:01 МСК</div>
 </header>
 
 <div class="strip">
   <div class="cell">
-    <span class="big mono">1</span>
+    <span class="big mono">2</span>
     <span class="label">Прогонов за 7 дней</span>
   </div>
   <div class="cell">
@@ -176,11 +176,11 @@
     <span class="label">Успешно отправлено</span>
   </div>
   <div class="cell">
-    <span class="big mono">29.0</span>
+    <span class="big mono">25.5</span>
     <span class="label">Ср. новостей / дайджест</span>
   </div>
   <div class="cell">
-    <span class="big mono">24.4с</span>
+    <span class="big mono">18.4с</span>
     <span class="label">Ср. задержка Gemini</span>
   </div>
 </div>
@@ -207,6 +207,14 @@
         </tr>
       </thead>
       <tbody>
+            <tr>
+              <td class="mono">27.08 14:07</td>
+              <td class="mono">15:00</td>
+              <td><span class="tag tag-ok">Отправлен</span></td>
+              <td class="mono num">22</td>
+              <td class="mono num">3156с</td>
+              <td class="dim">—</td>
+            </tr>
             <tr>
               <td class="mono">27.08 11:07</td>
               <td class="mono">12:00</td>
@@ -243,10 +251,10 @@
   new Chart(document.getElementById('itemsChart'), {
     type: 'line',
     data: {
-      labels: ["27.08 11:07"],
+      labels: ["27.08 11:07", "27.08 14:07"],
       datasets: [{
         label: 'Новостей в дайджесте',
-        data: [29],
+        data: [29, 22],
         borderColor: amber,
         backgroundColor: 'rgba(240,168,60,0.08)',
         pointRadius: 2,
@@ -271,8 +279,8 @@
     data: {
       labels: ["Геополитика", "Экономика", "Бизнес", "Технологии", "Энергетика", "Безопасность", "PR"],
       datasets: [
-        { label: 'Мир', data: [2, 1, 2, 3, 1, 3, 1], backgroundColor: amber },
-        { label: 'Россия', data: [2, 3, 3, 3, 1, 3, 1], backgroundColor: cyan }
+        { label: 'Мир', data: [3, 2, 3, 4, 1, 4, 3], backgroundColor: amber },
+        { label: 'Россия', data: [6, 5, 5, 5, 3, 5, 2], backgroundColor: cyan }
       ]
     },
     options: {
