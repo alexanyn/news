@@ -29,6 +29,7 @@ from main import (
     RSS_FEEDS,
     TELEGRAM_CHANNELS,
     MAX_FETCH_WORKERS,
+    CONFIG,
     fetch_feed,
     fetch_telegram_channel,
     get_source_name,
@@ -41,7 +42,10 @@ from main import (
 # вообще или отвечает пустотой). Разделение важно: protuhshaya лента иногда
 # значит "источник ещё жив, но temporarily не публикует", а не "лента умерла
 # навсегда и её надо удалять из списка".
-STALE_THRESHOLD_DAYS = 7
+# ДОБАВЛЕНО 2026-08-27: читается из того же config.json, что и main.py (ключ
+# "rss_health.stale_threshold_days") — единая точка настройки на весь проект,
+# не два независимых числа, которые могут разойтись друг с другом со временем.
+STALE_THRESHOLD_DAYS = CONFIG["rss_health"]["stale_threshold_days"]
 HEALTH_FILE = "rss_health.json"
 
 
