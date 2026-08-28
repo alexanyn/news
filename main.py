@@ -38,6 +38,14 @@ DEFAULT_CONFIG = {
         "title_similarity_threshold_same_run": 0.55,
         "title_similarity_threshold_cross_run": 0.62,
         "recent_titles_window_hours": 48,
+        # Слой Б (см. generate_analytical_json) — короткий список "недавно
+        # опубликованного" для промпта Gemini. Отдельные, более узкие
+        # значения от recent_titles_window_hours выше: тот параметр — это
+        # окно ПРОГРАММНОЙ фильтрации по похожести заголовков (Слой А),
+        # этот — окно для СЕМАНТИЧЕСКОЙ проверки самой моделью (Слой Б), и
+        # оно сознательно короче, чтобы не раздувать промпт лишним объёмом.
+        "recent_prompt_window_hours": 12,
+        "recent_prompt_max_items": 150,
     },
     "digest": {
         "max_items_per_category_per_region": 7,
@@ -69,8 +77,12 @@ DEFAULT_CONFIG = {
     # сдвинуть время запуска в cron-job.org ближе к целевому (см. пояснение
     # в самой функции ниже) — но даже без этого шага потолок гарантированно
     # не даст повториться ситуации "сгорел весь месячный лимит за 8 дней".
+    # publish_grace_seconds — если запуск опоздал БОЛЬШЕ чем на это время
+    # относительно целевого часа (например, воркфлоу задержался), ждать смысла
+    # нет — публикуем сразу, а не пытаемся досидеть до следующего расписания.
     "scheduling": {
         "max_publish_wait_seconds": 600,
+        "publish_grace_seconds": 1800,
     },
 }
 
@@ -312,7 +324,8 @@ def get_next_publish_time(schedule_name):
 
 # Если запуск задержался больше чем на это время после целевого часа публикации,
 # считаем ожидание бессмысленным и публикуем сразу, а не ждём почти сутки.
-PUBLISH_GRACE_SECONDS = 30 * 60  # 30 минут
+# Читается из config.json (ключ "scheduling.publish_grace_seconds").
+PUBLISH_GRACE_SECONDS = CONFIG["scheduling"]["publish_grace_seconds"]
 
 # ДОБАВЛЕНО 2026-08-27, СРОЧНО — см. подробный комментарий у "scheduling" в
 # DEFAULT_CONFIG в начале файла (контекст: сгорел весь месячный лимит Actions
@@ -479,12 +492,12 @@ RECENT_TITLES_FILE = "recent_titles.json"
 METRICS_FILE = "metrics.jsonl"
 
 # Из этой же истории строится КОРОТКИЙ список для промпта Gemini — Слой Б
-# выше (см. generate_analytical_json) — только последние 12ч и не больше N
-# заголовков, чтобы не раздувать промпт: цель этого списка — напомнить модели
-# про "буквально только что было в предыдущих 2-4 дайджестах", а не тащить
-# туда всю 48-часовую историю целиком.
-RECENT_PROMPT_WINDOW_SECONDS = 12 * 3600
-RECENT_PROMPT_MAX_ITEMS = 150
+# выше (см. generate_analytical_json) — только последние N часов и не больше
+# M заголовков, чтобы не раздувать промпт: цель этого списка — напомнить
+# модели про "буквально только что было в предыдущих 2-4 дайджестах", а не
+# тащить туда всю историю целиком. Читается из config.json (ключ "dedup").
+RECENT_PROMPT_WINDOW_SECONDS = CONFIG["dedup"]["recent_prompt_window_hours"] * 3600
+RECENT_PROMPT_MAX_ITEMS = CONFIG["dedup"]["recent_prompt_max_items"]
 
 _TITLE_STOPWORDS = {
     # русские служебные слова
