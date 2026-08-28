@@ -1,4 +1,4 @@
-print("=== ЗАПУСК СКРИПТА ВЕРСИИ 6.18 (RELIABILITY_ALERTS_RETRY) ===")
+print("=== ЗАПУСК СКРИПТА ВЕРСИИ 6.19 (CONFIG_JSON_AND_ACTIONS_BUDGET_FIX) ===")
 
 import os
 import re
@@ -13,6 +13,106 @@ from bs4 import BeautifulSoup
 import urllib3
 from concurrent.futures import ThreadPoolExecutor, as_completed
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+
+# ДОБАВЛЕНО 2026-08-27: config.json — гибкая настройка без правки Python.
+# Архитектура: CONFIG = встроенные значения по умолчанию (DEFAULT_CONFIG), поверх
+# которых накладывается (см. _deep_merge) содержимое config.json, если файл
+# существует и парсится. Отсутствие файла, отсутствие отдельных ключей в нём
+# или даже полностью отсутствующий/битый config.json НЕ ломает скрипт —
+# всегда есть на что откатиться. Это сознательный выбор в пользу
+# устойчивости: гибкость не должна становиться новой точкой отказа.
+#
+# rss_feeds/telegram_channels/feed_canonical_names — единственные три ключа,
+# у которых НЕТ записи в DEFAULT_CONFIG ниже (сотни строк списка не место в
+# коде на видном месте) — вместо этого у них есть свои "_FALLBACK_*"
+# константы там, где эти списки и были определены изначально (см. "2.
+# Таблица каноничных названий" и далее) — просто переименованные копии того,
+# что раньше называлось RSS_FEEDS/TELEGRAM_CHANNELS/FEED_CANONICAL_NAMES
+# напрямую. Если в config.json эти ключи заданы — они ЗАМЕНЯЮТ (не
+# дополняют) fallback целиком: так можно не только добавлять, но и убирать
+# источники через конфиг, не трогая main.py вообще.
+CONFIG_FILE = "config.json"
+
+DEFAULT_CONFIG = {
+    "dedup": {
+        "title_similarity_threshold_same_run": 0.55,
+        "title_similarity_threshold_cross_run": 0.62,
+        "recent_titles_window_hours": 48,
+    },
+    "digest": {
+        "max_items_per_category_per_region": 7,
+    },
+    "collection": {
+        "max_fetch_workers": 10,
+    },
+    "alerts": {
+        "on_statuses": ["crashed", "send_failed", "empty_no_candidates", "empty_no_digest_items"],
+    },
+    "rss_health": {
+        "stale_threshold_days": 7,
+    },
+    # ДОБАВЛЕНО 2026-08-27, СРОЧНО (см. wait_until_publish_time): раньше
+    # workflow, будучи запущен cron-job.org заметно раньше целевого времени
+    # публикации (~53 минуты, по настройке в cron-job.org), просто СПАЛ
+    # (time.sleep) весь оставшийся промежуток внутри самого раннера GitHub
+    # Actions — а раннер биллится за КАЖДУЮ минуту, пока процесс жив, включая
+    # сон. На приватном репозитории с бесплатным лимитом 2000 минут/месяц это
+    # сожгло весь лимит примерно за 8 дней (5 запусков/день × ~52 минуты,
+    # почти целиком сон) и заблокировало Actions до конца месяца (см. диалог
+    # с пользователем 2026-08-27 — "The job was not started because... your
+    # spending limit needs to be increased").
+    # max_publish_wait_seconds — жёсткий потолок: если до целевого времени
+    # остаётся БОЛЬШЕ этого значения, скрипт публикует немедленно, НЕ дожидаясь
+    # точного часа (см. wait_until_publish_time). Так расход минут раннера
+    # ограничен сверху независимо от того, насколько рано на самом деле
+    # сработал внешний триггер. Это ЧАСТИЧНОЕ решение — полное требует ЕЩЁ
+    # сдвинуть время запуска в cron-job.org ближе к целевому (см. пояснение
+    # в самой функции ниже) — но даже без этого шага потолок гарантированно
+    # не даст повториться ситуации "сгорел весь месячный лимит за 8 дней".
+    "scheduling": {
+        "max_publish_wait_seconds": 600,
+    },
+}
+
+
+def _deep_merge(base, override):
+    """Рекурсивно накладывает override поверх base: словари сливаются по
+    ключам на каждом уровне, всё остальное (числа, строки, списки) — override
+    просто заменяет значение base целиком на этом ключе. Список (например,
+    alerts.on_statuses) — это "остальное" в этом смысле: если задан в
+    config.json, заменяет ЦЕЛИКОМ, не сливается поэлементно."""
+    if not isinstance(base, dict) or not isinstance(override, dict):
+        return override
+    result = dict(base)
+    for key, value in override.items():
+        if key in result and isinstance(result[key], dict) and isinstance(value, dict):
+            result[key] = _deep_merge(result[key], value)
+        else:
+            result[key] = value
+    return result
+
+
+def load_config():
+    """Загружает CONFIG_FILE и накладывает его поверх DEFAULT_CONFIG (см.
+    выше). Если файла нет вообще — тихо возвращает чистый DEFAULT_CONFIG,
+    это штатный (не ошибочный) случай, например, до первого добавления
+    config.json в репозиторий. Если файл ЕСТЬ, но не парсится как JSON
+    (опечатка, оборванная запись) — это уже реальная проблема конфигурации,
+    о ней стоит громко сообщить в лог, но всё равно откатиться на дефолты
+    целиком, а не пытаться угадать, что имелось в виду, или уронить весь
+    прогон дайджеста из-за опечатки в JSON."""
+    if not os.path.exists(CONFIG_FILE):
+        return dict(DEFAULT_CONFIG)
+    try:
+        with open(CONFIG_FILE, encoding="utf-8") as f:
+            user_config = json.load(f)
+    except Exception as e:
+        print(f"⚠️  Ошибка чтения {CONFIG_FILE} ({e}) — используются встроенные значения по умолчанию")
+        return dict(DEFAULT_CONFIG)
+    return _deep_merge(DEFAULT_CONFIG, user_config)
+
+
+CONFIG = load_config()
 
 # 1. Переменные окружения
 gemini_api_key = os.environ.get("GEMINI_API_KEY")
@@ -57,7 +157,14 @@ LAST_RUN_FILE = "last_run.json"
 # таймаут отдельного запроса. Значение подобрано с запасом: достаточно,
 # чтобы кардинально сократить общее время, но не настолько агрессивно,
 # чтобы выглядеть как DDoS для отдельных небольших сайтов.
-MAX_FETCH_WORKERS = 10
+# ДОБАВЛЕНО 2026-08-27: читается из config.json (ключ "collection").
+MAX_FETCH_WORKERS = CONFIG["collection"]["max_fetch_workers"]
+
+# ДОБАВЛЕНО 2026-08-27: используется в generate_analytical_json (подставляется
+# в промпт вместо плейсхолдера __MAX_ITEMS__) — сколько новостей максимум на
+# категорию/регион просим у Gemini включать. Читается из config.json (ключ
+# "digest.max_items_per_category_per_region").
+MAX_ITEMS_PER_CATEGORY_PER_REGION = CONFIG["digest"]["max_items_per_category_per_region"]
 
 # ВАЖНО: GitHub Actions раннеры работают в UTC, независимо от `timezone:` в
 # cron-триггере (тот `timezone:` влияет только на МОМЕНТ СРАБАТЫВАНИЯ cron,
@@ -207,16 +314,38 @@ def get_next_publish_time(schedule_name):
 # считаем ожидание бессмысленным и публикуем сразу, а не ждём почти сутки.
 PUBLISH_GRACE_SECONDS = 30 * 60  # 30 минут
 
+# ДОБАВЛЕНО 2026-08-27, СРОЧНО — см. подробный комментарий у "scheduling" в
+# DEFAULT_CONFIG в начале файла (контекст: сгорел весь месячный лимит Actions
+# минут на GitHub из-за многоминутного time.sleep внутри раннера).
+MAX_PUBLISH_WAIT_SECONDS = CONFIG["scheduling"]["max_publish_wait_seconds"]
+
 def wait_until_publish_time(schedule_name):
     """
     Блокирует выполнение до наступления логического времени публикации (по Москве),
     либо возвращается немедленно, если это время уже наступило (в пределах
-    PUBLISH_GRACE_SECONDS) или было пропущено намного раньше.
+    PUBLISH_GRACE_SECONDS), было пропущено намного раньше, ИЛИ до него осталось
+    больше MAX_PUBLISH_WAIT_SECONDS (см. ниже).
     
     Именно это устраняет проблему "дайджест публикуется сразу после запуска
     workflow вместо заявленного времени": сбор новостей может начаться заранее
     (например, в 08:10 вместо 09:00 или в 14:10 вместо 15:00), но реальная
     отправка в Telegram откладывается до целевого часа расписания включительно.
+
+    ВАЖНО (добавлено 2026-08-27): это "включительно" не безусловно — только
+    ЕСЛИ до целевого времени осталось не больше MAX_PUBLISH_WAIT_SECONDS.
+    Если внешний триггер (cron-job.org) сработал СИЛЬНО заранее (например,
+    по старой настройке ~53 минуты до цели) — функция НЕ будет спать всё это
+    время: раннер GitHub Actions биллится за каждую минуту, пока процесс жив,
+    ВКЛЮЧАЯ время сна, а на приватных репозиториях это платные (при перерасходе
+    сверх 2000 бесплатных минут/месяц) или вовсе блокирующие минуты. Вместо
+    многоминутного сна публикация в этом случае происходит НЕМЕДЛЕННО —
+    заметно раньше заявленного часа расписания, но эта заметность и есть
+    сигнал: если видите в логе "⚠️ публикуем раньше расписания" регулярно —
+    это означает, что внешний триггер (cron-job.org) всё ещё настроен запускать
+    workflow слишком рано, и его настройку нужно сдвинуть ближе к целевому
+    времени (порядка MAX_PUBLISH_WAIT_SECONDS до цели, не больше) — тогда
+    ожидание снова будет укладываться в потолок и точность публикации
+    вернётся, уже без риска сжечь лимит минут.
     """
     target_ts = get_next_publish_time(schedule_name)
     now_ts = time.time()
@@ -224,6 +353,14 @@ def wait_until_publish_time(schedule_name):
     
     if wait_seconds <= 0:
         print(f"⏱️  Целевое время публикации уже наступило, публикуем немедленно.")
+        return
+
+    if wait_seconds > MAX_PUBLISH_WAIT_SECONDS:
+        print(f"⚠️  публикуем раньше расписания: до целевого времени {int(wait_seconds)}с, "
+              f"это больше потолка ожидания MAX_PUBLISH_WAIT_SECONDS={MAX_PUBLISH_WAIT_SECONDS}с "
+              f"— НЕ ждём (чтобы не жечь минуты GitHub Actions на простое). Если видите "
+              f"это сообщение регулярно — сдвиньте время запуска в cron-job.org ближе к "
+              f"целевому часу расписания (см. docstring этой функции).")
         return
     
     target_readable = datetime.datetime.fromtimestamp(target_ts, MOSCOW_TZ).strftime("%H:%M:%S МСК")
@@ -315,15 +452,19 @@ def save_run_time(schedule_name):
 # подними соответствующий порог на 0.03-0.05. Если дубли по-прежнему
 # проскакивают в дайджест — опусти на столько же. Меняй по одному порогу за
 # раз и смотри на лог следующих 2-3 прогонов, прежде чем трогать второй.
-TITLE_SIMILARITY_THRESHOLD_SAME_RUN = 0.55
-TITLE_SIMILARITY_THRESHOLD_CROSS_RUN = 0.62
+# ДОБАВЛЕНО 2026-08-27: значения теперь читаются из config.json (ключ
+# "dedup") — тюнинг из абзаца выше делается правкой JSON, а не Python;
+# значения ниже — те же самые проверенные дефолты, используются, если
+# config.json отсутствует или не содержит эти конкретные ключи.
+TITLE_SIMILARITY_THRESHOLD_SAME_RUN = CONFIG["dedup"]["title_similarity_threshold_same_run"]
+TITLE_SIMILARITY_THRESHOLD_CROSS_RUN = CONFIG["dedup"]["title_similarity_threshold_cross_run"]
 
 # Как долго заголовок остаётся в recent_titles.json для CROSS_RUN проверки.
 # 48 часов покрывает предыдущие сутки целиком плюс все дайджесты текущего дня
 # — достаточно, чтобы поймать "то же событие всплыло через 1-2 дайджеста", но
 # не настолько долго, чтобы блокировать законный новый виток той же истории
 # несколько дней спустя (это уже другая новость по сути, а не повтор).
-RECENT_TITLES_WINDOW_HOURS = 48
+RECENT_TITLES_WINDOW_HOURS = CONFIG["dedup"]["recent_titles_window_hours"]
 RECENT_TITLES_FILE = "recent_titles.json"
 
 # ДОБАВЛЕНО 2026-08-27: файл метрик для видимости (см. save_run_metrics
@@ -494,8 +635,9 @@ def save_run_metrics(metrics):
 # скорее сигнал проблемы (сеть, сломанный промпт, сбой парсинга), чем
 # "и правда не было новостей". Если на практике "empty_*" начнёт срабатывать
 # слишком часто на реально тихие периоды (а не на поломку) — можно убрать
-# соответствующий статус из этого множества, больше ничего менять не нужно.
-ALERT_ON_STATUSES = {"crashed", "send_failed", "empty_no_candidates", "empty_no_digest_items"}
+# соответствующий статус из этого множества правкой config.json (ключ
+# "alerts.on_statuses"), без изменений в Python.
+ALERT_ON_STATUSES = set(CONFIG["alerts"]["on_statuses"])
 
 
 def _count_recent_consecutive_failures():
@@ -611,7 +753,11 @@ def _finalize_run_metrics(run_metrics, run_start_time):
     save_run_metrics(run_metrics)
 
 # 2. Таблица каноничных названий
-FEED_CANONICAL_NAMES = {
+# ДОБАВЛЕНО 2026-08-27: переименовано в _FALLBACK_* — активное значение
+# теперь строится ниже, сразу после закрывающей скобки, из config.json
+# (ключ "feed_canonical_names"), с откатом на этот словарь, если ключа нет.
+# Содержимое ниже НЕ менялось при переименовании.
+_FALLBACK_FEED_CANONICAL_NAMES = {
     "reuters.com": "Reuters",
     "apnews.com": "Associated Press",
     "bbci.co.uk": "BBC World News",
@@ -735,8 +881,14 @@ FEED_CANONICAL_NAMES = {
     "adindex.ru": "AdIndex",
     "cossa.ru": "Cossa",
 }
+FEED_CANONICAL_NAMES = CONFIG.get("feed_canonical_names") or _FALLBACK_FEED_CANONICAL_NAMES
 
-RSS_FEEDS = [
+# ДОБАВЛЕНО 2026-08-27: аналогично FEED_CANONICAL_NAMES выше — переименовано
+# в _FALLBACK_*, активное значение RSS_FEEDS строится из config.json (ключ
+# "rss_feeds") сразу после закрывающей скобки, с откатом на этот список,
+# если ключа нет или сам config.json недоступен. Содержимое списка НЕ
+# менялось при переименовании — просто изменилось имя, которому он присвоен.
+_FALLBACK_RSS_FEEDS = [
     "https://news.google.com/rss/search?q=site:reuters.com&hl=en-US&gl=US&ceid=US:en",
     "https://news.google.com/rss/search?q=site:apnews.com&hl=en-US&gl=US&ceid=US:en",
     "http://feeds.bbci.co.uk/news/world/rss.xml",
@@ -978,12 +1130,16 @@ RSS_FEEDS = [
     # Cossa.ru: прямой RSS-адрес не нашёлся при проверке 2026-08-20, fallback.
     "https://news.google.com/rss/search?q=site:cossa.ru&hl=ru&gl=RU&ceid=RU:ru",      # Cossa
 ]
+RSS_FEEDS = CONFIG.get("rss_feeds") or _FALLBACK_RSS_FEEDS
 
 # Telegram-каналы обрабатываются отдельно от RSS_FEEDS: у них нет RSS-ленты,
 # контент собирается парсингом публичной веб-версии t.me/s/<channel>.
 # Financial Times заменён на этот канал вместо RSS с ft.com, так как сайт FT
 # требует подписку, а канал публикует статьи бесплатно (с переводом на русский).
-TELEGRAM_CHANNELS = [
+# ДОБАВЛЕНО 2026-08-27: аналогично двум спискам выше — переименовано в
+# _FALLBACK_*, активное значение строится из config.json (ключ
+# "telegram_channels") сразу после закрывающей скобки.
+_FALLBACK_TELEGRAM_CHANNELS = [
     {"username": "the_financial_times_journal", "source_name": "Financial Times"},
     # Добавлено 2026-08-16: у The Bell нет публичного RSS (thebell.io — платная
     # подписка), но есть официальный публичный Telegram-канал самого издания
@@ -1000,6 +1156,7 @@ TELEGRAM_CHANNELS = [
     {"username": "rerussia_org", "source_name": "Re:Russia"},
     {"username": "istories_media", "source_name": "Важные истории"},   # маркировано в РФ как нежелательная организация — как и у нескольких источников выше (Meduza, The Bell)
 ]
+TELEGRAM_CHANNELS = CONFIG.get("telegram_channels") or _FALLBACK_TELEGRAM_CHANNELS
 
 LOCAL_POLITICS_KEYWORDS = [
     "муниципал", "депутат", "областной", "районный",
@@ -1683,18 +1840,18 @@ def generate_analytical_json(raw_data_prompt, recently_published_titles=None):
     
     ВАЖНО (полнота выборки — уточнено 2026-08-21): по каждой категории
     отдельно для мира и для России (то есть отдельно для is_russia=false и
-    is_russia=true внутри одной категории) старайся включать ДО 7 новостей
+    is_russia=true внутри одной категории) старайся включать ДО __MAX_ITEMS__ новостей
     каждая, а не искусственно ограничивать себя маленькой "представительной"
     выборкой из 3-4 самых заметных. Если после дедупликации и применения
-    всех исключений выше по категории/региону набирается 7 и более
-    качественных кандидатов — включай 7 самых значимых из них, остальные
-    можно опустить. Если качественных кандидатов набралось МЕНЬШЕ 7 —
+    всех исключений выше по категории/региону набирается __MAX_ITEMS__ и более
+    качественных кандидатов — включай __MAX_ITEMS__ самых значимых из них, остальные
+    можно опустить. Если качественных кандидатов набралось МЕНЬШЕ __MAX_ITEMS__ —
     включай ровно столько, сколько реально прошло фильтры, не отбирай
-    специально меньше ради "компактности" дайджеста. При этом 7 — это
+    специально меньше ради "компактности" дайджеста. При этом __MAX_ITEMS__ — это
     ПОТОЛОК, а не цель, которую нужно любой ценой добить: если по категории
     реально прошло фильтры только 2-3 качественных кандидата — включай эти
     2-3, НЕ добавляй в довесок откровенно рядовые новости просто чтобы
-    приблизиться к 7 (это противоречило бы правилам исключения выше).
+    приблизиться к __MAX_ITEMS__ (это противоречило бы правилам исключения выше).
     
     Если сомневаешься, оставлять новость или нет, — задай себе вопрос: "Повлияет ли
     это на международную политику, экономику, бизнес, технологии или PR-индустрию,
@@ -1707,6 +1864,10 @@ def generate_analytical_json(raw_data_prompt, recently_published_titles=None):
     
     prompt = prompt_template.replace("__RECENT_CONTEXT__", recent_block)
     prompt = prompt.replace("__INPUT_DATA__", raw_data_prompt)
+    # ДОБАВЛЕНО 2026-08-27: лимит новостей на категорию/регион теперь читается
+    # из config.json (ключ "digest.max_items_per_category_per_region") вместо
+    # того, чтобы быть зашитым в текст промпта — тюнинг делается правкой JSON.
+    prompt = prompt.replace("__MAX_ITEMS__", str(MAX_ITEMS_PER_CATEGORY_PER_REGION))
     # ИСПРАВЛЕНО (повторно, 12.08.2026): gemini-2.5-flash больше недоступна новым
     # пользователям ("no longer available to new users" — Google снял её с эксплуатации
     # раньше объявленного срока в октябре 2026). На момент этого исправления
