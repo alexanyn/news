@@ -3,7 +3,9 @@
   "dedup": {
     "title_similarity_threshold_same_run": 0.55,
     "title_similarity_threshold_cross_run": 0.62,
-    "recent_titles_window_hours": 48
+    "recent_titles_window_hours": 48,
+    "recent_prompt_window_hours": 12,
+    "recent_prompt_max_items": 150
   },
   "digest": {
     "max_items_per_category_per_region": 7
@@ -22,9 +24,10 @@
   "rss_health": {
     "stale_threshold_days": 7
   },
-  "_scheduling_comment": "max_publish_wait_seconds — СРОЧНО добавлено 2026-08-27 из-за блокировки GitHub Actions billing (сгорел месячный лимит минут на time.sleep внутри раннера, пока ждали целевого часа публикации). Если до целевого времени осталось БОЛЬШЕ этого значения — скрипт публикует немедленно, не дожидаясь точного часа, чтобы не жечь минуты раннера. См. подробности в wait_until_publish_time в main.py. ВАЖНО: помимо этого значения, также нужно сдвинуть время запуска в cron-job.org с ~53 минут до целевого часа на ~8 минут — иначе публикация будет систематически выходить намного раньше расписания.",
+  "_scheduling_comment": "max_publish_wait_seconds — добавлено 2026-08-27 из-за блокировки GitHub Actions billing (сгорел месячный лимит минут на time.sleep внутри раннера, пока ждали целевого часа публикации). Если до целевого времени осталось БОЛЬШЕ этого значения — скрипт публикует немедленно. См. wait_until_publish_time в main.py. publish_grace_seconds — если запуск опоздал больше чем на это время относительно целевого часа, ждать смысла нет, публикуем сразу.",
   "scheduling": {
-    "max_publish_wait_seconds": 600
+    "max_publish_wait_seconds": 600,
+    "publish_grace_seconds": 1800
   },
   "rss_feeds": [
     "https://news.google.com/rss/search?q=site:reuters.com&hl=en-US&gl=US&ceid=US:en",
