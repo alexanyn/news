@@ -163,12 +163,12 @@
     <span class="status-dot ok"></span>
     <h1>Пульт дайджеста · Мониторинг пайплайна</h1>
   </div>
-  <div class="meta">Обновлено 01.09.2026 15:00:01 МСК</div>
+  <div class="meta">Обновлено 01.09.2026 18:00:01 МСК</div>
 </header>
 
 <div class="strip">
   <div class="cell">
-    <span class="big mono">7</span>
+    <span class="big mono">8</span>
     <span class="label">Прогонов за 7 дней</span>
   </div>
   <div class="cell">
@@ -176,11 +176,11 @@
     <span class="label">Успешно отправлено</span>
   </div>
   <div class="cell">
-    <span class="big mono">27.4</span>
+    <span class="big mono">29.0</span>
     <span class="label">Ср. новостей / дайджест</span>
   </div>
   <div class="cell">
-    <span class="big mono">21.2с</span>
+    <span class="big mono">38.1с</span>
     <span class="label">Ср. задержка Gemini</span>
   </div>
 </div>
@@ -207,6 +207,14 @@
         </tr>
       </thead>
       <tbody>
+            <tr>
+              <td class="mono">01.09 17:52</td>
+              <td class="mono">18:00</td>
+              <td><span class="tag tag-ok">Отправлен</span></td>
+              <td class="mono num">40</td>
+              <td class="mono num">449с</td>
+              <td class="dim">—</td>
+            </tr>
             <tr>
               <td class="mono">01.09 14:52</td>
               <td class="mono">15:00</td>
@@ -291,10 +299,10 @@
   new Chart(document.getElementById('itemsChart'), {
     type: 'line',
     data: {
-      labels: ["27.08 11:07", "27.08 14:07", "27.08 17:07", "27.08 20:07", "01.09 08:52", "01.09 11:52", "01.09 14:52"],
+      labels: ["27.08 11:07", "27.08 14:07", "27.08 17:07", "27.08 20:07", "01.09 08:52", "01.09 11:52", "01.09 14:52", "01.09 17:52"],
       datasets: [{
         label: 'Новостей в дайджесте',
-        data: [29, 22, 25, 25, 35, 37, 19],
+        data: [29, 22, 25, 25, 35, 37, 19, 40],
         borderColor: amber,
         backgroundColor: 'rgba(240,168,60,0.08)',
         pointRadius: 2,
@@ -319,8 +327,8 @@
     data: {
       labels: ["Геополитика", "Экономика", "Бизнес", "Технологии", "Энергетика", "Безопасность", "PR"],
       datasets: [
-        { label: 'Мир', data: [15, 9, 13, 15, 10, 11, 12], backgroundColor: amber },
-        { label: 'Россия', data: [16, 19, 20, 14, 11, 18, 9], backgroundColor: cyan }
+        { label: 'Мир', data: [19, 12, 18, 19, 15, 14, 13], backgroundColor: amber },
+        { label: 'Россия', data: [19, 22, 22, 16, 13, 21, 9], backgroundColor: cyan }
       ]
     },
     options: {
