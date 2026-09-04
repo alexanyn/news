@@ -1,130 +1,5 @@
 [
   {
-    "url": "https://www.kommersant.ru/doc/8910034",
-    "added_at": 1787853600.7767115,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://tass.com/world/2178541",
-    "added_at": 1787853600.7767115,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://asia.nikkei.com/business/business-deals/japan-s-itochu-to-take-1.5bn-stake-in-dentsu-group-system-developer-unit",
-    "added_at": 1787853600.7767115,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://asia.nikkei.com/business/media-entertainment/universal-studios-japan-to-spend-up-to-1.9bn-on-expansion",
-    "added_at": 1787853600.7767115,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.kommersant.ru/doc/8910015",
-    "added_at": 1787853600.7767115,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://techcrunch.com/2026/08/27/googles-ai-mode-can-now-track-flight-prices-help-book-hotels-and-more/",
-    "added_at": 1787853600.7767115,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://asia.nikkei.com/business/technology/artificial-intelligence/japan-s-top-banks-regain-access-to-anthropic-s-mythos-ai-after-us-freeze",
-    "added_at": 1787853600.7767115,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.scmp.com/news/china/article/3365504/brazils-rare-earths-will-not-loosen-chinas-magnet-grip-decade-researchers-say?utm_source=rss_feed",
-    "added_at": 1787853600.7767115,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://asia.nikkei.com/business/science/japan-eyes-research-on-nuclear-fusion-tritium-fuel-at-new-base",
-    "added_at": 1787853600.7767115,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.scmp.com/news/world/united-states-canada/article/3365503/us-patriot-missile-shortage-europe-beyond-critical-due-iran-war-officials-say?utm_source=rss_feed",
-    "added_at": 1787853600.7767115,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.politico.eu/article/poland-rules-out-hosting-nuclear-weapons-despite-russian-threat/?utm_source=RSS_Feed&utm_medium=RSS&utm_campaign=RSS_Syndication",
-    "added_at": 1787853600.7767115,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.kommersant.ru/doc/8910033",
-    "added_at": 1787853600.7767115,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.rbc.ru/politics/26/07/2026/6a65e8fc9a79471bb8d21611",
-    "added_at": 1787853600.7767115,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.kommersant.ru/doc/8910038",
-    "added_at": 1787853600.7767115,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://news.google.com/rss/articles/CBMirwFBVV95cUxPU2lNMEgwR0F4MnJEcUd5R25mN2R4UXZFTGhEYlNWNmpCM2MtRktuQUNHR1pmNjMwRVphbkJEVFBpdUlVOGxkV2s1a2xrcXMzdTBaTWkyY1pJTnFYdmZic0l0R3FjbGFuRmg0eTRxNEdCaEs3b243TjN2Q2pUalJqVGJLTVNqNFNsa2RuMHU5UjhhRndsbl9qNjFNcGtFQ0ZVa0IwRHFsY3dWX1VFWDF3?oc=5",
-    "added_at": 1787853600.7767115,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://meduza.io/cards/s-sentyabrya-rossiyane-smogut-rasplachivatsya-tsifrovymi-rublyami-gde-ih-budut-prinimat-kak-otkryt-schet",
-    "added_at": 1787853600.7767115,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.interfax.ru/russia/1111657",
-    "added_at": 1787853600.7767115,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.vedomosti.ru/investments/news/2026/08/27/1224266-tsena-magnita-obrushilas",
-    "added_at": 1787853600.7767115,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.rbc.ru/politics/25/08/2026/6a8d6304d25176b951f06223",
-    "added_at": 1787853600.7767115,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.cnews.ru/news/top/2026-08-27_minoborony_ne_smoglo_vzyskat",
-    "added_at": 1787853600.7767115,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://t.me/neftegazchannel/27672",
-    "added_at": 1787853600.7767115,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.interfax.ru/world/1111652",
-    "added_at": 1787853600.7767115,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://meduza.io/news/2026/08/27/politsiya-penzenskoy-oblasti-pozhalovalas-na-mestnyh-zhiteley-kotorye-meshayut-zaderzhaniyam-v-regione-pohischayut-muzhchin-i-otpravlyayut-ih-na-voynu",
-    "added_at": 1787853600.7767115,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.semafor.com/article/08/27/2026/group-launches-sports-ad-blitz-to-counter-cbc",
-    "added_at": 1787853600.7767115,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://news.google.com/rss/articles/CBMiygFBVV95cUxOV1ZwLWY4cHZzWjVHZ080d25kTWY4N281anJqcjRfTHhNWkUtUFZadHpfYWNtZU5OanA4bVlmeEVxamJqWWRzMFZCNWluM25sY05EN25PRDVycWhQemVrY1hYc096QW1UZUsxNzNRUk9hNHZFNDhNLWJyakVLQzU0d2lfZ1FSZzVHQnRwdlc3S2JrdkR6MVpCQWhVTVNVX3JtbVVlX0ZMQURVdjRTVGNKY2pkNVN1alAtbE9uc3BZVzNkU3F5ZEVNcjBn?oc=5",
-    "added_at": 1787853600.7767115,
-    "source": "parsed_feed"
-  },
-  {
     "url": "https://news.google.com/rss/articles/CBMivAFBVV95cUxQbk54R0FXekgzSkFrRUZRVjFKZUdDdmNfaDF6ZGRJMzlqdXd2NG5iTEYyS21MUkRWX3BWVWREVS04SjIzOVQ1Qm5aa0tNcHNQZno3M0JacjFoSEVmdkFyakN0RGlmZ3BYTFpaeGVFQ3JFVUtLY2RxSDRDWVlhQzFyNDVuM2FYQnVBeTU0OXo1UEllajdzZUZPWmxJdmxFMkc4UTFfMXBZTVNIZGNfZ25zOGV6VWJVRDhMZnhIQw?oc=5",
     "added_at": 1788242401.7940655,
     "source": "parsed_feed"
@@ -2012,6 +1887,201 @@
   {
     "url": "https://tass.com/politics/2182327",
     "added_at": 1788458400.73484,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.scmp.com/news/china/diplomacy/article/3366318/trade-chief-greer-optimistic-us-and-china-can-stabilise-ties?utm_source=rss_feed",
+    "added_at": 1788501601.1648452,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.interfax.ru/world/1113141",
+    "added_at": 1788501601.1648452,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.worldpoliticsreview.com/nicaragua-ortega-murillo-mask-dictatorship/",
+    "added_at": 1788501601.1648452,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.politico.eu/article/friedrich-merz-afd-cdu-germany-regional-election/?utm_source=RSS_Feed&utm_medium=RSS&utm_campaign=RSS_Syndication",
+    "added_at": 1788501601.1648452,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://news.google.com/rss/articles/CBMie0FVX3lxTE9rcFlLejhNNm1fZ1hhM3NvLV8zZTJuOTE5QUVSUVR2V0IxQWpuLUZxVHFmRXpWVHd2OWU0cUR3eW9ZMFZKQnhwcFdrOHBZclNEZkF1X01MYmw4dUZTbU9zWGJPMEJ4N3FXNkY1MHAwSFZWenJGVWM4blVzbw?oc=5",
+    "added_at": 1788501601.1648452,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://news.google.com/rss/articles/CBMisgFBVV95cUxNOVVLQ1JxMUF2UjJSdF93czRZTXpkaHVuZmVFNVJuVUtIVkVSRThtaXdSY1J0MDRvR2ZoUXkyUmtsN0lEM3pZR0I4aVVXU0NSNGdyUjVEOUh2ODhld2ZWZ01QdHRDWWJIdlJrU1BsNnJoUkJpWTE3ZVB6T0N4bUpRbjhCb3RWa0k0QUhGQm0xSE0zRmZYS3hpdDI2eFZXZmZVMV9SamVTTVhKSkR3ZVJJUHJn?oc=5",
+    "added_at": 1788501601.1648452,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.semafor.com/article/09/03/2026/china-announces-1t-push-to-become-sports-powerhouse",
+    "added_at": 1788501601.1648452,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://vc.ru/transport/3120377-volkswagen-utverdil-plan-restrukturizacii-kompanii-avtoproizvoditel-uvolit-50-tysyach-sotrudnikov-i-zakroet-chetyre-zavoda-v-germanii?from=rss",
+    "added_at": 1788501601.1648452,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://news.google.com/rss/articles/CBMijgFBVV95cUxNcXpfWXpxaW43cnlKbTFGMWVPaDJscHVnRTRTc21iazZGUUxRWTA1UlZXYmduaXduZDFfLVZKWVFySUswTTFFcWdROEtSLW5ERlZzMDhLR0hHbjVUWXFILW9fN0I4TlYtRFI2bUNmYl9ZVnBKdFFzaGVQWENJUzhEOTBuTEdCbUxCZ183TTBn?oc=5",
+    "added_at": 1788501601.1648452,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://news.google.com/rss/articles/CBMikAFBVV95cUxNNmtTanVpQVBnMzVQeFhHcFI2eG9ZT1IydkJfVzdCY29hUVF0NHF4ZnJqaU1QZVFzaXZlZ25LajBSSkN4WUd5SC1XcTVVQ0dWYXVrczY4NzluallEdXIwSXJBdXdLLUk4bDZlV1RqXzR6LUxLc2JpYzFwSVU0NGNjNWJidERkY3NKNlpsN1VoQUs?oc=5",
+    "added_at": 1788501601.1648452,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://news.google.com/rss/articles/CBMipAFBVV95cUxOaU13a2R4d2xXRjFlaF9hVk44UGpLWHlHMVBvZzVZOUxiMUVsTzRVa1NxUGNLZkFrU2k0eVpZbi1ieUg2YWdLclVONnlJSk5yalYyYURpLUUwZl80UmdEZkJXRTdmTXNfSEJadmdUS040ZG1tOEIzbWRQdWV3ZWdyemE3NmhIOHIwMk9lVnhrbHBLUUpkdzVoSEFZYVZKYm80TTNyWg?oc=5",
+    "added_at": 1788501601.1648452,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://news.google.com/rss/articles/CBMivwFBVV95cUxQSDlySGRQNGpxajlQbEZzVlhtZ05EZTFpaFliR0lKeE1RNlBNUzFyem9yZGtXNk9HbEFROS1YWVBIMlo5SGtjX0UxMjFJNk90WUlrR05WdGc1M083U2xLNlUwSUQzODBPSjVYUm5GU3paMndReWQxMEVxckVfTEJmcUVVMVI2ZWVsWVByVEpObjZVVjNKX2FPMWNLWkI1eHZVQTJ0a0VhM1J4ZUNOVkpjREMwVDdIT3ZzVjNKc0FCUQ?oc=5",
+    "added_at": 1788501601.1648452,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://techcrunch.com/2026/09/03/crusoe-reportedly-raises-3b-at-a-30b-valuation/",
+    "added_at": 1788501601.1648452,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://news.google.com/rss/articles/CBMiygFBVV95cUxOQVZJdUE0TzFvS2xtSUJLOVUxZUVRZVRpMi1aUlNuSFZzX3h5TW4zSGJya0w3SjFlSno4QUlvdU90cHBBOS1xRllCZjR2aVRnUW16ZmQyN3M1SlRVSl9BYlk2Z2dvWGIzdEo3cXdTZjdWZkIzYXRNRzk3ZkM2cWMwN2ZWMVh1T09pNnRKVVAwRDhNSnJnSTFwVi1MZXdMNUNwOFJTU215REpkR1V0X1pVa09vNkVHeG9oX2lpVjdoTVl1ajI5MzU0dUN3?oc=5",
+    "added_at": 1788501601.1648452,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.kommersant.ru/doc/8925513",
+    "added_at": 1788501601.1648452,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://news.google.com/rss/articles/CBMirwFBVV95cUxNQk9JaV9uYUFvOUh2ZTlZS2tpbVRxcmt0WTBTY3JQaHU2NEhEVGk1SGJLS3FoSEc4V0FMb0RUR3VfYXgteGpkR3ZXVEh0N2lqYlZjdElJQW51SVVXYklHQnJ4Mmh1LTJRU1lidGN0Wk5RUW5icFZHbVoxbFBEWDNESXRBTFpiaTZvVm1ia2hFN0F0VXdHVHBJM0VkbU92SmpISDEybXZFYVZBUmNkYW9N?oc=5",
+    "added_at": 1788501601.1648452,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.semafor.com/article/09/03/2026/russia-ukraine-eye-diplomacy-effort",
+    "added_at": 1788501601.1648452,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.vedomosti.ru/politics/news/2026/09/04/1226246-trutnev-yaponii-nikto",
+    "added_at": 1788501601.1648452,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.kommersant.ru/doc/8925522",
+    "added_at": 1788501601.1648452,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.rbc.ru/finances/02/09/2026/6a97fdd99a7947a6f2d63c1d",
+    "added_at": 1788501601.1648452,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.finmarket.ru/main/article/6700014",
+    "added_at": 1788501601.1648452,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.kommersant.ru/doc/8925524",
+    "added_at": 1788501601.1648452,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.vedomosti.ru/business/news/2026/09/04/1226097-vtb-narastil-portfel",
+    "added_at": 1788501601.1648452,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://tass.com/economy/2182471",
+    "added_at": 1788501601.1648452,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.cnews.ru/news/line/2026-09-04_hranitel_s_iskusstvennym",
+    "added_at": 1788501601.1648452,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://t.me/thebell_io/38958",
+    "added_at": 1788501601.1648452,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.interfax.ru/business/1113143",
+    "added_at": 1788501601.1648452,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://tass.com/economy/2182461",
+    "added_at": 1788501601.1648452,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://t.me/neftegazchannel/27765",
+    "added_at": 1788501601.1648452,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.kommersant.ru/doc/8925525",
+    "added_at": 1788501601.1648452,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://foreignpolicy.com/2026/09/03/russia-failed-drone-attack-germany-leipzig-airport-eu-nato/",
+    "added_at": 1788501601.1648452,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://meduza.io/news/2026/09/04/ukrainskie-bespilotniki-atakovali-sochi-i-poselok-sirius-na-territorii-neftebazy-proizoshel-pozhar",
+    "added_at": 1788501601.1648452,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.prweek.com/article/1969128/meltwater-data-reveals-severe-reputational-damage-good-good-golf-callaway",
+    "added_at": 1788501601.1648452,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.provokemedia.com/latest/article/itp-media-group-acquires-heart-media-in-major-asia-expansion",
+    "added_at": 1788501601.1648452,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.provokemedia.com/latest/article/weber-shandwick-australia-team-launches-independent-agency-vocal",
+    "added_at": 1788501601.1648452,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.cnews.ru/news/line/2026-09-04_avito_rabota_bolee_treti",
+    "added_at": 1788501601.1648452,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://news.google.com/rss/articles/CBMirwFBVV95cUxNeEI5UU02WjVPSU5NdXJZeXJmei1tMjZJY3g4MDlKR3BQekJIRDNUdWhMR2poUy11bHcyUEQ3OWU0dE5aSnYxLUFyYkxRNlZXNE1vRkpHZ3lqS1NVWTd3TUw1ckdiVFA2QUpFbXB0cDVIaVZuUnhLZVBoQTBCMjhxNnNJSTItREFlZjhuOTg5Sk45TnZzaHRWWjRacXhoWS15RWg3NEJ6ZWtFVkwtM05R?oc=5",
+    "added_at": 1788501601.1648452,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://news.google.com/rss/articles/CBMiswFBVV95cUxNR1FmdjhtYmJEa1dNY3ZlU2phTk9HTm5Rb09RVF9fN24yRTNUUkNLYWtOd2hFYlkwYTNBQ1JvbThCUW02UlB3TzFXa1dOSzNpM3Y0MUpndEVaUlp0RWlJTE1aMVZoa3FoZE8xWGEzcHBacGlsY1JIaGlrTTdhZVVTMV9ncGtHQUxPYmF3aDhSR1BZY3hkRVNFbEdQczR1dm9XMk5lZnBDTmU5VGFKNjRUbDFNNA?oc=5",
+    "added_at": 1788501601.1648452,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://adindex.ru/news/researches/2026/09/4/348607.phtml",
+    "added_at": 1788501601.1648452,
     "source": "parsed_feed"
   }
 ]
