@@ -163,12 +163,12 @@
     <span class="status-dot ok"></span>
     <h1>Пульт дайджеста · Мониторинг пайплайна</h1>
   </div>
-  <div class="meta">Обновлено 07.09.2026 09:00:00 МСК</div>
+  <div class="meta">Обновлено 07.09.2026 12:00:01 МСК</div>
 </header>
 
 <div class="strip">
   <div class="cell">
-    <span class="big mono">31</span>
+    <span class="big mono">32</span>
     <span class="label">Прогонов за 7 дней</span>
   </div>
   <div class="cell">
@@ -176,11 +176,11 @@
     <span class="label">Успешно отправлено</span>
   </div>
   <div class="cell">
-    <span class="big mono">21.2</span>
+    <span class="big mono">21.4</span>
     <span class="label">Ср. новостей / дайджест</span>
   </div>
   <div class="cell">
-    <span class="big mono">111.5с</span>
+    <span class="big mono">109.3с</span>
     <span class="label">Ср. задержка Gemini</span>
   </div>
 </div>
@@ -207,6 +207,14 @@
         </tr>
       </thead>
       <tbody>
+            <tr>
+              <td class="mono">07.09 11:52</td>
+              <td class="mono">12:00</td>
+              <td><span class="tag tag-ok">Отправлен</span></td>
+              <td class="mono num">29</td>
+              <td class="mono num">461с</td>
+              <td class="dim">—</td>
+            </tr>
             <tr>
               <td class="mono">07.09 08:52</td>
               <td class="mono">09:00</td>
@@ -399,22 +407,29 @@
               <td class="mono num">454с</td>
               <td class="dim">—</td>
             </tr>
-            <tr>
-              <td class="mono">02.09 11:52</td>
-              <td class="mono">12:00</td>
-              <td><span class="tag tag-ok">Отправлен</span></td>
-              <td class="mono num">40</td>
-              <td class="mono num">451с</td>
-              <td class="dim">—</td>
-            </tr>
       </tbody>
     </table>
   </section>
 
   
         <section class="panel">
-          <h2><span class="eyebrow">04</span> Здоровье источников</h2>
-          <div class="dim">rss_health.json ещё не создан — появится после первого запуска еженедельной проверки (см. rss_health.yml).</div>
+          <h2><span class="eyebrow">04</span> Здоровье источников <span class="dim mono small">· проверено 2026-09-07 09:18</span></h2>
+          <div class="health-grid">
+            <div class="health-col">
+              <div class="health-stat"><span class="mono big">71/104</span><span class="dim">RSS в норме</span></div>
+              <h3 class="mini-h bad">Мертвы (8)</h3>
+              <div class="src-row"><span class="mono">Brookings Institution</span><span class="dim"> — Пустой ответ или нет записей</span></div><div class="src-row"><span class="mono">Carnegie Endowment</span><span class="dim"> — Пустой ответ или нет записей</span></div><div class="src-row"><span class="mono">Rest of World</span><span class="dim"> — Пустой ответ или нет записей</span></div><div class="src-row"><span class="mono">SEC</span><span class="dim"> — Пустой ответ или нет записей</span></div><div class="src-row"><span class="mono">Stratechery</span><span class="dim"> — Пустой ответ или нет записей</span></div><div class="src-row"><span class="mono">ВТО</span><span class="dim"> — Пустой ответ или нет записей</span></div><div class="src-row"><span class="mono">Правительство РФ</span><span class="dim"> — Пустой ответ или нет записей</span></div><div class="src-row"><span class="mono">РСМД</span><span class="dim"> — Пустой ответ или нет записей</span></div>
+              <h3 class="mini-h warn">Протухли (25)</h3>
+              <div class="src-row"><span class="mono">Bain</span><span class="dim"> — 1545.7 дн. назад</span></div><div class="src-row"><span class="mono">Bloomberg Money Stuff</span><span class="dim"> — 173.0 дн. назад</span></div><div class="src-row"><span class="mono">Bruegel</span><span class="dim"> — 14.0 дн. назад</span></div><div class="src-row"><span class="mono">CIPR</span><span class="dim"> — 11.9 дн. назад</span></div><div class="src-row"><span class="mono">Congress</span><span class="dim"> — 7.9 дн. назад</span></div><div class="src-row"><span class="mono">Cossa</span><span class="dim"> — 10.6 дн. назад</span></div><div class="src-row"><span class="mono">Deloitte</span><span class="dim"> — 2132.9 дн. назад</span></div><div class="src-row"><span class="mono">FRED</span><span class="dim"> — 282.5 дн. назад</span></div><div class="src-row"><span class="mono">FT Due Diligence</span><span class="dim"> — 1056.0 дн. назад</span></div><div class="src-row"><span class="mono">IMAA</span><span class="dim"> — 20.2 дн. назад</span></div><div class="src-row"><span class="mono">International Crisis Group</span><span class="dim"> — 9.4 дн. назад</span></div><div class="src-row"><span class="mono">Minchenko Consulting</span><span class="dim"> — 285.9 дн. назад</span></div>
+            </div>
+            <div class="health-col">
+              <div class="health-stat"><span class="mono big">6/6</span><span class="dim">Telegram в норме</span></div>
+              <h3 class="mini-h bad">Мертвы (0)</h3>
+              <div class="dim">нет</div>
+              <h3 class="mini-h warn">Протухли (0)</h3>
+              <div class="dim">нет</div>
+            </div>
+          </div>
         </section>
 
 </main>
@@ -435,10 +450,10 @@
   new Chart(document.getElementById('itemsChart'), {
     type: 'line',
     data: {
-      labels: ["27.08 11:07", "27.08 14:07", "27.08 17:07", "27.08 20:07", "01.09 08:52", "01.09 11:52", "01.09 14:52", "01.09 17:52", "01.09 20:52", "02.09 08:52", "02.09 11:52", "02.09 14:52", "02.09 17:52", "02.09 20:52", "03.09 08:52", "03.09 11:52", "03.09 14:52", "03.09 17:52", "03.09 20:52", "04.09 08:52", "04.09 11:52", "04.09 14:52", "04.09 17:52", "04.09 20:52", "05.09 08:52", "05.09 11:52", "05.09 14:52", "05.09 17:52", "05.09 20:52", "06.09 08:52", "06.09 11:52", "06.09 14:52", "06.09 17:52", "06.09 20:52", "07.09 08:52"],
+      labels: ["27.08 11:07", "27.08 14:07", "27.08 17:07", "27.08 20:07", "01.09 08:52", "01.09 11:52", "01.09 14:52", "01.09 17:52", "01.09 20:52", "02.09 08:52", "02.09 11:52", "02.09 14:52", "02.09 17:52", "02.09 20:52", "03.09 08:52", "03.09 11:52", "03.09 14:52", "03.09 17:52", "03.09 20:52", "04.09 08:52", "04.09 11:52", "04.09 14:52", "04.09 17:52", "04.09 20:52", "05.09 08:52", "05.09 11:52", "05.09 14:52", "05.09 17:52", "05.09 20:52", "06.09 08:52", "06.09 11:52", "06.09 14:52", "06.09 17:52", "06.09 20:52", "07.09 08:52", "07.09 11:52"],
       datasets: [{
         label: 'Новостей в дайджесте',
-        data: [29, 22, 25, 25, 35, 37, 19, 40, 20, 25, 40, 32, 0, 29, 0, 27, 35, 31, 18, 39, 32, 27, 21, 21, 21, 16, 12, 13, 9, 10, 16, 14, 18, 0, 0],
+        data: [29, 22, 25, 25, 35, 37, 19, 40, 20, 25, 40, 32, 0, 29, 0, 27, 35, 31, 18, 39, 32, 27, 21, 21, 21, 16, 12, 13, 9, 10, 16, 14, 18, 0, 0, 29],
         borderColor: amber,
         backgroundColor: 'rgba(240,168,60,0.08)',
         pointRadius: 2,
@@ -463,8 +478,8 @@
     data: {
       labels: ["Геополитика", "Экономика", "Бизнес", "Технологии", "Энергетика", "Безопасность", "PR"],
       datasets: [
-        { label: 'Мир', data: [60, 48, 48, 67, 37, 49, 41], backgroundColor: amber },
-        { label: 'Россия', data: [61, 43, 47, 37, 39, 55, 25], backgroundColor: cyan }
+        { label: 'Мир', data: [63, 48, 50, 69, 38, 51, 41], backgroundColor: amber },
+        { label: 'Россия', data: [64, 47, 49, 40, 41, 56, 29], backgroundColor: cyan }
       ]
     },
     options: {
