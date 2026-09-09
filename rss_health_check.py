@@ -1,26 +1,3 @@
-"""
-Еженедельная проверка здоровья RSS-лент и Telegram-каналов проекта.
-
-ДОБАВЛЕНО 2026-08-27. Сознательно ОТДЕЛЁН от main.py и от основного
-пайплайна дайджеста (см. rss_health.yml — отдельный workflow, отдельное
-расписание): проверка ~100+ источников занимает заметное время даже
-параллельно, и это ненужный риск/задержка в критичном пути отправки
-дайджеста 5 раз в день. Источники не отваливаются за часы — раз в неделю
-для этой проверки более чем достаточно, и она может себе позволить
-собственный, более щедрый бюджет по времени, не деля его с Gemini/Telegram.
-
-Импортирует список источников и функции сбора НАПРЯМУЮ из main.py (RSS_FEEDS,
-TELEGRAM_CHANNELS, fetch_feed, fetch_telegram_channel, get_source_name,
-parse_published_time) — список источников должен быть ОДИН на весь проект,
-дублирование здесь было бы источником рассинхронизации. Импорт не требует
-реальных GEMINI_API_KEY/TELEGRAM_BOT_TOKEN/TELEGRAM_CHAT_ID (см.
-_require_runtime_env_vars в main.py — проверка вызывается только при запуске
-main.py как скрипта, не при импорте).
-
-Результат — rss_health.json (перезаписывается целиком при каждом запуске,
-это снимок ТЕКУЩЕГО состояния, не история; тренды по времени видно в
-дашборде через git-историю самого файла при желании).
-"""
 import json
 import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
@@ -37,21 +14,11 @@ from main import (
     now_moscow,
 )
 
-# Лента технически отвечает, но последняя запись старше этого — считаем
-# "протухшей" (stale), отдельно от полностью "мёртвой" (dead, не отвечает
-# вообще или отвечает пустотой). Разделение важно: protuhshaya лента иногда
-# значит "источник ещё жив, но temporarily не публикует", а не "лента умерла
-# навсегда и её надо удалять из списка".
-# ДОБАВЛЕНО 2026-08-27: читается из того же config.json, что и main.py (ключ
-# "rss_health.stale_threshold_days") — единая точка настройки на весь проект,
-# не два независимых числа, которые могут разойтись друг с другом со временем.
 STALE_THRESHOLD_DAYS = CONFIG["rss_health"]["stale_threshold_days"]
 HEALTH_FILE = "rss_health.json"
-
+STALE_SOURCES_FILE = "stale_sources.json"
 
 def _latest_entry_age_days(published_values):
-    """Из списка сырых строк даты публикации возвращает возраст самой свежей
-    записи в днях, либо None, если ни одну дату не удалось распарсить."""
     latest_ts = None
     for raw in published_values:
         ts = parse_published_time(raw)
@@ -61,13 +28,12 @@ def _latest_entry_age_days(published_values):
         return None
     return (time.time() - latest_ts) / 86400
 
-
 def check_one_feed(url):
     source_name = get_source_name(url)
     result = {
         "url": url,
         "source_name": source_name,
-        "status": "dead",  # dead | stale | ok
+        "status": "dead",
         "entries_count": 0,
         "latest_entry_age_days": None,
         "error": None,
@@ -82,8 +48,6 @@ def check_one_feed(url):
         age_days = _latest_entry_age_days(e.get("published", "") for e in parsed.entries[:5])
 
         if age_days is None:
-            # Есть записи, но даты не распарсились — считаем "ok" на доверии
-            # (main.py в collect_all_news делает то же допущение при сборе).
             result["status"] = "ok"
             return result
 
@@ -94,7 +58,6 @@ def check_one_feed(url):
         result["error"] = str(e)[:200]
 
     return result
-
 
 def check_one_telegram(channel):
     username = channel["username"]
@@ -128,13 +91,9 @@ def check_one_telegram(channel):
 
     return result
 
-
 def _sort_key(r):
-    # Мёртвые сначала, потом протухшие, потом здоровые — чтобы проблемы
-    # сразу были видны в начале rss_health.json, не нужно листать до конца.
     order = {"dead": 0, "stale": 1, "ok": 2}
     return (order.get(r["status"], 3), r["source_name"])
-
 
 def main():
     print(f"🩺 Проверка здоровья {len(RSS_FEEDS)} RSS-источников и {len(TELEGRAM_CHANNELS)} Telegram-каналов...")
@@ -179,6 +138,16 @@ def main():
     with open(HEALTH_FILE, "w", encoding="utf-8") as f:
         json.dump(report, f, ensure_ascii=False, indent=2)
 
+    # Формируем список мёртвых и протухших >14 дней
+    stale_urls = []
+    for r in rss_results:
+        if r["status"] == "dead":
+            stale_urls.append(r["url"])
+        elif r["status"] == "stale" and r["latest_entry_age_days"] and r["latest_entry_age_days"] > 14:
+            stale_urls.append(r["url"])
+    with open(STALE_SOURCES_FILE, "w", encoding="utf-8") as f:
+        json.dump({"stale_urls": stale_urls, "checked_at": report["checked_at"]}, f, indent=2)
+
     print(f"✅ RSS: {report['rss']['ok']}/{report['rss']['total']} ok, "
           f"{report['rss']['stale']} протухли, {report['rss']['dead']} мертвы")
     print(f"✅ Telegram: {report['telegram']['ok']}/{report['telegram']['total']} ok, "
@@ -201,6 +170,7 @@ def main():
         for r in stale_tg:
             print(f"   - {r['source_name']} — последняя запись {r['latest_entry_age_days']} дн. назад")
 
+    print(f"\n🧹 Создан файл {STALE_SOURCES_FILE} с {len(stale_urls)} источниками для автоматического исключения.")
 
 if __name__ == "__main__":
     main()

@@ -25,7 +25,10 @@
     "stale_threshold_days": 7
   },
   "_scheduling_comment": "max_publish_wait_seconds — добавлено 2026-08-27 из-за блокировки GitHub Actions billing (сгорел месячный лимит минут на time.sleep внутри раннера, пока ждали целевого часа публикации). Если до целевого времени осталось БОЛЬШЕ этого значения — скрипт публикует немедленно. См. wait_until_publish_time в main.py. publish_grace_seconds — если запуск опоздал больше чем на это время относительно целевого часа, ждать смысла нет, публикуем сразу.",
-  "scheduling": {},
+  "scheduling": {
+    "max_publish_wait_seconds": 600,
+    "publish_grace_seconds": 1800
+  },
   "rss_feeds": [
     "https://news.google.com/rss/search?q=site:reuters.com&hl=en-US&gl=US&ceid=US:en",
     "https://news.google.com/rss/search?q=site:apnews.com&hl=en-US&gl=US&ceid=US:en",
@@ -268,72 +271,5 @@
     "thedrum.com": "The Drum",
     "adindex.ru": "AdIndex",
     "cossa.ru": "Cossa"
-  },
-  "fetch": {
-    "rss_timeout_seconds": 25,
-    "telegram_timeout_seconds": 20
-  },
-  "company_significance": {
-    "global_major": [
-      "Apple",
-      "Microsoft",
-      "Google",
-      "Amazon",
-      "Nvidia",
-      "Meta",
-      "Tesla",
-      "Berkshire Hathaway",
-      "JPMorgan",
-      "Visa",
-      "ExxonMobil",
-      "Johnson & Johnson",
-      "Procter & Gamble",
-      "Walmart",
-      "UnitedHealth"
-    ],
-    "global_well_known": [
-      "OpenAI",
-      "Anthropic",
-      "DeepSeek",
-      "SpaceX",
-      "Stripe",
-      "Robinhood",
-      "Palantir",
-      "Cognition",
-      "Mistral",
-      "Hugging Face"
-    ],
-    "russian_major": [
-      "Сбербанк",
-      "Яндекс",
-      "Газпром",
-      "Лукойл",
-      "Роснефть",
-      "Сургутнефтегаз",
-      "Норникель",
-      "ВТБ",
-      "Т-Банк",
-      "Магнит",
-      "ПИК",
-      "Ростех",
-      "Росатом",
-      "Аэрофлот",
-      "РЖД"
-    ]
-  },
-  "pr_source_domains": [
-    "provokemedia.com",
-    "prdaily.com",
-    "prweek.com",
-    "sostav.ru",
-    "raso.ru",
-    "akospr.ru",
-    "adweek.com",
-    "thedrum.com",
-    "adindex.ru",
-    "cossa.ru",
-    "cipr.co.uk",
-    "odwyerpr.com"
-  ],
-  "ignore_stale": false
+  }
 }

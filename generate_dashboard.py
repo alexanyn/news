@@ -1,22 +1,3 @@
-"""
-generate_dashboard.py — читает METRICS_FILE (metrics.jsonl) и, если есть,
-rss_health.json, генерирует ОДИН самодостаточный dashboard.html для
-визуального контроля состояния пайплайна дайджеста.
-
-ДОБАВЛЕНО 2026-08-27. Запускается как ДОПОЛНИТЕЛЬНЫЙ, НЕ блокирующий шаг
-после основной отправки дайджеста (см. шаг "Generate dashboard" в daily.yml,
-continue-on-error) — если генерация упадёт по любой причине, это не должно
-мешать уже отправленному дайджесту или коммиту истории. Скрипт только
-ЧИТАЕТ существующие файлы и пишет dashboard.html — можно безопасно запускать
-и вручную/локально в любой момент.
-
-Дизайн: тёмная приборная панель в духе терминала для мониторинга новостной
-ленты (в духе Bloomberg Terminal / телетайпной wire-комнаты) — тематически
-соответствует тому, что дашборд буквально мониторит: автоматический
-новостной wire. Янтарный — основной сигнал/мир, циан — второй сигнал/Россия,
-красный — только неисправности. IBM Plex Mono для чисел (табличное
-начертание цифр важно для рядов метрик), IBM Plex Sans для текста.
-"""
 import json
 import os
 from datetime import datetime, timezone, timedelta
@@ -47,11 +28,7 @@ STATUS_META = {
     "unknown": ("Неизвестно", "warn"),
 }
 
-
 def load_metrics():
-    """Построчно читает METRICS_FILE. Битые строки (неполный JSON, обрыв
-    записи и т.п.) пропускаются молча — одна повреждённая строка не должна
-    ронять генерацию всего дашборда."""
     if not os.path.exists(METRICS_FILE):
         return []
     entries = []
@@ -66,7 +43,6 @@ def load_metrics():
                 continue
     return entries
 
-
 def load_health():
     if not os.path.exists(HEALTH_FILE):
         return None
@@ -75,7 +51,6 @@ def load_health():
             return json.load(f)
     except Exception:
         return None
-
 
 def _parse_ts(entry):
     raw = entry.get("run_started_at")
@@ -86,10 +61,8 @@ def _parse_ts(entry):
     except Exception:
         return None
 
-
 def _total_items(entry):
     return entry.get("digest", {}).get("total_items", 0) if entry.get("digest") else 0
-
 
 def build_summary(entries):
     now = datetime.now(MOSCOW_TZ)
@@ -118,7 +91,6 @@ def build_summary(entries):
         "last_status": last_status,
     }
 
-
 def build_chart_data(entries):
     tail = entries[-MAX_CHART_RUNS:]
     labels, items, is_sent = [], [], []
@@ -129,7 +101,6 @@ def build_chart_data(entries):
         items.append(_total_items(e) if e.get("status") == "sent" else 0)
         is_sent.append(e.get("status") == "sent")
     return {"labels": labels, "items": items, "is_sent": is_sent}
-
 
 def build_category_data(entries):
     now = datetime.now(MOSCOW_TZ)
@@ -152,7 +123,6 @@ def build_category_data(entries):
         "russia": [russia[c] for c in CATEGORY_LABELS],
     }
 
-
 def build_table_rows(entries):
     tail = list(reversed(entries[-MAX_TABLE_ROWS:]))
     rows = []
@@ -171,12 +141,40 @@ def build_table_rows(entries):
         })
     return rows
 
+def build_trend_data(entries):
+    days = {}
+    for e in entries:
+        ts = _parse_ts(e)
+        if not ts:
+            continue
+        day = ts.strftime("%Y-%m-%d")
+        items = _total_items(e) if e.get("status") == "sent" else 0
+        if day not in days:
+            days[day] = {"total": 0, "count": 0}
+        days[day]["total"] += items
+        days[day]["count"] += 1
+    sorted_days = sorted(days.items())
+    labels = [d[0] for d in sorted_days]
+    averages = [round(d[1]["total"] / d[1]["count"], 1) for d in sorted_days]
+    return {"labels": labels, "averages": averages}
+
+def build_status_counts(entries):
+    now = datetime.now(MOSCOW_TZ)
+    week_ago = now - timedelta(days=7)
+    recent = [e for e in entries if (_parse_ts(e) or now) >= week_ago]
+    counts = {}
+    for e in recent:
+        status = e.get("status", "unknown")
+        counts[status] = counts.get(status, 0) + 1
+    return counts
 
 def render_html(entries, health):
     summary = build_summary(entries)
     chart_data = build_chart_data(entries)
     category_data = build_category_data(entries)
     table_rows = build_table_rows(entries)
+    trend_data = build_trend_data(entries)
+    status_counts = build_status_counts(entries)
     generated_at = datetime.now(MOSCOW_TZ).strftime("%d.%m.%Y %H:%M:%S МСК")
 
     dot_css = {"sent": "ok", None: "warn"}.get(summary["last_status"], "warn")
@@ -463,6 +461,16 @@ def render_html(entries, health):
 
   {health_html}
 
+  <section class="panel">
+    <h2><span class="eyebrow">05</span> Тренд среднего числа новостей по дням</h2>
+    <div class="chart-wrap"><canvas id="trendChart" height="80"></canvas></div>
+  </section>
+
+  <section class="panel">
+    <h2><span class="eyebrow">06</span> Статусы прогонов за 7 дней</h2>
+    <div class="chart-wrap"><canvas id="statusChart" height="140"></canvas></div>
+  </section>
+
 </main>
 
 <footer>metrics.jsonl · генерируется автоматически после каждого прогона, см. generate_dashboard.py</footer>
@@ -523,12 +531,71 @@ def render_html(entries, health):
       }}
     }}
   }});
+
+  new Chart(document.getElementById('trendChart'), {{
+    type: 'line',
+    data: {{
+      labels: {json.dumps(trend_data['labels'])},
+      datasets: [{{
+        label: 'Среднее новостей за день',
+        data: {json.dumps(trend_data['averages'])},
+        borderColor: cyan,
+        backgroundColor: 'rgba(82,184,196,0.08)',
+        pointRadius: 2,
+        pointBackgroundColor: cyan,
+        borderWidth: 2,
+        fill: true,
+        tension: 0.25,
+      }}]
+    }},
+    options: {{
+      responsive: true,
+      plugins: {{ legend: {{ display: false }} }},
+      scales: {{
+        x: {{ grid: {{ color: inkGrid }}, ticks: {{ maxRotation: 0, autoSkip: true, maxTicksLimit: 12 }} }},
+        y: {{ grid: {{ color: inkGrid }}, beginAtZero: true }}
+      }}
+    }}
+  }});
+
+  const statusLabels = {json.dumps(list(status_counts.keys()))};
+  const statusData = {json.dumps(list(status_counts.values()))};
+  const statusColors = {{
+    'sent': 'rgba(240,168,60,0.8)',
+    'empty_no_candidates': 'rgba(201,162,39,0.8)',
+    'empty_no_digest_items': 'rgba(201,162,39,0.6)',
+    'send_failed': 'rgba(225,82,65,0.8)',
+    'crashed': 'rgba(225,82,65,1)',
+    'unknown': '#8993A6'
+  }};
+  const bgColors = statusLabels.map(l => statusColors[l] || '#8993A6');
+
+  new Chart(document.getElementById('statusChart'), {{
+    type: 'doughnut',
+    data: {{
+      labels: statusLabels,
+      datasets: [{{
+        data: statusData,
+        backgroundColor: bgColors,
+        borderColor: '#0B0E14',
+        borderWidth: 2,
+      }}]
+    }},
+    options: {{
+      responsive: true,
+      plugins: {{
+        legend: {{
+          position: 'bottom',
+          labels: {{ usePointStyle: true, pointStyle: 'circle', padding: 15 }}
+        }}
+      }}
+    }}
+  }});
 </script>
 
 </body>
 </html>"""
     return html
-
 
 def main():
     entries = load_metrics()
@@ -538,7 +605,6 @@ def main():
         f.write(html)
     print(f"✅ Дашборд собран: {OUTPUT_FILE} ({len(entries)} записей метрик"
           f"{', есть данные о здоровье источников' if health else ''})")
-
 
 if __name__ == "__main__":
     main()
