@@ -1,165 +1,5 @@
 [
   {
-    "url": "https://news.google.com/rss/articles/CBMipgFBVV95cUxPZS1HRXhpY18xZjJMeV8tOU5UcFVxOFkzSVRKT3ZSR1Myak1oRHZZN081aVY2MldCemZNa1c0U1hKaUtyOHRJaUVjb0U0S2xCWC14cGIyN2QxQzVzVFhfZl85dkhRdFZtMjBCeGVpV2lQQ0g5alBZVnFiUGg5MDkzdDF3eGozTkg4Sm9kc2FIcHZNbXA3TVZoLW4zZ001ejY1UWFaOVdB?oc=5",
-    "added_at": 1788350402.8012211,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.scmp.com/news/world/europe/article/3366133/ireland-must-prepare-northern-ireland-reunification-vote-foreign-minister-says?utm_source=rss_feed",
-    "added_at": 1788350402.8012211,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://news.google.com/rss/articles/CBMimgFBVV95cUxPemFQRWRvbnJmUTRtSERYcEVXMUh3Y0VyNjFyelVDaUNKbEJtX004c3d1YmtoSTVRY3NVOW1fSTJvOEFoSTdVYS05d29KQlhvdHlKbDhGMXluemdlUU9EdmJCODZSaXh5VXYxUG9tVTJ3VDZoZGc4OUtYOVJMZm1wRVRPSHdtbWZIc0F0elYyTmVTdjJTRm5UT1Zn?oc=5",
-    "added_at": 1788350402.8012211,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://news.google.com/rss/articles/CBMitgFBVV95cUxPb1ZuTmt1MlhqUndIX194TnFIcGFKVmpxSDNybUdmcUc3WjIzYVE4LUNFRFJaWVZSc08xR0w0dlVfWEtTX2FMNnZTNURsUHVLRmo0WWY1SU40R0NHcGpvZktXb3NkWHJmV3F6S0lPZXlNd3dPdkxha2llc1NGVm9oaHl0Z2t3emdpNE5McU0wWHBMRjZubHJST2pSVU9mQ3YxRk5nZ2JaUjUtQVZ3S0VIVEpWbk5Jdw?oc=5",
-    "added_at": 1788350402.8012211,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://news.google.com/rss/articles/CBMivgFBVV95cUxPRUlaOGFBMnREQlozUFVKYXBKZUh5dUxNeGlxZERxV050X1gxRUtDSDF4N0xSUnp3cjZELU5NMERBMVFRS0RTTVFoRFdCakFVc0szMWhfa0E2MUpuRUNuQTFBSjBqN2I1S0ZjNXRwS1IyaW9DdG9QZTlBUGZIM05jclRoUDJSRGEyWnV5cWlxLTlYZEczUi12UG4yMUJVam03RzFhSWxTaHJ5TjF1TzN3OF9nU1k5ZkNaYnFRNWZB?oc=5",
-    "added_at": 1788350402.8012211,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.kommersant.ru/doc/8924151",
-    "added_at": 1788350402.8012211,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://vc.ru/hr/3116981-profsoyuzyi-micron-tayvan-zabastovka-bonusyi?from=rss",
-    "added_at": 1788350402.8012211,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://t.me/the_financial_times_journal/8011",
-    "added_at": 1788350402.8012211,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://news.google.com/rss/articles/CBMitgFBVV95cUxOVTFkS3hQM190ZEszNldpWmYwLXh6QnhmSHJvUDV3WFNIMHJMc3BVMmloVlA2NHp5X09rVVJaTDExMFZrX3EwUVUyTl9rclo5dzJVeWxBeWhSVGZKWHh1UkRHSDdOR1BaQjcycXhhUjhMN2JqWmZPQnJ0d3RNQWJ4X1daSXVoX3ZVekt6TGRPSzJ6aEJlQXZVa3U3T1p0QV9LVEZDSGtabFBfMFhjWnJVdHF4Zl9mQQ?oc=5",
-    "added_at": 1788350402.8012211,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.scmp.com/tech/big-tech/article/3366125/frontier-ai-cost-what-anthropics-fable-51-means-us-china-model-race?utm_source=rss_feed",
-    "added_at": 1788350402.8012211,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://news.google.com/rss/articles/CBMiswFBVV95cUxPU0xfNHNSeU9ZOWlXYzMtTzV0MzRrOGtvZkV3MVl3T0pBV2NfamZZVHhDSmh1a0w1X0RrLUluaEFfYUxuRE9DRTg1VmkyMVY0b0JoVkdHMkhuY1hsSk9rZU12X0xJZG5IdDFaWFNnNjlWXzRnaFNlSldHSW96YmFUdW5FQ0M3RlJRcUQ0OGgwa3AxNDYxaXJ6Ukg5eWY5YTBQRzk4NW5GRFY3MjY2eE9Xc2ZnUQ?oc=5",
-    "added_at": 1788350402.8012211,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.aljazeera.com/news/2026/9/2/what-do-we-know-about-the-fatal-us-bombing-of-a-wedding-in-irans-sirik?traffic_source=rss",
-    "added_at": 1788350402.8012211,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.vedomosti.ru/politics/news/2026/09/02/1225693-komandovat-zaitsu",
-    "added_at": 1788350402.8012211,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.interfax.ru/world/1112739",
-    "added_at": 1788350402.8012211,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.interfax.ru/russia/1112734",
-    "added_at": 1788350402.8012211,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.scmp.com/week-asia/politics/article/3366134/has-indias-modi-found-new-mediator-clout-after-talks-putin-iran?utm_source=rss_feed",
-    "added_at": 1788350402.8012211,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.interfax.ru/business/1112736",
-    "added_at": 1788350402.8012211,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.rbc.ru/economics/14/08/2026/6a7ef5789a79475476e56ad5",
-    "added_at": 1788350402.8012211,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.rbc.ru/quote/02/09/2026/6a90368e9a79470c7476d19e",
-    "added_at": 1788350402.8012211,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.rbc.ru/economics/02/09/2026/6a9705594eb4225f24f9e26b",
-    "added_at": 1788350402.8012211,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.cnews.ru/news/line/2026-09-02_novoe_ii-reshenie_positive_technologies",
-    "added_at": 1788350402.8012211,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.cnews.ru/news/top/2026-09-02_v_rossii_sozdali_tehnologiyu",
-    "added_at": 1788350402.8012211,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.cnews.ru/news/line/2026-09-02_yadro_rasshiryaet_vozmozhnosti",
-    "added_at": 1788350402.8012211,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.vedomosti.ru/politics/news/2026/09/02/1225677-putin-osmotrel",
-    "added_at": 1788350402.8012211,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://t.me/neftegazchannel/27735",
-    "added_at": 1788350402.8012211,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://t.me/neftegazchannel/27737",
-    "added_at": 1788350402.8012211,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://news.google.com/rss/articles/CBMisgFBVV95cUxNSk9pYWk1NTFtU3FFWjB5RGF4R1lLbEVGTUJJVjNuN2d1YktKSDZxdDRqTFVISWxwMDdwTUVFT0xERVBHSWpKZzlqSEd3NTR6S1Q0TndpTlhiR2ZhZ2RYYjFNbUNBal82ZDIyYU9fN1pyeVRyTzhaRGNuaVVFMXBjYlh6Z3F5YzloZ0JuXzZXNGROOGUxQks1S2Rub2xaU1NlMmFuR1oyVmM5c2F1VklFU05B?oc=5",
-    "added_at": 1788350402.8012211,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.vedomosti.ru/politics/news/2026/09/02/1225685-10-000-stranits",
-    "added_at": 1788350402.8012211,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.prdaily.com/4-tips-to-make-your-pitches-more-useful-to-reporters/",
-    "added_at": 1788350402.8012211,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.prdaily.com/the-case-for-using-ai-to-rediscover-your-leadership-strengths/",
-    "added_at": 1788350402.8012211,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.provokemedia.com/latest/article/adfactors-acquires-stake-in-creator-marketing-specialist-wldd",
-    "added_at": 1788350402.8012211,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://adindex.ru/news/ek/2026/09/2/348553.phtml",
-    "added_at": 1788350402.8012211,
-    "source": "parsed_feed"
-  },
-  {
     "url": "https://www.scmp.com/news/china/diplomacy/article/3366108/sco-takes-landmark-stand-nuclear-security-iran-comes-under-renewed-attack?utm_source=rss_feed",
     "added_at": 1788372000.910964,
     "source": "parsed_feed"
@@ -3492,6 +3332,141 @@
   {
     "url": "https://adindex.ru/news/hr/2026/09/9/348732.phtml",
     "added_at": 1788944401.1016324,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.bbc.co.uk/news/articles/c98679wr78do?at_medium=RSS&at_campaign=rss",
+    "added_at": 1788966001.0336146,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.interfax.ru/world/1114103",
+    "added_at": 1788966001.0336146,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.interfax.ru/world/1114105",
+    "added_at": 1788966001.0336146,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.interfax.ru/business/1114101",
+    "added_at": 1788966001.0336146,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.semafor.com/article/09/09/2026/iran-war-blows-hole-in-qatar-budget",
+    "added_at": 1788966001.0336146,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.semafor.com/article/09/09/2026/south-africas-gdp-shrank-in-the-second-quarter-of-this-year",
+    "added_at": 1788966001.0336146,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://news.google.com/rss/articles/CBMiswFBVV95cUxQdWNrUjZIQ0hJTWpBaUpXcGxGb3QxSkJVSjd3eEkyODFmSVljSmRLQml3U3BMaWk5bmttQ2xfQ1A4ajNjeFRuNGlzcUR0RUd3X2s3dnVaeUdPdDhBaGZmODhfWFlpR2lGTUhyNlhiQk9OZnRkY1ZMbVNjclRNSE9XWHUzc0E4aXhvalBtcGZlbHB4MWY2ZWxIbTdEeG1wOXMxb0gyZkp0OXRSU2RBSEdwVzlhYw?oc=5",
+    "added_at": 1788966001.0336146,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.interfax.ru/business/1114106",
+    "added_at": 1788966001.0336146,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://techcrunch.com/2026/09/09/uber-invests-10m-in-indian-fleet-operator-carrum-at-168m-valuation/",
+    "added_at": 1788966001.0336146,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.scmp.com/news/asia/southeast-asia/article/3366959/singapores-dbs-sued-us1-billion-alleged-1mdb-linked-claim?utm_source=rss_feed",
+    "added_at": 1788966001.0336146,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://news.google.com/rss/articles/CBMiygFBVV95cUxPbWlNdDREU0FXTWdNYTAyajJUNHR3NFVDd3dVVV92Y2dXSGpkZ1RKVGE3RVduaWtLX3piNElOQm1BWlV5RGFrNlJpSHZYQ2lHakU3T0NrVmVFNWhsVXJSazlEakQwZkN1blVSdEFZSWVnUmZZWFFmcm5KRUZ2TXFaY3ZJT0U3ckhVLWhvQ3lIalBZWXRSMzNORXV2YnBUT2dORVZFYWw1aHJWbl9MdFBpcGoyb2hOcG10VXVzZ0k0SzM4b0h5RnhMOTJB?oc=5",
+    "added_at": 1788966001.0336146,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://techcrunch.com/2026/09/09/shipt-becomes-the-latest-delivery-app-with-an-ai-shopping-assistant/",
+    "added_at": 1788966001.0336146,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://asia.nikkei.com/business/markets/commodities/honda-invests-in-rare-earth-free-magnet-startup-niron-magnetics",
+    "added_at": 1788966001.0336146,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.eia.gov/todayinenergy/detail.php?id=68124",
+    "added_at": 1788966001.0336146,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.aljazeera.com/news/2026/9/9/what-is-jordans-al-azraq-base-and-why-is-iran-targeting-it?traffic_source=rss",
+    "added_at": 1788966001.0336146,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://news.google.com/rss/articles/CBMizgFBVV95cUxNRjJfRzhHMV9oM3c1Njd6RU5lUXRYVGtkcDZQTWNaWHR5MndaejZaUGtxUl9UYWVGaW1XUHd5RF90bl9DeFZtSDBWV2hYLTVjQWtrRjlCUXVFU2RTcTJ2YnMzMjFFSmlfMU1sdnM1bWNmUXJ5WWlqa3hJWlZLYnE5Z3dCekNzQldKYm90c240T0U5d3pfZGE0U01ldFNVODM3Um13UTdXSmhkbkpHeW45Rlhrd3hoSW9SbHlTNVUyanJqMEk1YWZNR0JJSFNZZw?oc=5",
+    "added_at": 1788966001.0336146,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.scmp.com/news/china/science/article/3366908/us-scrambles-match-chinas-air-breathing-hypersonic-missiles-darpa-programme?utm_source=rss_feed",
+    "added_at": 1788966001.0336146,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.themoscowtimes.com/2026/09/09/vietnams-communist-leader-meets-with-putin-in-kremlin-a93668",
+    "added_at": 1788966001.0336146,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.rbc.ru/economics/09/09/2026/6aa1140e7bd99578d1bd695c",
+    "added_at": 1788966001.0336146,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.vedomosti.ru/investments/news/2026/09/09/1227593-dolyu-v-sovkombanke",
+    "added_at": 1788966001.0336146,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.cnews.ru/news/top/2026-07-06_v_2026_godu_v_rossii_zapustyat",
+    "added_at": 1788966001.0336146,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.interfax.ru/world/1114108",
+    "added_at": 1788966001.0336146,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://tass.com/defense/2184933",
+    "added_at": 1788966001.0336146,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.prweek.com/article/1969483/julie-batliner-succeeds-matt-kucharski-padilla-president",
+    "added_at": 1788966001.0336146,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.prdaily.com/the-scoop-influencers-draw-the-ire-of-tennis-most-prestigious-competition/",
+    "added_at": 1788966001.0336146,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.provokemedia.com/latest/article/fleishmanhillard-hires-bibi-hilton-to-lead-uk-brand-impact",
+    "added_at": 1788966001.0336146,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://adindex.ru/news/adyummy/2026/09/9/348752.phtml",
+    "added_at": 1788966001.0336146,
     "source": "parsed_feed"
   }
 ]
