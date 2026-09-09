@@ -600,6 +600,13 @@ async def fetch_feed_async(url, session, timeout=None):
     except asyncio.TimeoutError:
         print(f"Timeout при получении {url}")
         return None
+    except aiohttp.ClientError as e:
+        # ClientError включает ошибки соединения, закрытые сокеты и т.п.
+        print(f"ClientError при запросе {url}: {e}")
+        return None
+    except UnicodeDecodeError as e:
+        print(f"Ошибка декодирования {url}: {e}")
+        return None
     except Exception as e:
         print(f"Ошибка при запросе {url}: {e}")
         return None
@@ -648,6 +655,9 @@ async def fetch_telegram_channel_async(username, session, timeout=None):
             return messages
     except asyncio.TimeoutError:
         print(f"Timeout при получении Telegram-канала {username}")
+        return []
+    except aiohttp.ClientError as e:
+        print(f"ClientError при запросе Telegram-канала {username}: {e}")
         return []
     except Exception as e:
         print(f"Не удалось получить Telegram-канал {username}: {e}")
@@ -878,7 +888,7 @@ def generate_analytical_json(raw_data_prompt, recently_published_titles=None):
     }
     
     gemini_call_start = time.time()
-    max_retries = 5
+    max_retries = 7  # увеличено с 5 до 7
     attempts_made = 0
     gemini_meta = {
         "latency_sec": None,
@@ -924,7 +934,8 @@ def generate_analytical_json(raw_data_prompt, recently_published_titles=None):
                 continue
             
             if response.status_code == 503:
-                wait_time = min(15 * (2 ** attempt), 90)
+                # увеличена максимальная задержка до 120 секунд
+                wait_time = min(15 * (2 ** attempt), 120)
                 print(f"⏸️  API перегружена (503). Ждем {wait_time}с (попытка {attempt + 1}/{max_retries})...")
                 time.sleep(wait_time)
                 continue
@@ -956,11 +967,12 @@ def generate_analytical_json(raw_data_prompt, recently_published_titles=None):
                 time.sleep(5 * (attempt + 1))
             continue
     
-    print("❌ Gemini API недоступна после 5 попыток. Используем fallback.")
+    print("❌ Gemini API недоступна после всех попыток. Используем fallback.")
     gemini_meta["latency_sec"] = round(time.time() - gemini_call_start, 1)
     gemini_meta["attempts_used"] = attempts_made
     gemini_meta["fallback_used"] = True
     gemini_meta["error_type"] = "max_retries_exceeded"
+    # Возвращаем пустой JSON, build_html_digest построит fallback из сырых новостей
     return json.dumps({
         "geopolitics": [],
         "economics": [],
@@ -1056,9 +1068,29 @@ def build_html_digest(raw_response, news_db):
         len(data.get(cat)) if isinstance(data.get(cat), list) else 0 
         for cat in expected_categories
     )
+    
+    # === FALLBACK: если Gemini не дала новостей, но есть собранные ===
+    if total_items == 0 and news_db:
+        print("⚠️  Gemini не вернула категорий, используем сырые заголовки как fallback.")
+        # Создаём временную категорию "raw" для отображения
+        raw_items = []
+        for news_id, info in list(news_db.items())[:30]:
+            # Определим is_russia грубо по наличию слова "Россия" или "росси" в заголовке
+            title = info.get("title", "")
+            is_russia = "Россия" in title or "росси" in title.lower()
+            raw_items.append({
+                "id": news_id,
+                "summary_ru": title,
+                "is_russia": is_russia
+            })
+        # Помещаем их в категорию "raw" (нестандартную, но мы её обработаем отдельно)
+        data["raw"] = raw_items
+        total_items = len(raw_items)
+    
     if total_items == 0:
         print("⚠️  Модель не вернула ни одной новости (fallback структура)")
     
+    # Разбивка по категориям/регионам (только для стандартных категорий)
     category_breakdown = {}
     for cat in expected_categories:
         items = data.get(cat)
@@ -1066,6 +1098,13 @@ def build_html_digest(raw_response, news_db):
         world_count = sum(1 for it in items if isinstance(it, dict) and not it.get("is_russia", False))
         russia_count = sum(1 for it in items if isinstance(it, dict) and it.get("is_russia", False))
         category_breakdown[cat] = {"world": world_count, "russia": russia_count}
+    # Добавим raw категорию, если есть
+    if "raw" in data:
+        raw_items = data["raw"]
+        world_count = sum(1 for it in raw_items if isinstance(it, dict) and not it.get("is_russia", False))
+        russia_count = sum(1 for it in raw_items if isinstance(it, dict) and it.get("is_russia", False))
+        category_breakdown["raw"] = {"world": world_count, "russia": russia_count}
+    
     digest_stats = {"total_items": total_items, "by_category": category_breakdown}
     
     MAIN_SECTIONS = [
@@ -1077,6 +1116,8 @@ def build_html_digest(raw_response, news_db):
         ("security", "🪖 БЕЗОПАСНОСТЬ И КОНФЛИКТЫ")
     ]
     PR_SECTIONS = [("pr", "📢 PR И КОММУНИКАЦИИ")]
+    # Добавим RAW секцию, если есть
+    RAW_SECTIONS = [("raw", "📰 СЫРЫЕ НОВОСТИ (Gemini недоступна)")] if "raw" in data else []
     
     seen_urls_in_digest = set()
     
@@ -1126,9 +1167,18 @@ def build_html_digest(raw_response, news_db):
     pr_world_html, pr_world_urls = build_one(False, "📢 <b>PR В МИРЕ</b>", PR_SECTIONS, force_show=True)
     pr_russia_html, pr_russia_urls = build_one(True, "📢 <b>PR В РОССИИ</b>", PR_SECTIONS, force_show=True)
     
+    # Если есть raw новости, строим блок для мира и России из них
+    raw_world_html = ""
+    raw_russia_html = ""
+    raw_world_urls = []
+    raw_russia_urls = []
+    if "raw" in data:
+        raw_world_html, raw_world_urls = build_one(False, "📰 <b>СЫРЫЕ НОВОСТИ (МИР)</b>", RAW_SECTIONS, force_show=True)
+        raw_russia_html, raw_russia_urls = build_one(True, "📰 <b>СЫРЫЕ НОВОСТИ (РОССИЯ)</b>", RAW_SECTIONS, force_show=True)
+    
     return (world_html, russia_html, pr_world_html, pr_russia_html,
             world_urls, russia_urls, pr_world_urls, pr_russia_urls,
-            digest_stats)
+            digest_stats, raw_world_html, raw_russia_html, raw_world_urls, raw_russia_urls)
 
 def _send_one_chunk(chat_id, chunk):
     html_for_api = chunk.replace("\n", "<br>")
@@ -1410,7 +1460,7 @@ async def main_async(args, schedule_name):
             postprocess_start = time.time()
             (world_html, russia_html, pr_world_html, pr_russia_html,
              world_urls, russia_urls, pr_world_urls, pr_russia_urls,
-             digest_stats) = build_html_digest(raw_json, news_db)
+             digest_stats, raw_world_html, raw_russia_html, raw_world_urls, raw_russia_urls) = build_html_digest(raw_json, news_db)
             run_metrics["postprocess_duration_sec"] = round(time.time() - postprocess_start, 1)
             run_metrics["digest"] = digest_stats
             
@@ -1418,9 +1468,9 @@ async def main_async(args, schedule_name):
             
             sent_anything = False
             confirmed_urls = []
-            combined_parts = [html for html in (world_html, russia_html, pr_world_html, pr_russia_html) if html.strip()]
+            combined_parts = [html for html in (world_html, russia_html, pr_world_html, pr_russia_html, raw_world_html, raw_russia_html) if html.strip()]
             combined_html = "\n\n".join(combined_parts)
-            combined_urls = world_urls + russia_urls + pr_world_urls + pr_russia_urls
+            combined_urls = world_urls + russia_urls + pr_world_urls + pr_russia_urls + raw_world_urls + raw_russia_urls
             
             if combined_html.strip():
                 print("📤 Отправляем дайджест (мир + Россия + PR)...")
