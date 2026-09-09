@@ -38,7 +38,7 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install requests feedparser beautifulsoup4
+        pip install requests feedparser beautifulsoup4 aiohttp diskcache
 
     - name: Run health check
       # ВАЖНО: rss_health_check.py импортирует RSS_FEEDS/TELEGRAM_CHANNELS и
