@@ -53,7 +53,7 @@ jobs:
         # ИСПРАВЛЕНО 2026-08-19: убрали pyTelegramBotAPI — main.py больше не
         # использует telebot.TeleBot, отправка идёт напрямую через requests
         # к sendRichMessage (см. main.py, _send_one_chunk).
-        pip install requests feedparser beautifulsoup4
+        pip install requests feedparser beautifulsoup4 aiohttp diskcache
 
     - name: Determine schedule name
       id: schedule
