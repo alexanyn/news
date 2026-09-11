@@ -187,6 +187,13 @@ RECENT_PROMPT_MAX_ITEMS = CONFIG["dedup"]["recent_prompt_max_items"]
 MAX_ITEMS_PER_CATEGORY_PER_REGION = CONFIG["digest"]["max_items_per_category_per_region"]
 MAX_FETCH_WORKERS = CONFIG["collection"]["max_fetch_workers"]
 
+# Список моделей Gemini: при 503 (перегружена) пробуем следующую.
+GEMINI_MODELS = CONFIG.get("gemini_models", [
+    "gemini-3.6-flash",
+    "gemini-3.5-flash",
+    "gemini-2.5-flash",
+])
+
 _TITLE_STOPWORDS = {
     "и", "в", "во", "не", "на", "с", "со", "по", "для", "из", "от", "до",
     "за", "к", "ко", "о", "об", "у", "а", "но", "или", "что", "это", "как",
@@ -844,7 +851,7 @@ async def collect_all_news(sent_urls_history, recent_titles_history, schedule_na
 
 def generate_analytical_json(raw_data_prompt, recently_published_titles=None):
     template = load_prompt_template()
-    
+
     recently_published_titles = recently_published_titles or []
     if recently_published_titles:
         recent_block = (
@@ -860,128 +867,135 @@ def generate_analytical_json(raw_data_prompt, recently_published_titles=None):
         )
     else:
         recent_block = ""
-    
+
     company_filter = ""
     cs = CONFIG.get("company_significance", {})
     if cs.get("global_major"):
-        company_filter += "Крупные мировые компании (по капитализации/выручке): " + ", ".join(cs["global_major"]) + ".\n"
+        company_filter += "Крупные мировые компании: " + ", ".join(cs["global_major"]) + ".\n"
     if cs.get("global_well_known"):
-        company_filter += "Широко узнаваемые компании (не обязательно в топе): " + ", ".join(cs["global_well_known"]) + ".\n"
+        company_filter += "Широко узнаваемые компании: " + ", ".join(cs["global_well_known"]) + ".\n"
     if cs.get("russian_major"):
-        company_filter += "Российские компании-лидеры (топ отрасли в РФ): " + ", ".join(cs["russian_major"]) + ".\n"
+        company_filter += "Российские компании-лидеры: " + ", ".join(cs["russian_major"]) + ".\n"
     if company_filter:
         company_filter = "ФИЛЬТР ПО ЗНАЧИМОСТИ КОМПАНИЙ:\n" + company_filter + "\nДля business/technology новости о компаниях включай, только если компания в одном из этих списков (кроме случаев, когда само событие значимо для отрасли). Для pr это правило НЕ применяется.\n"
-    
+
     prompt = template.replace("__RECENT_CONTEXT__", recent_block)
     prompt = prompt.replace("__INPUT_DATA__", raw_data_prompt)
     prompt = prompt.replace("__MAX_ITEMS__", str(MAX_ITEMS_PER_CATEGORY_PER_REGION))
     prompt = prompt.replace("__COMPANY_FILTER__", company_filter)
-    
-    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent?key={gemini_api_key}"
+
     payload = {
         "contents": [{"parts": [{"text": prompt}]}],
         "generationConfig": {
             "maxOutputTokens": 65536,
             "responseMimeType": "application/json",
-            "thinkingConfig": {"thinkingLevel": "minimal"}
-        }
+            "thinkingConfig": {"thinkingLevel": "minimal"},
+        },
     }
-    
+
+    empty_fallback = json.dumps({
+        "geopolitics": [], "economics": [], "business": [],
+        "technology": [], "energy": [], "security": [], "pr": [],
+    })
+
     gemini_call_start = time.time()
-    max_retries = 7  # увеличено с 5 до 7
-    attempts_made = 0
+    max_retries_per_model = 3
+    total_attempts = 0
     gemini_meta = {
         "latency_sec": None,
         "attempts_used": 0,
         "fallback_used": False,
         "error_type": None,
         "error_detail": None,
+        "models_tried": [],
     }
-    
-    for attempt in range(max_retries):
-        attempts_made = attempt + 1
-        try:
-            response = requests.post(url, json=payload, timeout=280)
-            
-            if response.status_code == 400:
-                try:
-                    error_data = response.json()
-                    error_message = error_data.get("error", {}).get("message", "")
-                    if "safety" in error_message.lower() or "blocked" in error_message.lower():
-                        print(f"⛔ Gemini заблокировал запрос по соображениям безопасности: {error_message[:200]}")
-                        gemini_meta["error_type"] = "safety_block"
+
+    for model_index, model_name in enumerate(GEMINI_MODELS):
+        print(f"🤖 Пробуем модель: {model_name} ({model_index + 1}/{len(GEMINI_MODELS)})")
+        url = (
+            "https://generativelanguage.googleapis.com/v1beta/models/"
+            f"{model_name}:generateContent?key={gemini_api_key}"
+        )
+        gemini_meta["models_tried"].append(model_name)
+
+        for attempt in range(max_retries_per_model):
+            total_attempts += 1
+            try:
+                response = requests.post(url, json=payload, timeout=280)
+
+                if response.status_code == 400:
+                    try:
+                        error_data = response.json()
+                        error_message = error_data.get("error", {}).get("message", "")
+                        if "safety" in error_message.lower() or "blocked" in error_message.lower():
+                            print(f"⛔ Gemini заблокировал запрос: {error_message[:200]}")
+                            gemini_meta["error_type"] = "safety_block"
+                        else:
+                            print(f"❌ Некорректный запрос к Gemini (400): {response.text[:200]}")
+                            gemini_meta["error_type"] = "invalid_request"
                         gemini_meta["error_detail"] = error_message
-                        break
-                    else:
+                    except Exception:
                         print(f"❌ Некорректный запрос к Gemini (400): {response.text[:200]}")
                         gemini_meta["error_type"] = "invalid_request"
-                        gemini_meta["error_detail"] = error_message
-                        break
-                except:
-                    print(f"❌ Некорректный запрос к Gemini (400): {response.text[:200]}")
-                    gemini_meta["error_type"] = "invalid_request"
-                    break
-            
-            if response.status_code == 429:
-                try:
-                    data = response.json()
-                    retry_after = data.get("parameters", {}).get("retry_after", 5)
-                    wait_time = min(retry_after, 60)
-                except:
-                    wait_time = 10
-                print(f"⏸️  Rate limit 429. Ждём {wait_time}с (попытка {attempt + 1}/{max_retries})...")
+                    gemini_meta["latency_sec"] = round(time.time() - gemini_call_start, 1)
+                    gemini_meta["attempts_used"] = total_attempts
+                    gemini_meta["fallback_used"] = True
+                    return empty_fallback, gemini_meta
+
+                if response.status_code == 429:
+                    try:
+                        data = response.json()
+                        retry_after = data.get("parameters", {}).get("retry_after", 5)
+                        wait_time = min(retry_after, 60)
+                    except Exception:
+                        wait_time = 10
+                    print(f"⏸️  Rate limit 429 ({model_name}). Ждём {wait_time}с...")
+                    time.sleep(wait_time)
+                    continue
+
+                if response.status_code == 503:
+                    wait_time = min(20 * (2 ** attempt), 60)
+                    print(f"⏸️  API перегружена (503, {model_name}). Ждём {wait_time}с...")
+                    time.sleep(wait_time)
+                    continue
+
+                if response.status_code >= 500:
+                    wait_time = min(10 * (2 ** attempt), 60)
+                    print(f"⚠️  Ошибка сервера ({response.status_code}, {model_name}). Ждём {wait_time}с...")
+                    time.sleep(wait_time)
+                    continue
+
+                if response.status_code == 200:
+                    result = response.json()
+                    gemini_meta["latency_sec"] = round(time.time() - gemini_call_start, 1)
+                    gemini_meta["attempts_used"] = total_attempts
+                    gemini_meta["fallback_used"] = False
+                    gemini_meta["model_used"] = model_name
+                    return result["candidates"][0]["content"]["parts"][0]["text"], gemini_meta
+
+                print(f"❌ Ошибка Gemini API ({response.status_code}): {response.text[:200]}")
+                response.raise_for_status()
+
+            except requests.exceptions.Timeout:
+                wait_time = 10 * (attempt + 1)
+                print(f"⏸️  Timeout ({model_name}). Ждём {wait_time}с...")
                 time.sleep(wait_time)
                 continue
-            
-            if response.status_code == 503:
-                # увеличена максимальная задержка до 120 секунд
-                wait_time = min(15 * (2 ** attempt), 120)
-                print(f"⏸️  API перегружена (503). Ждем {wait_time}с (попытка {attempt + 1}/{max_retries})...")
-                time.sleep(wait_time)
+            except Exception as e:
+                print(f"⚠️  Исключение ({model_name}): {str(e)[:100]}")
+                if attempt < max_retries_per_model - 1:
+                    time.sleep(5 * (attempt + 1))
                 continue
-            
-            if response.status_code >= 500:
-                wait_time = min(10 * (2 ** attempt), 90)
-                print(f"⚠️  Ошибка сервера ({response.status_code}). Ждем {wait_time}с...")
-                time.sleep(wait_time)
-                continue
-            
-            if response.status_code == 200:
-                result = response.json()
-                gemini_meta["latency_sec"] = round(time.time() - gemini_call_start, 1)
-                gemini_meta["attempts_used"] = attempts_made
-                gemini_meta["fallback_used"] = False
-                return result["candidates"][0]["content"]["parts"][0]["text"], gemini_meta
-            
-            print(f"❌ Ошибка Gemini API ({response.status_code}): {response.text[:200]}")
-            response.raise_for_status()
-            
-        except requests.exceptions.Timeout:
-            wait_time = 10 * (attempt + 1)
-            print(f"⏸️  Timeout API. Ждем {wait_time}с...")
-            time.sleep(wait_time)
-            continue
-        except Exception as e:
-            print(f"⚠️  Исключение: {str(e)[:100]}")
-            if attempt < max_retries - 1:
-                time.sleep(5 * (attempt + 1))
-            continue
-    
-    print("❌ Gemini API недоступна после всех попыток. Используем fallback.")
+
+        print(f"⚠️  Модель {model_name} не ответила, пробуем следующую.")
+
+    print("❌ Все модели Gemini недоступны. Используем fallback.")
     gemini_meta["latency_sec"] = round(time.time() - gemini_call_start, 1)
-    gemini_meta["attempts_used"] = attempts_made
+    gemini_meta["attempts_used"] = total_attempts
     gemini_meta["fallback_used"] = True
-    gemini_meta["error_type"] = "max_retries_exceeded"
-    # Возвращаем пустой JSON, build_html_digest построит fallback из сырых новостей
-    return json.dumps({
-        "geopolitics": [],
-        "economics": [],
-        "business": [],
-        "technology": [],
-        "energy": [],
-        "security": [],
-        "pr": []
-    }), gemini_meta
+    gemini_meta["error_type"] = "all_models_failed"
+    return empty_fallback, gemini_meta
+
 
 def postprocess_pr_classification(data, news_db):
     pr_domains = CONFIG.get("pr_source_domains", [])
@@ -1039,6 +1053,16 @@ LOCAL_CRIME_AND_TRIVIA_KEYWORDS = [
     "бытовое убийство", "семейная ссора закончилась",
 ]
 
+# Список стоп-слов для фильтрации жёлтого/lifestyle-мусора в fallback-режиме.
+FALLBACK_TRASH_KEYWORDS = [
+    "дом-2", "дом 2", "голая", "голый", "обнажённ", "обнаженн",
+    "инстаграм", "инстаграме", "тикток", "тик-ток",
+    "звезда ютуб", "звезда инстаграм", "похудела", "накачала губы",
+    "развод звезды", "пластическ", "светская хроника",
+    "тайно женился", "тайно вышла замуж", "беременна от",
+    "экс-участниц", "экс-участник", "курьёз", "курьез",
+]
+
 CATEGORY_LABELS = {
     "geopolitics": "Геополитика",
     "economics": "Экономика",
@@ -1070,22 +1094,28 @@ def build_html_digest(raw_response, news_db):
     )
     
     # === FALLBACK: если Gemini не дала новостей, но есть собранные ===
+    is_fallback = False
     if total_items == 0 and news_db:
+        is_fallback = True
         print("⚠️  Gemini не вернула категорий, используем сырые заголовки как fallback.")
-        # Создаём временную категорию "raw" для отображения
         raw_items = []
-        for news_id, info in list(news_db.items())[:30]:
-            # Определим is_russia грубо по наличию слова "Россия" или "росси" в заголовке
+        for news_id, info in list(news_db.items())[:40]:
             title = info.get("title", "")
-            is_russia = "Россия" in title or "росси" in title.lower()
+            title_lower = title.lower()
+            # Отсеиваем явный lifestyle/жёлтый мусор
+            if any(kw in title_lower for kw in FALLBACK_TRASH_KEYWORDS):
+                print(f"   🗑️  Fallback: отброшен мусор — «{title[:70]}»")
+                continue
+            # Российскость определяем по наличию кириллицы в заголовке
+            is_russia = bool(re.search(r'[а-яёА-ЯЁ]', title))
             raw_items.append({
                 "id": news_id,
                 "summary_ru": title,
-                "is_russia": is_russia
+                "is_russia": is_russia,
             })
-        # Помещаем их в категорию "raw" (нестандартную, но мы её обработаем отдельно)
         data["raw"] = raw_items
         total_items = len(raw_items)
+        print(f"   📰 После фильтрации мусора осталось {total_items} сырых заголовков.")
     
     if total_items == 0:
         print("⚠️  Модель не вернула ни одной новости (fallback структура)")
@@ -1147,8 +1177,15 @@ def build_html_digest(raw_response, news_db):
                     continue
                 seen_urls_in_digest.add(url)
                 source_name = news_db[news_id]["source_name"]
+                # Убираем дублирующееся упоминание источника в самом заголовке
+                cleaned_summary = re.sub(
+                    rf"\s*[-–—|]\s*{re.escape(source_name)}\s*$",
+                    "", summary, flags=re.IGNORECASE,
+                ).strip()
+                if not cleaned_summary:
+                    cleaned_summary = summary
                 safe_url = html_escape(url, quote=True)
-                safe_summary = html_escape(summary, quote=False)
+                safe_summary = html_escape(cleaned_summary, quote=False)
                 safe_source = html_escape(source_name, quote=False)
                 html_output += f"• {safe_summary} (<a href=\"{safe_url}\">{safe_source}</a>)\n"
                 valid_items_count += 1
@@ -1164,8 +1201,10 @@ def build_html_digest(raw_response, news_db):
     
     world_html, world_urls = build_one(False, "🌍 <b>МИРОВАЯ ПОВЕСТКА</b>", MAIN_SECTIONS)
     russia_html, russia_urls = build_one(True, "🇷🇺 <b>РОССИЯ</b>", MAIN_SECTIONS)
-    pr_world_html, pr_world_urls = build_one(False, "📢 <b>PR В МИРЕ</b>", PR_SECTIONS, force_show=True)
-    pr_russia_html, pr_russia_urls = build_one(True, "📢 <b>PR В РОССИИ</b>", PR_SECTIONS, force_show=True)
+    # В fallback-режиме PR-блоки пусты и только путают — не форсируем их показ
+    pr_force_show = not is_fallback
+    pr_world_html, pr_world_urls = build_one(False, "📢 <b>PR В МИРЕ</b>", PR_SECTIONS, force_show=pr_force_show)
+    pr_russia_html, pr_russia_urls = build_one(True, "📢 <b>PR В РОССИИ</b>", PR_SECTIONS, force_show=pr_force_show)
     
     # Если есть raw новости, строим блок для мира и России из них
     raw_world_html = ""
