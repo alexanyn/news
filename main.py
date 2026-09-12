@@ -1063,6 +1063,54 @@ FALLBACK_TRASH_KEYWORDS = [
     "экс-участниц", "экс-участник", "курьёз", "курьез",
 ]
 
+# Паттерны кадровых назначений в PR-индустрии. Такие новости формально
+# относятся к PR (издание пишет про агентство или коммуникационную функцию),
+# но по сути это однотипная кадровая хроника — читателю не интересно.
+# Фильтруются ТОЛЬКО в категории "pr", в других категориях — не трогаются.
+PR_APPOINTMENT_PATTERNS = [
+    # Русские формулировки
+    r'\bназначен(?:а|ы|о)?\b',
+    r'\bназначил(?:а|и)?\b',
+    r'\bназначени[ея]\b',
+    r'\bвозглавил(?:а|и)?\b',
+    r'\bвозглавит\b',
+    r'\bстал[аи]?\s+(?:генеральным|исполнительным|финансовым|коммерческим|\w+\s+)?(?:директором|главой|руководителем|президентом|партнёром|партнером)',
+    r'\bстанет\s+(?:генеральным|директором|главой|руководителем|президентом)',
+    r'\bпокида(?:ет|ют)\s+(?:пост|компанию|агентство)',
+    r'\bпокинул(?:а|и)?\s+(?:пост|компанию|агентство)',
+    r'\bуш[её]л(?:а|и)?\s+с\s+поста',
+    r'\bпереш[её]л(?:а|и)?\s+(?:в|на\s+работу)',
+    r'\bприсоединил(?:а|ся|ась|ись)\s+к\b',
+    r'\bнов(?:ый|ая|ое)\s+(?:генеральный|исполнительный|финансовый|коммерческий)?\s*(?:директор|глава|руководитель|президент|партнёр|партнер)',
+    # Английские формулировки
+    r'\bappoint(?:ed|s|ment)?\b',
+    r'\bnames?\s+[A-Z][a-z]+\s+as\b',
+    r'\bnamed\s+[A-Z][a-z]+\s+as\b',
+    r'\bhires?\s+[A-Z][a-z]+\s+as\b',
+    r'\bhired\s+as\b',
+    r'\bjoins?\s+[A-Z][a-z]+\s+as\b',
+    r'\bjoined\s+as\b',
+    r'\bpromoted\s+to\b',
+    r'\bpromotes?\s+[A-Z][a-z]+\b',
+    r'\bsteps?\s+down\b',
+    r'\bstepped\s+down\b',
+    r'\bleaves?\s+(?:the\s+)?(?:company|role|firm|agency)\b',
+    r'\b(?:new|incoming)\s+(?:CEO|CMO|CCO|CDO|CFO|CTO|managing\s+director|chief\s+\w+|head\s+of\s+\w+)\b',
+    r'\btakes?\s+(?:over|the\s+helm|on\s+the\s+role)\b',
+    r'\bto\s+(?:lead|head)\s+(?:its|the|\w+)\s+(?:communications?|PR|comms)\b',
+]
+
+_PR_APPOINTMENT_RE = re.compile("|".join(PR_APPOINTMENT_PATTERNS), re.IGNORECASE)
+
+
+def is_pr_appointment(text):
+    """True, если текст похож на новость о кадровом назначении в PR.
+    Используется ТОЛЬКО для фильтрации в категории pr."""
+    if not text:
+        return False
+    return bool(_PR_APPOINTMENT_RE.search(text))
+
+
 CATEGORY_LABELS = {
     "geopolitics": "Геополитика",
     "economics": "Экономика",
@@ -1171,6 +1219,11 @@ def build_html_digest(raw_response, news_db):
                 if any(kw in low_summary for kw in LOCAL_POLITICS_KEYWORDS):
                     continue
                 if any(kw.lower() in low_summary for kw in LOCAL_CRIME_AND_TRIVIA_KEYWORDS):
+                    continue
+                # В категории pr отсеиваем кадровые назначения — читателю
+                # не интересна однотипная хроника "кого куда назначили".
+                if key == "pr" and is_pr_appointment(summary):
+                    print(f"   🚫 PR-назначение отфильтровано: «{summary[:80]}»")
                     continue
                 url = news_db[news_id]["url"]
                 if url in seen_urls_in_digest:
