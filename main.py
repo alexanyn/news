@@ -921,7 +921,11 @@ def generate_analytical_json(raw_data_prompt, recently_published_titles=None):
         "generationConfig": {
             "maxOutputTokens": 65536,
             "responseMimeType": "application/json",
-            "thinkingConfig": {"thinkingLevel": "minimal"},
+            # thinkingConfig убран 2026-09-14: новые модели Gemini (3.8-flash)
+            # не поддерживают thinkingLevel "minimal" — возвращают 400
+            # INVALID_ARGUMENT. Без этого поля модель сама выбирает разумный
+            # уровень thinking по умолчанию, и запрос совместим со всеми
+            # моделями в цепочке GEMINI_MODELS.
         },
     }
 
