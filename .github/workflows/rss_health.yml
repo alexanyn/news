@@ -54,14 +54,11 @@ jobs:
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
-        # ИСПРАВЛЕНО 2026-08-27: см. аналогичный комментарий в daily.yml —
-        # git add на несуществующий файл роняет всю команду целиком, поэтому
-        # проверяем существование перед добавлением даже для одного файла
-        # (rss_health_check.py пишет его безусловно при успешном завершении,
-        # но лучше не полагаться на это молча).
-        if [ -f rss_health.json ]; then
-          git add rss_health.json
-        fi
+        for f in rss_health.json stale_sources.json; do
+          if [ -f "$f" ]; then
+            git add "$f"
+          fi
+        done
         git commit -m "Update RSS/Telegram health report [skip ci]" || echo "No changes to commit"
         git pull --rebase origin main
         git push
