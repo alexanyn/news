@@ -1091,7 +1091,88 @@ FALLBACK_TRASH_KEYWORDS = [
     "развод звезды", "пластическ", "светская хроника",
     "тайно женился", "тайно вышла замуж", "беременна от",
     "экс-участниц", "экс-участник", "курьёз", "курьез",
+    "потуш", "пожар в квартир", "коммунальн", "жкх",
+    "селфи", "фото дня", "котик", "щенок", "щенк",
+    "смотрим видео", "смотрите видео", "утираем слёзы", "утираем слезы",
+    "кто-то потерял", "нашли потеряшку",
 ]
+
+# Категории для fallback: определяем по ключевым словам в заголовке.
+# Порядок важен — сначала проверяются более специфичные.
+FALLBACK_CATEGORY_KEYWORDS = {
+    "security": [
+        "войн", "боев", "удар", "missile", "drone", "дрон", "атак",
+        "attack", "war", "conflict", "конфликт", "оборон", "defense",
+        "defence", "военн", "military", "arms", "оружи", "бпла",
+    ],
+    "energy": [
+        "oil", "нефт", "газ", "gas", "энерг", "energy", "opec", "опек",
+        "barrel", "баррель", "pipeline", "трубопровод", "coal", "уголь",
+        "renewable", "солнечн", "wind power", "аэс", "nuclear", "ядерн",
+    ],
+    "technology": [
+        "ai", "ии ", "искусственн", "chip", "чип", "полупровод",
+        "semiconductor", "nvidia", "openai", "anthropic", "google",
+        "microsoft", "apple", "qualcomm", "startup", "стартап",
+        "software", "софт", "quantum", "квант", "robot", "робот",
+    ],
+    "business": [
+        "ipo", "merger", "acquisition", "m&a", "сделк", "акци",
+        "shares", "stock", "earning", "прибыл", "убыт", "ceo",
+        "директор", "компан", "company", "corp", "deal",
+    ],
+    "economics": [
+        "gdp", "ввп", "инфляц", "inflation", "ставк", "rate",
+        "цб ", "central bank", "фрс", "fed", "yield", "доходност",
+        "валют", "currency", "рубл", "доллар", "dollar", "euro",
+    ],
+    "pr": [
+        "pr ", "коммуникац", "communications", "агентств", "agency",
+        "кампани", "campaign", "бренд", "brand", "репутац", "reputation",
+    ],
+    "geopolitics": [
+        "дипломат", "diplomat", "саммит", "summit", "санкц", "sanction",
+        "президент", "president", "министр", "minister", "парламент",
+        "переговор", "negotiat", "выбор", "election", "посол", "ambassador",
+    ],
+}
+
+# Топовые источники идут в начало — их новости обычно самые значимые
+FALLBACK_SOURCE_PRIORITY = {
+    "Reuters": 1, "Associated Press": 1, "BBC World News": 1,
+    "Bloomberg": 2, "The Economist": 2, "Financial Times": 2,
+    "Al Jazeera": 3, "The Moscow Times": 3, "Meduza": 3,
+    "Коммерсантъ": 3, "Интерфакс": 3, "ТАСС": 3, "РБК": 3,
+    "Foreign Affairs": 4, "Foreign Policy": 4, "Project Syndicate": 4,
+    "MIT Tech Review": 4, "TechCrunch": 4, "Nikkei Asia": 4,
+    "McKinsey": 5, "CSIS": 5, "Chatham House": 5, "IMF": 5,
+}
+
+def _clean_fallback_title(title, source_name):
+    """Убирает хвосты типа ' - reuters.com', ' - Reuters', ' – RBC' из заголовка."""
+    import re as _re
+    # Убираем тире + домен или имя источника в конце
+    patterns = [
+        rf"\s*[-–—|]\s*{_re.escape(source_name)}\s*$",
+        r"\s*[-–—|]\s*[a-z0-9\-]+\.(com|ru|org|net|io|co\.uk|edu)\s*$",
+        r"\s*[-–—|]\s*(Reuters|AP News|Bloomberg\.com|BBC|Al Jazeera)\s*$",
+    ]
+    cleaned = title.strip()
+    for pat in patterns:
+        cleaned = _re.sub(pat, "", cleaned, flags=_re.IGNORECASE).strip()
+    # Убираем кавычки, которые дублируются на границах
+    return cleaned or title
+
+
+def _guess_category(title):
+    """Определяет категорию по ключевым словам. Возвращает 'geopolitics' по умолчанию."""
+    low = title.lower()
+    # Идём по порядку — от более специфичных к более общим
+    for cat in ["security", "energy", "technology", "business", "economics", "pr"]:
+        for kw in FALLBACK_CATEGORY_KEYWORDS.get(cat, []):
+            if kw in low:
+                return cat
+    return "geopolitics"
 
 # Паттерны кадровых назначений в PR-индустрии. Такие новости формально
 # относятся к PR (издание пишет про агентство или коммуникационную функцию),
@@ -1172,28 +1253,55 @@ def build_html_digest(raw_response, news_db):
     )
     
     # === FALLBACK: если Gemini не дала новостей, но есть собранные ===
+    # В отличие от прошлой версии, здесь мы:
+    #   1) чистим заголовки от дублирующегося источника,
+    #   2) распределяем по категориям на основе ключевых слов,
+    #   3) отсеиваем lifestyle-мусор,
+    #   4) сортируем по значимости источника.
     is_fallback = False
     if total_items == 0 and news_db:
         is_fallback = True
-        print("⚠️  Gemini не вернула категорий, используем сырые заголовки как fallback.")
-        raw_items = []
-        for news_id, info in list(news_db.items())[:40]:
+        print("⚠️  Gemini не вернула категорий, формируем fallback из заголовков.")
+
+        # Собираем и обогащаем
+        candidates = []
+        for news_id, info in news_db.items():
             title = info.get("title", "")
+            source_name = info.get("source_name", "")
             title_lower = title.lower()
-            # Отсеиваем явный lifestyle/жёлтый мусор
+
             if any(kw in title_lower for kw in FALLBACK_TRASH_KEYWORDS):
                 print(f"   🗑️  Fallback: отброшен мусор — «{title[:70]}»")
                 continue
-            # Российскость определяем по наличию кириллицы в заголовке
-            is_russia = bool(re.search(r'[а-яёА-ЯЁ]', title))
-            raw_items.append({
+
+            clean_title = _clean_fallback_title(title, source_name)
+            is_russia = bool(re.search(r'[а-яёА-ЯЁ]', clean_title))
+            category = _guess_category(clean_title)
+            priority = FALLBACK_SOURCE_PRIORITY.get(source_name, 9)
+
+            candidates.append({
                 "id": news_id,
-                "summary_ru": title,
+                "summary_ru": clean_title,
                 "is_russia": is_russia,
+                "_category": category,
+                "_priority": priority,
             })
-        data["raw"] = raw_items
-        total_items = len(raw_items)
-        print(f"   📰 После фильтрации мусора осталось {total_items} сырых заголовков.")
+
+        # Сортируем по значимости источника
+        candidates.sort(key=lambda x: x["_priority"])
+
+        # Раскладываем по категориям, ограничив 10 на регион
+        from collections import defaultdict
+        buckets = defaultdict(list)
+        for c in candidates:
+            key = (c["_category"], c["is_russia"])
+            if len(buckets[key]) < 10:
+                item = {"id": c["id"], "summary_ru": c["summary_ru"], "is_russia": c["is_russia"]}
+                buckets[key].append(item)
+                data.setdefault(c["_category"], []).append(item)
+
+        total_items = sum(len(v) for v in data.values() if isinstance(v, list))
+        print(f"   📰 После фильтрации и категоризации осталось {total_items} новостей.")
     
     if total_items == 0:
         print("⚠️  Модель не вернула ни одной новости (fallback структура)")
@@ -1289,14 +1397,12 @@ def build_html_digest(raw_response, news_db):
     pr_world_html, pr_world_urls = build_one(False, "📢 <b>PR В МИРЕ</b>", PR_SECTIONS, force_show=pr_force_show)
     pr_russia_html, pr_russia_urls = build_one(True, "📢 <b>PR В РОССИИ</b>", PR_SECTIONS, force_show=pr_force_show)
     
-    # Если есть raw новости, строим блок для мира и России из них
+    # Raw-секция больше не нужна: fallback-новости уже разложены
+    # по стандартным категориям выше и рендерятся как обычный дайджест.
     raw_world_html = ""
     raw_russia_html = ""
     raw_world_urls = []
     raw_russia_urls = []
-    if "raw" in data:
-        raw_world_html, raw_world_urls = build_one(False, "📰 <b>СЫРЫЕ НОВОСТИ (МИР)</b>", RAW_SECTIONS, force_show=True)
-        raw_russia_html, raw_russia_urls = build_one(True, "📰 <b>СЫРЫЕ НОВОСТИ (РОССИЯ)</b>", RAW_SECTIONS, force_show=True)
     
     return (world_html, russia_html, pr_world_html, pr_russia_html,
             world_urls, russia_urls, pr_world_urls, pr_russia_urls,
