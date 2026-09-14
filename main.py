@@ -192,6 +192,8 @@ GEMINI_MODELS = CONFIG.get("gemini_models", [
     "gemini-3.6-flash",
     "gemini-3.5-flash",
     "gemini-2.5-flash",
+    "gemini-3-pro",
+    "gemini-2.5-pro",
 ])
 
 _TITLE_STOPWORDS = {
@@ -1171,29 +1173,15 @@ def build_html_digest(raw_response, news_db):
         for cat in expected_categories
     )
     
-    # === FALLBACK: если Gemini не дала новостей, но есть собранные ===
+    # === FALLBACK УБРАН (2026-09-14, по запросу пользователя) ===
+    # Раньше, если Gemini недоступна, здесь формировался дайджест из сырых
+    # заголовков. Пользователь явно попросил этого не делать — сырые
+    # заголовки выглядят как сломанный дайджест. Теперь при недоступности
+    # Gemini дайджест НЕ отправляется вообще (см. проверку gemini_failed
+    # в main_async) — лучше пропустить выпуск, чем прислать кашу.
     is_fallback = False
     if total_items == 0 and news_db:
-        is_fallback = True
-        print("⚠️  Gemini не вернула категорий, используем сырые заголовки как fallback.")
-        raw_items = []
-        for news_id, info in list(news_db.items())[:40]:
-            title = info.get("title", "")
-            title_lower = title.lower()
-            # Отсеиваем явный lifestyle/жёлтый мусор
-            if any(kw in title_lower for kw in FALLBACK_TRASH_KEYWORDS):
-                print(f"   🗑️  Fallback: отброшен мусор — «{title[:70]}»")
-                continue
-            # Российскость определяем по наличию кириллицы в заголовке
-            is_russia = bool(re.search(r'[а-яёА-ЯЁ]', title))
-            raw_items.append({
-                "id": news_id,
-                "summary_ru": title,
-                "is_russia": is_russia,
-            })
-        data["raw"] = raw_items
-        total_items = len(raw_items)
-        print(f"   📰 После фильтрации мусора осталось {total_items} сырых заголовков.")
+        print("⚠️  Gemini не вернула категорий — дайджест будет пропущен.")
     
     if total_items == 0:
         print("⚠️  Модель не вернула ни одной новости (fallback структура)")
@@ -1578,7 +1566,15 @@ async def main_async(args, schedule_name):
             except Exception as e:
                 print(f"⚠️  Не удалось сохранить кеш анализа: {e}")
         
-        if raw_json and raw_data_prompt.strip():
+        # Если Gemini не ответила после всех моделей и попыток — не отправляем
+        # ничего. Пользователь предпочёл пропуск дайджеста «сырым» новостям.
+        gemini_failed = run_metrics.get("gemini", {}).get("fallback_used", False)
+
+        if gemini_failed:
+            print("🚫 Gemini недоступна после всех моделей и попыток.")
+            print("   Дайджест НЕ отправляется. Данные собраны, можно перезапустить workflow вручную позже.")
+            run_metrics["status"] = "gemini_failed"
+        elif raw_json and raw_data_prompt.strip():
             postprocess_start = time.time()
             (world_html, russia_html, pr_world_html, pr_russia_html,
              world_urls, russia_urls, pr_world_urls, pr_russia_urls,
