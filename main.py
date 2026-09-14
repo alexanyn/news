@@ -1148,6 +1148,47 @@ FALLBACK_SOURCE_PRIORITY = {
     "McKinsey": 5, "CSIS": 5, "Chatham House": 5, "IMF": 5,
 }
 
+def _needs_translation(text):
+    """True, если в тексте нет кириллицы — значит, вероятно, английский/другой язык."""
+    if not text:
+        return False
+    return not bool(re.search(r'[а-яёА-ЯЁ]', text))
+
+
+def translate_to_russian(text, timeout=10):
+    """Переводит текст на русский через бесплатный endpoint Google Translate.
+    Не требует API-ключа. Возвращает переведённый текст или исходный, если
+    перевод не удался. Используется ТОЛЬКО в fallback-режиме — в обычном
+    дайджесте перевод делает Gemini вместе с резюме."""
+    if not text or not _needs_translation(text):
+        return text
+
+    try:
+        import urllib.parse
+        params = {
+            "client": "gtx",
+            "sl": "auto",
+            "tl": "ru",
+            "dt": "t",
+            "q": text[:1000],  # ограничение эндпоинта
+        }
+        url = "https://translate.googleapis.com/translate_a/single?" + urllib.parse.urlencode(params)
+        r = requests.get(url, timeout=timeout, headers={
+            "User-Agent": "Mozilla/5.0 (compatible; NewsDigest/1.0)"
+        })
+        if r.status_code != 200:
+            return text
+        # Формат ответа: [[["перевод","исходный",null,null,...],...],...]
+        data = r.json()
+        if not data or not data[0]:
+            return text
+        translated = "".join(segment[0] for segment in data[0] if segment and segment[0])
+        return translated.strip() or text
+    except Exception as e:
+        print(f"   ⚠️  Ошибка перевода: {e}")
+        return text
+
+
 def _clean_fallback_title(title, source_name):
     """Убирает хвосты типа ' - reuters.com', ' - Reuters', ' – RBC' из заголовка."""
     import re as _re
@@ -1278,6 +1319,15 @@ def build_html_digest(raw_response, news_db):
             is_russia = bool(re.search(r'[а-яёА-ЯЁ]', clean_title))
             category = _guess_category(clean_title)
             priority = FALLBACK_SOURCE_PRIORITY.get(source_name, 9)
+
+            # Если заголовок не на русском — переводим через Google Translate.
+            # Это единственный способ дать читателю понятный текст, когда
+            # Gemini недоступна (обычно она переводит и резюмирует сразу).
+            if _needs_translation(clean_title):
+                translated = translate_to_russian(clean_title)
+                if translated != clean_title:
+                    print(f"   🌐 Переведено: «{clean_title[:50]}...» → «{translated[:50]}...»")
+                    clean_title = translated
 
             candidates.append({
                 "id": news_id,
