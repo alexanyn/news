@@ -189,11 +189,9 @@ MAX_FETCH_WORKERS = CONFIG["collection"]["max_fetch_workers"]
 
 # Список моделей Gemini: при 503 (перегружена) пробуем следующую.
 GEMINI_MODELS = CONFIG.get("gemini_models", [
-    "gemini-3.8-flash",
-    "gemini-3.7-flash",
     "gemini-3.6-flash",
     "gemini-3.5-flash",
-    "gemini-3.1-pro-preview",
+    "gemini-2.5-flash",
 ])
 
 _TITLE_STOPWORDS = {
@@ -921,11 +919,7 @@ def generate_analytical_json(raw_data_prompt, recently_published_titles=None):
         "generationConfig": {
             "maxOutputTokens": 65536,
             "responseMimeType": "application/json",
-            # thinkingConfig убран 2026-09-14: новые модели Gemini (3.8-flash)
-            # не поддерживают thinkingLevel "minimal" — возвращают 400
-            # INVALID_ARGUMENT. Без этого поля модель сама выбирает разумный
-            # уровень thinking по умолчанию, и запрос совместим со всеми
-            # моделями в цепочке GEMINI_MODELS.
+            "thinkingConfig": {"thinkingLevel": "minimal"},
         },
     }
 
@@ -1177,15 +1171,29 @@ def build_html_digest(raw_response, news_db):
         for cat in expected_categories
     )
     
-    # === FALLBACK УБРАН (2026-09-14, по запросу пользователя) ===
-    # Раньше, если Gemini недоступна, здесь формировался дайджест из сырых
-    # заголовков. Пользователь явно попросил этого не делать — сырые
-    # заголовки выглядят как сломанный дайджест. Теперь при недоступности
-    # Gemini дайджест НЕ отправляется вообще (см. проверку gemini_failed
-    # в main_async) — лучше пропустить выпуск, чем прислать кашу.
+    # === FALLBACK: если Gemini не дала новостей, но есть собранные ===
     is_fallback = False
     if total_items == 0 and news_db:
-        print("⚠️  Gemini не вернула категорий — дайджест будет пропущен.")
+        is_fallback = True
+        print("⚠️  Gemini не вернула категорий, используем сырые заголовки как fallback.")
+        raw_items = []
+        for news_id, info in list(news_db.items())[:40]:
+            title = info.get("title", "")
+            title_lower = title.lower()
+            # Отсеиваем явный lifestyle/жёлтый мусор
+            if any(kw in title_lower for kw in FALLBACK_TRASH_KEYWORDS):
+                print(f"   🗑️  Fallback: отброшен мусор — «{title[:70]}»")
+                continue
+            # Российскость определяем по наличию кириллицы в заголовке
+            is_russia = bool(re.search(r'[а-яёА-ЯЁ]', title))
+            raw_items.append({
+                "id": news_id,
+                "summary_ru": title,
+                "is_russia": is_russia,
+            })
+        data["raw"] = raw_items
+        total_items = len(raw_items)
+        print(f"   📰 После фильтрации мусора осталось {total_items} сырых заголовков.")
     
     if total_items == 0:
         print("⚠️  Модель не вернула ни одной новости (fallback структура)")
@@ -1570,15 +1578,7 @@ async def main_async(args, schedule_name):
             except Exception as e:
                 print(f"⚠️  Не удалось сохранить кеш анализа: {e}")
         
-        # Если Gemini не ответила после всех моделей и попыток — не отправляем
-        # ничего. Пользователь предпочёл пропуск дайджеста «сырым» новостям.
-        gemini_failed = run_metrics.get("gemini", {}).get("fallback_used", False)
-
-        if gemini_failed:
-            print("🚫 Gemini недоступна после всех моделей и попыток.")
-            print("   Дайджест НЕ отправляется. Данные собраны, можно перезапустить workflow вручную позже.")
-            run_metrics["status"] = "gemini_failed"
-        elif raw_json and raw_data_prompt.strip():
+        if raw_json and raw_data_prompt.strip():
             postprocess_start = time.time()
             (world_html, russia_html, pr_world_html, pr_russia_html,
              world_urls, russia_urls, pr_world_urls, pr_russia_urls,
