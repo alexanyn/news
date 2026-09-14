@@ -1,0 +1,9 @@
+__pycache__/
+*.pyc
+*.pyo
+.http_cache/
+last_news_db.json
+last_raw_data.txt
+last_raw_json.json
+last_recent_titles.json
+last_collection_stats.json
