@@ -54,6 +54,8 @@ jobs:
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
+        # Коммитим оба файла: rss_health.json (отчёт) и stale_sources.json
+        # (список мёртвых источников, который main.py использует для фильтрации).
         for f in rss_health.json stale_sources.json; do
           if [ -f "$f" ]; then
             git add "$f"
