@@ -670,6 +670,36 @@ async def fetch_telegram_channel_async(username, session, timeout=None):
         print(f"Не удалось получить Telegram-канал {username}: {e}")
         return []
 
+
+# Синхронные обёртки над асинхронными функциями — нужны для rss_health_check.py,
+# который работает в однопоточном режиме (ThreadPoolExecutor) и не использует asyncio.
+# Внутри создаётся отдельный event loop на каждый вызов — это неэффективно при
+# массовой проверке (~100 источников × N секунд), но для еженедельного health-check
+# это допустимо: 30 минут таймаута workflow с запасом хватает.
+def fetch_feed(url, timeout=15):
+    """Синхронная обёртка над fetch_feed_async. Возвращает распарсенный feed."""
+    async def _run():
+        async with aiohttp.ClientSession() as session:
+            return await fetch_feed_async(url, session, timeout)
+    try:
+        return asyncio.run(_run())
+    except Exception as e:
+        print(f"Синхронная обёртка fetch_feed({url}) упала: {e}")
+        return None
+
+
+def fetch_telegram_channel(username, timeout=15):
+    """Синхронная обёртка над fetch_telegram_channel_async."""
+    async def _run():
+        async with aiohttp.ClientSession() as session:
+            return await fetch_telegram_channel_async(username, session, timeout)
+    try:
+        return asyncio.run(_run())
+    except Exception as e:
+        print(f"Синхронная обёртка fetch_telegram_channel({username}) упала: {e}")
+        return []
+
+
 def clean_rss_summary(raw_summary, max_len=400):
     if not raw_summary:
         return ""
