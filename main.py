@@ -189,11 +189,11 @@ MAX_FETCH_WORKERS = CONFIG["collection"]["max_fetch_workers"]
 
 # Список моделей Gemini: при 503 (перегружена) пробуем следующую.
 GEMINI_MODELS = CONFIG.get("gemini_models", [
+    "gemini-3.8-flash",
+    "gemini-3.7-flash",
     "gemini-3.6-flash",
     "gemini-3.5-flash",
-    "gemini-2.5-flash",
-    "gemini-3-pro",
-    "gemini-2.5-pro",
+    "gemini-3.1-pro-preview",
 ])
 
 _TITLE_STOPWORDS = {
