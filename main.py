@@ -1387,17 +1387,26 @@ def build_html_digest(raw_response, news_db):
     
     seen_urls_in_digest = set()
     
-    def build_one(target_is_russia, header, sections_to_render, force_show=False):
-        html_output = f"{header}\n\n"
-        any_valid_anywhere = False
+    def build_one(target_is_russia, header, sections_to_render):
+        """Собирает блок дайджеста для одного региона (мир / Россия / PR).
+
+        Пустые категории ПОЛНОСТЬЮ пропускаются — ни заголовок категории,
+        ни заглушка 'Существенных сдвигов не зафиксировано' не выводятся.
+        Если во всём регионе нет ни одной валидной новости, регион тоже
+        не выводится (возвращается пустая строка)."""
+        category_blocks = []
         section_urls = []
+
         for key, title in sections_to_render:
             raw_items = data.get(key)
             items = raw_items if isinstance(raw_items, list) else []
-            filtered_items = [it for it in items if isinstance(it, dict) and bool(it.get("is_russia")) == target_is_russia]
-            if len(sections_to_render) > 1:
-                html_output += f"<b>{title}</b>\n"
-            valid_items_count = 0
+            filtered_items = [
+                it for it in items
+                if isinstance(it, dict) and bool(it.get("is_russia")) == target_is_russia
+            ]
+
+            # Отбираем валидные новости этой категории
+            valid_lines = []
             for item in filtered_items:
                 news_id = str(item.get("id", "")).strip()
                 summary = sanitize_summary_text(item.get("summary_ru", ""))
@@ -1408,8 +1417,6 @@ def build_html_digest(raw_response, news_db):
                     continue
                 if any(kw.lower() in low_summary for kw in LOCAL_CRIME_AND_TRIVIA_KEYWORDS):
                     continue
-                # В категории pr отсеиваем кадровые назначения — читателю
-                # не интересна однотипная хроника "кого куда назначили".
                 if key == "pr" and is_pr_appointment(summary):
                     print(f"   🚫 PR-назначение отфильтровано: «{summary[:80]}»")
                     continue
@@ -1428,24 +1435,31 @@ def build_html_digest(raw_response, news_db):
                 safe_url = html_escape(url, quote=True)
                 safe_summary = html_escape(cleaned_summary, quote=False)
                 safe_source = html_escape(source_name, quote=False)
-                html_output += f"• {safe_summary} (<a href=\"{safe_url}\">{safe_source}</a>)\n"
-                valid_items_count += 1
+                valid_lines.append(
+                    f"• {safe_summary} (<a href=\"{safe_url}\">{safe_source}</a>)"
+                )
                 section_urls.append(url)
-            if valid_items_count == 0:
-                html_output += "• <i>Существенных сдвигов за прошедшие часы не зафиксировано</i>\n"
-            else:
-                any_valid_anywhere = True
-            html_output += "\n"
-        show_block = any_valid_anywhere or force_show
-        result_html = html_output.strip() if show_block else ""
-        return result_html, (section_urls if result_html else [])
+
+            # Если в категории нет ни одной валидной новости — пропускаем её целиком
+            if not valid_lines:
+                continue
+
+            block = ""
+            if len(sections_to_render) > 1:
+                block += f"<b>{title}</b>\n"
+            block += "\n".join(valid_lines)
+            category_blocks.append(block)
+
+        if not category_blocks:
+            return "", []
+
+        result_html = f"{header}\n\n" + "\n\n".join(category_blocks)
+        return result_html.strip(), section_urls
     
     world_html, world_urls = build_one(False, "🌍 <b>МИРОВАЯ ПОВЕСТКА</b>", MAIN_SECTIONS)
     russia_html, russia_urls = build_one(True, "🇷🇺 <b>РОССИЯ</b>", MAIN_SECTIONS)
-    # В fallback-режиме PR-блоки пусты и только путают — не форсируем их показ
-    pr_force_show = not is_fallback
-    pr_world_html, pr_world_urls = build_one(False, "📢 <b>PR В МИРЕ</b>", PR_SECTIONS, force_show=pr_force_show)
-    pr_russia_html, pr_russia_urls = build_one(True, "📢 <b>PR В РОССИИ</b>", PR_SECTIONS, force_show=pr_force_show)
+    pr_world_html, pr_world_urls = build_one(False, "📢 <b>PR В МИРЕ</b>", PR_SECTIONS)
+    pr_russia_html, pr_russia_urls = build_one(True, "📢 <b>PR В РОССИИ</b>", PR_SECTIONS)
     
     # Raw-секция больше не нужна: fallback-новости уже разложены
     # по стандартным категориям выше и рендерятся как обычный дайджест.
