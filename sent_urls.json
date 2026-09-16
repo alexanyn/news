@@ -1,145 +1,5 @@
 [
   {
-    "url": "https://meduza.io/news/2026/09/09/merts-otmenil-telefonnyy-razgovor-s-trampom",
-    "added_at": 1788976801.0506437,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.interfax.ru/world/1114169",
-    "added_at": 1788976801.0506437,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.politico.eu/article/asylum-applications-plummet-across-eu-governments-push-deportation-hubs/?utm_source=RSS_Feed&utm_medium=RSS&utm_campaign=RSS_Syndication",
-    "added_at": 1788976801.0506437,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.scmp.com/news/hong-kong/politics/article/3366966/tributes-flow-hong-kong-mourns-tung-chee-hwa-pioneering-first-leader?utm_source=rss_feed",
-    "added_at": 1788976801.0506437,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://news.google.com/rss/articles/CBMinAFBVV95cUxQMVFtZW9VYi1jWGlldTlubUM4OU9MS0ozbXlHc0E3dEVDQjktaHhXdWhGVFlLMjRnaXZqanp6RnM1YndSUzdZN2s1SUNvZzlJSmNKclRnbmRaN19GeGxGeHV6eGtQd0JkNWVSMVg1SFZMNkN3Mkl4Nk9SaGpVd29mZXNJTEIyUnF1eG9yRkZtRlRTeFdtSTh3LTA2NEg?oc=5",
-    "added_at": 1788976801.0506437,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://techcrunch.com/2026/09/09/doj-wants-more-answers-on-foxs-22b-roku-deal/",
-    "added_at": 1788976801.0506437,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.rbc.ru/quote/09/09/2026/6aa198699a7947d7c8fcb6c6",
-    "added_at": 1788976801.0506437,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.politico.eu/article/die-eu-will-oeffentliche-auftraege-zu-herzstueck-ihrer-neuen-industriepolitik-machen/?utm_source=RSS_Feed&utm_medium=RSS&utm_campaign=RSS_Syndication",
-    "added_at": 1788976801.0506437,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://news.google.com/rss/articles/CBMivwFBVV95cUxNWXFxSC1yRTU2ejFxemZvWTFuejRhSXZTY2cwVUFCU21iLURyaGltd3BCTGlJeXR4NEJzZUpldTN2M2RfQ191TV9rb1RfeExhSms3elNGLVV4cU9nbG9oNWV3dFB5S1ctLXNBSDVOdjZsYnZoYklyb2FmdDZrLVBsYTEzT1c5Unhpd1dacUNpMWNzd1UxYnZMR2NrSWVMSEQxYXFXRGE4RDktQzIwS2xGaG9sWUFvNlAtbDVLNElSWQ?oc=5",
-    "added_at": 1788976801.0506437,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://meduza.io/feature/2026/09/09/openai-zayavila-chto-ee-ii-agenty-reshili-odnu-iz-semi-zadach-tysyacheletiya-dvoe-matematikov-dopuskayut-chto-kompaniya-ispolzovala-rezultaty-ih-raboty",
-    "added_at": 1788976801.0506437,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://asia.nikkei.com/business/technology/artificial-intelligence/alibaba-takes-on-anthropic-with-50-cheaper-e-commerce-ai-agent",
-    "added_at": 1788976801.0506437,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.scmp.com/news/world/united-states-canada/article/3366969/ai-researcher-quits-anthropic-over-superintelligence-fears-gambling-our-lives?utm_source=rss_feed",
-    "added_at": 1788976801.0506437,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://asia.nikkei.com/business/energy/mitsubishi-heavy-tech-makes-hydrogen-from-natural-gas-without-emitting-co2",
-    "added_at": 1788976801.0506437,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://asia.nikkei.com/politics/defense/japan-to-develop-drone-based-quantum-sensors-to-detect-submarines",
-    "added_at": 1788976801.0506437,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://meduza.io/news/2026/09/09/direktor-tsru-retkliff-po-dannym-ft-stanet-klyuchevym-peregovorschikom-ssha-s-rossiey-i-ukrainoy",
-    "added_at": 1788976801.0506437,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://tass.com/politics/2185027",
-    "added_at": 1788976801.0506437,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.kommersant.ru/doc/8940294",
-    "added_at": 1788976801.0506437,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://news.google.com/rss/articles/CBMizwFBVV95cUxOWEEzR0NtUkhBcmZpSENOMmJyOUJfclBhWWtRNFBCaDJkSU5taUprdkVYXzlhUVFRMGRIUkRrOTVvWHFJNVp0Z2MxYTRhSV90dk4yOFpsV2l4a08tZzRwR1QwQVZpd05kTFlhZDFsNTlFNUcyUnFndEtBaFU2UDljMVYwbWZ1U3ZwbGVONV9mcDBWYW9vaGJuOXRTamlkcDJ1OUdCRUxURHlqTk84eXkzX0gtbXNLeU5OZ0tMUmlTWllQX2dKWEtUZWk4ZUFGZFk?oc=5",
-    "added_at": 1788976801.0506437,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://news.google.com/rss/articles/CBMi0wFBVV95cUxQbHJBXzFpcUstbzNJRnpJSzFGSDRSdTJjM2s4Y0lMbENNSGh4Yk9mX1djRkE5VGJZQklJbFhLSFBIQXRIOTRvREhNR2ZGb0hreC11MHRWcGZvbENnQlNwcllmYjlQdVBSY2ZMaWtrOTE0SWtvRF9ubHozQW9yY3ZjRXZrMEpuVlQ1MEg2OVVTY21qSElDY0g0Z01tRUtQLUxnbUVUekU5SU1UZjBmU1lIRzRvX1BMU1o4aEJEVHlKb1VRSENhekF6aGxmN3JVRUFsVXNV?oc=5",
-    "added_at": 1788976801.0506437,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.cnews.ru/news/top/2026-09-09_rossijskij_ubijtsa_youtube",
-    "added_at": 1788976801.0506437,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.themoscowtimes.com/2026/09/09/drones-hit-russias-gas-hinterland-in-northern-siberia-for-the-first-time-a93672",
-    "added_at": 1788976801.0506437,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://tass.com/politics/2185045",
-    "added_at": 1788976801.0506437,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://tass.com/politics/2185039",
-    "added_at": 1788976801.0506437,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.interfax.ru/russia/1114168",
-    "added_at": 1788976801.0506437,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.kommersant.ru/doc/8940291",
-    "added_at": 1788976801.0506437,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.rbc.ru/rbcfreenews/6aa14b913d39127b86fb9016",
-    "added_at": 1788976801.0506437,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.cnews.ru/news/line/2026-09-09_60_studentov_sovmeshchayut_uchebu",
-    "added_at": 1788976801.0506437,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://news.google.com/rss/articles/CBMiwwFBVV95cUxQWVAwWUNockNlUFM5VEVaVnlpQ0F4RWRORWVHa0tBZDVxSWRvNzVfUW1EMFNJdS1YN2lza3ZDa25oTFBTY0NWUkZfbjJOWlpibnRWOF8zSjQ1ZTVVWkY0NWc3bzFzRzhsd2g0MHZFaVYxOW5qX2ltQUt4bGxjUFNRemhGTFJwa1RQdUlJN2NOMG1ra1d2dlYxQUpLdDc4YXgwZ2ZHQnZmaHF0TVF6RXpoaXpSelZCN2kwRFZDYlZCdDd5bnM?oc=5",
-    "added_at": 1788976801.0506437,
-    "source": "parsed_feed"
-  },
-  {
     "url": "https://www.politico.eu/article/even-trump-friendly-eu-countries-back-brussels-pact-with-canada/?utm_source=RSS_Feed&utm_medium=RSS&utm_campaign=RSS_Syndication",
     "added_at": 1788981560.5393152,
     "source": "parsed_feed"
@@ -4512,6 +4372,141 @@
   {
     "url": "https://t.me/moscowcsr/5072",
     "added_at": 1789570924.7091029,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.kommersant.ru/doc/8956535",
+    "added_at": 1789581698.1978295,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.axios.com/2026/09/16/us-open-ai-shared-risks-china-bessent",
+    "added_at": 1789581698.1978295,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://t.me/frank_media/23948",
+    "added_at": 1789581698.1978295,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://techcrunch.com/2026/09/16/may-mobility-is-going-public-in-a-1-4b-spac-deal/",
+    "added_at": 1789581698.1978295,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://asia.nikkei.com/business/automobiles/nissan-to-invest-228m-in-sunderland-uk-plant-to-make-kicks-hybrid-suv",
+    "added_at": 1789581698.1978295,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://asia.nikkei.com/business/materials/nippon-steel-builds-on-u.s.-steel-takeover-with-new-european-plant-in-slovakia",
+    "added_at": 1789581698.1978295,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://techcrunch.com/2026/09/16/your-ai-agents-can-now-control-your-google-home-devices/",
+    "added_at": 1789581698.1978295,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://techcrunch.com/video/how-fortell-is-using-ai-and-163m-to-crack-a-hearing-aid-monopoly/",
+    "added_at": 1789581698.1978295,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://asia.nikkei.com/business/technology/artificial-intelligence/japan-s-resonac-nitto-denko-to-invest-in-us-fund-for-ai-hardware",
+    "added_at": 1789581698.1978295,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://t.me/the_financial_times_journal/8282",
+    "added_at": 1789581698.1978295,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://news.google.com/rss/articles/CBMivAFBVV95cUxQX0Q2S2JRT3llcENjREtGM2t4eDlYa0VxdUEwT0Z0TTlSUjdadWdSZnNEUlRYWGI3M3hOZ0xXYU9xZEZqVjV1VFo1amtXVVZnejhnazk0TXpyUlY3QTlaeGFSRmd1Z0dXOVBsc2I2SV85aW9oejlMWjA1OFF5Vk1sbGRLRV92TlVLV3NuaGhWanVlbVBMQTdQUXNGd0RBWU5zRG9tV2RUMlpzb2ZZSG1idWl2ZHlCclVyVTdtYQ?oc=5",
+    "added_at": 1789581698.1978295,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://asia.nikkei.com/business/markets/commodities/copper-nears-price-range-of-nickel-on-ai-ev-demand",
+    "added_at": 1789581698.1978295,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.vedomosti.ru/politics/news/2026/09/16/1229463-v-armenii-zayavili",
+    "added_at": 1789581698.1978295,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.vedomosti.ru/politics/news/2026/09/16/1229461-10-azs-vo-frantsii",
+    "added_at": 1789581698.1978295,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://meduza.io/news/2026/09/16/v-kieve-v-rezultate-ataki-rossiyskih-dronov-sgorel-sklad-s-rekvizitom-studii-kvartal-95-ee-soosnovatel-zelenskiy",
+    "added_at": 1789581698.1978295,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.rbc.ru/politics/03/07/2026/6a47094d9a7947f55b5ffb22",
+    "added_at": 1789581698.1978295,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.semafor.com/article/09/16/2026/anatomy-of-an-ai-powered-hack",
+    "added_at": 1789581698.1978295,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.rbc.ru/politics/26/05/2026/6a1550e29a794780630867c5",
+    "added_at": 1789581698.1978295,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.vedomosti.ru/politics/news/2026/09/16/1229456-obvinili-nato-v-otrabotke",
+    "added_at": 1789581698.1978295,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://tass.com/world/2188659",
+    "added_at": 1789581698.1978295,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://t.me/frank_media/23949",
+    "added_at": 1789581698.1978295,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.kommersant.ru/doc/8956539",
+    "added_at": 1789581698.1978295,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://news.google.com/rss/articles/CBMixgFBVV95cUxQSXI5WFg0aTNrZVZaN3ZLQkpnSU90cEMzbGVpNEV5UDA3NU5CWGQweVhhemtLem5sTk81d1NGMHVxM0lBN0ZBYWllMmZoTXFrMW13NTRzbFZWRTdMRHlsS1FfQ21lOVBXOG5Rb3J5SmgzVjRWTDVaTGI4c3JDUWZ4QlVxZW1NV2xmWjM2STUxVl9QeHM4RHgtTTliNzgyeWRORjdGWDVpbjAyOGFjQTRFSlVRdFc1VG1rcTFPaGxGa1NiMWpkOFE?oc=5",
+    "added_at": 1789581698.1978295,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://t.me/tadviser/6237",
+    "added_at": 1789581698.1978295,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.interfax.ru/russia/1116498",
+    "added_at": 1789581698.1978295,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://news.google.com/rss/articles/CBMixwFBVV95cUxQOEZUTnN2Q0IxSzlkeC0zeGhwZkVhVkVEeW02OFR5eFY5d1BEU2dTTDh1ejF5bUt2UFFHSHU5UVV4OE9uUjRRdS1MMVlGenJNNk8xQTJnT3BHdXROUy1IbW1haDJQWXRJS3NfaUdyaUdTb1I1UmZoU1JhM1NOS0hMZUtnY0xBUkhHRU9naldmeFlONnhGWDVkS3g3X1I0TGlNNmd0WmgwZ3k4OGFQT1JFWTljbFZETnl5RmJXTHU2MDVUZ09lYTdR?oc=5",
+    "added_at": 1789581698.1978295,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://news.google.com/rss/articles/CBMiogFBVV95cUxQVjg3blRELWkyZkZOdFdYdDBlNGRvbHJWd0FjMkN5ZHYtQTI5R2liMUcycHZBdUVIcm1VcWNYVlJ0YnktbHZYQWpITm9NZkw0MWdfLUc2VlpvNDhWanlPbl96Y0lWLVBRSWxMTklLRW4xWlNpN1RDN2pabGQ4UjVKbWNENERDa2N5TlNvbmRkNEJxUWdKSVg1bndaLWRLXzdNelE?oc=5",
+    "added_at": 1789581698.1978295,
     "source": "parsed_feed"
   }
 ]
