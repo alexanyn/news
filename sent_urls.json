@@ -1,150 +1,5 @@
 [
   {
-    "url": "https://news.google.com/rss/articles/CBMiuAFBVV95cUxOUk9oUjNYejhGeW1YblJUVWdfQ0JaZU52dHNPZUZVdnpMSkxYS3pKTWhLdjU0REdNUGdubUhnRl9KUXZabHRfbEQyOUJZeXUxQzZfcGFlbFV5V1BlSTVmRkhzdGJaNkpQa3p3OG9LZUt3Q3VXYkdrc2ZRWW9fcWQ4TkYxNFgxNFI0dlhIV0UyUU5Dbk44blJMempZVFVqVm5XbUlfV2dqSlN3YXBNUDlUQmVxS3JQMUxQ?oc=5",
-    "added_at": 1789128147.7975981,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://news.google.com/rss/articles/CBMitgFBVV95cUxQTUV1QV9MNGlUbTdkanZIUUEwY0x1UlRXaXViVFlMVi14NW1aMkwwUjMzOUdnclVJSWFCQ3p6SGYtQ1NtY3NDMlVvUmZ3bk42bUdjVDAwNHpaLUVGTkFqak40WTlrdFhJX2RRdjZDTV9sUmRYSXU5V3dtM09hOVpmT3hwbzRxbDlCZFFqUnY3dGZNZ0VraWR5WC1qeFNEM0ZmRWFwZUd3ZjZlYWRfWjBfZEprWE5MZw?oc=5",
-    "added_at": 1789128147.7975981,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://news.google.com/rss/articles/CBMiugFBVV95cUxOTjFiNDd1ajc0clVsXzNYUUxmWFo4TU5BREJvbFlhTWx3eDNyWThFaFRxcnU3aFNJeU9PZngyODdLRV9EXzlvclppNklSa2JDUTVqWThtS2ZTdmpZWk1nMXRYQXJGZWdlMlRpdzdHYXJnLTBldjN0LVNxVS1UcWdDVGxyMDRucUE5UEU4Qnczc3RlVVlfcTNLS3N2a1ZzM3BEX183Zm9tbmRQX3dxc2JoMnJFR0p0MmJJaEE?oc=5",
-    "added_at": 1789128147.7975981,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://news.google.com/rss/articles/CBMiuwFBVV95cUxOaXdNOTVXY3kwZHluN2wtdk16OHYyYjR6aWxCZ3RFaDNveWtIMTZ3dzFwZExPZmpOX1YxbTJMdmdEeVZabF9NTjV3ei1KSWJXR2NKR2lnbWZjczZyQlBEU0x6c0dnWFplWFVteEJoQ0JTMGpFdnZqd2hXR2JpSF9ILU9WM2tGUTAtQWxuQnl4LXhZQWRnZXNEdFZlUFBDbXhxLTJVUVoyRkwtQm1KS3R5M05uaktvT0dWVzhV?oc=5",
-    "added_at": 1789128147.7975981,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://news.google.com/rss/articles/CBMirgFBVV95cUxOQy1VQVR5VnAyYTE3VGNkNVdQVElFYkliUUEwNW0wRHl3Y014Q2NyVE4tNDR5TE5MdDlsT3FTanBNbTNaelFWT3FZNTY3RUU4YkEzSnRlaGJOTmdFQ0s2ZngzaWFxQ1RaZ0Q0aVotVEdLU29mRmU3M2x4OUthX1l5c3p4LTAzUEY2bUVRRE4teko0SkFzdl9jT0hvekVDTy1leEgxbWx2dHFIU0dhUlE?oc=5",
-    "added_at": 1789128147.7975981,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.bbc.co.uk/news/articles/c4gl92lw8vpo?at_medium=RSS&at_campaign=rss",
-    "added_at": 1789128147.7975981,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.bbc.co.uk/news/articles/c5yjkxlngjyo?at_medium=RSS&at_campaign=rss",
-    "added_at": 1789128147.7975981,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.aljazeera.com/sports/2026/9/11/fifa-rebukes-morocco-claim-they-will-host-2030-world-cup-final?traffic_source=rss",
-    "added_at": 1789128147.7975981,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.aljazeera.com/news/2026/9/11/swiss-police-report-five-killed-in-dutch-tour-bus-crash?traffic_source=rss",
-    "added_at": 1789128147.7975981,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.aljazeera.com/video/newsfeed/2026/9/11/republican-midterm-message-democrats-are-the-threat?traffic_source=rss",
-    "added_at": 1789128147.7975981,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.aljazeera.com/video/newsfeed/2026/9/11/09-11-reported-israel-hezb-tunnels-lebanon-mp4?traffic_source=rss",
-    "added_at": 1789128147.7975981,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.aljazeera.com/news/2026/9/11/blew-the-hell-out-of-it-how-iran-damaged-us-bases-in-bahrain-jordan?traffic_source=rss",
-    "added_at": 1789128147.7975981,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://news.google.com/rss/articles/CBMisgFBVV95cUxNTXhtUUpua3FMcFpYZmN0UHdoZjhoa1p2TS0wSXRoVjYxNDFJRTkyRDJQWWx3TDZDN3d0dnIwNnZ1RHg3Y29fNmFDWUMwZVZXdHdOYVp3eVhtZ1UtaHRTWVFHeGtqcktOUlNKSHZ3VHIzMlVCNl9kNlN3R0NXS0xKb0JxSVhEZVJLMTNNVzBmaEszV19penQ4QmpRc0Q0dzhDakdVTzFCQXJ6Zm84Vk5tNF93?oc=5",
-    "added_at": 1789128147.7975981,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://news.google.com/rss/articles/CBMiwwFBVV95cUxNTTE5R1o3SGdJczlabDB1R1RoczdjSjNFRkRrMHBvSGxuVVFsR0R0RElpd05LWFhSdmJSbHphamxUX1VHRV9YUnNCVzB5Yjl3YjRlOVJWTHhtay1OQUl5R2dzM3ZmWDh0WlFsbnlsU1pWX3gyZTdLOGlUNjRsN2FZM0pudDJadFo0aXZPVzlwSWI4cUNEXzZUVERGOUFZVjVTcm5aUGk4Zk9fck14SzNfNzh5alJCWVJiRkZZQVJLcTJ5b1E?oc=5",
-    "added_at": 1789128147.7975981,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.interfax.ru/business/1115530",
-    "added_at": 1789128147.7975981,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.interfax.ru/business/1115532",
-    "added_at": 1789128147.7975981,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.interfax.ru/business/1115531",
-    "added_at": 1789128147.7975981,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.interfax.ru/russia/1115529",
-    "added_at": 1789128147.7975981,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.interfax.ru/world/1115528",
-    "added_at": 1789128147.7975981,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.kommersant.ru/doc/8952740",
-    "added_at": 1789128147.7975981,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.kommersant.ru/doc/8952734",
-    "added_at": 1789128147.7975981,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.kommersant.ru/doc/8952726",
-    "added_at": 1789128147.7975981,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.themoscowtimes.com/2026/09/11/russian-central-bank-holds-key-rate-at-14-a93688",
-    "added_at": 1789128147.7975981,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.themoscowtimes.com/2026/09/11/russia-launches-first-5g-networks-after-years-of-delays-a93685",
-    "added_at": 1789128147.7975981,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://meduza.io/feature/2026/09/11/openai-gotova-zamedlit-razrabotku-svoih-ii-modeley-issledovateli-stali-vse-chasche-preduprezhdat-o-riskah-chrezmerno-bystrogo-razvitiya-neyrosetey",
-    "added_at": 1789128147.7975981,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://meduza.io/news/2026/09/11/spisok-yabloka-snyali-s-vyborov-v-predposlednem-regione-ostalas-tolko-novgorodskaya-oblast",
-    "added_at": 1789128147.7975981,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://meduza.io/news/2026/09/11/ukrainskie-bespilotniki-atakovali-himkombinat-azot-v-permskom-krae-ego-produktsiyu-ispolzuyut-pri-proizvodstve-vzryvchatki",
-    "added_at": 1789128147.7975981,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://meduza.io/news/2026/09/11/tsb-vpervye-s-2025-goda-ne-stal-snizhat-klyuchevuyu-stavku-ona-ostalas-na-urovne-14",
-    "added_at": 1789128147.7975981,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.kommersant.ru/doc/8952710",
-    "added_at": 1789128147.7975981,
-    "source": "parsed_feed"
-  },
-  {
     "url": "https://news.google.com/rss/articles/CBMisgFBVV95cUxOMEVIWUw2aXFMWmtQTVJyLTVrWFZRbmM2cnRtRU5kQmVrTjBFbDFya1lRazZWVGtUWEtZcWxVMXJleFc2b0JiSEhrU1VKbjR0OXkxMGZHOFZ2RlB2WlBVaEtsQlNoMlNOcUY5NXlkZFFURU0wd1J4VmdyYUNia2hYbWdEOHZRb2hnNzJRak1qYmtCZ2Y5R2Y4SG94WkZybXhrVFBHaGhRNnZmN3NvdUhpbFdB?oc=5",
     "added_at": 1789139060.986047,
     "source": "parsed_feed"
@@ -4587,6 +4442,76 @@
   {
     "url": "https://www.interfax.ru/russia/1116847",
     "added_at": 1789722227.0933578,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://news.google.com/rss/articles/CBMisgFBVV95cUxNUXFFeEk2NVZjZU9WbTQ3QUZObDgyZ2JZdVlPRjd5dzNVdk13OFNCN2tiR0c1MElNMFFZVGdRelI5UnZkNnlMNmRQZXM1Um1sQUZQRkh2R3JvSHNkZnhtV2JzVFB4SDVoam0tZUE3WHljQWdSbXFPTEdOTkxSQXdvcTZQdXloOEpXMlVWUnprbS0ycUJ3aU1qRkVKZTc0UTFxa2h0bG43TlpCRnM5N1pVN09R?oc=5",
+    "added_at": 1789733378.0555649,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://meduza.io/news/2026/09/18/uorren-baffett-ushel-s-posta-predsedatelya-soveta-direktorov-berkshire-hathaway",
+    "added_at": 1789733378.0555649,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://news.google.com/rss/articles/CBMisgFBVV95cUxNTXprTTlqczhxa1hvTi1nUTFubDBfMm1nbkQxQURpMmtIazNXd3BOM1FDcmJYUTdFZ2hrN2ZTcDVHUnZ6Uzd5WVo1MDFCZk5DWVotbmhEUk9jSHd6SjFFbmtyUG9sOWFob1dwRTByMnRiMTFmc2RRV1dwQXNQdUJnM2p2S0RtLWxfUTRDUURaWXF0YW0wTnJfQlpkZFF0ckhNMmVPSkczamV1MS05VjZaanFB?oc=5",
+    "added_at": 1789733378.0555649,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://news.google.com/rss/articles/CBMipwFBVV95cUxPMnNocmF2MC1saXA1bW95QU5PcXUyNHZrZUdaZUFKNXVnYk1Yejg4UTlqa242RmJGMnBlZ1pkeC1KdERaazR1TGtSTHkwMFFLNTZQa3VBdHJzcWlWR0hldTYtVm5RQ3hQZDE2LXFfZ3gzeHVqQ3pNR1pEUmpHbnpUMlB1UkYtTHpfeURTVU9Kb082R3ZrbnA1VVZmcEJlcnZBUlEySmtkUQ?oc=5",
+    "added_at": 1789733378.0555649,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://news.google.com/rss/articles/CBMisgFBVV95cUxQblZIWWl4WUpocnpCN0xpcFBObHIzcUZqOTIweWxjbjJxdS0ycDNybXBfWG9XQTNZMVVaR2MtNC0wQnp5LWVUU1VXY3RKLUFWQjFwS256cS1za1pQdDhmaDNCSmJldW9sdFhjLVlxM1N3cE5acjUzN25BWFVfcVdQaUFqel9LOXpMQWpNVzN1S2JiNzNVUFJoX0NRb0pQbERxZlh6LW5CWVVDcDh2NkIwcnlR?oc=5",
+    "added_at": 1789733378.0555649,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://t.me/neftegazchannel/27959",
+    "added_at": 1789733378.0555649,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.bbc.co.uk/news/articles/ckn9wenz8wjwo?at_medium=RSS&at_campaign=rss",
+    "added_at": 1789733378.0555649,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.rbc.ru/politics/08/08/2026/6a7770179a7947a87f934d3c",
+    "added_at": 1789733378.0555649,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.kommersant.ru/doc/8969771",
+    "added_at": 1789733378.0555649,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://news.google.com/rss/articles/CBMitAFBVV95cUxQY1kzb3RVaUE1VFI4TEQ2d2J4WWQweC05X0JTMU9YbHZLVDBmdnVDQXVFYlVsdG1rUW1qVG5CcWptTFMwV3lUQXFFazdfbTNCNFJKcC1QM01Qb20tajhBZWFHQ3gwVmJTOUFKR213bXhlczhlWWc4SmZmbjItMWd4WFdNdFhPRG1hY2gtb1drWUFPX3IyVW1pTklqZmw1Wm1VeC12MHRnTWdpcGYzSFdPOGJPc2I?oc=5",
+    "added_at": 1789733378.0555649,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.cnews.ru/news/line/2026-09-18_gazprom_neft_privlechet",
+    "added_at": 1789733378.0555649,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://t.me/tadviser/6247",
+    "added_at": 1789733378.0555649,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.provokemedia.com/podcast/article/pr-newswire's-susan-wohleking-ai-is-changing-the-rules-of-brand-authority",
+    "added_at": 1789733378.0555649,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.prdaily.com/what-crisis-communication-framework-does-your-team-actually-need/",
+    "added_at": 1789733378.0555649,
     "source": "parsed_feed"
   }
 ]
