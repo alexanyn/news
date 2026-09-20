@@ -1,110 +1,5 @@
 [
   {
-    "url": "https://www.scmp.com/news/world/europe/article/3367336/france-apologises-criticising-us-human-rights-record-after-backlash?utm_source=rss_feed",
-    "added_at": 1789279304.3092127,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.scmp.com/week-asia/politics/article/3367223/india-pakistan-water-row-deepens-after-hague-court-ruling?utm_source=rss_feed",
-    "added_at": 1789279304.3092127,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://tass.com/world/2186887",
-    "added_at": 1789279304.3092127,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://t.me/the_financial_times_journal/8207",
-    "added_at": 1789279304.3092127,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://news.google.com/rss/articles/CBMiswFBVV95cUxNejk0eC02SzF5aUNibGJ1LVlfd09qT3pUcTJYQU44TElaTV9zNFprcDR0bmZoRHJFZWpISXNONV9wMWNjS2V2R3hFLWZuY3VRVTdTVXJlXzI4dXhqal9uak56b1ZTcjB4ZjUzNDhSYTRRZEJzc2RhSlMxaDJOU3oyQWdnaGRsLTZqV0lqVFZWc3Y2Zm1aeXdDa1ZnSlZsYUp2ckNqazdDYllocEpLTEZxRGdabw?oc=5",
-    "added_at": 1789279304.3092127,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://t.me/the_financial_times_journal/8204",
-    "added_at": 1789279304.3092127,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://techcrunch.com/2026/09/12/automattic-confirms-mullenweg-has-returned-as-ceo-after-attempted-ouster-by-board/",
-    "added_at": 1789279304.3092127,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://t.me/the_financial_times_journal/8205",
-    "added_at": 1789279304.3092127,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://t.me/the_financial_times_journal/8208",
-    "added_at": 1789279304.3092127,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://news.google.com/rss/articles/CBMiwAFBVV95cUxQQVhXVEpKMlIzcFp1cW5CS3VMQVZ4OE9NMWFJbnJ5V29Sdk1nZ1NTbXFhZGpFM0dfN2NKQ1l4aTdDUFVUb2tYaExkbVZiSFRZSVdfMm1sNzJLT1JlckY2TVROWHVlcFNzc1VybXp0SjZUWmkxV3pIQlo2QWxnTjNUOERpWEE1Ym1rTXBpNXZnaEFIbkN4cFV1SWpvLTZraDliTmdoeUZrRzVMSmVRU19mUW05UngwNDl6LTNOaXF3SUI?oc=5",
-    "added_at": 1789279304.3092127,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.bbc.co.uk/news/articles/c14dpgm0rg4o?at_medium=RSS&at_campaign=rss",
-    "added_at": 1789279304.3092127,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://news.google.com/rss/articles/CBMirwFBVV95cUxQZzhjTS1GNC1rcHlXYWQzQ2lZZ3RjWm16N25vNzZXTGZPZHRnM3Z2WndKb2Fsb1Q4VE9ENDdUamR0enFSeUdINWpabW93eDRueFlSYmkyWGtWaFRvVGs3UlR1MXpUWHhYdlFvdWNTTEhUZHRzRllyZ2hjQUFyNTV2eklxazV0dWNabXNtTURUU2tGVEJNTWdfTWRkRGE3MlpGanpqR2JqOHdXQThxRm9F?oc=5",
-    "added_at": 1789279304.3092127,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://news.google.com/rss/articles/CBMisgFBVV95cUxPYUdYaTBYRXVaSFVnQmx3R0VYR3oybXctT2xJX3YtMlRxRmNqdEsweTlFdDE4V3JiLVR0RnZrRnRTU1BIQ0NPWGtNdzY5MXRmRUxIem1FaHdpMXhtTW0tb1hUY05IZ2VLVEpiWldWTUNFeU5acEhSVmxjWFhTZ0cxN1JLaEpLWGU4VEdUX3E2NFZCdTljc1lTUW9ySUNOOWpINFBLVi1nVGx6WGdqSVlleU53?oc=5",
-    "added_at": 1789279304.3092127,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://tass.com/economy/2186883",
-    "added_at": 1789279304.3092127,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://news.google.com/rss/articles/CBMiuwFBVV95cUxPeVc2VklDSTJqenp5QnFhX2s4NFg3SHlkMndlZ3dXT3NfdDhYUnlVMXU0eldKbktyWmNrUkRMZkw4bTJyMHE1cldIUDVKNk41clpBWjkyUlA4c2RMM1dONkZPZEZMTlpCTk5nMmxxcjVXcU50RXoxM2xWOGlLZWtlOE5iTUR6ZkNiaTVGbzVfdXJrNkZxT2ljamQ5MWNsQ0h3UHJLYWlxOG45YVlqa2FsOHRZbDlRbWprY19F?oc=5",
-    "added_at": 1789279304.3092127,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://news.google.com/rss/articles/CBMioAFBVV95cUxPREdaZmR6TnMxUGFHT280OUlwV1VleHUzc0MzSDc0X2Z6Y3hEdF9aLUZRaVpYNmIwYmtOSGdjWWltTjkyanJhM2NWRUZnMVdnMFJMSVlRMjRuWVZMajVpQ2lOck5McHRYNzJLYmR4R2hkc3M2YzRBTTM2NjlOaHVhcFB0YTZhWkVDVUNpMEZxZDViTjhWWXZGVVhqbFpkR045?oc=5",
-    "added_at": 1789279304.3092127,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.kommersant.ru/doc/8953564",
-    "added_at": 1789279304.3092127,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.rbc.ru/rbcfreenews/68deacd69a79479ebfb924f8",
-    "added_at": 1789279304.3092127,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.interfax.ru/russia/1115795",
-    "added_at": 1789279304.3092127,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://t.me/the_financial_times_journal/8206",
-    "added_at": 1789279304.3092127,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.semafor.com/article/09/12/2026/how-the-ai-apocalypse-story-escaped-containment",
-    "added_at": 1789279304.3092127,
-    "source": "parsed_feed"
-  },
-  {
     "url": "https://news.google.com/rss/articles/CBMiyAFBVV95cUxONFpydUdTZlpsZXo4YUE2eTl5N1ZHaXMta1F0bDVram5Wd05nWlBzdl9OZWF0STBhZFBiandFZGYtT0xPaWpIYlpvQ2tsUHJDbUpUS0kxdU50NGtmSEJqaFlBajJPaFpjZDFqb0RMT01FZVg1cnBmQzNtODlIa0pTandBajFTaDVDVVQ3bjlmbTUzejAwU2tCTlBQUE9NaUNfVVJXMFBIZ0Z1UHN1c3pLUTNrYUl5RWNRbTJCUGFJSE1zM2cwalRvWQ?oc=5",
     "added_at": 1789300930.030211,
     "source": "parsed_feed"
@@ -4567,6 +4462,51 @@
   {
     "url": "https://www.kommersant.ru/doc/8970699",
     "added_at": 1789884076.966158,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://news.google.com/rss/articles/CBMitwFBVV95cUxOVUJfNVhNNWFzZllHa2x4bFJva2tSdDB6MU9Bd1hKYWxxM3o1S0VudFdkOXhlbkZla2hvcTl0cVJtdmpyR3hkM29rWll1OVpVVmJIX3R0dThxQmEwM1E3RkFEdEVGeE9UZGxtdlcwa1JOVVBmQTQ4TVMxZ1gxQVRia0lFSkdlMElqckluSkFISFVGNWJLcHpqY054RFhUTU5JQno5enFSTjh6aFZuMUNrX0QyVFhkaTA?oc=5",
+    "added_at": 1789894874.4476533,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://asia.nikkei.com/politics/international-relations/taiwan-tensions/foreign-envoys-in-taiwan-warn-rules-of-game-at-sea-are-being-challenged",
+    "added_at": 1789894874.4476533,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://tass.com/world/2190249",
+    "added_at": 1789894874.4476533,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://vc.ru/money/3133322-biznes-model-revolut-ambicii-superprilozheniya?from=rss",
+    "added_at": 1789894874.4476533,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://t.me/neftegazchannel/27975",
+    "added_at": 1789894874.4476533,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://news.google.com/rss/articles/CBMiqwFBVV95cUxNTDFuRjFrR3lVU05OakZFWFlOdWFSTGsyelUxZmZrMkZvamthRHNRVkx0ZG95NnRIdXlWUFVhX2pfaUo2M1haY1B5RXNzVjJTRDZ3bXN6MUpYWUxiZThYbE9FWHBUemMtbC1SMHRQeWdBdC00YmxUWEZkXzljNm9PTnBCNS14WGFUOUFQRVZEN25feWZLNkRmcFN4M0pyM3pBZDF2cktnVGF6OXM?oc=5",
+    "added_at": 1789894874.4476533,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.bbc.co.uk/news/articles/c34gdjk1ne8yo?at_medium=RSS&at_campaign=rss",
+    "added_at": 1789894874.4476533,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.kommersant.ru/doc/8970761",
+    "added_at": 1789894874.4476533,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://news.google.com/rss/articles/CBMingFBVV95cUxNdVh6VV9sUUVaMktXM2U3bGRkanRSbUxaM2d4MHplX1B0U1V4Z3hiVUxYNU9ScWJ2NVpCRm1RR2hjcHRPRlJKZzMtYmFGRENLNWNZZVpVU1BEbDdZcXlqVmNqSGdjRmVjRkxRY1pEN05uNXFEUFFycUlrbnoxZnFYdlEyLS1VSUE5bzVXZXptSEJGTWJUOVk5THBEN1N0QQ?oc=5",
+    "added_at": 1789894874.4476533,
     "source": "parsed_feed"
   }
 ]
