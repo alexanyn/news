@@ -1027,6 +1027,47 @@ def generate_analytical_json(raw_data_prompt, recently_published_titles=None):
     return empty_fallback, gemini_meta
 
 
+def _is_mostly_latin(text):
+    """True, если в тексте больше латинских букв, чем кириллических."""
+    if not text:
+        return False
+    latin = len(re.findall(r'[A-Za-z]', text))
+    cyrillic = len(re.findall(r'[а-яёА-ЯЁ]', text))
+    # Если кириллицы вообще нет, но латиница есть — точно надо переводить
+    if latin > 0 and cyrillic == 0:
+        return True
+    # Если латиницы больше в 2+ раза — тоже переводим
+    return latin > cyrillic * 2 and latin > 20
+
+
+def ensure_russian_summaries(data):
+    """Гарантирует, что все summary_ru на русском языке.
+    Если Gemini вернула английский текст (или смешанный с сильным перевесом
+    латиницы) — переводим через Google Translate. Работает ТОЛЬКО для
+    нормального режима (не fallback — там перевод уже делается отдельно)."""
+    if not isinstance(data, dict):
+        return data
+
+    translated_count = 0
+    for category, items in data.items():
+        if not isinstance(items, list):
+            continue
+        for item in items:
+            if not isinstance(item, dict):
+                continue
+            summary = item.get("summary_ru", "")
+            if _is_mostly_latin(summary):
+                translated = translate_to_russian(summary)
+                if translated and translated != summary:
+                    item["summary_ru"] = translated
+                    translated_count += 1
+                    print(f"   🌐 summary_ru переведён: «{summary[:50]}...» → «{translated[:50]}...»")
+
+    if translated_count:
+        print(f"   📊 Всего переведено summary_ru: {translated_count}")
+    return data
+
+
 def postprocess_pr_classification(data, news_db):
     pr_domains = CONFIG.get("pr_source_domains", [])
     if not pr_domains:
@@ -1286,6 +1327,7 @@ def build_html_digest(raw_response, news_db):
         data = {}
     
     data = postprocess_pr_classification(data, news_db)
+    data = ensure_russian_summaries(data)
     
     expected_categories = ["geopolitics", "economics", "business", "technology", "energy", "security", "pr"]
     total_items = sum(
