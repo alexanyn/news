@@ -255,7 +255,17 @@ def render_html(entries, health):
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.4/chart.umd.min.js"></script>
+<!-- Chart.js: сначала локальный файл (chart.umd.min.js рядом с dashboard.html),
+     fallback на CDN через createElement (document.write не используем — Chrome
+     блокирует его при file://). -->
+<script src="chart.umd.min.js"></script>
+<script>
+  if (typeof Chart === "undefined") {{
+    var s = document.createElement("script");
+    s.src = "https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js";
+    document.head.appendChild(s);
+  }}
+</script>
 <style>
   :root {{
     --ink: #0B0E14;
@@ -499,7 +509,7 @@ def render_html(entries, health):
         pointBackgroundColor: amber,
         borderWidth: 2,
         fill: true,
-        tension: 0.25,
+        tension: 0.25
       }}]
     }},
     options: {{
@@ -545,7 +555,7 @@ def render_html(entries, health):
         pointBackgroundColor: cyan,
         borderWidth: 2,
         fill: true,
-        tension: 0.25,
+        tension: 0.25
       }}]
     }},
     options: {{
@@ -568,7 +578,7 @@ def render_html(entries, health):
     'crashed': 'rgba(225,82,65,1)',
     'unknown': '#8993A6'
   }};
-  const bgColors = statusLabels.map(l => statusColors[l] || '#8993A6');
+  const bgColors = statusLabels.map(function(l) {{ return statusColors[l] || '#8993A6'; }});
 
   new Chart(document.getElementById('statusChart'), {{
     type: 'doughnut',
@@ -578,7 +588,7 @@ def render_html(entries, health):
         data: statusData,
         backgroundColor: bgColors,
         borderColor: '#0B0E14',
-        borderWidth: 2,
+        borderWidth: 2
       }}]
     }},
     options: {{
