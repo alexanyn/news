@@ -1,306 +1,50 @@
 {
-  "checked_at": "2026-09-14T15:08:54.042048+03:00",
+  "checked_at": "2026-09-21T15:12:56.160795+03:00",
   "stale_threshold_days": 7,
   "rss": {
-    "total": 128,
-    "ok": 79,
-    "stale": 22,
-    "dead": 27,
+    "total": 84,
+    "ok": 74,
+    "stale": 10,
+    "dead": 0,
     "details": [
       {
-        "url": "https://www.atlanticcouncil.org/feed/",
-        "source_name": "Atlantic Council",
-        "status": "dead",
-        "entries_count": 0,
-        "latest_entry_age_days": null,
-        "error": "Пустой ответ или нет записей"
-      },
-      {
-        "url": "https://www.bis.org/list/rss/index.xml",
-        "source_name": "BIS",
-        "status": "dead",
-        "entries_count": 0,
-        "latest_entry_age_days": null,
-        "error": "Пустой ответ или нет записей"
-      },
-      {
-        "url": "https://www.brookings.edu/feed/",
-        "source_name": "Brookings Institution",
-        "status": "dead",
-        "entries_count": 0,
-        "latest_entry_age_days": null,
-        "error": "Пустой ответ или нет записей"
-      },
-      {
-        "url": "https://www.csis.org/analysis/feed",
-        "source_name": "CSIS",
-        "status": "dead",
-        "entries_count": 0,
-        "latest_entry_age_days": null,
-        "error": "Пустой ответ или нет записей"
-      },
-      {
-        "url": "https://carnegieendowment.org/rss/publications/",
-        "source_name": "Carnegie Endowment",
-        "status": "dead",
-        "entries_count": 0,
-        "latest_entry_age_days": null,
-        "error": "Пустой ответ или нет записей"
-      },
-      {
-        "url": "https://carnegieendowment.org/rss/solr/?fa=eventsFeed",
-        "source_name": "Carnegie Endowment",
-        "status": "dead",
-        "entries_count": 0,
-        "latest_entry_age_days": null,
-        "error": "Пустой ответ или нет записей"
-      },
-      {
-        "url": "https://www.cfr.org/rss/analysis",
-        "source_name": "Council on Foreign Relations",
-        "status": "dead",
-        "entries_count": 0,
-        "latest_entry_age_days": null,
-        "error": "Пустой ответ или нет записей"
-      },
-      {
-        "url": "https://www.gzeromedia.com/rss",
-        "source_name": "Eurasia Group / GZERO",
-        "status": "dead",
-        "entries_count": 0,
-        "latest_entry_age_days": null,
-        "error": "Пустой ответ или нет записей"
-      },
-      {
-        "url": "https://www.iea.org/rss/news",
-        "source_name": "IEA",
-        "status": "dead",
-        "entries_count": 0,
-        "latest_entry_age_days": null,
-        "error": "Пустой ответ или нет записей"
-      },
-      {
-        "url": "https://www.iiss.org/rss/publications",
-        "source_name": "IISS",
-        "status": "dead",
-        "entries_count": 0,
-        "latest_entry_age_days": null,
-        "error": "Пустой ответ или нет записей"
-      },
-      {
-        "url": "https://www.imf.org/en/News/RSS",
-        "source_name": "IMF",
-        "status": "dead",
-        "entries_count": 0,
-        "latest_entry_age_days": null,
-        "error": "Пустой ответ или нет записей"
-      },
-      {
-        "url": "https://www.nato.int/cps/en/natohq/rss.htm",
-        "source_name": "NATO",
-        "status": "dead",
-        "entries_count": 0,
-        "latest_entry_age_days": null,
-        "error": "Пустой ответ или нет записей"
-      },
-      {
-        "url": "https://www.oecd.org/newsroom/rss.xml",
-        "source_name": "OECD",
-        "status": "dead",
-        "entries_count": 0,
-        "latest_entry_age_days": null,
-        "error": "Пустой ответ или нет записей"
-      },
-      {
-        "url": "https://www.project-syndicate.org/rss",
-        "source_name": "Project Syndicate",
-        "status": "dead",
-        "entries_count": 0,
-        "latest_entry_age_days": null,
-        "error": "Пустой ответ или нет записей"
-      },
-      {
-        "url": "https://restofworld.org/feed/",
-        "source_name": "Rest of World",
-        "status": "dead",
-        "entries_count": 0,
-        "latest_entry_age_days": null,
-        "error": "Пустой ответ или нет записей"
-      },
-      {
-        "url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&type=10-K&dateb=&owner=include&count=40&output=atom",
-        "source_name": "SEC",
-        "status": "dead",
-        "entries_count": 0,
-        "latest_entry_age_days": null,
-        "error": "Пустой ответ или нет записей"
-      },
-      {
-        "url": "https://stratechery.com/feed/",
-        "source_name": "Stratechery",
-        "status": "dead",
-        "entries_count": 0,
-        "latest_entry_age_days": null,
-        "error": "Пустой ответ или нет записей"
-      },
-      {
-        "url": "https://www.economist.com/rss",
-        "source_name": "The Economist",
-        "status": "dead",
-        "entries_count": 0,
-        "latest_entry_age_days": null,
-        "error": "Пустой ответ или нет записей"
-      },
-      {
-        "url": "https://www.treasury.gov/_layouts/15/RSSFeed.aspx?FeedType=Press",
-        "source_name": "U.S. Treasury",
-        "status": "dead",
-        "entries_count": 0,
-        "latest_entry_age_days": null,
-        "error": "Пустой ответ или нет записей"
-      },
-      {
-        "url": "https://www.worldbank.org/en/news/rss",
-        "source_name": "World Bank",
-        "status": "dead",
-        "entries_count": 0,
-        "latest_entry_age_days": null,
-        "error": "Пустой ответ или нет записей"
-      },
-      {
-        "url": "https://valdaiclub.com/rss/",
-        "source_name": "Валдайский клуб",
-        "status": "dead",
-        "entries_count": 0,
-        "latest_entry_age_days": null,
-        "error": "Пустой ответ или нет записей"
-      },
-      {
-        "url": "https://imemo.ru/rss/",
-        "source_name": "ИМЭМО РАН",
-        "status": "dead",
-        "entries_count": 0,
-        "latest_entry_age_days": null,
-        "error": "Пустой ответ или нет записей"
-      },
-      {
-        "url": "https://www.opec.org/opec_web/en/rss.xml",
-        "source_name": "ОПЕК",
-        "status": "dead",
-        "entries_count": 0,
-        "latest_entry_age_days": null,
-        "error": "Пустой ответ или нет записей"
-      },
-      {
-        "url": "https://www.rbc.ru/rss/news",
-        "source_name": "РБК",
-        "status": "dead",
-        "entries_count": 0,
-        "latest_entry_age_days": null,
-        "error": "Пустой ответ или нет записей"
-      },
-      {
-        "url": "https://russiancouncil.ru/rss/",
-        "source_name": "РСМД",
-        "status": "dead",
-        "entries_count": 0,
-        "latest_entry_age_days": null,
-        "error": "Пустой ответ или нет записей"
-      },
-      {
-        "url": "https://www.forecast.ru/rss.asp",
-        "source_name": "ЦМАКП",
-        "status": "dead",
-        "entries_count": 0,
-        "latest_entry_age_days": null,
-        "error": "Пустой ответ или нет записей"
-      },
-      {
-        "url": "https://www.csr.ru/ru/news/rss/",
-        "source_name": "ЦСР",
-        "status": "dead",
-        "entries_count": 0,
-        "latest_entry_age_days": null,
-        "error": "Пустой ответ или нет записей"
-      },
-      {
-        "url": "https://news.google.com/rss/search?q=site:bcg.com&hl=en-US&gl=US&ceid=US:en",
-        "source_name": "BCG",
+        "url": "https://newsroom.cipr.co.uk/feed/en",
+        "source_name": "CIPR",
         "status": "stale",
-        "entries_count": 100,
-        "latest_entry_age_days": 54.2,
-        "error": null
-      },
-      {
-        "url": "https://news.google.com/rss/search?q=site:bain.com+insights+-jobs+-careers+-hiring&hl=en-US&gl=US&ceid=US:en",
-        "source_name": "Bain",
-        "status": "stale",
-        "entries_count": 100,
-        "latest_entry_age_days": 20.2,
-        "error": null
-      },
-      {
-        "url": "https://news.google.com/rss/search?q=%22Money+Stuff%22+Bloomberg&hl=en-US&gl=US&ceid=US:en",
-        "source_name": "Bloomberg Money Stuff",
-        "status": "stale",
-        "entries_count": 100,
-        "latest_entry_age_days": 32.2,
-        "error": null
-      },
-      {
-        "url": "https://news.google.com/rss/search?q=site:deloitte.com+%22M%26A+trends%22+OR+report+OR+study+-jobs+-careers+-hiring&hl=en-US&gl=US&ceid=US:en",
-        "source_name": "Deloitte",
-        "status": "stale",
-        "entries_count": 100,
-        "latest_entry_age_days": 340.2,
-        "error": null
-      },
-      {
-        "url": "https://news.google.com/rss/search?q=site:fred.stlouisfed.org&hl=en-US&gl=US&ceid=US:en",
-        "source_name": "FRED",
-        "status": "stale",
-        "entries_count": 100,
-        "latest_entry_age_days": 1291.7,
-        "error": null
-      },
-      {
-        "url": "https://news.google.com/rss/search?q=%22FT+Due+Diligence%22&hl=en-US&gl=US&ceid=US:en",
-        "source_name": "FT Due Diligence",
-        "status": "stale",
-        "entries_count": 10,
-        "latest_entry_age_days": 820.2,
-        "error": null
-      },
-      {
-        "url": "https://imaa-institute.org/feed/",
-        "source_name": "IMAA",
-        "status": "stale",
-        "entries_count": 9,
-        "latest_entry_age_days": 27.4,
-        "error": null
-      },
-      {
-        "url": "https://news.google.com/rss/search?q=site:imf.org&hl=en-US&gl=US&ceid=US:en",
-        "source_name": "IMF",
-        "status": "stale",
-        "entries_count": 100,
-        "latest_entry_age_days": 10.2,
-        "error": null
-      },
-      {
-        "url": "https://www.crisisgroup.org/rss.xml",
-        "source_name": "International Crisis Group",
-        "status": "stale",
-        "entries_count": 10,
+        "entries_count": 25,
         "latest_entry_age_days": 7.1,
         "error": null
       },
       {
-        "url": "https://news.google.com/rss/search?q=%22Minchenko+Consulting%22&hl=ru&gl=RU&ceid=RU:ru",
-        "source_name": "Minchenko Consulting",
+        "url": "https://news.google.com/rss/search?q=site:odwyerpr.com&hl=en-US&gl=US&ceid=US:en",
+        "source_name": "O'Dwyer's PR",
         "status": "stale",
-        "entries_count": 10,
-        "latest_entry_age_days": 293.2,
+        "entries_count": 100,
+        "latest_entry_age_days": 510.2,
+        "error": null
+      },
+      {
+        "url": "https://news.google.com/rss/search?q=site:oecd.org&hl=en-US&gl=US&ceid=US:en",
+        "source_name": "OECD",
+        "status": "stale",
+        "entries_count": 100,
+        "latest_entry_age_days": 13.2,
+        "error": null
+      },
+      {
+        "url": "https://news.google.com/rss/search?q=site:ourworldindata.org&hl=en-US&gl=US&ceid=US:en",
+        "source_name": "Our World in Data",
+        "status": "stale",
+        "entries_count": 100,
+        "latest_entry_age_days": 7.2,
+        "error": null
+      },
+      {
+        "url": "https://www.rand.org/news.xml",
+        "source_name": "RAND Corporation",
+        "status": "stale",
+        "entries_count": 20,
+        "latest_entry_age_days": 12.3,
         "error": null
       },
       {
@@ -308,55 +52,23 @@
         "source_name": "The Diff",
         "status": "stale",
         "entries_count": 30,
-        "latest_entry_age_days": 13.0,
+        "latest_entry_age_days": 20.0,
         "error": null
       },
       {
-        "url": "https://news.google.com/rss/search?q=site:state.gov&hl=en-US&gl=US&ceid=US:en",
-        "source_name": "U.S. State Department",
+        "url": "https://news.google.com/rss/search?q=site:imemo.ru&hl=ru&gl=RU&ceid=RU:ru",
+        "source_name": "ИМЭМО РАН",
         "status": "stale",
         "entries_count": 100,
-        "latest_entry_age_days": 17.2,
+        "latest_entry_age_days": 366.7,
         "error": null
       },
       {
-        "url": "https://feeds.a.dj.com/rss/RSSWorldNews.xml",
-        "source_name": "Wall Street Journal",
-        "status": "stale",
-        "entries_count": 20,
-        "latest_entry_age_days": 594.7,
-        "error": null
-      },
-      {
-        "url": "https://news.google.com/rss/search?q=site:worldbank.org&hl=en-US&gl=US&ceid=US:en",
-        "source_name": "World Bank",
+        "url": "https://news.google.com/rss/search?q=site:minfin.gov.ru&hl=ru&gl=RU&ceid=RU:ru",
+        "source_name": "Минфин РФ",
         "status": "stale",
         "entries_count": 100,
-        "latest_entry_age_days": 151.6,
-        "error": null
-      },
-      {
-        "url": "https://news.google.com/rss/search?q=site:akospr.ru&hl=ru&gl=RU&ceid=RU:ru",
-        "source_name": "АКОС",
-        "status": "stale",
-        "entries_count": 100,
-        "latest_entry_age_days": 76.1,
-        "error": null
-      },
-      {
-        "url": "https://news.google.com/rss/search?q=site:valdaiclub.com&hl=ru&gl=RU&ceid=RU:ru",
-        "source_name": "Валдайский клуб",
-        "status": "stale",
-        "entries_count": 100,
-        "latest_entry_age_days": 181.2,
-        "error": null
-      },
-      {
-        "url": "https://news.google.com/rss/search?q=site:veb.ru+институт&hl=ru&gl=RU&ceid=RU:ru",
-        "source_name": "Институт ВЭБ",
-        "status": "stale",
-        "entries_count": 34,
-        "latest_entry_age_days": 1071.0,
+        "latest_entry_age_days": 9.8,
         "error": null
       },
       {
@@ -364,46 +76,22 @@
         "source_name": "ОПЕК",
         "status": "stale",
         "entries_count": 100,
-        "latest_entry_age_days": 8.0,
+        "latest_entry_age_days": 10.6,
         "error": null
       },
       {
-        "url": "https://news.google.com/rss/search?q=site:raso.ru&hl=ru&gl=RU&ceid=RU:ru",
-        "source_name": "РАСО",
+        "url": "https://news.google.com/rss/search?q=site:rbc.ru&hl=ru&gl=RU&ceid=RU:ru",
+        "source_name": "РБК",
         "status": "stale",
         "entries_count": 100,
-        "latest_entry_age_days": 587.2,
-        "error": null
-      },
-      {
-        "url": "https://news.google.com/rss/search?q=site:rosstat.gov.ru&hl=ru&gl=RU&ceid=RU:ru",
-        "source_name": "Росстат",
-        "status": "stale",
-        "entries_count": 100,
-        "latest_entry_age_days": 201.9,
-        "error": null
-      },
-      {
-        "url": "https://news.google.com/rss/search?q=site:forecast.ru&hl=ru&gl=RU&ceid=RU:ru",
-        "source_name": "ЦМАКП",
-        "status": "stale",
-        "entries_count": 48,
-        "latest_entry_age_days": 52.2,
-        "error": null
-      },
-      {
-        "url": "https://news.google.com/rss/search?q=site:csr.ru&hl=ru&gl=RU&ceid=RU:ru",
-        "source_name": "ЦСР",
-        "status": "stale",
-        "entries_count": 100,
-        "latest_entry_age_days": 116.2,
+        "latest_entry_age_days": 131.9,
         "error": null
       },
       {
         "url": "https://adindex.ru/news/news.rss",
         "source_name": "AdIndex",
         "status": "ok",
-        "entries_count": 71,
+        "entries_count": 69,
         "latest_entry_age_days": 0.1,
         "error": null
       },
@@ -436,7 +124,7 @@
         "source_name": "Axios",
         "status": "ok",
         "entries_count": 100,
-        "latest_entry_age_days": 0.1,
+        "latest_entry_age_days": 1.1,
         "error": null
       },
       {
@@ -444,14 +132,14 @@
         "source_name": "Axios",
         "status": "ok",
         "entries_count": 100,
-        "latest_entry_age_days": 0.1,
+        "latest_entry_age_days": 0.0,
         "error": null
       },
       {
         "url": "http://feeds.bbci.co.uk/news/world/rss.xml",
         "source_name": "BBC World News",
         "status": "ok",
-        "entries_count": 27,
+        "entries_count": 33,
         "latest_entry_age_days": 0.0,
         "error": null
       },
@@ -460,7 +148,7 @@
         "source_name": "BIS",
         "status": "ok",
         "entries_count": 100,
-        "latest_entry_age_days": 4.3,
+        "latest_entry_age_days": 3.0,
         "error": null
       },
       {
@@ -468,7 +156,7 @@
         "source_name": "Bloomberg",
         "status": "ok",
         "entries_count": 100,
-        "latest_entry_age_days": 0.0,
+        "latest_entry_age_days": 0.1,
         "error": null
       },
       {
@@ -476,15 +164,7 @@
         "source_name": "Bruegel",
         "status": "ok",
         "entries_count": 100,
-        "latest_entry_age_days": 4.1,
-        "error": null
-      },
-      {
-        "url": "https://newsroom.cipr.co.uk/feed/en",
-        "source_name": "CIPR",
-        "status": "ok",
-        "entries_count": 25,
-        "latest_entry_age_days": 0.1,
+        "latest_entry_age_days": 3.9,
         "error": null
       },
       {
@@ -500,7 +180,7 @@
         "source_name": "CSIS",
         "status": "ok",
         "entries_count": 100,
-        "latest_entry_age_days": 5.1,
+        "latest_entry_age_days": 2.8,
         "error": null
       },
       {
@@ -508,7 +188,7 @@
         "source_name": "Capital Economics",
         "status": "ok",
         "entries_count": 100,
-        "latest_entry_age_days": 0.6,
+        "latest_entry_age_days": 2.0,
         "error": null
       },
       {
@@ -516,7 +196,7 @@
         "source_name": "Chatham House",
         "status": "ok",
         "entries_count": 50,
-        "latest_entry_age_days": 3.1,
+        "latest_entry_age_days": 0.1,
         "error": null
       },
       {
@@ -524,7 +204,7 @@
         "source_name": "Congress",
         "status": "ok",
         "entries_count": 100,
-        "latest_entry_age_days": 1.1,
+        "latest_entry_age_days": 3.0,
         "error": null
       },
       {
@@ -532,7 +212,7 @@
         "source_name": "Cossa",
         "status": "ok",
         "entries_count": 100,
-        "latest_entry_age_days": 2.9,
+        "latest_entry_age_days": 3.2,
         "error": null
       },
       {
@@ -548,7 +228,7 @@
         "source_name": "Dealbreaker",
         "status": "ok",
         "entries_count": 100,
-        "latest_entry_age_days": 5.8,
+        "latest_entry_age_days": 3.8,
         "error": null
       },
       {
@@ -556,15 +236,15 @@
         "source_name": "Dealbreaker",
         "status": "ok",
         "entries_count": 50,
-        "latest_entry_age_days": 2.8,
+        "latest_entry_age_days": 3.7,
         "error": null
       },
       {
         "url": "https://www.eia.gov/rss/todayinenergy.xml",
         "source_name": "EIA",
         "status": "ok",
-        "entries_count": 15,
-        "latest_entry_age_days": 3.9,
+        "entries_count": 17,
+        "latest_entry_age_days": 2.9,
         "error": null
       },
       {
@@ -572,7 +252,7 @@
         "source_name": "Econs",
         "status": "ok",
         "entries_count": 100,
-        "latest_entry_age_days": 6.2,
+        "latest_entry_age_days": 4.2,
         "error": null
       },
       {
@@ -580,7 +260,7 @@
         "source_name": "EnergyLand.info",
         "status": "ok",
         "entries_count": 100,
-        "latest_entry_age_days": 5.0,
+        "latest_entry_age_days": 2.5,
         "error": null
       },
       {
@@ -588,7 +268,7 @@
         "source_name": "Eurasia Group / GZERO",
         "status": "ok",
         "entries_count": 100,
-        "latest_entry_age_days": 3.8,
+        "latest_entry_age_days": 1.8,
         "error": null
       },
       {
@@ -628,7 +308,7 @@
         "source_name": "Foreign Policy",
         "status": "ok",
         "entries_count": 25,
-        "latest_entry_age_days": 0.3,
+        "latest_entry_age_days": 0.0,
         "error": null
       },
       {
@@ -636,7 +316,7 @@
         "source_name": "IEA",
         "status": "ok",
         "entries_count": 100,
-        "latest_entry_age_days": 3.2,
+        "latest_entry_age_days": 3.1,
         "error": null
       },
       {
@@ -644,7 +324,23 @@
         "source_name": "IISS",
         "status": "ok",
         "entries_count": 100,
-        "latest_entry_age_days": 3.9,
+        "latest_entry_age_days": 3.2,
+        "error": null
+      },
+      {
+        "url": "https://news.google.com/rss/search?q=site:imf.org&hl=en-US&gl=US&ceid=US:en",
+        "source_name": "IMF",
+        "status": "ok",
+        "entries_count": 100,
+        "latest_entry_age_days": 2.2,
+        "error": null
+      },
+      {
+        "url": "https://www.crisisgroup.org/rss.xml",
+        "source_name": "International Crisis Group",
+        "status": "ok",
+        "entries_count": 10,
+        "latest_entry_age_days": 4.1,
         "error": null
       },
       {
@@ -652,7 +348,7 @@
         "source_name": "Kremlin",
         "status": "ok",
         "entries_count": 20,
-        "latest_entry_age_days": 1.0,
+        "latest_entry_age_days": 0.2,
         "error": null
       },
       {
@@ -660,7 +356,7 @@
         "source_name": "MIT Tech Review",
         "status": "ok",
         "entries_count": 10,
-        "latest_entry_age_days": 2.7,
+        "latest_entry_age_days": 3.0,
         "error": null
       },
       {
@@ -684,7 +380,7 @@
         "source_name": "NATO",
         "status": "ok",
         "entries_count": 100,
-        "latest_entry_age_days": 2.9,
+        "latest_entry_age_days": 1.8,
         "error": null
       },
       {
@@ -693,30 +389,6 @@
         "status": "ok",
         "entries_count": 50,
         "latest_entry_age_days": null,
-        "error": null
-      },
-      {
-        "url": "https://news.google.com/rss/search?q=site:odwyerpr.com&hl=en-US&gl=US&ceid=US:en",
-        "source_name": "O'Dwyer's PR",
-        "status": "ok",
-        "entries_count": 100,
-        "latest_entry_age_days": 4.8,
-        "error": null
-      },
-      {
-        "url": "https://news.google.com/rss/search?q=site:oecd.org&hl=en-US&gl=US&ceid=US:en",
-        "source_name": "OECD",
-        "status": "ok",
-        "entries_count": 100,
-        "latest_entry_age_days": 6.1,
-        "error": null
-      },
-      {
-        "url": "https://news.google.com/rss/search?q=site:ourworldindata.org&hl=en-US&gl=US&ceid=US:en",
-        "source_name": "Our World in Data",
-        "status": "ok",
-        "entries_count": 100,
-        "latest_entry_age_days": 4.5,
         "error": null
       },
       {
@@ -732,7 +404,7 @@
         "source_name": "PRWeek",
         "status": "ok",
         "entries_count": 20,
-        "latest_entry_age_days": 2.8,
+        "latest_entry_age_days": 2.7,
         "error": null
       },
       {
@@ -740,7 +412,7 @@
         "source_name": "PRovoke Media",
         "status": "ok",
         "entries_count": 25,
-        "latest_entry_age_days": 0.0,
+        "latest_entry_age_days": 0.1,
         "error": null
       },
       {
@@ -764,15 +436,7 @@
         "source_name": "RAND Corporation",
         "status": "ok",
         "entries_count": 100,
-        "latest_entry_age_days": 6.0,
-        "error": null
-      },
-      {
-        "url": "https://www.rand.org/news.xml",
-        "source_name": "RAND Corporation",
-        "status": "ok",
-        "entries_count": 20,
-        "latest_entry_age_days": 5.3,
+        "latest_entry_age_days": 5.9,
         "error": null
       },
       {
@@ -780,14 +444,14 @@
         "source_name": "Reuters",
         "status": "ok",
         "entries_count": 100,
-        "latest_entry_age_days": 0.0,
+        "latest_entry_age_days": 0.1,
         "error": null
       },
       {
         "url": "https://semafor.com/rss.xml",
         "source_name": "Semafor",
         "status": "ok",
-        "entries_count": 184,
+        "entries_count": 182,
         "latest_entry_age_days": 0.0,
         "error": null
       },
@@ -812,7 +476,7 @@
         "source_name": "TAdviser",
         "status": "ok",
         "entries_count": 100,
-        "latest_entry_age_days": 0.0,
+        "latest_entry_age_days": 0.2,
         "error": null
       },
       {
@@ -828,7 +492,7 @@
         "source_name": "The Drum",
         "status": "ok",
         "entries_count": 100,
-        "latest_entry_age_days": 6.0,
+        "latest_entry_age_days": 0.1,
         "error": null
       },
       {
@@ -836,7 +500,7 @@
         "source_name": "The Economist",
         "status": "ok",
         "entries_count": 100,
-        "latest_entry_age_days": 0.2,
+        "latest_entry_age_days": 0.1,
         "error": null
       },
       {
@@ -844,7 +508,7 @@
         "source_name": "The Information",
         "status": "ok",
         "entries_count": 100,
-        "latest_entry_age_days": 0.5,
+        "latest_entry_age_days": 0.9,
         "error": null
       },
       {
@@ -852,7 +516,7 @@
         "source_name": "The Information",
         "status": "ok",
         "entries_count": 20,
-        "latest_entry_age_days": 0.1,
+        "latest_entry_age_days": 0.0,
         "error": null
       },
       {
@@ -860,7 +524,7 @@
         "source_name": "The Moscow Times",
         "status": "ok",
         "entries_count": 50,
-        "latest_entry_age_days": 0.1,
+        "latest_entry_age_days": 0.0,
         "error": null
       },
       {
@@ -868,7 +532,7 @@
         "source_name": "U.S. Treasury",
         "status": "ok",
         "entries_count": 100,
-        "latest_entry_age_days": 3.5,
+        "latest_entry_age_days": 2.9,
         "error": null
       },
       {
@@ -884,7 +548,7 @@
         "source_name": "VC.ru",
         "status": "ok",
         "entries_count": 12,
-        "latest_entry_age_days": 0.1,
+        "latest_entry_age_days": 0.2,
         "error": null
       },
       {
@@ -892,7 +556,7 @@
         "source_name": "VoxEU",
         "status": "ok",
         "entries_count": 100,
-        "latest_entry_age_days": 1.5,
+        "latest_entry_age_days": 3.5,
         "error": null
       },
       {
@@ -900,7 +564,7 @@
         "source_name": "White House",
         "status": "ok",
         "entries_count": 30,
-        "latest_entry_age_days": 0.6,
+        "latest_entry_age_days": 0.8,
         "error": null
       },
       {
@@ -916,7 +580,7 @@
         "source_name": "ВТО",
         "status": "ok",
         "entries_count": 10,
-        "latest_entry_age_days": 0.5,
+        "latest_entry_age_days": 4.5,
         "error": null
       },
       {
@@ -932,15 +596,7 @@
         "source_name": "Госдума",
         "status": "ok",
         "entries_count": 100,
-        "latest_entry_age_days": 0.0,
-        "error": null
-      },
-      {
-        "url": "https://news.google.com/rss/search?q=site:imemo.ru&hl=ru&gl=RU&ceid=RU:ru",
-        "source_name": "ИМЭМО РАН",
-        "status": "ok",
-        "entries_count": 100,
-        "latest_entry_age_days": 3.8,
+        "latest_entry_age_days": 0.8,
         "error": null
       },
       {
@@ -955,7 +611,7 @@
         "url": "https://www.kommersant.ru/RSS/news.xml",
         "source_name": "Коммерсантъ",
         "status": "ok",
-        "entries_count": 341,
+        "entries_count": 350,
         "latest_entry_age_days": 0.0,
         "error": null
       },
@@ -964,15 +620,7 @@
         "source_name": "МИД РФ",
         "status": "ok",
         "entries_count": 100,
-        "latest_entry_age_days": 3.2,
-        "error": null
-      },
-      {
-        "url": "https://news.google.com/rss/search?q=site:minfin.gov.ru&hl=ru&gl=RU&ceid=RU:ru",
-        "source_name": "Минфин РФ",
-        "status": "ok",
-        "entries_count": 100,
-        "latest_entry_age_days": 2.8,
+        "latest_entry_age_days": 0.6,
         "error": null
       },
       {
@@ -980,7 +628,7 @@
         "source_name": "Правительство РФ",
         "status": "ok",
         "entries_count": 20,
-        "latest_entry_age_days": 0.1,
+        "latest_entry_age_days": 0.0,
         "error": null
       },
       {
@@ -995,7 +643,7 @@
         "url": "http://tass.com/rss/v2.xml",
         "source_name": "ТАСС",
         "status": "ok",
-        "entries_count": 78,
+        "entries_count": 73,
         "latest_entry_age_days": 0.0,
         "error": null
       },
@@ -1003,7 +651,7 @@
         "url": "https://tass.com/rss/v2.xml",
         "source_name": "ТАСС",
         "status": "ok",
-        "entries_count": 78,
+        "entries_count": 73,
         "latest_entry_age_days": 0.0,
         "error": null
       },
@@ -1027,40 +675,40 @@
         "url": "http://www.cbr.ru/rss/RssPress",
         "source_name": "ЦБ РФ",
         "status": "ok",
-        "entries_count": 13,
-        "latest_entry_age_days": 0.0,
+        "entries_count": 14,
+        "latest_entry_age_days": 0.2,
         "error": null
       }
     ]
   },
   "telegram": {
     "total": 10,
-    "ok": 10,
-    "stale": 0,
+    "ok": 9,
+    "stale": 1,
     "dead": 0,
     "details": [
+      {
+        "username": "MinchenkoConsulting",
+        "source_name": "Minchenko Consulting",
+        "status": "stale",
+        "entries_count": 19,
+        "latest_entry_age_days": 10.1,
+        "error": null
+      },
       {
         "username": "the_financial_times_journal",
         "source_name": "Financial Times",
         "status": "ok",
         "entries_count": 20,
-        "latest_entry_age_days": 1.2,
+        "latest_entry_age_days": 0.0,
         "error": null
       },
       {
         "username": "frank_media",
         "source_name": "Frank Media",
         "status": "ok",
-        "entries_count": 19,
+        "entries_count": 20,
         "latest_entry_age_days": 0.0,
-        "error": null
-      },
-      {
-        "username": "MinchenkoConsulting",
-        "source_name": "Minchenko Consulting",
-        "status": "ok",
-        "entries_count": 19,
-        "latest_entry_age_days": 3.1,
         "error": null
       },
       {
@@ -1076,14 +724,14 @@
         "source_name": "Re:Russia",
         "status": "ok",
         "entries_count": 20,
-        "latest_entry_age_days": 3.8,
+        "latest_entry_age_days": 2.9,
         "error": null
       },
       {
         "username": "tadviser",
         "source_name": "TAdviser",
         "status": "ok",
-        "entries_count": 19,
+        "entries_count": 20,
         "latest_entry_age_days": 0.0,
         "error": null
       },
@@ -1091,7 +739,7 @@
         "username": "thebell_io",
         "source_name": "The Bell",
         "status": "ok",
-        "entries_count": 17,
+        "entries_count": 20,
         "latest_entry_age_days": 0.0,
         "error": null
       },
@@ -1100,23 +748,23 @@
         "source_name": "Valdai Club",
         "status": "ok",
         "entries_count": 20,
-        "latest_entry_age_days": 0.1,
+        "latest_entry_age_days": 0.2,
         "error": null
       },
       {
         "username": "istories_media",
         "source_name": "Важные истории",
         "status": "ok",
-        "entries_count": 14,
-        "latest_entry_age_days": 0.1,
+        "entries_count": 10,
+        "latest_entry_age_days": 0.0,
         "error": null
       },
       {
         "username": "moscowcsr",
         "source_name": "ЦСР",
         "status": "ok",
-        "entries_count": 13,
-        "latest_entry_age_days": 0.1,
+        "entries_count": 10,
+        "latest_entry_age_days": 0.0,
         "error": null
       }
     ]
