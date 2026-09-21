@@ -1,120 +1,5 @@
 [
   {
-    "url": "https://www.interfax.ru/world/1116005",
-    "added_at": 1789387330.9400382,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://news.google.com/rss/articles/CBMixgFBVV95cUxOTXk2ODI0TWUxUDZCM0FULXNEWlJoY0lGSGxhZndSREZYM0RjaVUzYTlJRmtRNVpCVzlqeGtyUzFVRU9OUDNQekZaR1Vfc2laYkQwY0t6TVNWRHNRenFaZlNhV2Y3M25tN19SNlNsZWd3NHVTWDBsNWVBc2JFS0MyejUzaEExWXo2SzVFd3d2WjZzejI1N1lKajlfQ3N0UUM4RlZkT0hnT1plUFk3bkQwa3BBdk5oRnhaQ1NKNFB4bHFubm13N2c?oc=5",
-    "added_at": 1789387330.9400382,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.semafor.com/article/09/14/2026/aliko-dangote-refinery-ipo-launches",
-    "added_at": 1789387330.9400382,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://asia.nikkei.com/business/business-deals/china-state-carmaker-faw-poised-to-take-stake-in-gac-in-consolidation-bid",
-    "added_at": 1789387330.9400382,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://vc.ru/future/3137561-openai-predstavit-chelovekopodobnogo-robota?from=rss",
-    "added_at": 1789387330.9400382,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxQM1FUWERnbmM3dlBucFJQMmJmSEp5UVlXUVp0UEI0eU9aV1VzSnVoX3pNZUtWcFZsXzAtNUVXQmdOakFVNUYzZWVwSm9laXBTU2pvRXVaendNSFU3XzJmeGxrdDlKN0N3OUwxd1VSSEhfcWVTQTRNMV9hRnZkVk9WaUowMmtPdC1HTmhIOG9BRHpucDZHTk1KTnVLdXRfU1NVclVibTlCU1hjQQ?oc=5",
-    "added_at": 1789387330.9400382,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.scmp.com/tech/big-tech/article/3367482/cloudy-chance-big-macs-mcdonalds-and-meituan-launch-drone-route-shanghai?utm_source=rss_feed",
-    "added_at": 1789387330.9400382,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://t.me/neftegazchannel/27886",
-    "added_at": 1789387330.9400382,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.kommersant.ru/doc/8954346",
-    "added_at": 1789387330.9400382,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.interfax.ru/russia/1116006",
-    "added_at": 1789387330.9400382,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.cbr.ru/press/PR/?file=639249886251446341FINSTAB.htm",
-    "added_at": 1789387330.9400382,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.vedomosti.ru/finance/news/2026/09/14/1228654-tsb-planiruet-perevodov",
-    "added_at": 1789387330.9400382,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.cbr.ru/press/PR/?file=639249813008090409HP.htm",
-    "added_at": 1789387330.9400382,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.cnews.ru/news/line/2026-09-14_faradej_i_element_5_neftegaz",
-    "added_at": 1789387330.9400382,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.kommersant.ru/doc/8954257",
-    "added_at": 1789387330.9400382,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://t.me/neftegazchannel/27883",
-    "added_at": 1789387330.9400382,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.kommersant.ru/doc/8954334",
-    "added_at": 1789387330.9400382,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.interfax.ru/russia/1116003",
-    "added_at": 1789387330.9400382,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.rbc.ru/rbcfreenews/6a8d7c91d33fa1f814aeaf72",
-    "added_at": 1789387330.9400382,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://news.google.com/rss/articles/CBMingFBVV95cUxOemN0dHdBUGFTN18xdWdWRjlwdVcwNWlCQnBoUWpGaDJtemphRHU3VlN5Sjg2Ny1wVWJLYVJUUEE5LWdncHcxN2NtNmNLM25VNXRlc2MxZ21ZMVBpakI0YjBTY3lGN29VSnVrWjRUOUV4MjE2SkZDelUtcFktUWVCMjFyamtDd0NWY3hpTmIwZGZvMjNBUko1OFFkeGYyUQ?oc=5",
-    "added_at": 1789387330.9400382,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.prdaily.com/you-added-substack-to-your-media-list-now-what/",
-    "added_at": 1789387330.9400382,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://news.google.com/rss/articles/CBMi0AFBVV95cUxQM1QteW5GTzFvWXdWalRpNzFVRWlaM25YTVRmb3hockNxZkVEOXJyQWRQbWpxNzYzcVNRYWMxcFBfOWN0X0N6bU1CM2xpdnhVcGt5WENpaXVCMFZVZy1yOFlpeGNUUDdmS0E0eHh5b3I3VFRjNkRnNnZZekx6QkxqM0RvcTdQTEhJQnQ1MTNkcFVmbkNMdjJPM0RTWTNCc0lsSFFqSE5rUW5jVHpBQmxaamRsQzdhbWNNbW1UUWRlT1lsTnp4SU5NS2FiRmtMbFFs?oc=5",
-    "added_at": 1789387330.9400382,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://adindex.ru/news/creative/2026/09/14/348863.phtml",
-    "added_at": 1789387330.9400382,
-    "source": "parsed_feed"
-  },
-  {
     "url": "https://news.google.com/rss/articles/CBMitAFBVV95cUxNeHh5QVYwWDZ2bUR1V20yb0ZhQ1lzdjVST1hheU9DODdUNjRWN2Y4aUt1NG0zMElMSnRfYjJ5Yi1ncnMyRUlWTWhIUnNHYlZHel9LMXYxcWE2MEp0UTYtR0U4SWhkTHM3ZjQ2ODcwUUg1Vk9zNGtWZzNmVEh6QU9mNUZTU244MTRDaG1ETUh6bDRtWl9WczJTZm9iYmZuWkpESW5PWUhRSGg0WU53NEp0OXgyS2U?oc=5",
     "added_at": 1789398383.6266363,
     "source": "parsed_feed"
@@ -4332,6 +4217,116 @@
   {
     "url": "https://adindex.ru/news/digital/2026/09/21/349038.phtml",
     "added_at": 1789981494.0300355,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://asia.nikkei.com/politics/international-relations/us-china-tensions/us-says-china-talks-yield-progress-on-tariff-carve-outs-ai-dialogue",
+    "added_at": 1789992265.2023761,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.aljazeera.com/news/2026/9/21/how-oil-gas-losses-have-shrunk-irans-gdp-by-10-percent-during-war?traffic_source=rss",
+    "added_at": 1789992265.2023761,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.interfax.ru/business/1117486",
+    "added_at": 1789992265.2023761,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxPejVjNVdEcHFkYWpyZ0pBcHRsWnVnLVUtdl9DNW9zMjdac3pranc0LXZqdGNtSDVwU09zc0RydFl6alhMZzRsYTJHMDVLdHlOMGMyR1kwbHZCS0pxSUduODU1b0J3NnJzcWk4RngxZmdFVHNIUTlZeDBRXy1EamFFREJ0ZjdfX3J0aGFOLXl5QzdMLUpJMm5sdFpRSm81VVBvUmhkU3F5Sk54QQ?oc=5",
+    "added_at": 1789992265.2023761,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://news.google.com/rss/articles/CBMiyAFBVV95cUxObTlBMUhCMU1lTUtmLWhWVUNOanZWNWc0bXkxNFVZYmUzb2RlWGFndlhPaDAwZjFoRi00R2lwSVZINExLZ2ROal85T2NIeWxaZFRWUnRLRmFWT2VmZTQtQjloR0o2Vlg3WGJWZ1h2V0d1RnpMQjZRNTRZQmtFamVoS2JSOVE1ZVVXSzg3NE9JcjFNb2ZwY2NXUUJYeGxGLXVxN1dDM3NiYWk3V3V0UDU2S1pTR09jdldEWUxFNURuMmVkS1hpTzdoRg?oc=5",
+    "added_at": 1789992265.2023761,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.scmp.com/tech/tech-trends/article/3368274/moonshots-kimi-k3-lands-amazon-key-test-chinese-open-source-ai-revenue?utm_source=rss_feed",
+    "added_at": 1789992265.2023761,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.theinformation.com/briefings/amazon-blocks-metas-muse-agent",
+    "added_at": 1789992265.2023761,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.theinformation.com/articles/deepseek-bets-big-huawei-chips-bypass-u-s-export-controls",
+    "added_at": 1789992265.2023761,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://t.me/neftegazchannel/27988",
+    "added_at": 1789992265.2023761,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.bbc.co.uk/news/articles/ckp84pj8zpngo?at_medium=RSS&at_campaign=rss",
+    "added_at": 1789992265.2023761,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.themoscowtimes.com/2026/09/21/russian-armenian-relations-will-inevitably-change-pashinyan-says-a93755",
+    "added_at": 1789992265.2023761,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.rbc.ru/politics/15/07/2026/6a57a66d9a79474c2809b68d",
+    "added_at": 1789992265.2023761,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.rbc.ru/quote/21/09/2026/6ab111249a79478d63c98795",
+    "added_at": 1789992265.2023761,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://tass.com/economy/2190657",
+    "added_at": 1789992265.2023761,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.kommersant.ru/doc/8971547",
+    "added_at": 1789992265.2023761,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://meduza.io/news/2026/09/21/novyy-vladelets-ashana-i-leroy-merlin-potreboval-sohranit-magaziny-i-poobeschal-obespechit-zaschitu-ot-atak-bespilotnikov",
+    "added_at": 1789992265.2023761,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.rbc.ru/politics/18/09/2026/6aad0603ac6d0f880f8f774f",
+    "added_at": 1789992265.2023761,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.interfax.ru/business/1117484",
+    "added_at": 1789992265.2023761,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.kommersant.ru/doc/8971529",
+    "added_at": 1789992265.2023761,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.prdaily.com/the-prompts-your-team-optimized-against-were-made-up/",
+    "added_at": 1789992265.2023761,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://adindex.ru/news/right/2026/09/21/349042.phtml",
+    "added_at": 1789992265.2023761,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://news.google.com/rss/articles/CBMi1AFBVV95cUxQb0Z4NWE2UkZXMW42UDZGMFFRcUpFbzljZFRKTmpPUUdvN1hlSGR1OE9YbGpqTGhzdmxQUFFxMFNPYldaaEQ0Q2RxMld4QmhFSFV4d01RdFV4OXZRX3luc3lrUmhlaXRVdy1NOUFrakVBLV9QUlBXb0d0ajI0eDhZR1JTVkR0Y01mNkFoOUloVjdxUmRodFh5c04zODF0NS1lZi0xUlhvR1g2U1pIWjJrZEprc3VDT1l3WnVLSUxfclZJdjVWcWxwU3FBT2tSdFRzZEQzcg?oc=5",
+    "added_at": 1789992265.2023761,
     "source": "parsed_feed"
   }
 ]
