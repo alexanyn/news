@@ -921,7 +921,9 @@ def generate_analytical_json(raw_data_prompt, recently_published_titles=None):
         "generationConfig": {
             "maxOutputTokens": 65536,
             "responseMimeType": "application/json",
-            "thinkingConfig": {"thinkingLevel": "minimal"},
+            # thinkingConfig убран: новые модели (3.8-flash, 3.7-flash) не
+            # принимают thinkingLevel "minimal" — возвращают 400 INVALID_ARGUMENT.
+            # Без этого поля модель сама выберет разумный уровень thinking.
         },
     }
 
