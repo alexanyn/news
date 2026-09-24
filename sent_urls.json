@@ -1,145 +1,5 @@
 [
   {
-    "url": "https://meduza.io/news/2026/09/17/tramp-prigrozil-ostanovit-torgovlyu-s-evrosoyuzom-iz-za-sblizheniya-s-kanadoy",
-    "added_at": 1789635699.2199934,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.scmp.com/news/china/diplomacy/article/3367840/donald-trump-presses-xi-jinping-fentanyl-precursors-ahead-washington-summit?utm_source=rss_feed",
-    "added_at": 1789635699.2199934,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.interfax.ru/world/1116628",
-    "added_at": 1789635699.2199934,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://news.google.com/rss/articles/CBMisAFBVV95cUxOQmJDSkR6X0hQc2hmVGNPWjVtc2tQN3YzdFJueTZkTFdBX1Z1OGNrR0czQldKUEVfYXNUWTROelhKZV9CaDFfcElPMjNsbm1EYU5ZYXQ2T3dNV3JNdjd1Qk5lOTgyQkJhU0ZkRlYyVWJVZWZQTV9TaDZOZ1pUdEkzbWxRS2hyUldJQVljRVZ0LU1seEhQblFsWncydWwzUnU2OG45UXMwNGxfci02ZVctQQ?oc=5",
-    "added_at": 1789635699.2199934,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.interfax.ru/business/1116624",
-    "added_at": 1789635699.2199934,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://meduza.io/news/2026/09/17/hakery-potrebovali-ot-revolut-vykup-v-tri-milliona-dollarov-oni-ugrozhayut-prodat-lichnye-dannye-klientov-k-kotorym-poluchili-dostup",
-    "added_at": 1789635699.2199934,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.bbc.co.uk/news/articles/c6n07ypqz8kzo?at_medium=RSS&at_campaign=rss",
-    "added_at": 1789635699.2199934,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.bbc.co.uk/news/articles/c3j4jz8vpz1xo?at_medium=RSS&at_campaign=rss",
-    "added_at": 1789635699.2199934,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://asia.nikkei.com/economy/trade-war/trump-tariffs/japan-us-in-talks-to-build-chip-factory-as-part-of-tariff-deal2",
-    "added_at": 1789635699.2199934,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.rbc.ru/rbcfreenews/6a999507bd1c8a8758511b63",
-    "added_at": 1789635699.2199934,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://t.me/neftegazchannel/27940",
-    "added_at": 1789635699.2199934,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://news.google.com/rss/articles/CBMitwFBVV95cUxQV2R6ekhkRHVUTU95d042blJ6bWlXZEFxcEhPWTV5S3JtVXI0emlsaVdyb1BURWJzZk5ySWdyVGNKcEJldUg5Q3BaNF9wdUxWVzZyZHA2RWpjVWJVU1hRa2c2dmtMX3FOOGVKWFlBU0dfcjU0R1AtTjFURmpUOHo5LTFVRXBlaWx6OHktNHJiQUZ6a0NOdElKVHNIZnlTVW5hc0RTMTVnSE95NnExaEdJNWplNjdUdjQ?oc=5",
-    "added_at": 1789635699.2199934,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.aljazeera.com/news/2026/9/17/israel-weaponises-ai-for-west-bank-demolitions?traffic_source=rss",
-    "added_at": 1789635699.2199934,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://meduza.io/news/2026/09/17/voennyy-sovetnik-trampa-prizval-gotovitsya-k-boevym-deystviyam-na-orbite-luny",
-    "added_at": 1789635699.2199934,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.scmp.com/news/asia/southeast-asia/article/3367845/malaysia-seizes-3-israeli-bound-containers-anwar-pledges-stop-shipments-gaza-war?utm_source=rss_feed",
-    "added_at": 1789635699.2199934,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.aljazeera.com/news/2026/9/17/india-warns-new-us-tariffs-over-russian-oil-could-impact-ties?traffic_source=rss",
-    "added_at": 1789635699.2199934,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://tass.com/world/2188857",
-    "added_at": 1789635699.2199934,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.finmarket.ru/main/article/6708384",
-    "added_at": 1789635699.2199934,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.finmarket.ru/main/article/6708349",
-    "added_at": 1789635699.2199934,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://news.google.com/rss/articles/CBMingFBVV95cUxObU85dFZjQkMxakNWd3drRVhsTDJCeERkU3pjZFprUUhVbzBvdVFJUWM5U3VyZ3J5ZFBNbUF6N1hHemVoX1BDQkRxMVMxdE9pSGdoSUQ3Q1dMQmhmVFFaTEVtcWxtUElIeExaS1pfbXVGTGlqNGlsN05WQUFuTDBMUUNrcm1Pd1BSUnRVenBpX2dOTUlvdVNSM3dHeUhaQQ?oc=5",
-    "added_at": 1789635699.2199934,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.cnews.ru/news/line/2026-09-17_rabotaru_zapustila_tsifrovogo",
-    "added_at": 1789635699.2199934,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.themoscowtimes.com/2026/09/17/ukrainian-drone-attack-sparks-fire-at-yaroslavl-oil-refinery-a93733",
-    "added_at": 1789635699.2199934,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.finmarket.ru/main/article/6708366",
-    "added_at": 1789635699.2199934,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.kommersant.ru/doc/8956874",
-    "added_at": 1789635699.2199934,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://adindex.ru/news/social_advertising/2026/09/17/348965.phtml",
-    "added_at": 1789635699.2199934,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://t.me/moscowcsr/5087",
-    "added_at": 1789635699.2199934,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://t.me/moscowcsr/5088",
-    "added_at": 1789635699.2199934,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://adindex.ru/news/tendencies/2026/09/17/348971.phtml",
-    "added_at": 1789635699.2199934,
-    "source": "parsed_feed"
-  },
-  {
     "url": "https://meduza.io/news/2026/09/17/premier-kanady-podderzhal-ideyu-ob-assotsiirovannom-chlenstve-s-es-ne-radi-dominirovaniya-a-dlya-zaschity-svoih-territoriy",
     "added_at": 1789646610.6386018,
     "source": "parsed_feed"
@@ -5197,6 +5057,301 @@
   {
     "url": "https://www.provokemedia.com/latest/article/jpmorgan-chase-names-feinsilver-us-wealth-management-communications-head",
     "added_at": 1790229987.703994,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.aljazeera.com/video/newsfeed/2026/9/24/greenlands-delegation-gets-heros-welcome-after-signing-us-denmark-pact?traffic_source=rss",
+    "added_at": 1790240961.3441632,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.aljazeera.com/news/2026/9/24/netanyahus-un-speech-a-high-stakes-test-for-audiences-at-home?traffic_source=rss",
+    "added_at": 1790240961.3441632,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.themoscowtimes.com/2026/09/24/kremlin-weighs-us-invitation-for-putin-to-attend-g20-summit-in-miami-a93784",
+    "added_at": 1790240961.3441632,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://tass.com/politics/2192009",
+    "added_at": 1790240961.3441632,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://foreignpolicy.com/2026/09/24/germany-merz-authority-lost-elections-afd/",
+    "added_at": 1790240961.3441632,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://asia.nikkei.com/spotlight/iran-tensions/iran-war/saudi-aramco-chief-says-any-interruption-can-be-fixed-within-days",
+    "added_at": 1790240961.3441632,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://asia.nikkei.com/spotlight/trump-xi-summit/trump-xi-summit-live-what-to-expect-in-the-coming-hours",
+    "added_at": 1790240961.3441632,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://asia.nikkei.com/business/business-deals/us-tungsten-supplier-elmet-buys-stake-in-vietnamese-miner-masan",
+    "added_at": 1790240961.3441632,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.mckinsey.com/featured-insights/mckinsey-on-books/author-talks-the-business-of-owning-a-sports-team",
+    "added_at": 1790240961.3441632,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.mckinsey.com/capabilities/operations/our-insights/rewiring-procurement-in-resources-making-judgment-an-enduring-asset",
+    "added_at": 1790240961.3441632,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://tass.com/economy/2192015",
+    "added_at": 1790240961.3441632,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://ec.europa.eu/commission/presscorner/detail/en/statement_26_1962",
+    "added_at": 1790240961.3441632,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.aljazeera.com/news/2026/9/24/zelenskyy-says-ukraine-sent-two-north-korean-pows-to-south-korea?traffic_source=rss",
+    "added_at": 1790240961.3441632,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.aljazeera.com/news/2026/9/24/china-vs-us-who-is-winning-the-ai-race-in-four-charts?traffic_source=rss",
+    "added_at": 1790240961.3441632,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://tass.com/society/2192013",
+    "added_at": 1790240961.3441632,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://asia.nikkei.com/business/transportation/vietjet-signs-deal-with-starlink-for-free-in-flight-wifi-on-vietnam-airline",
+    "added_at": 1790240961.3441632,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://asia.nikkei.com/business/technology/artificial-intelligence/australia-reveals-openai-agent-hacked-government-health-website",
+    "added_at": 1790240961.3441632,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.mckinsey.com/industries/metals-and-mining/our-insights/harnessing-ai-to-make-mining-safer",
+    "added_at": 1790240961.3441632,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.mckinsey.com/industries/financial-services/our-insights/indias-new-insurance-track-the-marathon-becomes-an-ai-led-decathlon",
+    "added_at": 1790240961.3441632,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://news.google.com/rss/articles/CBMiwwFBVV95cUxNeGU1QmdBMDNLUDlJNzByUU1LUWFCNHBodFQxdHN1WTk5RWo3NzdRMjNQVGlBYW1FN1laWVNtbVgxbXBrd3BnckFrZFgzRDZhSXYwb2xRYWlxMWV5alZZa1E5dDZNdDdkUTJMU1RVd3ZXWUpPU0s2aGY0MXBvSXNaZVZJTmxYNU5ENlh5c3RuUGNzMUFDZkl0aW03T1dFeWpEZnUtdmlsdm5va3Z4S00ybEtZSm91NWFjZEx3d1M5T2V2M3M?oc=5",
+    "added_at": 1790240961.3441632,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.scmp.com/news/china/diplomacy/article/3368543/american-ai-development-cannot-separate-itself-china-zheng-yongnian?utm_source=rss_feed",
+    "added_at": 1790240961.3441632,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://news.google.com/rss/articles/CBMiswFBVV95cUxPVDdZb3REQjZMNzdvaXR1d0x1Tk94SklfbGR0U3FwUXhKNXFQLWpjTkxmanRUaGRDbDZoeEtQTThsYWp6OFlyWWY4UjBheDRfMHliT2lVUWwyZmZ2cjc1WUZzTzZqX0wxd1hsMS14WVItcThnVnVuVnNDUWNLcEprazlMQVB0WDJBa2JmNWNFZDlLZ2FOM0lCNHRHMkdwVVl6NW9jTDh0eWFNV1dkb0pKUnN6dw?oc=5",
+    "added_at": 1790240961.3441632,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.themoscowtimes.com/2026/09/24/belarus-claims-it-foiled-sabotage-plot-targeting-russia-a93785",
+    "added_at": 1790240961.3441632,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://tass.com/economy/2192003",
+    "added_at": 1790240961.3441632,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://tass.com/defense/2192007",
+    "added_at": 1790240961.3441632,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://news.google.com/rss/articles/CBMixwFBVV95cUxPdXBTcElPMjUxaE1SNDdZSHBrLTNZajVMMkxwS2lwRE4wdjc0Tmd6LXJtdjVLRk9TSjgyZ21tU0gtTi0wT1lielRpcE5VWlZNY1RhWnBZSEx6MGtITmZFNnBmRzIyTHNwMTI3aWR4aTBPbTBlNnl6aGhSMmVBR05fYS1hVXlHb1VPelpteDl0QzkzbXNaeXFzYXluTVVjVkQzTE5WdW1XSW11TmJRbGtBVnVUUjFPQjNKN3VhbkFtNHRQYllGckZJ?oc=5",
+    "added_at": 1790240961.3441632,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.interfax.ru/business/1118179",
+    "added_at": 1790240961.3441632,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.interfax.ru/business/1118181",
+    "added_at": 1790240961.3441632,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.kommersant.ru/doc/8973915",
+    "added_at": 1790240961.3441632,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.kommersant.ru/doc/8973873",
+    "added_at": 1790240961.3441632,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.kommersant.ru/doc/8973859",
+    "added_at": 1790240961.3441632,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://meduza.io/news/2026/09/24/na-rakete-tak-zelenskiy-otvetil-rossiyskomu-propagandistu-na-vopros-kogda-priedet-v-moskvu",
+    "added_at": 1790240961.3441632,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.rbc.ru/politics/05/02/2026/6984795c9a79473bc791261b",
+    "added_at": 1790240961.3441632,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.rbc.ru/quote/24/09/2026/6ab4df6b9a79473e575e4b9a",
+    "added_at": 1790240961.3441632,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.finmarket.ru/main/article/6713185",
+    "added_at": 1790240961.3441632,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.kommersant.ru/doc/8973884",
+    "added_at": 1790240961.3441632,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.rbc.ru/finances/24/09/2026/6ab4e27785f4698e43dc928c",
+    "added_at": 1790240961.3441632,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.vedomosti.ru/finance/news/2026/09/24/1231434-sprosa-na-nalichnie",
+    "added_at": 1790240961.3441632,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.vedomosti.ru/economics/news/2026/09/24/1231427-klyuchevoi-stavke",
+    "added_at": 1790240961.3441632,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://t.me/thebell_io/39211",
+    "added_at": 1790240961.3441632,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.interfax.ru/business/1118180",
+    "added_at": 1790240961.3441632,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.vedomosti.ru/finance/news/2026/09/24/1231436-t-bank-pribil",
+    "added_at": 1790240961.3441632,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.vedomosti.ru/finance/news/2026/09/24/1231429-vtb-sohranyaet-plani",
+    "added_at": 1790240961.3441632,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.interfax.ru/world/1118182",
+    "added_at": 1790240961.3441632,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.interfax.ru/business/1118178",
+    "added_at": 1790240961.3441632,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://meduza.io/news/2026/09/24/the-insider-otets-lidera-latviyskoy-partii-suverennaya-vlast-yulii-stepanenko-postavlyal-zuby-drakona-v-belgorodskuyu-oblast-i-okkupirovannyy-donbass",
+    "added_at": 1790240961.3441632,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://meduza.io/news/2026/09/24/kprf-zayavila-o-falsifikatsiyah-na-vyborah-v-krasnodarskom-krae-predstavitel-partii-uveryaet-chto-u-kommunistov-ukrali-okolo-polumilliona-golosov",
+    "added_at": 1790240961.3441632,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.rbc.ru/technology_and_media/15/07/2026/6a56fc979a79475f01ff29f5",
+    "added_at": 1790240961.3441632,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://news.google.com/rss/articles/CBMilgFBVV95cUxQMDlTUVpKRFFndnJyalk5aktQenZldTQxVE9RUDBKWXJKbUwydHdwMVdqeWM3TFBrV1VrM2d4U1Y1dUs0aWxlMXZaU3dkUzctRlo0RXY4dW5TTHc0dG94Y3ZsMVR4S085VHNSNFNDWmJMbl95UzdscU50N3M0M21hdGcyeElweHh3Skp4alJ6Qm9iS29LZUE?oc=5",
+    "added_at": 1790240961.3441632,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://news.google.com/rss/articles/CBMirAFBVV95cUxQLUszaWVTQ195R3NYeF9nSUxmM3dkaHU1Um9adWRNR01GZDhGanBNSEZ2akdQNGlYYmhYUEFRQXlxT2dpT25RZ1pPT2M5SFJ0MDBMWFVXZWtUdWY0V3F4a2xZanRXVWhqYWZqVHdlLTdoRTFUbVl3OW1WM1hMT1FoS0x0bVZybjRKMmJxdmFvVlprOWpXV0xsMWdqeW1xSTBiMVlEUWt3dFhzbzds?oc=5",
+    "added_at": 1790240961.3441632,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://t.me/istories_media/13658",
+    "added_at": 1790240961.3441632,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.kommersant.ru/doc/8973876",
+    "added_at": 1790240961.3441632,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://t.me/thebell_io/39209",
+    "added_at": 1790240961.3441632,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://t.me/neftegazchannel/28028",
+    "added_at": 1790240961.3441632,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://meduza.io/news/2026/09/24/v-kieve-v-rezultate-rossiyskogo-udara-pogibli-dva-cheloveka-povrezhdeno-zdanie-roddoma",
+    "added_at": 1790240961.3441632,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.rbc.ru/politics/22/09/2026/6ab2771029e45ea005adffff",
+    "added_at": 1790240961.3441632,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "http://government.ru/gov/persons/151/telegrams/59962/",
+    "added_at": 1790240961.3441632,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://t.me/neftegazchannel/28031",
+    "added_at": 1790240961.3441632,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://t.me/istories_media/13659",
+    "added_at": 1790240961.3441632,
     "source": "parsed_feed"
   }
 ]
