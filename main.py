@@ -189,9 +189,11 @@ MAX_FETCH_WORKERS = CONFIG["collection"]["max_fetch_workers"]
 
 # Список моделей Gemini: при 503 (перегружена) пробуем следующую.
 GEMINI_MODELS = CONFIG.get("gemini_models", [
+    "gemini-3.8-flash",
+    "gemini-3.7-flash",
     "gemini-3.6-flash",
     "gemini-3.5-flash",
-    "gemini-2.5-flash",
+    "gemini-3.1-pro-preview",
 ])
 
 _TITLE_STOPWORDS = {
@@ -1197,37 +1199,52 @@ def _needs_translation(text):
 
 
 def translate_to_russian(text, timeout=10):
-    """Переводит текст на русский через бесплатный endpoint Google Translate.
-    Не требует API-ключа. Возвращает переведённый текст или исходный, если
-    перевод не удался. Используется ТОЛЬКО в fallback-режиме — в обычном
-    дайджесте перевод делает Gemini вместе с резюме."""
+    """Переводит текст на русский. Сначала пробует MyMemory (бесплатный API
+    без ключа), при неудаче — резервный Google Translate endpoint.
+    Если оба не сработали — возвращает исходный текст.
+    Используется в fallback-режиме и в ensure_russian_summaries."""
     if not text or not _needs_translation(text):
         return text
 
+    # --- Попытка 1: MyMemory ---
     try:
         import urllib.parse
         params = {
-            "client": "gtx",
-            "sl": "auto",
-            "tl": "ru",
-            "dt": "t",
-            "q": text[:1000],  # ограничение эндпоинта
+            "q": text[:500],  # MyMemory лимит 500 символов на запрос
+            "langpair": "en|ru",
+        }
+        url = "https://api.mymemory.translated.net/get?" + urllib.parse.urlencode(params)
+        r = requests.get(url, timeout=timeout)
+        if r.status_code == 200:
+            data = r.json()
+            translated = data.get("responseData", {}).get("translatedText", "")
+            # MyMemory иногда возвращает ошибки в translatedText — проверяем
+            if translated and "MYMEMORY WARNING" not in translated and translated != text:
+                return translated.strip()
+    except Exception as e:
+        print(f"   ⚠️  MyMemory не сработал: {e}")
+
+    # --- Попытка 2: Google Translate (может быть 429) ---
+    try:
+        import urllib.parse
+        params = {
+            "client": "gtx", "sl": "auto", "tl": "ru", "dt": "t",
+            "q": text[:1000],
         }
         url = "https://translate.googleapis.com/translate_a/single?" + urllib.parse.urlencode(params)
         r = requests.get(url, timeout=timeout, headers={
             "User-Agent": "Mozilla/5.0 (compatible; NewsDigest/1.0)"
         })
-        if r.status_code != 200:
-            return text
-        # Формат ответа: [[["перевод","исходный",null,null,...],...],...]
-        data = r.json()
-        if not data or not data[0]:
-            return text
-        translated = "".join(segment[0] for segment in data[0] if segment and segment[0])
-        return translated.strip() or text
-    except Exception as e:
-        print(f"   ⚠️  Ошибка перевода: {e}")
-        return text
+        if r.status_code == 200:
+            data = r.json()
+            if data and data[0]:
+                translated = "".join(seg[0] for seg in data[0] if seg and seg[0])
+                if translated.strip():
+                    return translated.strip()
+    except Exception:
+        pass
+
+    return text
 
 
 def _clean_fallback_title(title, source_name):
