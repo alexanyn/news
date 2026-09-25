@@ -84,6 +84,7 @@ bot_token = os.environ.get("TELEGRAM_BOT_TOKEN")
 chat_id = os.environ.get("TELEGRAM_CHAT_ID")
 alert_chat_id = os.environ.get("TELEGRAM_ALERT_CHAT_ID") or chat_id
 alert_webhook_url = os.environ.get("ALERT_WEBHOOK_URL")
+groq_api_key = os.environ.get("GROQ_API_KEY")
 CHAT_ID = chat_id
 
 def _require_runtime_env_vars():
@@ -881,6 +882,54 @@ async def collect_all_news(sent_urls_history, recent_titles_history, schedule_na
     
     return news_db, raw_data_prompt, recently_published_for_prompt, collection_stats
 
+def generate_analytical_json_groq(prompt):
+    """Резервный вызов Groq (Llama 3.3 70B) — используется, если все модели
+    Gemini вернули 503/404. Формат OpenAI-совместимый. Возвращает (raw_json, meta)."""
+    if not groq_api_key:
+        return None, {"error": "no_groq_key"}
+
+    url = "https://api.groq.com/openai/v1/chat/completions"
+    headers = {
+        "Authorization": f"Bearer {groq_api_key}",
+        "Content-Type": "application/json",
+    }
+    payload = {
+        "model": "llama-3.3-70b-versatile",
+        "messages": [
+            {"role": "system", "content": "Ты аналитик новостей. Отвечай строго JSON без Markdown и пояснений."},
+            {"role": "user", "content": prompt},
+        ],
+        "response_format": {"type": "json_object"},
+        "temperature": 0.3,
+        "max_tokens": 16000,
+    }
+
+    for attempt in range(3):
+        try:
+            r = requests.post(url, json=payload, headers=headers, timeout=120)
+            if r.status_code == 200:
+                data = r.json()
+                content = data["choices"][0]["message"]["content"]
+                return content, {"provider": "groq", "model": "llama-3.3-70b-versatile", "attempts": attempt + 1}
+            if r.status_code == 429:
+                wait_time = 10 * (attempt + 1)
+                print(f"   ⏸️  Groq rate limit 429. Ждём {wait_time}с...")
+                time.sleep(wait_time)
+                continue
+            if r.status_code >= 500:
+                wait_time = 5 * (attempt + 1)
+                print(f"   ⏸️  Groq сервер {r.status_code}. Ждём {wait_time}с...")
+                time.sleep(wait_time)
+                continue
+            return None, {"error": f"http_{r.status_code}", "body": r.text[:300]}
+        except Exception as e:
+            print(f"   ⚠️  Groq исключение: {str(e)[:100]}")
+            if attempt < 2:
+                time.sleep(3 * (attempt + 1))
+
+    return None, {"error": "max_retries_exceeded"}
+
+
 def generate_analytical_json(raw_data_prompt, recently_published_titles=None):
     template = load_prompt_template()
 
@@ -1023,11 +1072,23 @@ def generate_analytical_json(raw_data_prompt, recently_published_titles=None):
 
         print(f"⚠️  Модель {model_name} не ответила, пробуем следующую.")
 
-    print("❌ Все модели Gemini недоступны. Используем fallback.")
+    print("❌ Все модели Gemini недоступны. Пробуем Groq как резерв...")
+    groq_raw, groq_meta = generate_analytical_json_groq(prompt)
+    if groq_raw:
+        print(f"✅ Groq ответил успешно (модель {groq_meta.get('model')}).")
+        gemini_meta["latency_sec"] = round(time.time() - gemini_call_start, 1)
+        gemini_meta["attempts_used"] = total_attempts
+        gemini_meta["fallback_used"] = False
+        gemini_meta["provider"] = "groq"
+        gemini_meta["groq_meta"] = groq_meta
+        return groq_raw, gemini_meta
+
+    print(f"⚠️  Groq тоже не сработал: {groq_meta.get('error')}. Используем fallback.")
     gemini_meta["latency_sec"] = round(time.time() - gemini_call_start, 1)
     gemini_meta["attempts_used"] = total_attempts
     gemini_meta["fallback_used"] = True
     gemini_meta["error_type"] = "all_models_failed"
+    gemini_meta["groq_error"] = groq_meta.get("error")
     return empty_fallback, gemini_meta
 
 

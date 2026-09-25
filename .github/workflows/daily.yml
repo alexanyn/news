@@ -88,6 +88,7 @@ jobs:
         # Bot API, а не только конкретное сообщение.
         TELEGRAM_ALERT_CHAT_ID: ${{ secrets.TELEGRAM_ALERT_CHAT_ID }}
         ALERT_WEBHOOK_URL: ${{ secrets.ALERT_WEBHOOK_URL }}
+        GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
       run: python main.py ${{ steps.schedule.outputs.schedule_name }}
 
     - name: Generate dashboard
