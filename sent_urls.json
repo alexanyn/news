@@ -1,80 +1,5 @@
 [
   {
-    "url": "https://www.interfax.ru/world/1117056",
-    "added_at": 1789808502.6595395,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.aljazeera.com/economy/2026/9/19/turkiye-revokes-operating-licence-of-irans-bank-mellat?traffic_source=rss",
-    "added_at": 1789808502.6595395,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://asia.nikkei.com/business/markets/turkey-moves-to-calm-nervous-markets-after-fund-crisis-sparks-selloff",
-    "added_at": 1789808502.6595395,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://news.google.com/rss/articles/CBMitAFBVV95cUxOV1Z0c2pZbWlsTmZtQ1VjZVdUSmYyblNhdENtcVM4Z2NBUnU1R2tXRzB2TDRNTS1tR2l4cWw1RGhPNVNtLXpRLUhraEFndkRnQU1KeW5Sb3h4cHN6VjhLWXBXQ25keEN2bE4zNGk3eEREdVFacEUzQm0xMEpITVlNSWJaYVZEVk1VRGFIQWwtMUE5LUwxZmNTdGJXbkhWcUFoSnBVVnJOVnE5UTdheFVNS3ZqSTE?oc=5",
-    "added_at": 1789808502.6595395,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.mckinsey.com/industries/semiconductors/our-insights/the-2-point-3-trillion-dollar-horizon-how-ai-is-rewriting-the-semiconductor-story",
-    "added_at": 1789808502.6595395,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://t.me/neftegazchannel/27971",
-    "added_at": 1789808502.6595395,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.rbc.ru/politics/20/08/2026/6a86cda39a79471f8bf51147",
-    "added_at": 1789808502.6595395,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.politico.com/news/2026/09/18/congress-f-35-china-investigation-01083647?utm_source=RSS_Feed&utm_medium=RSS&utm_campaign=RSS_Syndication",
-    "added_at": 1789808502.6595395,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.themoscowtimes.com/2026/09/19/trump-signs-sweeping-russia-sanctions-bill-a93750",
-    "added_at": 1789808502.6595395,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "http://government.ru/news/59921/",
-    "added_at": 1789808502.6595395,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.kommersant.ru/doc/8970495",
-    "added_at": 1789808502.6595395,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.kommersant.ru/doc/8970489",
-    "added_at": 1789808502.6595395,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://news.google.com/rss/articles/CBMivgFBVV95cUxNSzh0Q2JKQ2pZckVMX0h6OEcwSDdsQUZIZkJNdldSaE16RVQyS0VuMnVROVY1LWwxMDJmUnI0SW5kWV8wQjR5Y21UUEw5Tmp0VE9uZEkxRGdMWFl5OGhVNlkxTDNrdHN1SG5heU5JWDdIc1Y3WHU0UUxVbHZwUk01NHRVWmlkdGNnWWk0by1PSHpSSW9fVk4xTUNBRU5NaDlybTB1YTdBQ3M4MmUxOEFhQVVHMWQwbWF4alVXdHBR?oc=5",
-    "added_at": 1789808502.6595395,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.rbc.ru/rbcfreenews/6aa86fa79a7947031dfb84ba",
-    "added_at": 1789808502.6595395,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://tass.com/defense/2190027",
-    "added_at": 1789808502.6595395,
-    "source": "parsed_feed"
-  },
-  {
     "url": "https://www.interfax.ru/world/1117082",
     "added_at": 1789819323.6965423,
     "source": "parsed_feed"
@@ -7072,6 +6997,76 @@
   {
     "url": "https://www.interfax.ru/russia/1118618",
     "added_at": 1790402899.260938,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.rbc.ru/rbcfreenews/6ab5bb40b69ff33bf4272ebc",
+    "added_at": 1790413677.1581442,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.vedomosti.ru/politics/news/2026/09/26/1232059-wsj-tramp-nameren-vozobnovit",
+    "added_at": 1790413677.1581442,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.aljazeera.com/news/2026/9/26/iran-war-squeezes-iraqs-economy-as-oil-revenues-fall-and-prices-rise?traffic_source=rss",
+    "added_at": 1790413677.1581442,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://asia.nikkei.com/spotlight/trump-xi-summit/us-and-china-agree-on-tariff-relief-for-30bn-of-nonsensitive-goods-each",
+    "added_at": 1790413677.1581442,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.aljazeera.com/news/2026/9/26/could-ai-firms-be-held-responsible-for-mass-shootings?traffic_source=rss",
+    "added_at": 1790413677.1581442,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://meduza.io/news/2026/09/26/bill-geyts-predupredil-o-riske-gibeli-milliarda-lyudey-iz-za-ii",
+    "added_at": 1790413677.1581442,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "http://government.ru/news/59994/",
+    "added_at": 1790413677.1581442,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://tass.com/world/2193241",
+    "added_at": 1790413677.1581442,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.kommersant.ru/doc/8987757",
+    "added_at": 1790413677.1581442,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.cnews.ru/news/top/2026-09-26_u_rossijskogo_po_dlya_stankostroeniya",
+    "added_at": 1790413677.1581442,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://news.google.com/rss/articles/CBMirwFBVV95cUxNREVpeGJvSlJoNUdWMHFoTFF6djVMaF8yY2wwLWtJbkdQZ0R4V2t2MkdYUGhocnZFc1Z5cEY0YjhzWm1PekFtS2lkTkFCTzRpN0FLcWVlRDkwQU5IQWpLYWF0M3hrUE5YSHhGeTBlRmtKZlloVWVxdkQ5UWIxMTBIUFlTOFkxVDNJSTZvZjRBQnF1b05sQkh2LTZpOW5wYXJYRFNTRGRrSDBQTHBYYmZR?oc=5",
+    "added_at": 1790413677.1581442,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.interfax.ru/russia/1118633",
+    "added_at": 1790413677.1581442,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://meduza.io/news/2026/09/26/na-krupneyshem-v-rossii-ugolnom-mestorozhdenii-proizoshel-vzryv-pogibli-chetyre-cheloveka",
+    "added_at": 1790413677.1581442,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.kommersant.ru/doc/8987760",
+    "added_at": 1790413677.1581442,
     "source": "parsed_feed"
   }
 ]
