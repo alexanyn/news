@@ -1,80 +1,5 @@
 [
   {
-    "url": "https://www.interfax.ru/world/1117235",
-    "added_at": 1789916502.072669,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.scmp.com/news/china/diplomacy/article/3368171/us-china-seek-xi-trump-summit-deliverables-new-york-talks?utm_source=rss_feed",
-    "added_at": 1789916502.072669,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.scmp.com/news/world/united-states-canada/article/3368165/frances-macron-visits-atlantic-territory-eu-embraces-canada?utm_source=rss_feed",
-    "added_at": 1789916502.072669,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://news.google.com/rss/articles/CBMiswFBVV95cUxNOUIzTWFrSUtlVXdxeVFicV9kTjY4bnlHa295MjlFVlYyYzQ4VGp4NXBPbWlLM2RDUkdocWZ3VHU0R0lKTTFtWElhbHMtQXdhREZLc203d3dpMzI4UTFSUGN2em5QM2ZQMC1aZkZrMUx5YUNTZXJmbE90dmxSNVVrTVpUYXFoOTFUT1VZRWx3ZWNjOENjSzNYdWJFeGtLZlBGTnZWS0Q4aFd0MWxORTA5dWIxdw?oc=5",
-    "added_at": 1789916502.072669,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://t.me/the_financial_times_journal/8369",
-    "added_at": 1789916502.072669,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://t.me/the_financial_times_journal/8372",
-    "added_at": 1789916502.072669,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.kommersant.ru/doc/8970910",
-    "added_at": 1789916502.072669,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://t.me/the_financial_times_journal/8371",
-    "added_at": 1789916502.072669,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.axios.com/2026/09/20/ai-assistant-openai-meta-muse-instinct-grok-apple",
-    "added_at": 1789916502.072669,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://t.me/neftegazchannel/27979",
-    "added_at": 1789916502.072669,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://meduza.io/news/2026/09/20/husity-zayavili-chto-nanesli-udary-po-chuvstvitelnym-ob-ektam-v-er-riyade",
-    "added_at": 1789916502.072669,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.axios.com/2026/09/20/trump-arch-washington-snipers-drones",
-    "added_at": 1789916502.072669,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.kommersant.ru/doc/8970918",
-    "added_at": 1789916502.072669,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://news.google.com/rss/articles/CBMimAFBVV95cUxNVm9aQnFxblU4cVdnOTBfbXFkaXNyOGVYR0RIZExuTmxGcnJvQ3B5UlpGaUhlaERpMFpNdTB2Y0FmNUQxQ25BSDNuYjdwVVFhSzJFQmVUdVRJZ01CelVOVkFoN3VyT2R3N0tqWjVjam90UEJCRHJpTUtMeG1XY2RuZHpWX2dhN2o0UjJxT0pYSUFhX05IYlM1bg?oc=5",
-    "added_at": 1789916502.072669,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://meduza.io/news/2026/09/20/rossiyskie-udary-vyveli-iz-stroya-tri-krupneyshih-metallurgicheskih-predpriyatiya-ukrainy",
-    "added_at": 1789916502.072669,
-    "source": "parsed_feed"
-  },
-  {
     "url": "https://news.google.com/rss/articles/CBMiowFBVV95cUxOdWJkS01sRHBUcXZGZVVoTy1zVU04amJ0VUc3WnZ4UkVZd25TTTR6RGY1ZkV5OUtGZzFULVNDcEo4MzlZMmNkamt0VjR5VHg3YzRDaWhEOFAtZklDbFpGSXpCeE9BeGR3UWp3aFN1MVp2aUMyZE93ZnFUN0VTdzdkZGJnMDdrOFNtc1lhZC1UQlNDWFl3dGRWdjZwYkc2SHJGelBn?oc=5",
     "added_at": 1789927272.6320574,
     "source": "parsed_feed"
@@ -7267,6 +7192,81 @@
   {
     "url": "https://www.vedomosti.ru/politics/news/2026/09/27/1232162-ukrainskii-proizvoditel",
     "added_at": 1790511071.8308547,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.rbc.ru/politics/18/09/2026/6aac4d2888eae288a2cbe6fb",
+    "added_at": 1790521465.7493515,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.axios.com/2026/09/27/trump-iran-war-hormuz-blockade-negotiations",
+    "added_at": 1790521465.7493515,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://news.google.com/rss/articles/CBMivgFBVV95cUxNWDBXOERyeHNlTHNTNkNZbklUQUVPTGpIbVpBTzB6dV81dHkwYVRzd2JsOTg2RGg5cEZSZzdKcERpbG5YTm1zMWZyY01BYy1fb3ZyWHRZeTVqREdHTjRlLVNTbl8tdGlMUVhqbUZFSU9uOHp5dVJJS0hKMEp3QlA2enUtTWNremhqVHBCNUxzMTVBcmdmOC1HdlBvbExXSUE5dVdWNmRZYjJxY19ublJjY3pSWUt0OVVlZUg0WlpR?oc=5",
+    "added_at": 1790521465.7493515,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://news.google.com/rss/articles/CBMitgFBVV95cUxQcjhKd2FaWmFDNGx6VVBvd1AxMkp4MmQwek85Nzl4bWlrOEFaWmo4U190dW5zb0dOQnVXakYtWi1CTHJyZWo4T3lqRnYwVGszOEJ3M3NHMFlMU3pxSkM5WkljTkxLVU5VakNUTkhhZUFBMzQ4bHVBQldaV3k0T1JsMER3X3hzZkhvZmkzR05rSXJGWXBtdWo2OG9oN3hzVHdqU2hyQ3lvZ25BSUtuaE9qaVJhSnA1QQ?oc=5",
+    "added_at": 1790521465.7493515,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://t.me/the_financial_times_journal/8551",
+    "added_at": 1790521465.7493515,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://t.me/the_financial_times_journal/8550",
+    "added_at": 1790521465.7493515,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.politico.eu/article/eu-commission-calls-for-gas-electricity-demand-cuts/?utm_source=RSS_Feed&utm_medium=RSS&utm_campaign=RSS_Syndication",
+    "added_at": 1790521465.7493515,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.axios.com/2026/09/27/terrorism-raf-fairford-base-us-air-force",
+    "added_at": 1790521465.7493515,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.rbc.ru/rbcfreenews/6ab63de98cf5f08e445382b5",
+    "added_at": 1790521465.7493515,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.rbc.ru/politics/22/09/2026/6ab2b25a0d60672077f36012",
+    "added_at": 1790521465.7493515,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.vedomosti.ru/business/news/2026/09/27/1232179-nestle-izuchaet-varianti",
+    "added_at": 1790521465.7493515,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.kommersant.ru/doc/8988100",
+    "added_at": 1790521465.7493515,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.kommersant.ru/doc/8988098",
+    "added_at": 1790521465.7493515,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.interfax.ru/russia/1118770",
+    "added_at": 1790521465.7493515,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://news.google.com/rss/articles/CBMiuAFBVV95cUxQcFZ5WUxFd2RrZk8yRDNSUlByZkEzZlFENVd0YnBDZFNtcGJaa1doTFA3U19IQjBDUW5jM3NXQ2NSdHBMUzdsckd2Z3NMenExYlBWdjhrTmxOWlZpNzFNbXFrbk9CRWhmelVYTFkwTV9yUF83VVlkRXhQVWVfMkstLUZXS21TaUNiaDhjTWNCeXlkaENfTFo0aWc0LWJmM3lhM25tclVuUklkM3ZpSGN2ZEpsYlNPUWtt?oc=5",
+    "added_at": 1790521465.7493515,
     "source": "parsed_feed"
   }
 ]
