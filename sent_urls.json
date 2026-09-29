@@ -1,115 +1,5 @@
 [
   {
-    "url": "https://news.google.com/rss/articles/CBMivwFBVV95cUxPdXROSDh1OUkxaUdBMjBrV21MM0JKLVVGZTNENlQzVjZIQmFXQk9nUkY1b0hVM3IwcEN4cnVMTmhKQ2pHaWgtZHY0RnhvNnNPaVllSk8tWV9NZm9vR3diS0djb2J5azJxa3F6WWhWMEMxbWpzVjBTWUoyMmZYZ2d3OWNVR3BodklUeUJCYVZ2MUNFTVI1REE2X2lLbUxuVFUxdHNQN3dYMHhMNFhZZkZUVi1JenVURXpqWmlGUzRucw?oc=5",
-    "added_at": 1790067708.0913327,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://ec.europa.eu/commission/presscorner/detail/en/speech_26_1932",
-    "added_at": 1790067708.0913327,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.scmp.com/news/china/diplomacy/article/3368365/china-seeks-german-help-stave-eu-trade-sanctions-days-xi-trump-summit?utm_source=rss_feed",
-    "added_at": 1790067708.0913327,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxQamxLc3VXWWlmSHd3LWJxNXV5UVRFY1VSVk5vZFppalNfNkdZOExXSnB2QjBMTWV1Wkx6czIzdUlKWjlKb2pLdzFsQW5sMW9mdl9salBDcXM1WHdaQmVoNXNzNjU2MUVwNEp5VllQMDhnWDRIcVVGVEgwTDVON1l3dVVJclJXbllzNVhXSk00X0FmVWxUX00yVm1GQmJVUDI2YVd4UXQ3X28?oc=5",
-    "added_at": 1790067708.0913327,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://news.google.com/rss/articles/CBMisgFBVV95cUxQRzN4WHlXSmNOUWI0eURvTzVLYVlIb3otWEZCSmUxb0N4YzMzTlJnM2dCWVh3UXNrQlN6TW1JU3MxZnRjT3NLdG5HYVFSbFZGUFRER2FwSjZoVTd4Smh2cnlwSjhVdTJwVy1jaWplU2FaaUIwT1UtRVppUmJlWFlFNnlhbE5OY0tma0RYOVc0QTVGeWxmMkoxbkRRamxPbV8zLUtEcm1Ca3hiMEdVcnNYOGFn?oc=5",
-    "added_at": 1790067708.0913327,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://techcrunch.com/2026/09/21/morphotonics-raises-e40m-as-it-tk-tk-tk-t/",
-    "added_at": 1790067708.0913327,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.theinformation.com/briefings/z-ai-open-sources-zcode-data-uploading-scandal",
-    "added_at": 1790067708.0913327,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.rbc.ru/politics/15/04/2026/69df647c9a7947713862bd83",
-    "added_at": 1790067708.0913327,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://t.me/the_financial_times_journal/8420",
-    "added_at": 1790067708.0913327,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.interfax.ru/russia/1117667",
-    "added_at": 1790067708.0913327,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.kommersant.ru/doc/8972179",
-    "added_at": 1790067708.0913327,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.rbc.ru/politics/07/09/2026/6a9e808f1ee6c9705d15ca24",
-    "added_at": 1790067708.0913327,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.finmarket.ru/main/article/6711505",
-    "added_at": 1790067708.0913327,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.kommersant.ru/doc/8972141",
-    "added_at": 1790067708.0913327,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://vc.ru/transport/3151970-testirovanie-wb-taxi-ot-wildberries-v-armenii?from=rss",
-    "added_at": 1790067708.0913327,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://t.me/neftegazchannel/27997",
-    "added_at": 1790067708.0913327,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "http://government.ru/news/59936/",
-    "added_at": 1790067708.0913327,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.interfax.ru/world/1117663",
-    "added_at": 1790067708.0913327,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://t.me/neftegazchannel/27996",
-    "added_at": 1790067708.0913327,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://news.google.com/rss/articles/CBMinwFBVV95cUxOak5OcjlKTnl5djhILXBBYTM3akZVdnkxVzFrVDdzaGs1d1ZxUDEwZmFya05MRVByY1VNOXozaF9CWkNoc3RoVUw4RzJnS3JsRWJ2QjVtQXF4SWdsZG8xa240WkVuWGVtZERaYU1yRG9VMUZTQlJBRDMtRHFUc2NoeU0tbE5sMHk0VThQeGZfcXhTcUZ5SlpjRTBDRXNjLTA?oc=5",
-    "added_at": 1790067708.0913327,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://adindex.ru/news/ek/2026/09/22/349083.phtml",
-    "added_at": 1790067708.0913327,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://adindex.ru/publication/interviews/marketing/2026/09/21/349063.phtml",
-    "added_at": 1790067708.0913327,
-    "source": "parsed_feed"
-  },
-  {
     "url": "https://news.google.com/rss/articles/CBMiygFBVV95cUxQNEdfLVlEeU1GTjFkdDRlZ2NCN19kT0tNTEdKTnJBM29mNGk4OW9EMURHRm9WTEljdFBQY3Y1OTB6VnJBMFRMclpzV2xrV0M4NVMzZld6MlFJeHB1Rnp3Y01aVDJ4STB0Vk80bVE5X2JGaHRPeXlHM1h0WExNNHRlWEhuZkhjWWF0ajJYMGxsX0l1djRWYzRJbUZnbkpTM0k2LWZiT1AtWHA1QnhuajhwOVhjOExkWmNOcjkwXzJJTWJUWWlUazVtTDhR?oc=5",
     "added_at": 1790078673.7560215,
     "source": "parsed_feed"
@@ -7722,6 +7612,286 @@
   {
     "url": "https://www.cnews.ru/news/line/2026-09-29_mts_pomogla_lyudyam_s_narusheniem",
     "added_at": 1790662195.4223402,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://news.google.com/rss/articles/CBMivgFBVV95cUxPODNDSVp4Qi1GQVY3bEJ2d0dpZzVBbEU4NUpYQzBpV2QwaW9uVGdwdHJnQkstVFlUSTNRazRHaUVFOVFWOTJXRjhnS2dncDBNLVVsa0JiWC0zN3ktZXdvV0tWN3FrakF4aUZIX0w2RjMwVHJWc0lBZUpYU09SWmsyUmdQd3dJdXh1N3lTb1pDZ1ZEYkhOUTVPV0lhak9YM3ZxTm1vR1BmRnFnZjNUMWF0M1NabHhLblkxd05FM3dn?oc=5",
+    "added_at": 1790673106.588603,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://news.google.com/rss/articles/CBMisgFBVV95cUxPalJlU2twR3RkNzhyVlFwZmJkZmg3RXQ3VEpxTFowU2dhY1pEeG8wZWlLQ2NVb0lNUERZQXRSdThEbWdxdGx6aExDVkFGNHdUVkZwRFlSclVvYWxEVk5wTFlYQVZmblBJUlcxZ180Sm9YdWtXNDZoZkVfYVQ5aDR1VTZIMGFRWnNsVEs5LVJWMkVXWmpaVnIzd2hBTzl5M1pIenM3c09RaW41aEVoOWRSRkNB?oc=5",
+    "added_at": 1790673106.588603,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://news.google.com/rss/articles/CBMirAFBVV95cUxNNlNQRWEzNEg3UzNvTHdIM1B1TEFCd1hQWUZwS2Z3UGRNaXJVQXlyU2lUWmhOV2xaWDgtVTloQWl6ay0yTW80emxfQ255TnN0NjBYQzlUR2xYVTFJSlZ0ZUdkMDV2bjJFclg3RWFmSEJDUGxXYWd6YXdpY1VmUlBxanVwemhHSFJLTld1UU5iNzBUd2ZwQzBtZVlxY1RVVFZ5NnRPTUhOcHljc1Fj?oc=5",
+    "added_at": 1790673106.588603,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.bbc.co.uk/news/articles/cmkg8qgy9d9lo?at_medium=RSS&at_campaign=rss",
+    "added_at": 1790673106.588603,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.aljazeera.com/news/2026/9/29/unga-81-five-key-takeaways-from-general-debate?traffic_source=rss",
+    "added_at": 1790673106.588603,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.aljazeera.com/sports/2026/9/29/novak-djokovic-china-open-beijing-tennis-comeback?traffic_source=rss",
+    "added_at": 1790673106.588603,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.aljazeera.com/news/2026/9/29/fighting-in-ethiopia-intensifies-whats-the-latest?traffic_source=rss",
+    "added_at": 1790673106.588603,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.aljazeera.com/news/2026/9/29/thousands-of-drivers-strike-in-the-philippines-over-rising-fuel-prices?traffic_source=rss",
+    "added_at": 1790673106.588603,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.themoscowtimes.com/2026/09/29/putin-orders-russian-army-to-increase-troop-size-to-155m-a93812",
+    "added_at": 1790673106.588603,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.themoscowtimes.com/2026/09/29/fire-at-pyrotechnics-factory-in-yaroslavl-region-kills-14-a93811",
+    "added_at": 1790673106.588603,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://tass.com/economy/2194369",
+    "added_at": 1790673106.588603,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.politico.eu/article/eu-net-payers-insist-several-hundred-billion-euros-budget-cuts-mff/?utm_source=RSS_Feed&utm_medium=RSS&utm_campaign=RSS_Syndication",
+    "added_at": 1790673106.588603,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.aljazeera.com/video/newsfeed/2026/9/29/us-iran-talks-continue-but-deal-unlikely-before-midterm-elections?traffic_source=rss",
+    "added_at": 1790673106.588603,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.project-syndicate.org/commentary/reconciliation-league-will-teach-leaders-how-to-bridge-societal-divides-by-gordon-brown-and-john-sexton-1-2026-09?utm_source=rss&utm_medium=feed&utm_campaign=main&utm_content=en",
+    "added_at": 1790673106.588603,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://news.google.com/rss/articles/CBMivgFBVV95cUxPaXY4RnZOZEM1OVBTQmRuMFg4MVROTjhCTllFVjlHRkZZZ1Q3WmlMWWxaRnRteXZGUFZBdXNoR2hxendIajFQU29JY1ZlNElqMVpTZnd6aDVkdml5OU0tWktVaExQRDBxN3FmQ19OMnBuazhaQXItQTVBZmtDSHZ1TU1BdTVWZDRGT2VFTm1aWndaeDNPM05PRDRod3ZSbWtiWUxXdDNFcmlzX0ZNTmt1cklaUEF6SmFYblJKT1pn?oc=5",
+    "added_at": 1790673106.588603,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.bbc.co.uk/news/articles/cm5y5nynl75ko?at_medium=RSS&at_campaign=rss",
+    "added_at": 1790673106.588603,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://news.google.com/rss/articles/CBMitAFBVV95cUxOV3NxUXhPYjZzTENJaW05OWRhTEpOUXVyRm1iN01ZT2ZWUTVDQzI1Nmh1OXRucDdCRjZDal9MMnBzS0hKWE1qLXBjakZiZV9oZlJ1WmktVE1mTjZXX0U2ME1vUE9WaGVIR1NGaUpWeXBSMjN3dl9fQ0NuYnVzd2I3T00tQWJzUTFqUVR6WGs4SF9ob003cGlMM0w5N2RLYnpNUHRPbjhvRG9jcDRDUEd1NGVPS3o?oc=5",
+    "added_at": 1790673106.588603,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://tass.com/politics/2194359",
+    "added_at": 1790673106.588603,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://asia.nikkei.com/business/automobiles/china-s-toyota-joint-ventures-to-be-put-under-one-roof-to-help-ailing-gac",
+    "added_at": 1790673106.588603,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://asia.nikkei.com/opinion/the-trump-xi-summit-leaves-taiwan-in-limbo",
+    "added_at": 1790673106.588603,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://asia.nikkei.com/business/automobiles/evs-and-hybrids-drive-thailand-auto-sales-recovery",
+    "added_at": 1790673106.588603,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://asia.nikkei.com/business/retail/china-s-luxury-malls-rise-above-retail-gloom-with-expansion-drives",
+    "added_at": 1790673106.588603,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.mckinsey.com/industries/oil-and-gas/our-insights/navigating-the-new-normal-building-resilience-in-fuel-retail-trading",
+    "added_at": 1790673106.588603,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://tass.com/world/2194365",
+    "added_at": 1790673106.588603,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://tass.com/world/2194363",
+    "added_at": 1790673106.588603,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://tass.com/world/2194361",
+    "added_at": 1790673106.588603,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://foreignpolicy.com/2026/09/29/why-nobody-can-end-the-war-in-ukraine/",
+    "added_at": 1790673106.588603,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.scmp.com/news/hong-kong/law-and-crime/article/3369185/hong-kong-man-jailed-3-years-hammer-attack-associate-who-later-died?utm_source=rss_feed",
+    "added_at": 1790673106.588603,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.interfax.ru/moscow/1119114",
+    "added_at": 1790673106.588603,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.sport-interfax.ru/1119111",
+    "added_at": 1790673106.588603,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.kommersant.ru/doc/8989376",
+    "added_at": 1790673106.588603,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.kommersant.ru/doc/8989375",
+    "added_at": 1790673106.588603,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.kommersant.ru/doc/8989361",
+    "added_at": 1790673106.588603,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.kommersant.ru/doc/8989303",
+    "added_at": 1790673106.588603,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.rbc.ru/politics/21/09/2026/6aad07899a7947233d6c6e42",
+    "added_at": 1790673106.588603,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.rbc.ru/rbcfreenews/6aba0cfacdf01543bacf54a5",
+    "added_at": 1790673106.588603,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.rbc.ru/photoslider/6abb7b239a79479af0025c74",
+    "added_at": 1790673106.588603,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.interfax.ru/russia/1119112",
+    "added_at": 1790673106.588603,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://adindex.ru/news/tendencies/2026/09/29/349350.phtml",
+    "added_at": 1790673106.588603,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.vedomosti.ru/politics/news/2026/09/29/1232660-vo-fraktsiyu-edinoi-rossii",
+    "added_at": 1790673106.588603,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.vedomosti.ru/investments/news/2026/09/29/1232651-viru-odobril-baibek",
+    "added_at": 1790673106.588603,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://adindex.ru/news/hr/2026/09/29/349356.phtml",
+    "added_at": 1790673106.588603,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://t.me/the_financial_times_journal/8593",
+    "added_at": 1790673106.588603,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://t.me/the_financial_times_journal/8594",
+    "added_at": 1790673106.588603,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://t.me/the_financial_times_journal/8595",
+    "added_at": 1790673106.588603,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://t.me/the_financial_times_journal/8596",
+    "added_at": 1790673106.588603,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.interfax.ru/business/1119115",
+    "added_at": 1790673106.588603,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.interfax.ru/world/1119113",
+    "added_at": 1790673106.588603,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.kommersant.ru/doc/8989355",
+    "added_at": 1790673106.588603,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://meduza.io/news/2026/09/29/v-rossii-posle-vyborov-usilili-ogranicheniya-protiv-vpn-servisov",
+    "added_at": 1790673106.588603,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://meduza.io/news/2026/09/29/openai-otmenila-vypusk-novoy-ii-modeli-gpt-6-1-astra-iz-za-problem-s-bezopasnostyu-vo-vremya-testov-ona-obmanyvala-polzovateley",
+    "added_at": 1790673106.588603,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "http://government.ru/news/60009/",
+    "added_at": 1790673106.588603,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.vedomosti.ru/politics/news/2026/09/29/1232653-argentina-prigrozila-londonu",
+    "added_at": 1790673106.588603,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://t.me/the_financial_times_journal/8597",
+    "added_at": 1790673106.588603,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://t.me/tadviser/6287",
+    "added_at": 1790673106.588603,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "http://government.ru/news/60005/",
+    "added_at": 1790673106.588603,
     "source": "parsed_feed"
   }
 ]
