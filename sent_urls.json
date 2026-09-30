@@ -1,90 +1,5 @@
 [
   {
-    "url": "https://www.bbc.co.uk/news/articles/ck62m1631d7po?at_medium=RSS&at_campaign=rss",
-    "added_at": 1790154277.4517336,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://news.google.com/rss/articles/CBMisAFBVV95cUxOcVhnX0s2NzZFR2dEbHRNc294bUs5MEVScldwdW9OYndMMzhkM2ZfOVlkUERPcTQwRmJEak56SkstT1FjN1RYRkNoOEpOQ2NaLWV6Nkk5ZXF2aGFieE5qdThaOU12SmQwTW40TGdEcG1UWFZrR2FXd1FYd2RSeGN5SFpoS3RVVlBRbHIta0dWYWE1R3BxVEVYOTMzclJiUU0xVUt1UUxGYnZYQlo1UmIzdg?oc=5",
-    "added_at": 1790154277.4517336,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxNODBqVE51UFpMN1NxdzVHTmxIUlNRc3J1YUZxVllseEh2bzQ0eGpWTHF3b2VueTdCUHV3SUZuSFBPdVZDaWJUMGJmM05PcDgxNURqS3p5YlNHOWNUcGdXSjFyYUdOaUtrWjRhYzNPSGRCbFgzNEFwVFk1QWdUcVZKdHhfUmFuaW81RFducW5PRWl6ZDMxRS1nb2NHaG8yRnJ4NllBZXk2LWQ?oc=5",
-    "added_at": 1790154277.4517336,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://asia.nikkei.com/business/transportation/vietnam-s-vingroup-inks-1bn-bullet-train-deal-with-siemens",
-    "added_at": 1790154277.4517336,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://news.google.com/rss/articles/CBMirgFBVV95cUxPWlNBRnBPUi0zNVlHUUNlTUU2dHk0c3ZDNG8wNUh6T0hFb1pfLW5BeXFYUWFHRGczeEFEeDRKbzZ5dHhHRFp5cjZPRU5jOEJpdFZLdFM3a0x3bVlLYUJsYWZSRDc1bkZDM09lQ2Q5Y3R5QU1yYmFhSHFhUkRORkttMEI0YmJ1RlpXN0VPc2g1Vy1NbDlSSkxna1d5MHF2MXowWFBSS1BPT0pqbjVYZFE?oc=5",
-    "added_at": 1790154277.4517336,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://asia.nikkei.com/business/transportation/singapore-to-get-waymo-robotaxis-in-2028-as-autonomous-race-grows",
-    "added_at": 1790154277.4517336,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://meduza.io/news/2026/09/23/aliev-pomiloval-frantsuzskogo-biznesmena-martena-rayana-ego-osvobozhdenie-svyazyvali-so-snyatiem-evropeyskih-sanktsiy-s-usmanova",
-    "added_at": 1790154277.4517336,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://tass.com/politics/2191461",
-    "added_at": 1790154277.4517336,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.vedomosti.ru/economics/news/2026/09/23/1231066-rost-vvp-rossii",
-    "added_at": 1790154277.4517336,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://vc.ru/money/3154057-rosfinmonitoring-blokirovka-schetov-chastichnoe-sovpadenie-dannykh?from=rss",
-    "added_at": 1790154277.4517336,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://vc.ru/transport/3153936-sbor-s-passazhirov-dlya-podderzhki-rossiiskikh-aviakompanii?from=rss",
-    "added_at": 1790154277.4517336,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.interfax.ru/business/1117915",
-    "added_at": 1790154277.4517336,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://t.me/neftegazchannel/28015",
-    "added_at": 1790154277.4517336,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.rbc.ru/politics/19/09/2026/6aae5053a8ef74eb256e82b7",
-    "added_at": 1790154277.4517336,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://adindex.ru/news/design/2026/09/23/349123.phtml",
-    "added_at": 1790154277.4517336,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://news.google.com/rss/articles/CBMixgFBVV95cUxPcXNKNlNGNlNrWFdXbTBJN05yMkV0Z2hnbzhhekZiZ3lqT3dIdThVa25vNVMya253YUFwbDdaeV9yLTBUOFF1TkV1UzlvNFNmMEdhTk1xWC1WNTU5alBwcXVGdjF0elJkYUxHX1ltSjdXVnBBeERDTDlOZThpZk5scEV0bV84aGNOdi1QM05qeWxYT3F3SGZWSVpUbWJ1WlJyOFlnX0tob0NNVEhXMUZreTBEUGE0U01Pei13dFViNmdKQ3U4YkE?oc=5",
-    "added_at": 1790154277.4517336,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://adindex.ru/publication/interviews/agency/2026/09/10/348771.phtml",
-    "added_at": 1790154277.4517336,
-    "source": "parsed_feed"
-  },
-  {
     "url": "https://news.google.com/rss/articles/CBMitwFBVV95cUxObE05WERqVUVFa0UtVllxdVlwckduNFR2RGNDQ0Y4ZmJFVW4xOW8ybWR0bGwza3dMbnFzSFFmQWdmTnJDM1o4RDZZN21Zajk0aDJIcHFnZlRGZXJxYXkxaXBBR2dVZXM3ZUN1R1pjdW1faTIzOE9ucEQ2d1lFOEVkT0FuZlBrd0YxNUplS1htRXFGVVNwQTZENVl3S3JHWGVEb1N5eWxQbUo4REJLOUtMTjNOdklDUWc?oc=5",
     "added_at": 1790165218.512088,
     "source": "parsed_feed"
@@ -7977,6 +7892,176 @@
   {
     "url": "https://adindex.ru/news/tendencies/2026/09/30/349384.phtml",
     "added_at": 1790748516.6019413,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.interfax.ru/world/1119337",
+    "added_at": 1790759498.2889714,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.politico.eu/article/ursula-von-der-leyen-eu-offer-single-market-access-to-candidate-countries/?utm_source=RSS_Feed&utm_medium=RSS&utm_campaign=RSS_Syndication",
+    "added_at": 1790759498.2889714,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.politico.eu/article/andy-burnham-reconsider-push-rejoin-eu/?utm_source=RSS_Feed&utm_medium=RSS&utm_campaign=RSS_Syndication",
+    "added_at": 1790759498.2889714,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.semafor.com/article/09/30/2026/trade-tensions-hover-over-g20-meeting",
+    "added_at": 1790759498.2889714,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.interfax.ru/business/1119339",
+    "added_at": 1790759498.2889714,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.rbc.ru/quote/30/09/2026/6a9656199a794761e53a8a7a",
+    "added_at": 1790759498.2889714,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.scmp.com/business/banking-finance/article/3369316/hong-kongs-ipo-haul-first-9-months-smashes-record-despite-nasdaqs-fundraising-lead?utm_source=rss_feed",
+    "added_at": 1790759498.2889714,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://tass.com/economy/2194921",
+    "added_at": 1790759498.2889714,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://meduza.io/news/2026/09/30/novyy-glava-apple-planiruet-reorganizatsiyu-on-hochet-chtoby-kompaniya-vypuskala-novye-produkty-chasche-chem-dva-raza-v-god",
+    "added_at": 1790759498.2889714,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://asia.nikkei.com/business/companies/japan-s-nidec-sinks-to-3.6bn-loss-on-ev-motor-write-down",
+    "added_at": 1790759498.2889714,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.scmp.com/tech/big-tech/article/3369323/apple-leads-china-smartphone-sales-after-launch-iphone-18-pro-can-momentum-last?utm_source=rss_feed",
+    "added_at": 1790759498.2889714,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.theinformation.com/articles/alibabas-aliexpress-tests-membership-program-challenge-amazon",
+    "added_at": 1790759498.2889714,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.rbc.ru/rbcfreenews/6994e6cf9a79478fd6f0ef2c",
+    "added_at": 1790759498.2889714,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://asia.nikkei.com/business/markets/commodities/australia-s-lithium-miners-expand-and-reopen-as-prices-strengthen",
+    "added_at": 1790759498.2889714,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://t.me/neftegazchannel/28106",
+    "added_at": 1790759498.2889714,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://t.me/neftegazchannel/28107",
+    "added_at": 1790759498.2889714,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.kommersant.ru/doc/8990272",
+    "added_at": 1790759498.2889714,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.aljazeera.com/video/newsfeed/2026/9/30/pakistan-vows-to-defend-saudi-arabia-against-houthis?traffic_source=rss",
+    "added_at": 1790759498.2889714,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.interfax.ru/russia/1119333",
+    "added_at": 1790759498.2889714,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://meduza.io/news/2026/09/30/posolstvo-rossii-v-irlandii-prigrozilo-yadernym-udarom-v-sluchae-popytki-blokady-kaliningradskoy-oblasti",
+    "added_at": 1790759498.2889714,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://tass.com/politics/2194923",
+    "added_at": 1790759498.2889714,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://news.google.com/rss/articles/CBMipAFBVV95cUxOMlZ3QkdfbXRsT3EtTkNmSGdINEtOUG1nX2RsRF81MzFVRU9lRXkydUpLTnVQZUlzS2REeUFEc2VBN3pmOXVlUjI4T3NiSXdVendJLVBYbnJzTWZBcEh1azdTTldDZkduT01XdEFLUENhOHhnMGk1UzRPZTZ5WWU3SWVFZDRRb1VzNFZWZXY2YXpvVDBDdXJ6ZVgtY1FkSTFRYkJwSg?oc=5",
+    "added_at": 1790759498.2889714,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.vedomosti.ru/auto/news/2026/09/30/1232998-flagmanskii-krossover-lada",
+    "added_at": 1790759498.2889714,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.cnews.ru/news/line/2026-09-30_lgoty_v_rossii_nachali_avtomaticheski",
+    "added_at": 1790759498.2889714,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "http://government.ru/news/60028/",
+    "added_at": 1790759498.2889714,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "http://government.ru/news/60024/",
+    "added_at": 1790759498.2889714,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.kommersant.ru/doc/8990255",
+    "added_at": 1790759498.2889714,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://meduza.io/news/2026/09/30/el-mundo-rossiyskie-vlasti-gotovili-ubiystvo-ili-ponomareva-i-garri-kasparova-v-ssha",
+    "added_at": 1790759498.2889714,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://adindex.ru/news/tendencies/2026/09/30/349396.phtml",
+    "added_at": 1790759498.2889714,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://meduza.io/news/2026/09/30/kommersant-gosudarstvo-bolshe-ne-budet-finansirovat-filmy-v-kotoryh-siloviki-berut-vzyatki",
+    "added_at": 1790759498.2889714,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://news.google.com/rss/articles/CBMitAFBVV95cUxQR29FdXlGc0pienNuQlZiUWtReG1xMXpYUy1haGpPSGZyV0s0dE55c3c4eEZUNnJBQkdmWE5kS3BlS0tCNVVrZ2tGTnFET3RyOUZSUlBnck5vYXJyYWZCYXNGWTNHN2lsNFkwaHl4VVhIdG5sZG5ZT2d0NVpoaDdGSF9xbUY0UG53b0JaTFFrZ20wZ2xJMGJMNU94UUZEMG1ock5GUEJPOGFpVUR5YW1XVlplUlA?oc=5",
+    "added_at": 1790759498.2889714,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://adindex.ru/news/researches/2026/09/30/349399.phtml",
+    "added_at": 1790759498.2889714,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://adindex.ru/news/design/2026/09/30/349398.phtml",
+    "added_at": 1790759498.2889714,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://adindex.ru/news/releases/2026/09/28/349304.phtml",
+    "added_at": 1790759498.2889714,
     "source": "parsed_feed"
   }
 ]
