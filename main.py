@@ -1050,11 +1050,22 @@ def generate_analytical_json(raw_data_prompt, recently_published_titles=None):
 
                 if response.status_code == 200:
                     result = response.json()
-                    gemini_meta["latency_sec"] = round(time.time() - gemini_call_start, 1)
-                    gemini_meta["attempts_used"] = total_attempts
-                    gemini_meta["fallback_used"] = False
-                    gemini_meta["model_used"] = model_name
-                    return result["candidates"][0]["content"]["parts"][0]["text"], gemini_meta
+                    raw_text = result["candidates"][0]["content"]["parts"][0]["text"]
+
+                    # Проверяем, что это действительно валидный JSON —
+                    # если нет, не отдаём клиенту сломанный ответ, а идём дальше
+                    # (следующая модель или Groq).
+                    try:
+                        json.loads(clean_json_str(raw_text))
+                        gemini_meta["latency_sec"] = round(time.time() - gemini_call_start, 1)
+                        gemini_meta["attempts_used"] = total_attempts
+                        gemini_meta["fallback_used"] = False
+                        gemini_meta["model_used"] = model_name
+                        return raw_text, gemini_meta
+                    except Exception as e:
+                        print(f"   ⚠️  {model_name} вернула невалидный JSON ({str(e)[:80]}), пробуем следующую.")
+                        gemini_meta["last_bad_json_model"] = model_name
+                        break  # выходим из retry-цикла по этой модели, идём к следующей
 
                 print(f"❌ Ошибка Gemini API ({response.status_code}): {response.text[:200]}")
                 response.raise_for_status()
@@ -1162,14 +1173,55 @@ def postprocess_pr_classification(data, news_db):
     return data
 
 def clean_json_str(raw_str):
-    clean = raw_str.strip()
-    if clean.startswith("```json"):
-        clean = clean[7:]
-    elif clean.startswith("```"):
-        clean = clean[3:]
-    if clean.endswith("```"):
-        clean = clean[:-3]
-    return clean.strip()
+    """Извлекает первый сбалансированный JSON-объект из ответа модели.
+    Устойчив к: markdown-обёртке (```json ... ```), тексту до/после JSON,
+    и 'Extra data' (когда модель дописывает что-то после закрывающей скобки).
+    Это критично, потому что Gemini иногда возвращает валидный JSON плюс
+    лишний текст — и json.loads падает на 'Extra data', хотя JSON внутри есть."""
+    if not raw_str:
+        return raw_str
+
+    s = raw_str.strip()
+
+    # Снимаем markdown-обёртку
+    if s.startswith("```json"):
+        s = s[7:]
+    elif s.startswith("```"):
+        s = s[3:]
+    if s.endswith("```"):
+        s = s[:-3]
+    s = s.strip()
+
+    # Находим первый { и балансируем скобки
+    start = s.find("{")
+    if start == -1:
+        return s
+
+    depth = 0
+    in_string = False
+    escape = False
+    for i in range(start, len(s)):
+        ch = s[i]
+        if escape:
+            escape = False
+            continue
+        if ch == "\\":
+            escape = True
+            continue
+        if ch == '"':
+            in_string = not in_string
+            continue
+        if in_string:
+            continue
+        if ch == "{":
+            depth += 1
+        elif ch == "}":
+            depth -= 1
+            if depth == 0:
+                return s[start:i+1]
+
+    # Баланс не сошёлся — вернём что есть (пусть json.loads упадёт с понятной ошибкой)
+    return s[start:]
 
 def sanitize_summary_text(text):
     if not text:
