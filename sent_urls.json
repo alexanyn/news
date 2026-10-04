@@ -1,80 +1,5 @@
 [
   {
-    "url": "https://www.rbc.ru/politics/18/09/2026/6aac4d2888eae288a2cbe6fb",
-    "added_at": 1790521465.7493515,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.axios.com/2026/09/27/trump-iran-war-hormuz-blockade-negotiations",
-    "added_at": 1790521465.7493515,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://news.google.com/rss/articles/CBMivgFBVV95cUxNWDBXOERyeHNlTHNTNkNZbklUQUVPTGpIbVpBTzB6dV81dHkwYVRzd2JsOTg2RGg5cEZSZzdKcERpbG5YTm1zMWZyY01BYy1fb3ZyWHRZeTVqREdHTjRlLVNTbl8tdGlMUVhqbUZFSU9uOHp5dVJJS0hKMEp3QlA2enUtTWNremhqVHBCNUxzMTVBcmdmOC1HdlBvbExXSUE5dVdWNmRZYjJxY19ublJjY3pSWUt0OVVlZUg0WlpR?oc=5",
-    "added_at": 1790521465.7493515,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://news.google.com/rss/articles/CBMitgFBVV95cUxQcjhKd2FaWmFDNGx6VVBvd1AxMkp4MmQwek85Nzl4bWlrOEFaWmo4U190dW5zb0dOQnVXakYtWi1CTHJyZWo4T3lqRnYwVGszOEJ3M3NHMFlMU3pxSkM5WkljTkxLVU5VakNUTkhhZUFBMzQ4bHVBQldaV3k0T1JsMER3X3hzZkhvZmkzR05rSXJGWXBtdWo2OG9oN3hzVHdqU2hyQ3lvZ25BSUtuaE9qaVJhSnA1QQ?oc=5",
-    "added_at": 1790521465.7493515,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://t.me/the_financial_times_journal/8551",
-    "added_at": 1790521465.7493515,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://t.me/the_financial_times_journal/8550",
-    "added_at": 1790521465.7493515,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.politico.eu/article/eu-commission-calls-for-gas-electricity-demand-cuts/?utm_source=RSS_Feed&utm_medium=RSS&utm_campaign=RSS_Syndication",
-    "added_at": 1790521465.7493515,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.axios.com/2026/09/27/terrorism-raf-fairford-base-us-air-force",
-    "added_at": 1790521465.7493515,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.rbc.ru/rbcfreenews/6ab63de98cf5f08e445382b5",
-    "added_at": 1790521465.7493515,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.rbc.ru/politics/22/09/2026/6ab2b25a0d60672077f36012",
-    "added_at": 1790521465.7493515,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.vedomosti.ru/business/news/2026/09/27/1232179-nestle-izuchaet-varianti",
-    "added_at": 1790521465.7493515,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.kommersant.ru/doc/8988100",
-    "added_at": 1790521465.7493515,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.kommersant.ru/doc/8988098",
-    "added_at": 1790521465.7493515,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.interfax.ru/russia/1118770",
-    "added_at": 1790521465.7493515,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://news.google.com/rss/articles/CBMiuAFBVV95cUxQcFZ5WUxFd2RrZk8yRDNSUlByZkEzZlFENVd0YnBDZFNtcGJaa1doTFA3U19IQjBDUW5jM3NXQ2NSdHBMUzdsckd2Z3NMenExYlBWdjhrTmxOWlZpNzFNbXFrbk9CRWhmelVYTFkwTV9yUF83VVlkRXhQVWVfMkstLUZXS21TaUNiaDhjTWNCeXlkaENfTFo0aWc0LWJmM3lhM25tclVuUklkM3ZpSGN2ZEpsYlNPUWtt?oc=5",
-    "added_at": 1790521465.7493515,
-    "source": "parsed_feed"
-  },
-  {
     "url": "https://www.bbc.co.uk/news/articles/cwjdvml9e897o?at_medium=RSS&at_campaign=rss",
     "added_at": 1790532702.2725713,
     "source": "parsed_feed"
@@ -6847,6 +6772,116 @@
   {
     "url": "https://news.google.com/rss/articles/CBMixwFBVV95cUxOUnpBN2cyeE9WOFJaZEFZYnlxS1FmaTd1N0FyNFF5alhsakVnQ1Y0Nkd2VjQzY213WTl4Nzg1X3N0a2pjc0I3bXJCcDlBTUdhNlVfZWlnak92bWxwdjJvYzBtZ3c2TlVfMlNUTlFUN3JudG0wQmh1cnRDZnplbkc1TnRoMW5tLUp1Q3h3QXBCVHN1Wll3dDl3RjlTUEZJenUxQjZlQmgzRmprcnpiUWlyd1pkS1BCUWJSUEotekY1V09YMmRuQ2lR?oc=5",
     "added_at": 1791115923.6203606,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.aljazeera.com/news/2026/10/4/dodik-declared-bosnia-dead-irrelevant-rhetoric-or-serious-threat?traffic_source=rss",
+    "added_at": 1791126812.1814685,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.aljazeera.com/video/newsfeed/2026/10/4/somali-president-ethiopia-can-access-our-port-but-must-negotiate?traffic_source=rss",
+    "added_at": 1791126812.1814685,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.vedomosti.ru/politics/news/2026/10/04/1234090-ubiistvo-na-okinave",
+    "added_at": 1791126812.1814685,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.scmp.com/news/china/diplomacy/article/3369678/china-urged-build-system-protect-expanding-overseas-interests?utm_source=rss_feed",
+    "added_at": 1791126812.1814685,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://news.google.com/rss/articles/CBMitAFBVV95cUxNbzQxSFhvb0lYekZDUDA4UlhCc2lJdDZNWFNUV0pVMTVXSW5QX2NQSXc4M01wc25mRlY0dDNuU21Kb1ZaVVJoWDRPUUJsbjk0NnAwd2duc2ZTZ1Y2cU5udUlHMEtGSkZ6QjdRZkRHWmNWTGNXa2VvdXhROFhVb1QtQmhKMUwzMXdsLTRwWXhDdHdYUm4xOUlvelJtWTA5blQwdS1JdEh3aHI2ZmdtWG9WWE1lSHY?oc=5",
+    "added_at": 1791126812.1814685,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.kommersant.ru/doc/9005926",
+    "added_at": 1791126812.1814685,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.mckinsey.com/industries/industrials/our-insights/siemens-next-reinvention-an-interview-with-cedrik-neike",
+    "added_at": 1791126812.1814685,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.axios.com/2026/10/04/reflection-open-weight-ai",
+    "added_at": 1791126812.1814685,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://t.me/neftegazchannel/28161",
+    "added_at": 1791126812.1814685,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.kommersant.ru/doc/9005954",
+    "added_at": 1791126812.1814685,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.bbc.co.uk/news/articles/cqm249v07j4xo?at_medium=RSS&at_campaign=rss",
+    "added_at": 1791126812.1814685,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.interfax.ru/business/1120256",
+    "added_at": 1791126812.1814685,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.rbc.ru/politics/03/10/2026/6ac0bcecfe1f9292e203d83b",
+    "added_at": 1791126812.1814685,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.rbc.ru/politics/31/08/2026/6a958716d2218d13ecc35d7e",
+    "added_at": 1791126812.1814685,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.kommersant.ru/doc/9005948",
+    "added_at": 1791126812.1814685,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://news.google.com/rss/articles/CBMi2AFBVV95cUxPQUNqVmtsZDZlT0I2VGt6UWlobXBwUFZlN2R0cmpoU2JwNzc3VWVwZXhicUNMalRidEUzdU5mMEJJTVFpMDBjRFg0ajFYNU1iT0FLS2lsTDY1Xy1lVGhfRVVRRnRwM1RTS2pWY0RRRlhRQ1ZyV2Y1cElLNWp6SXl1Y0RBVEZwRjRQZ2xEeHNTVEhzUUJGNDZtcGR5ZTV3d1JyZTBfdENTS3FpcVBnM2lWYzI2YWpTaElpT1gwcnVVbEpnSjJBbkFPdEJwUGoteU5TOFpSaURzWmo?oc=5",
+    "added_at": 1791126812.1814685,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.interfax.ru/russia/1120257",
+    "added_at": 1791126812.1814685,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://tass.com/economy/2197385",
+    "added_at": 1791126812.1814685,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://t.me/neftegazchannel/28160",
+    "added_at": 1791126812.1814685,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.interfax.ru/russia/1120255",
+    "added_at": 1791126812.1814685,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://t.me/istories_media/13766",
+    "added_at": 1791126812.1814685,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://news.google.com/rss/articles/CBMirgFBVV95cUxPMkxKZkNwUUdycVRRM3VvU1BRQi1yUzZ1S1B0Y1U5RFlSamxOaFE5WWNCSGtELTQtMG1mVGhxY2taOW9IV0ZXNTF1NjUxc2FiVmhSaVpURGNUYzNNSmliVUdZY1I5LXhSTTdLakpYNkJMdjZQZVNPSmdjQmtTdzhmWjcwRHJMV2dqTGNZaU9TbnBkVGRSOEJPUXh6TWliTWQ0UGN4WkotNUpiRjFLaGc?oc=5",
+    "added_at": 1791126812.1814685,
     "source": "parsed_feed"
   }
 ]
