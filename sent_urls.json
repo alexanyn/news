@@ -1,335 +1,5 @@
 [
   {
-    "url": "https://news.google.com/rss/articles/CBMiuwFBVV95cUxOWVA4TkVYNVNZdVQwNGlVdnh1THlUXzlrYm04SXVMeGdrOHhEZXVhMV9iZ3EyNGUwVlRkN0x0QmtQaC0zQXNjd0RYRjhnWmlDVlNLZ3pSaGlVMTFRbEtCRHg2eVhkME9VMEFncTQ0Nk5rV0ljTFdxNENxU2xiNjQ4WEhDMF9STXg1N3JXT3YwcGxQbURCeEVHSXNiTW4zNk5rc0hhamFYLWFpMkhGSFZ3TF9HbzR2NWhxZ0tZ?oc=5",
-    "added_at": 1790500299.9999688,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.kommersant.ru/doc/8987969",
-    "added_at": 1790500299.9999688,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.scmp.com/news/china/diplomacy/article/3368941/why-southeast-asia-feels-relief-and-caution-after-xi-trump-summit?utm_source=rss_feed",
-    "added_at": 1790500299.9999688,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.interfax.ru/world/1118743",
-    "added_at": 1790500299.9999688,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.kommersant.ru/doc/8987963",
-    "added_at": 1790500299.9999688,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://asia.nikkei.com/business/food-beverage/more-sugar-salt-or-fat-india-tells-brands-to-flag-content-clearly",
-    "added_at": 1790500299.9999688,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://t.me/the_financial_times_journal/8546",
-    "added_at": 1790500299.9999688,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://t.me/the_financial_times_journal/8548",
-    "added_at": 1790500299.9999688,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://t.me/the_financial_times_journal/8547",
-    "added_at": 1790500299.9999688,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://asia.nikkei.com/business/china-tech/china-s-exoskeleton-robots-muscle-into-the-consumer-mainstream",
-    "added_at": 1790500299.9999688,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.rbc.ru/politics/23/09/2026/6ab3559386e25f3cc3f0facc",
-    "added_at": 1790500299.9999688,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://news.google.com/rss/articles/CBMilwFBVV95cUxPOThaUHcwMHZuZEY2dldUNjhYQ29PeWRJdEYxWFBPV3NEUUdSc0l4MkdhN3liTGdyNG9XaEhwWG8xRk8xR29JVlA0ZEV2ZXM3RVZCRDlPSHhzU29Pek9tZVREdUdvOHRXS1ZuaTR0TXVGV253bkplU1lNbG85WXRjYzcwV2ZSekFCa1gtR1RtV09zM3NYeF93?oc=5",
-    "added_at": 1790500299.9999688,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.aljazeera.com/video/newsfeed/2026/9/27/suicide-bombing-in-northwest-pakistan-kills-at-least-12?traffic_source=rss",
-    "added_at": 1790500299.9999688,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.vedomosti.ru/lifestyle/news/2026/09/27/1232145-fide-ostavila",
-    "added_at": 1790500299.9999688,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://t.me/istories_media/13685",
-    "added_at": 1790500299.9999688,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.kommersant.ru/doc/8987945",
-    "added_at": 1790500299.9999688,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.rbc.ru/rbcfreenews/6a993249bd1c8a8758511b1a",
-    "added_at": 1790500299.9999688,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://t.me/neftegazchannel/28072",
-    "added_at": 1790500299.9999688,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://t.me/neftegazchannel/28073",
-    "added_at": 1790500299.9999688,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.interfax.ru/russia/1118741",
-    "added_at": 1790500299.9999688,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://meduza.io/news/2026/09/27/the-washington-post-ssha-i-rossiya-isklyuchili-iz-proekta-soglasheniya-po-ii-oruzhiyu-punkt-o-proverke-tseley-chelovekom",
-    "added_at": 1790500299.9999688,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.rbc.ru/politics/27/09/2026/6ab8da1175d4be385637e2b2",
-    "added_at": 1790500299.9999688,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://news.google.com/rss/articles/CBMitAFBVV95cUxNWHFmNzhleVFtVHNiMHZNN2JEeWxxS25BZkJGYTZ4d0lRODhZdHhKUnI3LTNMWHlMTTZiaDdkaDlabGl3Uld5dXdqVFdjMVNIRFVrNk8waXl4d1EwNF9hSEVaV2tiTGs5TjA5ZkZjNUptSi1xdFlNNG5NMnZOdXdCSDFSNmpjR0ZzdVF4bWJzZThBOFNuXy1aSndCdjZmSVFqTjc3VWVSNllOcFk4THNhb2t5OFk?oc=5",
-    "added_at": 1790511071.8308547,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://news.google.com/rss/articles/CBMisAFBVV95cUxQSDl0UzBQZFNRMUNTNWZpRnNkVVVILXI5Vk5RRmV1bk5UeURhMWZWbjZkVklUVktUWGlsdmFORXVIQ0pDLWFfRWlxeGhtUl81Y1BlQ21XVThzX2hUSHVualNRdFdHZFIwbk5EaDBkUlBMN3hkV0ljMVJxVklMMHhXaEpwalNGZUVzVi03QnNFaFNuMTVTVHhtaWpoWnJXWFM2YUEwNWRMVS10RXk0VTZlUQ?oc=5",
-    "added_at": 1790511071.8308547,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.bbc.co.uk/news/articles/cm5y5nj8ejj8o?at_medium=RSS&at_campaign=rss",
-    "added_at": 1790511071.8308547,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.bbc.co.uk/news/articles/ck5ywnp075d1o?at_medium=RSS&at_campaign=rss",
-    "added_at": 1790511071.8308547,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.aljazeera.com/news/2026/9/27/no-role-for-unrwa-in-gaza-does-the-board-of-peace-toe-israeli-lines?traffic_source=rss",
-    "added_at": 1790511071.8308547,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.aljazeera.com/features/2026/9/27/my-hands-are-empty-displaced-palestinians-struggle-to-survive?traffic_source=rss",
-    "added_at": 1790511071.8308547,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://asia.nikkei.com/business/markets/property/japan-s-nozawa-onsen-ski-resort-curbs-development-of-tall-hotels",
-    "added_at": 1790511071.8308547,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://asia.nikkei.com/business/food-beverage/chicken-and-fermented-tea-leaves-kfc-serves-up-a-local-twist-in-myanmar",
-    "added_at": 1790511071.8308547,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.politico.eu/article/northern-ireland-orange-order-garvaghy-road-parade-standoff/?utm_source=RSS_Feed&utm_medium=RSS&utm_campaign=RSS_Syndication",
-    "added_at": 1790511071.8308547,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.scmp.com/lifestyle/health-wellness/article/3368656/hidden-risks-using-traditional-chinese-medicine-western-prescriptions?utm_source=rss_feed",
-    "added_at": 1790511071.8308547,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://asia.nikkei.com/life-arts/life/turkey-aims-to-turn-wwi-shipwrecks-into-diving-hub",
-    "added_at": 1790511071.8308547,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.scmp.com/news/hong-kong/society/article/3368956/3-hikers-fall-ill-hong-kong-trails-temperatures-top-33-degrees?utm_source=rss_feed",
-    "added_at": 1790511071.8308547,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://news.google.com/rss/articles/CBMingFBVV95cUxQbVBhbkluN19hdE9jdGtYdDdlZXNYWGd3T25HUGREMlVVb2ZZWmlrYU0tYTJreW9YcjlMeUhwdXp2UlNPMTFtUXFOWVh6enk2TG45VEtKNEw1bnZKdTUyQnhNdmZ1VmhEYXhYZkFObl9KcHROa1h0S2QyVE83MnQwMnp5bjN2UTM4NmpKeUM5eFNTQzg4RXRCWFNpZEhmdw?oc=5",
-    "added_at": 1790511071.8308547,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.aljazeera.com/news/2026/9/27/israeli-minister-bezalel-smotrich-calls-for-war-in-occupied-west-bank?traffic_source=rss",
-    "added_at": 1790511071.8308547,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.aljazeera.com/news/2026/9/27/yemen-government-forces-widen-attacks-against-houthis-what-we-know?traffic_source=rss",
-    "added_at": 1790511071.8308547,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.aljazeera.com/video/newsfeed/2026/9/27/plane-carrying-dr-congo-military-delegation-crashes?traffic_source=rss",
-    "added_at": 1790511071.8308547,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://tass.com/defense/2193609",
-    "added_at": 1790511071.8308547,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://tass.com/defense/2193607",
-    "added_at": 1790511071.8308547,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://tass.com/defense/2193605",
-    "added_at": 1790511071.8308547,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.scmp.com/news/asia/southeast-asia/article/3368955/bangkok-flood-warnings-came-too-late-thais-say-worst-flood-15-years?utm_source=rss_feed",
-    "added_at": 1790511071.8308547,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.interfax.ru/world/1118758",
-    "added_at": 1790511071.8308547,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.interfax.ru/moscow/1118755",
-    "added_at": 1790511071.8308547,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.interfax.ru/world/1118746",
-    "added_at": 1790511071.8308547,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.kommersant.ru/doc/8988033",
-    "added_at": 1790511071.8308547,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.kommersant.ru/doc/8988025",
-    "added_at": 1790511071.8308547,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.kommersant.ru/doc/8988020",
-    "added_at": 1790511071.8308547,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.vedomosti.ru/politics/news/2026/09/27/1232165-mironov-obyasnil-istoricheski",
-    "added_at": 1790511071.8308547,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://news.google.com/rss/articles/CBMiogFBVV95cUxPWG9hU2FJSExmSmhDdnZXSkVKNUFaRXFwUHZranRRcHY5cmNULWt6Q3RtemI2MzF2cVlqd013UUVGaFRMMG9VLXVnci14VVFCMzI2c2M3QjRaaXhpRFFUZE11VEM3MEtkenFIQ2ZyUjdvYjNPZ2k2elB4MVNRSlNLczRUX1U3TjcxOWZLc0VyOF9oVVVvS0dXMkRXaXdfTkJtSkE?oc=5",
-    "added_at": 1790511071.8308547,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://t.me/moscowcsr/5132",
-    "added_at": 1790511071.8308547,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.rbc.ru/politics/18/09/2026/6aad5aa5bbc0b92535397d5b",
-    "added_at": 1790511071.8308547,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.rbc.ru/sport/25/09/2026/6ab629469a79476ff318062e",
-    "added_at": 1790511071.8308547,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.rbc.ru/rbcfreenews/6ab65ac49a7947b50fb75613",
-    "added_at": 1790511071.8308547,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.vedomosti.ru/politics/news/2026/09/27/1232161-zaharova-otreagirovala",
-    "added_at": 1790511071.8308547,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://t.me/istories_media/13686",
-    "added_at": 1790511071.8308547,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://t.me/neftegazchannel/28074",
-    "added_at": 1790511071.8308547,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.interfax.ru/russia/1118757",
-    "added_at": 1790511071.8308547,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.interfax.ru/russia/1118754",
-    "added_at": 1790511071.8308547,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.kommersant.ru/doc/8988019",
-    "added_at": 1790511071.8308547,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.kommersant.ru/doc/8988017",
-    "added_at": 1790511071.8308547,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://meduza.io/feature/2026/09/27/voyna",
-    "added_at": 1790511071.8308547,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://meduza.io/news/2026/09/27/v-kremle-nazvali-predostavlenie-starlink-dlya-udarov-po-tselyam-v-glubine-rossii-pagubnym-potentsialno-opasnym-i-oprometchivym-shagom",
-    "added_at": 1790511071.8308547,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.rbc.ru/politics/25/09/2026/6ab6658d9a79479e1027450f",
-    "added_at": 1790511071.8308547,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.rbc.ru/rbcfreenews/6ab41d96c0af12c4a653a79f",
-    "added_at": 1790511071.8308547,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.vedomosti.ru/politics/news/2026/09/27/1232162-ukrainskii-proizvoditel",
-    "added_at": 1790511071.8308547,
-    "source": "parsed_feed"
-  },
-  {
     "url": "https://www.rbc.ru/politics/18/09/2026/6aac4d2888eae288a2cbe6fb",
     "added_at": 1790521465.7493515,
     "source": "parsed_feed"
@@ -7087,6 +6757,96 @@
   {
     "url": "https://tass.com/politics/2197259",
     "added_at": 1791104789.9325385,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.rbc.ru/politics/04/06/2026/6a205b769a79471e9d13732a",
+    "added_at": 1791115923.6203606,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://asia.nikkei.com/economy/thai-protestors-slam-chinese-other-foreign-companies-as-economy-slows",
+    "added_at": 1791115923.6203606,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.scmp.com/news/asia/southeast-asia/article/3369705/malaysia-repatriates-1500-myanmar-nationals-despite-un-risk-warnings?utm_source=rss_feed",
+    "added_at": 1791115923.6203606,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.rbc.ru/politics/04/10/2026/6ac1ea18bd2bd6ca35bf5463",
+    "added_at": 1791115923.6203606,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.whitehouse.gov/releases/2026/10/us-leads-international-coalition-to-endorse-kyoto-vision-for-a-golden-age-of-science/",
+    "added_at": 1791115923.6203606,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.vedomosti.ru/technology/news/2026/10/04/1234072-google-s-9-oktyabrya",
+    "added_at": 1791115923.6203606,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://t.me/neftegazchannel/28157",
+    "added_at": 1791115923.6203606,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://t.me/neftegazchannel/28159",
+    "added_at": 1791115923.6203606,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.aljazeera.com/news/2026/10/4/is-the-sudanese-army-gaining-momentum-against-the-rsf?traffic_source=rss",
+    "added_at": 1791115923.6203606,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://tass.com/politics/2197275",
+    "added_at": 1791115923.6203606,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.cnews.ru/news/top/2026-10-03_v_rossii_k_2031_godu_hotyat_postroit",
+    "added_at": 1791115923.6203606,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.bbc.co.uk/news/articles/ckreyjzzzywqo?at_medium=RSS&at_campaign=rss",
+    "added_at": 1791115923.6203606,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.interfax.ru/russia/1120239",
+    "added_at": 1791115923.6203606,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://meduza.io/news/2026/10/04/minoborony-rf-ob-yavilo-o-zapuske-globalnoy-sistemy-monitoringa-obstanovki-v-kosmose",
+    "added_at": 1791115923.6203606,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://tass.com/defense/2197293",
+    "added_at": 1791115923.6203606,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://t.me/istories_media/13761",
+    "added_at": 1791115923.6203606,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://t.me/istories_media/13762",
+    "added_at": 1791115923.6203606,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://news.google.com/rss/articles/CBMixwFBVV95cUxOUnpBN2cyeE9WOFJaZEFZYnlxS1FmaTd1N0FyNFF5alhsakVnQ1Y0Nkd2VjQzY213WTl4Nzg1X3N0a2pjc0I3bXJCcDlBTUdhNlVfZWlnak92bWxwdjJvYzBtZ3c2TlVfMlNUTlFUN3JudG0wQmh1cnRDZnplbkc1TnRoMW5tLUp1Q3h3QXBCVHN1Wll3dDl3RjlTUEZJenUxQjZlQmgzRmprcnpiUWlyd1pkS1BCUWJSUEotekY1V09YMmRuQ2lR?oc=5",
+    "added_at": 1791115923.6203606,
     "source": "parsed_feed"
   }
 ]
