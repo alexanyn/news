@@ -1,29 +1,8 @@
 {
   "stale_urls": [
-    "https://feeds.a.dj.com/rss/RSSWorldNews.xml",
-    "https://www.atlanticcouncil.org/feed/",
-    "https://www.brookings.edu/feed/",
-    "https://carnegieendowment.org/rss/publications/",
-    "https://news.google.com/rss/search?q=site:forecast.ru&hl=ru&gl=RU&ceid=RU:ru",
-    "https://news.google.com/rss/search?q=site:veb.ru+\u0438\u043d\u0441\u0442\u0438\u0442\u0443\u0442&hl=ru&gl=RU&ceid=RU:ru",
-    "https://news.google.com/rss/search?q=site:fred.stlouisfed.org&hl=en-US&gl=US&ceid=US:en",
-    "https://russiancouncil.ru/rss/",
-    "https://news.google.com/rss/search?q=%22FT+Due+Diligence%22&hl=en-US&gl=US&ceid=US:en",
-    "https://news.google.com/rss/search?q=site:bain.com+insights+-jobs+-careers+-hiring&hl=en-US&gl=US&ceid=US:en",
-    "https://restofworld.org/feed/",
-    "https://stratechery.com/feed/",
-    "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&type=10-K&dateb=&owner=include&count=40&output=atom",
-    "https://imaa-institute.org/feed/",
-    "https://news.google.com/rss/search?q=site:congress.gov&hl=en-US&gl=US&ceid=US:en",
-    "https://news.google.com/rss/search?q=site:csr.ru&hl=ru&gl=RU&ceid=RU:ru",
-    "https://news.google.com/rss/search?q=site:ourworldindata.org&hl=en-US&gl=US&ceid=US:en",
-    "https://news.google.com/rss/search?q=%22Money+Stuff%22+Bloomberg&hl=en-US&gl=US&ceid=US:en",
-    "https://news.google.com/rss/search?q=site:rosstat.gov.ru&hl=ru&gl=RU&ceid=RU:ru",
-    "https://news.google.com/rss/search?q=%22Minchenko+Consulting%22&hl=ru&gl=RU&ceid=RU:ru",
-    "https://news.google.com/rss/search?q=site:raso.ru&hl=ru&gl=RU&ceid=RU:ru",
-    "https://news.google.com/rss/search?q=site:akospr.ru&hl=ru&gl=RU&ceid=RU:ru",
-    "https://www.rand.org/news.xml",
-    "https://newsroom.cipr.co.uk/feed/en"
+    "https://news.google.com/rss/search?q=site:imemo.ru&hl=ru&gl=RU&ceid=RU:ru",
+    "https://news.google.com/rss/search?q=site:valdaiclub.com&hl=ru&gl=RU&ceid=RU:ru",
+    "https://www.readthediff.com/feed"
   ],
-  "checked_at": "2026-09-28T16:08:46.077096+03:00"
+  "checked_at": "2026-10-05T16:51:22.781390+03:00"
 }
