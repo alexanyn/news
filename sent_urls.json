@@ -1,615 +1,5 @@
 [
   {
-    "url": "https://www.bbc.co.uk/news/articles/cq8r6rjdvlx6o?at_medium=RSS&at_campaign=rss",
-    "added_at": 1790856782.0098495,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.aljazeera.com/video/newsfeed/2026/10/1/01-10-clip-shahi-mosque-demolition-minaret-in?traffic_source=rss",
-    "added_at": 1790856782.0098495,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.aljazeera.com/sports/2026/10/1/alex-eala-loses-asian-games-semifinal-to-chinas-wang-xiyu?traffic_source=rss",
-    "added_at": 1790856782.0098495,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.themoscowtimes.com/2026/10/01/russia-expels-group-of-hungarian-diplomats-in-tit-for-tat-move-a93840",
-    "added_at": 1790856782.0098495,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.themoscowtimes.com/2026/10/01/government-submits-3-year-budget-to-state-duma-with-record-88bln-2026-deficit-a93836",
-    "added_at": 1790856782.0098495,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://tass.com/economy/2195649",
-    "added_at": 1790856782.0098495,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://tass.com/economy/2195647",
-    "added_at": 1790856782.0098495,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.technologyreview.com/2026/10/01/1145435/distributed-batteries/",
-    "added_at": 1790856782.0098495,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://asia.nikkei.com/politics/india-s-opposition-steps-up-calls-to-oust-election-commission-head",
-    "added_at": 1790856782.0098495,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://news.google.com/rss/articles/CBMitgFBVV95cUxOY1ktRV9LU1psWnUxWXJNRk8tckJ0MU5XbXluSmR6RUFMOVJtMmhnZ1FTMF9mVjI0azhRNHpGNFVPSVdmLTdBNUdERTVTVVo5dVZ4dUNVTFF3QmVRVWtLMGFscDVISWRkTGkwb2xWUHRJanJLa2ltWm9ienJJSEI4RVFSSXY5V2NvMkJBTkxYSHlUSUk5ZkE5OHdqUVdFVU93MEFLbHhFVUpPcnlaaThvU3p0LVg4Zw?oc=5",
-    "added_at": 1790856782.0098495,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://tass.com/world/2195651",
-    "added_at": 1790856782.0098495,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://asia.nikkei.com/economy/trade/europe-businesses-seek-eu-asean-trade-pact-after-philippine-deal",
-    "added_at": 1790856782.0098495,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://news.google.com/rss/articles/CBMirwFBVV95cUxQbzU3NnV4NFhNazRXQzVkeTV6VVNBSzUyUE0yM25SWGQtaFM1YkU4Y1htNWMtYXBPcU9pRDZfZUhSQnZyYnpvWWJ5ZGE4T3ZPOEZrN3IzeHBxMURHQlZySUhfQTBrb0FPdUxFSHRjVEd2ZFh2VGVuMjluVDhxYmhDa2hHc3hnV1p6c1hxaDJaa0VCQXQ3NmhackVWSVBJRlpXMzJXQ3Q2UHlhVXFaMDNN?oc=5",
-    "added_at": 1790856782.0098495,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.aljazeera.com/video/newsfeed/2026/10/1/afghanistan-says-pakistani-airstrikes-killed-women-and-children?traffic_source=rss",
-    "added_at": 1790856782.0098495,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.technologyreview.com/2026/10/01/1145588/ai-mind-reading-reconstructs-what-youre-looking-at/",
-    "added_at": 1790856782.0098495,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://asia.nikkei.com/business/business-deals/jardines-dfi-retail-swaps-maxim-s-stake-for-starbucks-license-and-340m",
-    "added_at": 1790856782.0098495,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.mckinsey.com/capabilities/strategy-and-corporate-finance/our-insights/the-cash-hiding-in-plain-sight",
-    "added_at": 1790856782.0098495,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.mckinsey.com/capabilities/strategy-and-corporate-finance/our-insights/the-ceos-singular-impact-on-the-success-or-failure-of-ai-in-organizations",
-    "added_at": 1790856782.0098495,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://ec.europa.eu/commission/presscorner/detail/en/statement_26_2045",
-    "added_at": 1790856782.0098495,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.politico.eu/article/latvia-detains-two-suspected-russia-spies-nato-base-surveillance/?utm_source=RSS_Feed&utm_medium=RSS&utm_campaign=RSS_Syndication",
-    "added_at": 1790856782.0098495,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://news.google.com/rss/articles/CBMiuAFBVV95cUxQT1RDU0l3eU5nTnBlVmRsYkpBYTdSTEVRRE1WRk1qbVZYT0MxVzVMSWJMbHk3OElRU1M5RHlGXzV6UWFSdVJiU0cydV9qMlZvSE9mV0ZCcEZSVzJyVGx4X2x2SFJYTUw4N2lialRSOFoxSElUSHVMQ3RHZHZBamNQU21WdWJhbmJHUG9mXzFPbGpfbDRkUzBMYlVOODBPMUc1TTZzSHJYc0d5ME5Ud1NGQjR3d0xSUzdz?oc=5",
-    "added_at": 1790856782.0098495,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.aljazeera.com/video/newsfeed/2026/10/1/how-will-investigation-into-flydubai-flight-attack-unfold?traffic_source=rss",
-    "added_at": 1790856782.0098495,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.themoscowtimes.com/2026/10/01/russian-pro-war-writers-say-state-has-failed-them-a93838",
-    "added_at": 1790856782.0098495,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://tass.com/politics/2195643",
-    "added_at": 1790856782.0098495,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://tass.com/politics/2195645",
-    "added_at": 1790856782.0098495,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.scmp.com/news/world/united-states-canada/article/3369460/elon-musk-returns-us-government-pentagon-war-study?utm_source=rss_feed",
-    "added_at": 1790856782.0098495,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.semafor.com/article/10/01/2026/deepseek-huawei-announce-partnership-to-develop-ai-software",
-    "added_at": 1790856782.0098495,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.interfax.ru/russia/1119687",
-    "added_at": 1790856782.0098495,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.interfax.ru/russia/1119685",
-    "added_at": 1790856782.0098495,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.interfax.ru/world/1119684",
-    "added_at": 1790856782.0098495,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.interfax.ru/world/1119683",
-    "added_at": 1790856782.0098495,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.kommersant.ru/doc/8991371",
-    "added_at": 1790856782.0098495,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.kommersant.ru/doc/8991349",
-    "added_at": 1790856782.0098495,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.kommersant.ru/doc/8991319",
-    "added_at": 1790856782.0098495,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://meduza.io/feature/2026/10/01/pi-diddi-osuzhdennyy-za-seksualizirovannoe-nasilie-ochen-horosho-ustroilsya-v-tyurme",
-    "added_at": 1790856782.0098495,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://meduza.io/news/2026/10/01/posle-sanktsiy-es-ob-em-perevodov-mezhdu-rossiey-i-kazahstanom-sokratilsya-v-12-raz",
-    "added_at": 1790856782.0098495,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.rbc.ru/politics/18/03/2026/69ba8bb09a794766c9fe2206",
-    "added_at": 1790856782.0098495,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.kommersant.ru/doc/8991367",
-    "added_at": 1790856782.0098495,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://t.me/istories_media/13719",
-    "added_at": 1790856782.0098495,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.kommersant.ru/doc/8991354",
-    "added_at": 1790856782.0098495,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://adindex.ru/news/hr/2026/10/1/349448.phtml",
-    "added_at": 1790856782.0098495,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://t.me/istories_media/13720",
-    "added_at": 1790856782.0098495,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.interfax.ru/russia/1119688",
-    "added_at": 1790856782.0098495,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://meduza.io/news/2026/10/01/vlasti-rossii-planiruyut-v-2026-godu-poluchit-ot-biznesa-pochti-poltrilliona-rubley-dobrovolnyh-vznosov-v-byudzhet",
-    "added_at": 1790856782.0098495,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://meduza.io/feature/2026/10/01/kto-spas-ot-krusheniya-tot-samyy-reys-flydubai",
-    "added_at": 1790856782.0098495,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "http://government.ru/news/60055/",
-    "added_at": 1790856782.0098495,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://news.google.com/rss/articles/CBMiX0FVX3lxTFBaSjVvQ1k0cXNWalkxVXQtMTlvS2ZKanFqRjNDZ0pEMnlaQnFfNDNtZEpfVFZBOUwtYVlISlU3bjFkNkVDQlNva1FTWV9OQV9xTFVsSi0xS0FBWkJTUndj?oc=5",
-    "added_at": 1790856782.0098495,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.cnews.ru/news/line/2026-10-01_gruppa_astra_i_elron",
-    "added_at": 1790856782.0098495,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://t.me/tadviser/6300",
-    "added_at": 1790856782.0098495,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://t.me/moscowcsr/5170",
-    "added_at": 1790856782.0098495,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.vedomosti.ru/business/news/2026/10/01/1233430-pashinyan-moschnosti",
-    "added_at": 1790856782.0098495,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://t.me/neftegazchannel/28125",
-    "added_at": 1790856782.0098495,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.rbc.ru/sport/01/10/2026/6abe01b89a79476a23bfe50e",
-    "added_at": 1790856782.0098495,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://t.me/thebell_io/39309",
-    "added_at": 1790856782.0098495,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://news.google.com/rss/articles/CBMirwFBVV95cUxPNmVyeGwzZk0wM0xFckNWYVRTUzMwRURPMzRNQmNSNFoteHEyd3ZoSHR3RkMzYmlMbmhMd3pNVnZPNFdNaW8tdEoxUE1fTFBrYmtjQU9nc2Z0X1FDbjlNLWNnZXdqLW5YSE1HR1FWZl9rbDdRZi1hc25UUHo5QmNuOFlSMUFZVU1BZEdBT3NReG90dVQtS3JDUjlFQlZXVE1LcFAxbTl5Um1HREh4YzJB?oc=5",
-    "added_at": 1790867543.735974,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://news.google.com/rss/articles/CBMimgFBVV95cUxPZXhYVldUMzVuN1lHQXF1VndYSHltNTJCbllXemxNZjR3djROd1pnbnJEbVlwZW0xN1Jpb1hjNHMxTVZNR3JCcW93WnBOWFA4elZHaE1pSlA1MkdRN19ldUt2RE81SW5nOUM2eXJyR2lJWlVxTlZWRkoxY2ZWUDd1TlVYWENSa0p1Vm5MR0tQWTRlVXp6M29lQk5R?oc=5",
-    "added_at": 1790867543.735974,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://news.google.com/rss/articles/CBMiswFBVV95cUxPOGh2VVJIQXJKUVk4eUpFZXJETTBqU0Joa0xnNkY1ZlVKNnFPWHlxWnRfbkxJYmdnSnN0T2Nsc2JHN1dvUTFZeXVVTUY1LTV0bkRMTkNIX2xCZEZQTHRRWkhmWEhDam0wZVBVOHNlLTV6eV8wMDViMFJkV2lSUm9lWE04MnBzZjRJbTVNYXMtaHRNU1Baa1MxSzRjaGR6TlhrVGI0V0pLWVVDZ2tMUlVfZkFsZw?oc=5",
-    "added_at": 1790867543.735974,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.aljazeera.com/news/2026/10/1/uk-pm-burnham-says-iran-likely-behind-raf-base-incident-is-there-evidence?traffic_source=rss",
-    "added_at": 1790867543.735974,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://tass.com/economy/2195835",
-    "added_at": 1790867543.735974,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://tass.com/economy/2195809",
-    "added_at": 1790867543.735974,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://techcrunch.com/2026/10/01/photon-held-a-funeral-for-mobile-apps-now-it-has-4-5m-to-help-replace-them-with-agents/",
-    "added_at": 1790867543.735974,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://techcrunch.com/2026/10/01/amazon-introduces-kindle-click-a-35-remote-for-hands-free-reading/",
-    "added_at": 1790867543.735974,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://asia.nikkei.com/business/companies/nidec-s-new-chief-blames-expansion-drive-profit-chase-for-write-downs",
-    "added_at": 1790867543.735974,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.politico.eu/article/european-countries-agree-on-assertive-response-to-us-pressure-on-diesel/?utm_source=RSS_Feed&utm_medium=RSS&utm_campaign=RSS_Syndication",
-    "added_at": 1790867543.735974,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://news.google.com/rss/articles/CBMijwFBVV95cUxNZmNWZklVX1Y0cXZINHZiRloyWXJxMFNCZUp4QUZjWWd2Q1FrZ0UxQU05enFDSDltSU1WM1ItZHJVY3E2UU5rOHM2WXJUOXdXSFZ0cmoxRVFhUXY1cEdNM3lFUlFfM1VBanRaSDNYVmI4V215dGNpQ2RlUkV4ZTRQZkd0UjlBc3R4WlpCVVhTdw?oc=5",
-    "added_at": 1790867543.735974,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://asia.nikkei.com/business/aerospace-defense-industries/japan-satellite-maker-synspective-lands-20-launch-deal-with-rocket-lab",
-    "added_at": 1790867543.735974,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://asia.nikkei.com/business/business-deals/northern-japan-banks-to-kick-off-merger-talks-in-latest-consolidation-move",
-    "added_at": 1790867543.735974,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://news.google.com/rss/articles/CBMiywFBVV95cUxPRGZlbkRaLTZDYjR2X0pTS1haTjdXYTZmTmdUbUNKLU5rekF5VHQwaEJRcF9lT3NVcVlPNDhpaTc1TDRaYXJQSklxeThrYm1EWkR0bFFNWFo0c3Bfa2dzdTVBWGItRjI0TnBhOW0wSktUZEJTTERJcnpNMjNQdUpVeDQteHRXbFd2OGk4V0lXODNQczRibFJHNS1IT1ozWU9OalFsamRMVENfakFDTXpwNUhGM3FCbUdZcGktNlNfQTh4N0hBckxZT0E3UQ?oc=5",
-    "added_at": 1790867543.735974,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.bbc.co.uk/news/articles/ckge4eql4q7eo?at_medium=RSS&at_campaign=rss",
-    "added_at": 1790867543.735974,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://news.google.com/rss/articles/CBMirwFBVV95cUxQejhxS1FwVmI1bktBbVMycEQ4Z0RUa183RTREMDMxS2tUZV9FWEVqcktSeDBpS3AxRFRJQWg2ZDZvWDhPVm9NYmx3aGxwMFRXVTJpREVmRWNSYnU3MmtHNkJnTkxhNDVXZ1JvVWlKVTRQV0UyNUFtVVB1THlSZ1hQTXhBN0RTODlFdERDcU9RWkFOVWtiX2djcElfV082MTZpazVsZzk4WnA3aTRHVG9v?oc=5",
-    "added_at": 1790867543.735974,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.aljazeera.com/news/2026/10/1/hiv-prevention-drug-hailed-as-breakthrough-but-who-gets-access?traffic_source=rss",
-    "added_at": 1790867543.735974,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.aljazeera.com/video/newsfeed/2026/10/1/30-09-sv-india-palestine-protesters-mumbai-in?traffic_source=rss",
-    "added_at": 1790867543.735974,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.themoscowtimes.com/2026/10/01/kremlin-regrets-us-still-links-economic-ties-to-peace-in-ukraine-a93841",
-    "added_at": 1790867543.735974,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.themoscowtimes.com/2026/10/01/jailed-gulag-historian-in-stable-but-precarious-condition-after-suspected-stroke-source-says-a93839",
-    "added_at": 1790867543.735974,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://foreignpolicy.com/2026/10/01/artificial-intelligence-existential-anxiety-extremism-violence-united-states-china-policy/",
-    "added_at": 1790867543.735974,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.project-syndicate.org/commentary/putin-attacks-on-borders-trains-carrying-western-officials-test-of-nato-by-anna-husarska-2026-09?utm_source=rss&utm_medium=feed&utm_campaign=main&utm_content=en",
-    "added_at": 1790867543.735974,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.technologyreview.com/2026/10/01/1145592/the-download-ai-mind-reading-small-batteries/",
-    "added_at": 1790867543.735974,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://tass.com/politics/2195827",
-    "added_at": 1790867543.735974,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.politico.eu/article/trumps-energy-chief-asked-europe-to-release-more-than-a-third-of-its-diesel-reserves/?utm_source=RSS_Feed&utm_medium=RSS&utm_campaign=RSS_Syndication",
-    "added_at": 1790867543.735974,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://news.google.com/rss/articles/CBMitgFBVV95cUxQTi02ZkxUMzY1TkRkb0Uwd0Z2MTZHQmcxRkZnVlZvSGpZeFZFb1NaX0x5N0Q3bDRVcXoyMHdiVlVVT1g2TDA5dTVJTnVBZHBGME16VHBkUkktd3ZEOURPNFFRVHk5OFpIQ2h4cTBseEd4SXFnQ1ZKTlczaUIwd01fb0tLVWh3N3FmMnlHM0ZDQXlNeVZ1WHlicVcxR2xpWEd1bnpxSFpMR2g5NU5icmtYMzNjTF8tZw?oc=5",
-    "added_at": 1790867543.735974,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.bbc.co.uk/news/articles/c6y8z8kr5mk8o?at_medium=RSS&at_campaign=rss",
-    "added_at": 1790867543.735974,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.aljazeera.com/news/2026/10/1/blasts-heard-in-addis-ababa-as-ethiopia-conflict-widens-in-the-north?traffic_source=rss",
-    "added_at": 1790867543.735974,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.aljazeera.com/news/2026/10/1/russian-drone-hits-school-in-ukraines-kyiv-as-moscow-presses-air-assault?traffic_source=rss",
-    "added_at": 1790867543.735974,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.themoscowtimes.com/2026/10/01/russian-orthodox-church-denies-that-troops-lost-medieval-warrior-princes-relics-in-ukraine-a93845",
-    "added_at": 1790867543.735974,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.themoscowtimes.com/2026/10/01/russian-military-court-orders-senior-training-official-held-in-custody-a93842",
-    "added_at": 1790867543.735974,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://tass.com/politics/2195815",
-    "added_at": 1790867543.735974,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://tass.com/defense/2195799",
-    "added_at": 1790867543.735974,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://techcrunch.com/2026/10/01/the-new-kindle-ditches-the-bezel-in-a-push-toward-a-smaller-lighter-e-reader/",
-    "added_at": 1790867543.735974,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.politico.eu/article/andrius-kubilius-russia-attack-arms-factory-trigger-nato-military-response/?utm_source=RSS_Feed&utm_medium=RSS&utm_campaign=RSS_Syndication",
-    "added_at": 1790867543.735974,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.interfax.ru/russia/1119742",
-    "added_at": 1790867543.735974,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.interfax.ru/business/1119737",
-    "added_at": 1790867543.735974,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.interfax.ru/world/1119738",
-    "added_at": 1790867543.735974,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.kommersant.ru/doc/8991582",
-    "added_at": 1790867543.735974,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://meduza.io/news/2026/10/01/artem-dzyuba-ob-yavil-chto-zavershil-karieru",
-    "added_at": 1790867543.735974,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.cnews.ru/news/line/2026-10-01_pervyj_mgmu_imimsechenova",
-    "added_at": 1790867543.735974,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.cnews.ru/news/line/2026-10-01_alfastrahovanie_nachala",
-    "added_at": 1790867543.735974,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.rbc.ru/quote/01/10/2026/6abe3f009a7947fa3eb46f23",
-    "added_at": 1790867543.735974,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.vedomosti.ru/finance/news/2026/10/01/1233524-kurs-dollara",
-    "added_at": 1790867543.735974,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.vedomosti.ru/investments/news/2026/10/01/1233518-cherkizovo-dividendi",
-    "added_at": 1790867543.735974,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://t.me/thebell_io/39314",
-    "added_at": 1790867543.735974,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://t.me/the_financial_times_journal/8650",
-    "added_at": 1790867543.735974,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://t.me/the_financial_times_journal/8653",
-    "added_at": 1790867543.735974,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://t.me/the_financial_times_journal/8654",
-    "added_at": 1790867543.735974,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.interfax.ru/russia/1119740",
-    "added_at": 1790867543.735974,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.kommersant.ru/doc/8991578",
-    "added_at": 1790867543.735974,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.rbc.ru/rbcfreenews/63e655a49a79472c73295e4c",
-    "added_at": 1790867543.735974,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.cnews.ru/news/line/2026-10-01_rossiyane_nazvali_sfery_i",
-    "added_at": 1790867543.735974,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.vedomosti.ru/politics/news/2026/10/01/1233521-peskov-rossii-vengrii",
-    "added_at": 1790867543.735974,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://t.me/thebell_io/39315",
-    "added_at": 1790867543.735974,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://t.me/frank_media/24168",
-    "added_at": 1790867543.735974,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.interfax.ru/russia/1119739",
-    "added_at": 1790867543.735974,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.rbc.ru/rbcfreenews/6a9ae3e5226b7d108ef63cf8",
-    "added_at": 1790867543.735974,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://t.me/neftegazchannel/28129",
-    "added_at": 1790867543.735974,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://t.me/the_financial_times_journal/8651",
-    "added_at": 1790867543.735974,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://t.me/the_financial_times_journal/8652",
-    "added_at": 1790867543.735974,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.kommersant.ru/doc/8991567",
-    "added_at": 1790867543.735974,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://meduza.io/feature/2026/10/01/zhurnalistam-v-rossii-zapretili-samodeyatelnost-pri-osveschenii-byudzheta-na-2027-y",
-    "added_at": 1790867543.735974,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://meduza.io/feature/2026/10/01/voyna",
-    "added_at": 1790867543.735974,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "http://government.ru/news/60050/",
-    "added_at": 1790867543.735974,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://news.google.com/rss/articles/CBMiREFVX3lxTFBUaDR4MGxMemdvYTI3Tlc2UVhfMk5JSWMwcEZXWWVkUEZicmtGbkdZeC13TWVtOXM2dE1BMnJZMkdOR2l4?oc=5",
-    "added_at": 1790867543.735974,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://t.me/istories_media/13723",
-    "added_at": 1790867543.735974,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://adindex.ru/publication/analitics/search/2026/10/1/349465.phtml",
-    "added_at": 1790867543.735974,
-    "source": "parsed_feed"
-  },
-  {
     "url": "https://www.aljazeera.com/news/2026/10/1/despite-praise-and-white-house-visits-trump-avoids-endorsing-netanyahu?traffic_source=rss",
     "added_at": 1790878359.7913353,
     "source": "parsed_feed"
@@ -5977,6 +5367,166 @@
   {
     "url": "https://adindex.ru/news/releases/2026/10/8/349657.phtml",
     "added_at": 1791461416.9617648,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.interfax.ru/world/1121186",
+    "added_at": 1791472479.9347901,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.axios.com/2026/10/08/maduro-torture-charges-court-case",
+    "added_at": 1791472479.9347901,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.aljazeera.com/news/2026/10/8/echoes-of-may-1968-frances-students-rise-up-again?traffic_source=rss",
+    "added_at": 1791472479.9347901,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.worldpoliticsreview.com/israel-turkey-cold-war-syria-assad/",
+    "added_at": 1791472479.9347901,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://news.un.org/feed/view/en/story/2026/10/1168550",
+    "added_at": 1791472479.9347901,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://news.google.com/rss/articles/CBMitgFBVV95cUxOME9TY0hsNDBoX2Y5UmhoWkZKYlJTUTRHeWhqR3ZRQnhrc3FIZDFVRUhDY1V1N2p4dGJycnViMGxUb3JkSUhTWktYNnZfMGdrbWdRQWxuejIxM2ZZanEydWpTNzFwRU9TVURiZlUteXFvaExLd0V5dC1PZFoyVkVGQURCWHMzRU9XcmMzdUEtS1NkaFZVTXlfQ0dwd2RpZ3cyd2Y3N2c5U3hFT3BwM0k5UFVVWHhOQQ?oc=5",
+    "added_at": 1791472479.9347901,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.semafor.com/article/10/08/2026/dubai-based-firm-dp-world-to-double-luanda-port-capacity",
+    "added_at": 1791472479.9347901,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxQcDFROGxuS1JtVDV4Ym1UUFhYd0RkcTZjTVlNNWVIOFQxYmNRenZMUFZKRU9XYjl5SGpQUkNSU0xEdGVGcTlqcTJiX0pmUEJzUHFZdjdoZHdoeEl1Ti1MOUh5YWZGYkJ6ZDZIMmFfOXA2TFowOWdsUURtQ2VJNjZKVmNreHBCNFhRa3FBWVc5RlY4djN6Q1ZuSU9hOTFuZmg1ZWU5V2V3UTh1Zw?oc=5",
+    "added_at": 1791472479.9347901,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://techcrunch.com/2026/10/08/waymo-locks-in-5b-loan-from-blackstone-pimco-to-fuel-robotaxi-expansion/",
+    "added_at": 1791472479.9347901,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.theinformation.com/articles/shroud-secrecy-cloaks-star-investor-behind-cognition-ramp",
+    "added_at": 1791472479.9347901,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.theinformation.com/articles/amazon-rewired-data-centers-mississippi-power-warning",
+    "added_at": 1791472479.9347901,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://news.google.com/rss/articles/CBMitAFBVV95cUxOV0hlSm9Ecl9CbzRBdGFxeEZZQ3dfMUxZeXdsMmo2VXJaRm1LWkhOVlVJVmdEV1hiUkxaZWx2NFpVTVpqVGNqWXcwd0VZanBHcFNzZ0ttNlFPR05STFM2YlU3U2hkTlItWGxHQkJwSV9nVlBHRHliclp5WEYwVXNQUW93WU5YdTdhNkxseXRzbC0xSEI3QTJFSzdnamtTc0FXRHNiNHFYQWg5RzRKeWtYMldHQ3g?oc=5",
+    "added_at": 1791472479.9347901,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.interfax.ru/world/1121185",
+    "added_at": 1791472479.9347901,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.scmp.com/news/asia/east-asia/article/3370218/south-korea-test-flies-its-first-home-grown-hypersonic-weapon?utm_source=rss_feed",
+    "added_at": 1791472479.9347901,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.interfax.ru/russia/1121184",
+    "added_at": 1791472479.9347901,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://meduza.io/feature/2026/10/08/ssha-mirnye-peregovory-moskvy-i-kieva-v-tupike-ukraina-v-etom-vinovaty-sami-ssha",
+    "added_at": 1791472479.9347901,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.vedomosti.ru/finance/news/2026/10/08/1235536-kurs-dollara",
+    "added_at": 1791472479.9347901,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "http://government.ru/news/60136/",
+    "added_at": 1791472479.9347901,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://t.me/thebell_io/39411",
+    "added_at": 1791472479.9347901,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.interfax.ru/business/1121183",
+    "added_at": 1791472479.9347901,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://news.google.com/rss/articles/CBMivgFBVV95cUxNYWMtMHBaOUNRT3l1bVFEOFJXemNVdWtQNXpheXdYWWd3QVZCUmxRbENTM09NRTVONTdYbWFNWDVsQVZBeDhKSElKcUVQUDZFblFkanhlUk1GMzJscGpiUWlRQ1RqWlh4Y0I1RFJnX3pHbEZVTTRIX05oUkpveTE5UzE0d3phYmRKcXFLUWdXWW0tU2t1dGZ3RUxHM2IyWlc0cEc5Y3k3QVpySjNnTVBUZ2owY2tGZTJVeUpELWJR?oc=5",
+    "added_at": 1791472479.9347901,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://t.me/neftegazchannel/28227",
+    "added_at": 1791472479.9347901,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.cnews.ru/news/line/2026-10-08_k_brokerskomu_schetu_v_sberinvestitsiyah",
+    "added_at": 1791472479.9347901,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.cnews.ru/news/top/2026-10-08_dmitrij_grigorenko_pravo",
+    "added_at": 1791472479.9347901,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://t.me/neftegazchannel/28224",
+    "added_at": 1791472479.9347901,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://t.me/thebell_io/39412",
+    "added_at": 1791472479.9347901,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://meduza.io/cards/vsu-vpervye-udarili-po-data-tsentru-yandeksa-i-v-runete-mnogo-chego-perestalo-rabotat-a-esli-takie-ataki-prodolzhatsya-rabotat-perestanet-voobsche-vse",
+    "added_at": 1791472479.9347901,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.politico.eu/article/russia-kills-30-civilians-single-strike-donbas-ukraine/?utm_source=RSS_Feed&utm_medium=RSS&utm_campaign=RSS_Syndication",
+    "added_at": 1791472479.9347901,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.rbc.ru/rbcfreenews/6abe5ed304a8bd56b5842955",
+    "added_at": 1791472479.9347901,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "http://government.ru/news/60137/",
+    "added_at": 1791472479.9347901,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxNb0wweTNnMl91TUFJZmIybGt6dnlxZHlIZ3dJLWh3bldMaUVEc3lLTHJVWml5LUNZdFltLTJNZ0tFSXFQVWxWMGlDVkxkWW9acHdGNzhjSnB6b3JzelZINzg3UjZKY1EwREhhT2phTFNYRFpZWmVQcG42MWh5dVBhaUlvOXZhZWs3bTNQR0VrSFBkU0pmeXhHWDNvakxRRnNaelNBbmFrZmg?oc=5",
+    "added_at": 1791472479.9347901,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://news.google.com/rss/articles/CBMi0wFBVV95cUxNZW1wdk9qR2NyRS1MeXMxeXNycklMeng1cExCLTNqWGFBWGxJTU54ak1UaHpwTGxvcTlWVzMzdjgtbHFoa085Skx4UVo2V2VzTTdVclRBTm1XT2NrbVZlejdVb3lvcldSVGkzVmllWllDdVBLdTZJT1ZFN1BJTHh1U1lMR2M1akttc0lRUjlGampFT2FZLW9tUndOa2lBNGd6ak5ZQm8tVXVBaElTTzVaNDZUT0NXNFB3cWJHMzk0RTZDR3lpNExCaVdZMkZhS0t3OWRr?oc=5",
+    "added_at": 1791472479.9347901,
     "source": "parsed_feed"
   }
 ]
