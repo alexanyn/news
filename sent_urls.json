@@ -1,100 +1,5 @@
 [
   {
-    "url": "https://www.vedomosti.ru/politics/news/2026/10/02/1233941-strani-zapada-mogut-perenesti",
-    "added_at": 1790964743.078056,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.axios.com/2026/10/02/brazil-election-lula-flavio-bolsonaro-trump-amazon",
-    "added_at": 1790964743.078056,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://techcrunch.com/2026/10/02/paramount-and-warner-bros-discovery-to-become-skydance/",
-    "added_at": 1790964743.078056,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.theinformation.com/briefings/lambda-secures-1-billion-gpu-loan",
-    "added_at": 1790964743.078056,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.axios.com/2026/10/02/trump-new-ai-czar-jay-clayton-dni",
-    "added_at": 1790964743.078056,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.kommersant.ru/doc/9005203",
-    "added_at": 1790964743.078056,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://asia.nikkei.com/politics/defense/japan-to-develop-low-cost-cruise-missile-that-overwhelms-air-defenses",
-    "added_at": 1790964743.078056,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.interfax.ru/russia/1120044",
-    "added_at": 1790964743.078056,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.themoscowtimes.com/2026/10/02/lukashenko-vows-belarus-full-support-for-putin-on-ukraine-a93858",
-    "added_at": 1790964743.078056,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://asia.nikkei.com/politics/international-relations/japan-hits-russia-shadow-fleet-in-1st-sanctions-since-putin-trip-to-disputed-isle",
-    "added_at": 1790964743.078056,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.interfax.ru/business/1120041",
-    "added_at": 1790964743.078056,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://t.me/thebell_io/39336",
-    "added_at": 1790964743.078056,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.rbc.ru/business/02/10/2026/6abfede68bc1093a3dc07520",
-    "added_at": 1790964743.078056,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://t.me/thebell_io/39333",
-    "added_at": 1790964743.078056,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.cnews.ru/news/top/2026-10-02_v_reestr_rossijskogo_po_vnesli",
-    "added_at": 1790964743.078056,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.interfax.ru/russia/1120043",
-    "added_at": 1790964743.078056,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://t.me/neftegazchannel/28150",
-    "added_at": 1790964743.078056,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.interfax.ru/russia/1120042",
-    "added_at": 1790964743.078056,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.cnews.ru/news/line/2026-10-02_avito_rabota_pomozhet_rabotodatelyam",
-    "added_at": 1790964743.078056,
-    "source": "parsed_feed"
-  },
-  {
     "url": "https://www.axios.com/2026/10/03/trumps-cabinet-camp-david-iran-war-yemen-houthis",
     "added_at": 1791007880.9861748,
     "source": "parsed_feed"
@@ -5242,6 +5147,76 @@
   {
     "url": "https://news.google.com/rss/articles/CBMibEFVX3lxTE5OSXB0NEkyaERocUxOX2xCRFdkWHFFeXhKOFp4MWdkVDRsOUw3NTVWNEJMZTQ5VWliN2xtMDBJNDRFWGVfaHAtNGhmWnRtZnh3SmJ6RkYxTTlla1RVanRaVFlSQXNDdm1NTUlyOA?oc=5",
     "added_at": 1791569119.410587,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://news.google.com/rss/articles/CBMihAFBVV95cUxPcXNFcXVnRVZfckpBb0hJMmN0aVhRQ1lxZHlsUlR4MWhLN0J0d0VYdllmYnF2SUlxV3BFN1VGbTAzQXMtaTZjbld2WFg0akNnMjNaUlBTRTlZeE1SQlZ6OXJ6Y3pibHNOQjBreHRHN295WTlVZmtnT0RnX1YwTV8yWTlibFA?oc=5",
+    "added_at": 1791612113.9166622,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.aljazeera.com/video/newsfeed/2026/10/10/10-10-sv-imran-khan-supporters-kpk-release-pk?traffic_source=rss",
+    "added_at": 1791612113.9166622,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://news.google.com/rss/articles/CBMixAFBVV95cUxQdllQdm5CdmlVZXN1TkRYcEd3akdFcFFiMU9xSXJNUnBzbk9HNWFqbTVsYVpXMG03bldVc29lZjVfMk9seFo4LXpadURFdWhmUEVYdWViNjBPNkFiVi1HTkx1clBCc1ZsSGNOdjlweHR3V0JRa0JiRFpEZWNCMHpnTF9GX2RUeWUyTE1oT1VRNjBTSUVZVDBaa0ZkVi0yTFBpRnQ0TlcwM1d2MTc4bVd6U2ZqcDRxUWJESWY4aWpfTmdNeVpB?oc=5",
+    "added_at": 1791612113.9166622,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://news.google.com/rss/articles/CBMisgFBVV95cUxOYkhILXo3RWYzbS1GOWtma3NKS2p1VnhtWFE3QmFLMzhwcExvVkpYSmpKUDJXQzc3QnJUcVB2QmxyMHRaQUhrOHFLU1BmdzRHcmFNTFlvNjM1c2R4UnFweXl5TmJhZHdrSFhDSlhLYXRBRGZSZUlBRS00TGFycFFrTHI3Qk5OU2Vuc01fZURJaFUxUmZ2bXRxa0hzT2xTSThSWDJIeGtSSDFOZEF3SXBidmFR?oc=5",
+    "added_at": 1791612113.9166622,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://techcrunch.com/2026/10/09/elon-musk-intensifies-attack-on-ambani-over-starlink-india-launch-delay/",
+    "added_at": 1791612113.9166622,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://techcrunch.com/2026/10/09/anthropic-cant-reliably-control-its-ai-agents-its-cutting-off-its-internal-evals-from-the-live-internet-instead/",
+    "added_at": 1791612113.9166622,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://news.google.com/rss/articles/CBMikgFBVV95cUxQbmJMRkQ0Z1poSUd4YmFBT3JJN3RoNklMUGV3UFJSbmdPaFN3NEc4b0NxZnRBM0hBWTE1TEZPYWZtaVFXNkR1dGpYU2lyQmN1elEyQ2Q5RHdQY0UwbVVKVEVFRG1Mcmc1TXhLY3lVOEp6Q0RSbGw1dGV0OEx2amhwLVhVRUFkalR6SlQtaHFSWXQ2QQ?oc=5",
+    "added_at": 1791612113.9166622,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.aljazeera.com/news/2026/10/10/taiwan-president-says-defence-spending-boost-aims-to-deter-war?traffic_source=rss",
+    "added_at": 1791612113.9166622,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.aljazeera.com/news/2026/10/10/us-hosts-productive-trilateral-talks-to-end-russia-ukraine-war?traffic_source=rss",
+    "added_at": 1791612113.9166622,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://meduza.io/feature/2026/10/10/tramp-dogovorilsya-s-putinym-o-postavkah-rossiyskogo-dizelya-oslabiv-sanktsii-protiv-rossii",
+    "added_at": 1791612113.9166622,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://t.me/neftegazchannel/28245",
+    "added_at": 1791612113.9166622,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.interfax.ru/russia/1121556",
+    "added_at": 1791612113.9166622,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.prweek.com/article/1972175/crisis-timeline-cornell-university",
+    "added_at": 1791612113.9166622,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.adweek.com/media/jupiter-festival-lined-up-splashy-sponsors-but-had-a-soft-landing-in-its-first-year/",
+    "added_at": 1791612113.9166622,
     "source": "parsed_feed"
   }
 ]
