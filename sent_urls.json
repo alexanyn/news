@@ -1,245 +1,5 @@
 [
   {
-    "url": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxOWi1hWkVnTHRELXBZTVd1V3BqN3AyVUs4UzFhS3Z2dExoYnhvN2FLR082S0NrNTI1YWloei1yLXZwTG9HUmcxbTkybkxzcGtDOVM2c09nYVkwQ01OdXRTSDFUcGRtRUVwVXpZX0xha3pOYWFsRldMNFllQTRzT3JUSkRBVjhRcExzaG4zVmVoZ2RMcmFYQndJcm9ERU5SV3Zna2tnRUMxdzk?oc=5",
-    "added_at": 1791094132.6544888,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://news.google.com/rss/articles/CBMiswFBVV95cUxPV09JSHJ3WHZHYmg5aHB6bGxIX2pTQV9MLVpneFFTaC1yUTVQTTI4YWF6dllneWZfR25zTkpPMm5IRjBqZjBXaWxNdkRCczJ6V2RISl9HVGV5R0dRNi1JUkxzNzdXNHk3VVp4Wk5UR09RZnpWUGV3RDN6dTBRRk9TNTNGUmdPU1F6RFVsUkFsdW5YaUQ5MFZ2VFpoMEQyeHNQUGFmZl9iUWlLelJVaG82ZUg0NA?oc=5",
-    "added_at": 1791094132.6544888,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.aljazeera.com/sports/2026/10/4/west-indies-beat-india-in-record-chase-as-hope-hit-162-in-third-odi?traffic_source=rss",
-    "added_at": 1791094132.6544888,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.aljazeera.com/video/newsfeed/2026/10/4/somalia-president-houthis-not-in-a-position-to-bring-yemen-peace?traffic_source=rss",
-    "added_at": 1791094132.6544888,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.aljazeera.com/news/2026/10/4/trump-defiant-about-midterm-chances-as-he-rallies-for-republicans-in-ohio?traffic_source=rss",
-    "added_at": 1791094132.6544888,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://tass.com/emergencies/2197239",
-    "added_at": 1791094132.6544888,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://foreignpolicy.com/2026/10/04/wargames-hollywood-movies-national-security/",
-    "added_at": 1791094132.6544888,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://techcrunch.com/2026/10/03/amazon-responds-to-data-center-backlash-says-it-no-longer-uses-ndas/",
-    "added_at": 1791094132.6544888,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://asia.nikkei.com/business/travel-leisure/japan-s-seto-inland-sea-cruise-tours-target-wealthy-visitors",
-    "added_at": 1791094132.6544888,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://news.google.com/rss/articles/CBMitAFBVV95cUxQYXFPTFhZZ1JDQXowelZUcmd1RmZjMkV3ZHo3VUp2aWQ2SVV2YlNxMGh0NHI3bW8xdExua0x5d0VlN2Rld2FmTERuTUNKQVNZYW8tT2E4dlQyWmF4YXNuc2pqMHJDa1IzdW9KS24ySDgxQV9YLXBqMmMtME01eGtPN1ZZQ3V3VWM2MmVPMmlNd0FsN1ZONms2VExneTJvLVZYRTQ4YV9SYTZOa0J6d0xmaDRjcTE?oc=5",
-    "added_at": 1791094132.6544888,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://techcrunch.com/2026/10/03/federal-judge-calls-flock-indiscriminate-mass-surveillance/",
-    "added_at": 1791094132.6544888,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://news.google.com/rss/articles/CBMiugFBVV95cUxOczlKTmxkdnE3WHZpaWs1Y2V2dFJJOENfZkRRdjdCdGJBcXRqMFRWVlFKMGZWRDhlTXBiOTQxNUY1dDlSNlZYcXlmS1ZaaF9iWkJsek5QeTZ5V2txU0hOVnFXUE9EZHU1NE1XdldXV3FaQzAzcU9KZmZNcXhJMzVaVHdYV2tIUHVDdG5Cc1FMTjFHUHRvQzEtQmhFdDUwOXR3RlUwWlBDX3c5ZlNUMWZZd1BLcm12TWVWYWc?oc=5",
-    "added_at": 1791094132.6544888,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://news.google.com/rss/articles/CBMisAFBVV95cUxPanBnbDA2SnluX0swT1ZpQ212VUNKRHh1T3d2Tmt0VDBieEtFVmh6blFFZEVCZlFLbjd4TnNYRnhacmtoSEdRTTFsbVdQN3RjRW5BTVd2NkJwdkdmcHNBa2czV3BZc19MYnJ1dkFvTkh1YXZQQkw1Zmtma2Y4Qm10RzlIUlhJS1ZSUHJnVVdTNlk1djVnNndqNXJBZ29hcEVJUmdkZTNWcklGWEF4TGtuZw?oc=5",
-    "added_at": 1791094132.6544888,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://news.google.com/rss/articles/CBMioAFBVV95cUxOTm53alVRRTlka3JlQllEQUdvclBOMzVxOUFvQnhkMGowdDlNeXIyTFZ3ZU1GblhLOUF2VDhTRVdzRjJfZmJRWEZMcUhaMGxXVEI0NzhFYWJ6bk1USDU2VDdzcWZ4WEcwQTd4bzMzUEcyZ0lBdFRsck8zbDZ5MTdLeFBPdEFaV2llTXViWTlleDl3SE5lTWxEMThJa09WSGdH?oc=5",
-    "added_at": 1791094132.6544888,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://news.google.com/rss/articles/CBMimwFBVV95cUxOV2VFQmhSR1ltcnA1UmM2VFJ6bk5RTWljYjF0QW84MFFYOVE3ZUhGdEpyUVNLellvNGVLd014SzM1ZlY3blgyVDdnZmxjeDdpTnZuc1JzOTBtS19ZWlp5bWJTeHg5X1lqcGl0M08zWlNqS0xwUThybE5qOEZORkJrTTVqdHZYMG1DM1hpYXZLalZjS1M3UmY1SW9iVQ?oc=5",
-    "added_at": 1791094132.6544888,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://news.google.com/rss/articles/CBMisAFBVV95cUxNMDlyc283Wk8zZ3RubnFCdWI5UTdiRFFiamxqYUVlcXNLeG9PcGJEX1pXMmVvVkFsZk5FZ1RYcjdjZ1RxNkw5aFFVTGtqYXhNT3V2YmgxZ3p6WEZCRG1vV0d4MU5WOEN0M1JUQTdHTVlwX3Nhc0FFZkZPNnl6VV95WGY0dzdQVnBzS21YOGdkM0l4bnVDMlEyZ1o0TS1ZbTFDRzI3ck40WEFJZldRQjEyXw?oc=5",
-    "added_at": 1791094132.6544888,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://news.google.com/rss/articles/CBMisAFBVV95cUxOQkg2M1kweDR3dUZPNFQxT093Z29vcGFsYUw2Y3ZkcXpRdnlNdnBoaHJzVjNKZkNMWFpfVE5jT1dOQU8tdjM0ZkFHdnloUXoxTVlMSUFIcE5QQ2xzMHMxQktSQm5BcExPMm0tdWFVOFE4MzFYQjlFMHFkQTRreFhlZ3h0SGpvakNUMTRwTlZnNDZXZVhleU5UUUZVbDI1TUNRT014RU9jMG9qLVNieXh4ZQ?oc=5",
-    "added_at": 1791094132.6544888,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://news.google.com/rss/articles/CBMisgFBVV95cUxPQnVFUk1ZT0VhT1pPSWgxQlljY0ltMkFXNFFOalZPbGszYWRYeGpFTDBaN2xycFFrRVphVEZPMWdqNWNYTXJIZ3N0aG5nbVE2M3pUTHdQZC13YVI2bHI1U20yZEUxRzdUcUZsa0xpdThJeURNSHNRNklQMm5UVHJJS05PWGo0RXg5Tm9YTzAyRVRkbUFLZUtNbDRMUzJxRXRWZWVYTmMtMTZ4OXNEVGZlbE53?oc=5",
-    "added_at": 1791094132.6544888,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.aljazeera.com/video/newsfeed/2026/10/4/widespread-damage-after-huge-hailstones-pound-paraguay-capital?traffic_source=rss",
-    "added_at": 1791094132.6544888,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.aljazeera.com/news/2026/10/4/bosnia-general-election-2026-explained-in-maps-and-charts?traffic_source=rss",
-    "added_at": 1791094132.6544888,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.politico.eu/article/eu-neighbors-shun-kyivs-plea-to-free-trapped-grain/?utm_source=RSS_Feed&utm_medium=RSS&utm_campaign=RSS_Syndication",
-    "added_at": 1791094132.6544888,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://news.google.com/rss/articles/CBMivwFBVV95cUxPRWFXeUhOM2ZldTc1dEhPdGxOcjZ4MldhbHl1aWI3UE40akNDQnA3SWNHS2FrNjYtTFJDR2VVeUxsWnkxRXpMbU1jZUFlZFg5Y0xpSndJNUs4WTZWdDE1dXFJczJMUEVMRUVkMHVrZnFkdEMtMXZjSWRWdS1fb0R2enktclJCNlMwalZCREplbW5QdXlMT1lGbU43a2llczVqbS1pNW45RjN2ak1LV3JaOGxHWVhzLW56eTN4SGFiUQ?oc=5",
-    "added_at": 1791094132.6544888,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://tass.com/world/2197237",
-    "added_at": 1791094132.6544888,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://asia.nikkei.com/spotlight/comment/hiroshima-and-nagasaki-disasters-offer-lesson-for-ai-governance",
-    "added_at": 1791094132.6544888,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://news.google.com/rss/articles/CBMixgFBVV95cUxOVXNLVG56dnF3ZVpPbnpGbTlIdDFaWUZCRkZBYVQ4Ym5vVlM4SlJlcnFxMnZ4amx1UWl0SkI3SXE5WFNvZV9TcW12SHFobnUxZlJELTU1cXdYTXNzT2N6Yjd2am9tNUVJbEhyS1ZZTVI1Z0NEUnZ3MnVZZnAyRXNrOWYwTmllVC1pTGRXcVVMV1RGTUEzTXBjVjNDTTlERlgtVkt6bXJLOHZab0F0b0g3bHV4LVdOMUtrajJmLVhiOUF1ZGZwX0E?oc=5",
-    "added_at": 1791094132.6544888,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://tass.com/world/2197247",
-    "added_at": 1791094132.6544888,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://tass.com/world/2197243",
-    "added_at": 1791094132.6544888,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://asia.nikkei.com/business/aerospace-defense-industries/turkish-arms-group-eyes-japan-ties-in-air-defense-and-underwater-drones",
-    "added_at": 1791094132.6544888,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.politico.eu/article/germany-friedrich-merz-visits-kyiv-amid-fears-of-hardest-winter-in-war/?utm_source=RSS_Feed&utm_medium=RSS&utm_campaign=RSS_Syndication",
-    "added_at": 1791094132.6544888,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.scmp.com/news/world/middle-east/article/3369685/trump-burger-hormuz-meet-iranian-team-behind-billboard-war-us?utm_source=rss_feed",
-    "added_at": 1791094132.6544888,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.interfax.ru/russia/1120203",
-    "added_at": 1791094132.6544888,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.interfax.ru/russia/1120202",
-    "added_at": 1791094132.6544888,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.interfax.ru/world/1120201",
-    "added_at": 1791094132.6544888,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.interfax.ru/world/1120200",
-    "added_at": 1791094132.6544888,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.kommersant.ru/doc/9005759",
-    "added_at": 1791094132.6544888,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.kommersant.ru/doc/9005748",
-    "added_at": 1791094132.6544888,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.rbc.ru/rbcfreenews/6ab184276746083a8be6f795",
-    "added_at": 1791094132.6544888,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.rbc.ru/society/20/07/2026/6a5e10df9a7947e2ddbedace",
-    "added_at": 1791094132.6544888,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.vedomosti.ru/politics/news/2026/10/04/1234044-sili-pvo-unichtozhili",
-    "added_at": 1791094132.6544888,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.vedomosti.ru/business/news/2026/10/04/1234043-tseni-na-kofe",
-    "added_at": 1791094132.6544888,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.vedomosti.ru/politics/news/2026/10/04/1234041-dmitriev-evrope",
-    "added_at": 1791094132.6544888,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.interfax.ru/1120204",
-    "added_at": 1791094132.6544888,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.kommersant.ru/doc/9005762",
-    "added_at": 1791094132.6544888,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.kommersant.ru/doc/9005733",
-    "added_at": 1791094132.6544888,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.rbc.ru/rbcfreenews/6abc8f20ac9237d51e7f26cb",
-    "added_at": 1791094132.6544888,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.rbc.ru/politics/10/09/2026/6aa23239cf2a890a9f3334c2",
-    "added_at": 1791094132.6544888,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.vedomosti.ru/politics/news/2026/10/04/1234045-minoboroni-soobschilo",
-    "added_at": 1791094132.6544888,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://asia.nikkei.com/business/retail/china-s-songmont-pane-accessory-brands-shine-with-thrifty-shoppers",
-    "added_at": 1791094132.6544888,
-    "source": "parsed_feed"
-  },
-  {
     "url": "https://www.kommersant.ru/doc/9005809",
     "added_at": 1791104789.9325385,
     "source": "parsed_feed"
@@ -5152,6 +4912,51 @@
   {
     "url": "https://www.interfax.ru/russia/1121652",
     "added_at": 1791698533.6547554,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.aljazeera.com/video/newsfeed/2026/10/11/trump-calls-for-ukraine-election-says-zelenskyy-failed-to-end-war?traffic_source=rss",
+    "added_at": 1791709321.7360983,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.kommersant.ru/doc/9023934",
+    "added_at": 1791709321.7360983,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.aljazeera.com/news/2026/10/11/pakistan-imposes-emergency-rule-in-khyber-pakhtunkhwa?traffic_source=rss",
+    "added_at": 1791709321.7360983,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://news.google.com/rss/articles/CBMiyAFBVV95cUxNY0F4U0J6aGRjT1Vnei1UWVR2dDdqRS1DYUpneWtJOVF0U0YwOWx6aWtWTnJoTnNIbDBaMExoMnktdmJOdXRZQ3hkM3RGLUJ2SS0wSlVPek4zb0NNbTFxeXlNZVJCX1RNNDNKamtMa0E4Sy14WVFLWFhjUDMydmdWa2xESTZBejdrWEctWkw1UFRyNlhKLUdjZ3M5cURNZXpIdVYwWGlKdXJQUGI3SW9jbW0wWkNnbklpV1RzVEw0MHNTRm9reUltLQ?oc=5",
+    "added_at": 1791709321.7360983,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://news.google.com/rss/articles/CBMimAFBVV95cUxNclVqQng4MkZWODF3WXo4MXc3TjFaR0NnTG82dVFsdlZLSGkwS3BHZzUwTE1RZzVnM1RsS3AweHRwcmpicGxmSmJEME5uLUpfVGdoMEROWENZZ2pGaGhaN0Q0Z3VnYllRSkZLa2prWUI4UEgzY21pdGNQOU50TmpDVTVMbjBHSEYyQlpRWHV5R0lmZmE2VG5VNw?oc=5",
+    "added_at": 1791709321.7360983,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.kommersant.ru/doc/9023922",
+    "added_at": 1791709321.7360983,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://meduza.io/news/2026/10/11/yandeks-snyal-s-sebya-otvetstvennost-za-posledstviya-atak-bespilotnikov",
+    "added_at": 1791709321.7360983,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.kommersant.ru/doc/9023936",
+    "added_at": 1791709321.7360983,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://t.me/the_financial_times_journal/8849",
+    "added_at": 1791709321.7360983,
     "source": "parsed_feed"
   }
 ]
