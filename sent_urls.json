@@ -1,70 +1,5 @@
 [
   {
-    "url": "https://www.kommersant.ru/doc/9005809",
-    "added_at": 1791104789.9325385,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://meduza.io/news/2026/10/04/na-vyborah-v-latvii-pobedil-ob-edinennyy-spisok-premier-ministra-andrisa-kulbergsa-on-poluchit-rekordnoe-v-istorii-chislo-mest-v-seyme",
-    "added_at": 1791104789.9325385,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.scmp.com/opinion/china-opinion/article/3369439/chinas-hospital-ships-project-different-kind-naval-power-africa?utm_source=rss_feed",
-    "added_at": 1791104789.9325385,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.scmp.com/property/article/3369600/more-hong-kong-homes-sell-loss-despite-signs-prices-have-bottomed-agents?utm_source=rss_feed",
-    "added_at": 1791104789.9325385,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://t.me/the_financial_times_journal/8693",
-    "added_at": 1791104789.9325385,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://t.me/the_financial_times_journal/8691",
-    "added_at": 1791104789.9325385,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.themoscowtimes.com/2026/10/04/opec-set-to-keep-november-oil-output-targets-steady-sources-say-a93865",
-    "added_at": 1791104789.9325385,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://t.me/neftegazchannel/28156",
-    "added_at": 1791104789.9325385,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.vedomosti.ru/politics/news/2026/10/04/1234058-grossi-obyasnil-pochemu",
-    "added_at": 1791104789.9325385,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://news.google.com/rss/articles/CBMiqwFBVV95cUxNeER0X0pqLVVYeGNGUlBNNkstU2FoZEpNd2lka09GQWlQbW5LUm9ZV1ExalphS3VoMElDYi0tbjNJaUF5U1hmakxidTlLbnRFbVR6d25OQUk5QXpXWVdOWmtsRjlwU1RuTnVQa2V4bGVDYXJiNzU0WGJtNnhkV3NYUXB5RF9yYU5oU3AxWGVyNEo4Zi13SGlEbWlIOWJnMHExbEdpUkR6azV5Z2M?oc=5",
-    "added_at": 1791104789.9325385,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.interfax.ru/russia/1120215",
-    "added_at": 1791104789.9325385,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.rbc.ru/politics/31/08/2026/6a95a29521b1160ea1e32f8c",
-    "added_at": 1791104789.9325385,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://tass.com/politics/2197259",
-    "added_at": 1791104789.9325385,
-    "source": "parsed_feed"
-  },
-  {
     "url": "https://www.rbc.ru/politics/04/06/2026/6a205b769a79471e9d13732a",
     "added_at": 1791115923.6203606,
     "source": "parsed_feed"
@@ -4957,6 +4892,31 @@
   {
     "url": "https://t.me/the_financial_times_journal/8849",
     "added_at": 1791709321.7360983,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://meduza.io/news/2026/10/11/polskaya-politsiya-poluchila-informatsiyu-o-vozmozhnom-pokushenii-na-premier-ministra-donalda-tuska-i-glavu-minoborony-vladislava-kosinyak-kamysha",
+    "added_at": 1791720345.4928732,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.rbc.ru/society/07/04/2026/69d4897e9a7947ace7e457e4",
+    "added_at": 1791720345.4928732,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.kommersant.ru/doc/9023991",
+    "added_at": 1791720345.4928732,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://news.google.com/rss/articles/CBMiwAFBVV95cUxNVlotWV9yRXJDTGQ4aTB2X2ZFSzh4Yl9VUkZPZ1pSRlJRZlJlZjZwSTgtQWVRYzFEVDB5N2U0Ukt2bEFNWkg5OC1TLVMtcWNNOVQybkNOVlVtU29sSVFvd3Z2YlFLaERPR19MTUtXN2xQMkFxQ21fOWpmQ3hMYU5yNVZIa2wzbEFjVDV0elBHd19YV3ozcVBTeHJmaC1Hb2tDZGNWaldKRUpRckt6cjg5bHdqcjhleVd5WkRQblZud1E?oc=5",
+    "added_at": 1791720345.4928732,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://meduza.io/news/2026/10/11/zelenskiy-zayavil-chto-kiev-perestanet-atakovat-rossiyskie-npz-tolko-v-otvet-na-prekraschenie-udarov-moskvy-po-ukrainskoy-energetike",
+    "added_at": 1791720345.4928732,
     "source": "parsed_feed"
   }
 ]
