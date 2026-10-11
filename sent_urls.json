@@ -1,95 +1,5 @@
 [
   {
-    "url": "https://www.rbc.ru/politics/04/06/2026/6a205b769a79471e9d13732a",
-    "added_at": 1791115923.6203606,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://asia.nikkei.com/economy/thai-protestors-slam-chinese-other-foreign-companies-as-economy-slows",
-    "added_at": 1791115923.6203606,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.scmp.com/news/asia/southeast-asia/article/3369705/malaysia-repatriates-1500-myanmar-nationals-despite-un-risk-warnings?utm_source=rss_feed",
-    "added_at": 1791115923.6203606,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.rbc.ru/politics/04/10/2026/6ac1ea18bd2bd6ca35bf5463",
-    "added_at": 1791115923.6203606,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.whitehouse.gov/releases/2026/10/us-leads-international-coalition-to-endorse-kyoto-vision-for-a-golden-age-of-science/",
-    "added_at": 1791115923.6203606,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.vedomosti.ru/technology/news/2026/10/04/1234072-google-s-9-oktyabrya",
-    "added_at": 1791115923.6203606,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://t.me/neftegazchannel/28157",
-    "added_at": 1791115923.6203606,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://t.me/neftegazchannel/28159",
-    "added_at": 1791115923.6203606,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.aljazeera.com/news/2026/10/4/is-the-sudanese-army-gaining-momentum-against-the-rsf?traffic_source=rss",
-    "added_at": 1791115923.6203606,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://tass.com/politics/2197275",
-    "added_at": 1791115923.6203606,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.cnews.ru/news/top/2026-10-03_v_rossii_k_2031_godu_hotyat_postroit",
-    "added_at": 1791115923.6203606,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.bbc.co.uk/news/articles/ckreyjzzzywqo?at_medium=RSS&at_campaign=rss",
-    "added_at": 1791115923.6203606,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.interfax.ru/russia/1120239",
-    "added_at": 1791115923.6203606,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://meduza.io/news/2026/10/04/minoborony-rf-ob-yavilo-o-zapuske-globalnoy-sistemy-monitoringa-obstanovki-v-kosmose",
-    "added_at": 1791115923.6203606,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://tass.com/defense/2197293",
-    "added_at": 1791115923.6203606,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://t.me/istories_media/13761",
-    "added_at": 1791115923.6203606,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://t.me/istories_media/13762",
-    "added_at": 1791115923.6203606,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://news.google.com/rss/articles/CBMixwFBVV95cUxOUnpBN2cyeE9WOFJaZEFZYnlxS1FmaTd1N0FyNFF5alhsakVnQ1Y0Nkd2VjQzY213WTl4Nzg1X3N0a2pjc0I3bXJCcDlBTUdhNlVfZWlnak92bWxwdjJvYzBtZ3c2TlVfMlNUTlFUN3JudG0wQmh1cnRDZnplbkc1TnRoMW5tLUp1Q3h3QXBCVHN1Wll3dDl3RjlTUEZJenUxQjZlQmgzRmprcnpiUWlyd1pkS1BCUWJSUEotekY1V09YMmRuQ2lR?oc=5",
-    "added_at": 1791115923.6203606,
-    "source": "parsed_feed"
-  },
-  {
     "url": "https://www.aljazeera.com/news/2026/10/4/dodik-declared-bosnia-dead-irrelevant-rhetoric-or-serious-threat?traffic_source=rss",
     "added_at": 1791126812.1814685,
     "source": "parsed_feed"
@@ -4917,6 +4827,71 @@
   {
     "url": "https://meduza.io/news/2026/10/11/zelenskiy-zayavil-chto-kiev-perestanet-atakovat-rossiyskie-npz-tolko-v-otvet-na-prekraschenie-udarov-moskvy-po-ukrainskoy-energetike",
     "added_at": 1791720345.4928732,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://news.google.com/rss/articles/CBMipwFBVV95cUxPbHctY0FCSGlIZVRCbWoyZWVocUlPbEZ1c3hSWEFNbDVnYjBvMWVEUjRzU2UtTVhvTHR1ekNhR0x5VUhTTFM1U1Z0SzJ3YWZXSFZxQ1FnVHhIWWFkLWl4SGQ2NkpXYVBZbWVIX0hJVDF3WW5nOFNSYWFKdDdHOUNuanoyRHotUVhVdW05WmphYVg1WDVYeW9idUJnLTcyT0FWcHM5X01lSQ?oc=5",
+    "added_at": 1791731007.426644,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.politico.eu/article/deutschland-reicht-irlands-vorschlag-zur-kuerzung-des-eu-haushaltsentwurfs-nicht-aus/?utm_source=RSS_Feed&utm_medium=RSS&utm_campaign=RSS_Syndication",
+    "added_at": 1791731007.426644,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://techcrunch.com/2026/10/11/warner-bros-netflix-paramount-acquisition-timeline-wbd/",
+    "added_at": 1791731007.426644,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.scmp.com/news/china/science/article/3370492/leading-chinese-mathematicians-unite-behind-use-ai-research?utm_source=rss_feed",
+    "added_at": 1791731007.426644,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.rbc.ru/politics/06/10/2026/6ac40b5f2758596a7e09f0f5",
+    "added_at": 1791731007.426644,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://news.google.com/rss/articles/CBMixwFBVV95cUxNbHBvR1Y0bmdYLTV0NHhWQXE1MFFTMHlvYmZRYnRILVMxM3JiSnJaSVBmbUkzVmN6VXptNnBsNDhXRXZEX2hBS1FOZGhyc3Zid3poMksyLUVLNHZkTGNUekxjWUlyejF6N3hpVDdQcFE4OG92REpjamxKSzV0YURObE9xV1FwYlJ5TVUwZjB5N3hSYzJLTUJuV0c0VG1TZ29jMlN0dDQyOTNDR2tBR1dRRS1jWmloaGVTbU9LOEN2ZnBFZFlmdHJn?oc=5",
+    "added_at": 1791731007.426644,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.rbc.ru/politics/11/10/2026/6acb9ae3da34ff1e6cfea3a8",
+    "added_at": 1791731007.426644,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.vedomosti.ru/politics/news/2026/10/11/1236100-sanktsii-ne-prepyatstvuyut",
+    "added_at": 1791731007.426644,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.kommersant.ru/doc/9024057",
+    "added_at": 1791731007.426644,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.interfax.ru/world/1121698",
+    "added_at": 1791731007.426644,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.interfax.ru/russia/1121701",
+    "added_at": 1791731007.426644,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.interfax.ru/russia/1121699",
+    "added_at": 1791731007.426644,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxPd3J2amk1Y0RTakE5TTdraUtKcHhST3JiSHdEQ2l3Rm45dE9UV3NwMk5XTVlZVGNFRTJZd0ZPdDM5ZGZoM19NZEd3SHJIbmR0SFRSYk9odGVCQ1ctb20xQkV4dHpQWmdaR0FGckFlam0xb3Q5WlQwVVduVTlLSkhzN1k1UWJsNTdlZlFCWG5yNDdvbHB0OXBDVnZxYmJBMzMydnRJdndSczI?oc=5",
+    "added_at": 1791731007.426644,
     "source": "parsed_feed"
   }
 ]
