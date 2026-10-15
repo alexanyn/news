@@ -1631,7 +1631,7 @@ def build_html_digest(raw_response, news_db):
         return result_html.strip(), section_urls
     
     world_html, world_urls = build_one(False, "🌍 <b>МИРОВАЯ ПОВЕСТКА</b>", MAIN_SECTIONS)
-    russia_html, russia_urls = build_one(True, "🏛 <b>РОССИЯ</b>", MAIN_SECTIONS)
+    russia_html, russia_urls = build_one(True, "🪆 <b>РОССИЯ</b>", MAIN_SECTIONS)
     pr_world_html, pr_world_urls = build_one(False, "📢 <b>PR В МИРЕ</b>", PR_SECTIONS)
     pr_russia_html, pr_russia_urls = build_one(True, "📢 <b>PR В РОССИИ</b>", PR_SECTIONS)
     
