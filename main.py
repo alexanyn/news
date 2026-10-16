@@ -1253,6 +1253,13 @@ FALLBACK_TRASH_KEYWORDS = [
     "селфи", "фото дня", "котик", "щенок", "щенк",
     "смотрим видео", "смотрите видео", "утираем слёзы", "утираем слезы",
     "кто-то потерял", "нашли потеряшку",
+    # Lifestyle/спорт/культура — не для делового дайджеста
+    "концерт", "гала-концерт", "фестивал", "тур ", "туров",
+    "матч", "чемпионат", "чемпион", "олимпиад", "кубок",
+    "футбол", "хокке", "теннис", "бокс", "борьб", "wta", "atp",
+    "выиграла", "выиграл ", "победил", "обыграл",
+    "сериал", "премьера фильма", "кинопремьера",
+    "модный показ", "неделя моды", "звезда ",
 ]
 
 # Категории для fallback: определяем по ключевым словам в заголовке.
@@ -1287,6 +1294,9 @@ FALLBACK_CATEGORY_KEYWORDS = {
     "pr": [
         "pr ", "коммуникац", "communications", "агентств", "agency",
         "кампани", "campaign", "бренд", "brand", "репутац", "reputation",
+        "prweek", "provoke", "prdaily", "comms",
+        "связи с общественностью", "реклам", "marketing", "пиар",
+
     ],
     "geopolitics": [
         "дипломат", "diplomat", "саммит", "summit", "санкц", "sanction",
@@ -1376,6 +1386,31 @@ def _clean_fallback_title(title, source_name):
         cleaned = _re.sub(pat, "", cleaned, flags=_re.IGNORECASE).strip()
     # Убираем кавычки, которые дублируются на границах
     return cleaned or title
+
+
+# Маркеры «это про Россию» — используются в fallback, чтобы определять
+# принадлежность новости к России НЕ по языку источника (VC.ru про Tesla —
+# это не Россия), а по содержанию (Reuters про Камчатку — это Россия).
+RUSSIA_MARKERS = [
+    "russia", "russian", "moscow", "kremlin", "putin", "lavrov",
+    "ukraine", "ukrainian", "kyiv", "donbas", "crimea",
+    "kamchatka", "siberia", "gazprom", "rosneft", "sberbank",
+    "yandex", "tass", "interfax",
+    "росси", "рф ", " рф", "москв", "кремл", "путин", "лавров",
+    "украин", "киев", "донбасс", "крым", "камчат", "сибир",
+    "газпром", "роснефт", "сбербанк", "яндекс", "госдум",
+    "минобороны", "минфин", "росстат", "мид рф",
+    "белгород", "ростов", "новороссийск", "воронеж", "брянск",
+]
+
+
+def _is_russia_by_content(title):
+    """True, если новость о России/Украине по содержанию заголовка
+    (независимо от языка источника)."""
+    if not title:
+        return False
+    low = title.lower()
+    return any(m in low for m in RUSSIA_MARKERS)
 
 
 def _guess_category(title):
@@ -1490,7 +1525,9 @@ def build_html_digest(raw_response, news_db):
                 continue
 
             clean_title = _clean_fallback_title(title, source_name)
-            is_russia = bool(re.search(r'[а-яёА-ЯЁ]', clean_title))
+            # Определяем Россию по СОДЕРЖАНИЮ, не по языку источника —
+            # Reuters про Камчатку → Россия, VC.ru про Tesla → Мир.
+            is_russia = _is_russia_by_content(title)
             category = _guess_category(clean_title)
             priority = FALLBACK_SOURCE_PRIORITY.get(source_name, 9)
 
