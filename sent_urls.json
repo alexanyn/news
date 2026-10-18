@@ -1,50 +1,5 @@
 [
   {
-    "url": "https://www.aljazeera.com/video/newsfeed/2026/10/11/trump-calls-for-ukraine-election-says-zelenskyy-failed-to-end-war?traffic_source=rss",
-    "added_at": 1791709321.7360983,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.kommersant.ru/doc/9023934",
-    "added_at": 1791709321.7360983,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.aljazeera.com/news/2026/10/11/pakistan-imposes-emergency-rule-in-khyber-pakhtunkhwa?traffic_source=rss",
-    "added_at": 1791709321.7360983,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://news.google.com/rss/articles/CBMiyAFBVV95cUxNY0F4U0J6aGRjT1Vnei1UWVR2dDdqRS1DYUpneWtJOVF0U0YwOWx6aWtWTnJoTnNIbDBaMExoMnktdmJOdXRZQ3hkM3RGLUJ2SS0wSlVPek4zb0NNbTFxeXlNZVJCX1RNNDNKamtMa0E4Sy14WVFLWFhjUDMydmdWa2xESTZBejdrWEctWkw1UFRyNlhKLUdjZ3M5cURNZXpIdVYwWGlKdXJQUGI3SW9jbW0wWkNnbklpV1RzVEw0MHNTRm9reUltLQ?oc=5",
-    "added_at": 1791709321.7360983,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://news.google.com/rss/articles/CBMimAFBVV95cUxNclVqQng4MkZWODF3WXo4MXc3TjFaR0NnTG82dVFsdlZLSGkwS3BHZzUwTE1RZzVnM1RsS3AweHRwcmpicGxmSmJEME5uLUpfVGdoMEROWENZZ2pGaGhaN0Q0Z3VnYllRSkZLa2prWUI4UEgzY21pdGNQOU50TmpDVTVMbjBHSEYyQlpRWHV5R0lmZmE2VG5VNw?oc=5",
-    "added_at": 1791709321.7360983,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.kommersant.ru/doc/9023922",
-    "added_at": 1791709321.7360983,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://meduza.io/news/2026/10/11/yandeks-snyal-s-sebya-otvetstvennost-za-posledstviya-atak-bespilotnikov",
-    "added_at": 1791709321.7360983,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.kommersant.ru/doc/9023936",
-    "added_at": 1791709321.7360983,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://t.me/the_financial_times_journal/8849",
-    "added_at": 1791709321.7360983,
-    "source": "parsed_feed"
-  },
-  {
     "url": "https://meduza.io/news/2026/10/11/polskaya-politsiya-poluchila-informatsiyu-o-vozmozhnom-pokushenii-na-premier-ministra-donalda-tuska-i-glavu-minoborony-vladislava-kosinyak-kamysha",
     "added_at": 1791720345.4928732,
     "source": "parsed_feed"
@@ -5617,6 +5572,66 @@
   {
     "url": "https://www.kommersant.ru/doc/9041285",
     "added_at": 1792314113.815101,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://news.google.com/rss/articles/CBMixgFBVV95cUxNaUsxbVVqQ0FFUl81U25IbG1NaXhrNzFqZzIzaFpRUVhKbF9rYlZoMXg1Z3NzYjR1TEtkeHNCU1BrOWs4ZXR5VHFqMTBoX3VjSV9FRV9neGVDSkdUNWIxMlNhZWRJbldocDM5Q2hiMXYxUXpHVUJqWkkyOEF5OGNBNWduQXFPMXp6VXhYRjUyNmsxaV9pbXJhS29uVGh6Tm51emp4S3YtdmI5c21HZE9HeFkycENlNGxHRUlJd29YWkxwRF85eXc?oc=5",
+    "added_at": 1792325013.086539,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://t.me/neftegazchannel/28357",
+    "added_at": 1792325013.086539,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.vedomosti.ru/politics/news/2026/10/18/1237976-litve-pitalis-podzhech",
+    "added_at": 1792325013.086539,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.scmp.com/news/world/middle-east/article/3371307/saudi-closes-riyadh-skyscraper-chopper-pilots-killed-near-yemen?utm_source=rss_feed",
+    "added_at": 1792325013.086539,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.rbc.ru/politics/13/10/2026/6ace97a5d2ead36224bc1792",
+    "added_at": 1792325013.086539,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://meduza.io/news/2026/10/18/the-new-york-times-belyy-dom-predlagal-es-uvelichit-zakupki-rossiyskogo-gaza-a-ukraine-vozobnovit-ego-prokachku",
+    "added_at": 1792325013.086539,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.rbc.ru/rbcfreenews/6ac42727e0733df6b1ca1239",
+    "added_at": 1792325013.086539,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.cnews.ru/news/top/2026-10-18_bespilotniki_atakovali_data-tsentr",
+    "added_at": 1792325013.086539,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.kommersant.ru/doc/9041334",
+    "added_at": 1792325013.086539,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.provokemedia.com/latest/article/provoke-global-summit-to-adress-us-midterms-corporate-change-and-ai",
+    "added_at": 1792325013.086539,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.provokemedia.com/long-reads/article/new-report-more-companies-prefer-to-stay-silent-on-divisive-issues",
+    "added_at": 1792325013.086539,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.provokemedia.com/latest/article/provoke-media-names-best-agencies-in-latin-america-three-agencies-of-the-year",
+    "added_at": 1792325013.086539,
     "source": "parsed_feed"
   }
 ]
