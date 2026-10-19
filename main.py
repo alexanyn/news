@@ -882,11 +882,68 @@ async def collect_all_news(sent_urls_history, recent_titles_history, schedule_na
     
     return news_db, raw_data_prompt, recently_published_for_prompt, collection_stats
 
+def _groq_get_models():
+    """Получает список доступных моделей Groq. Возвращает список id или []."""
+    try:
+        r = requests.get(
+            "https://api.groq.com/openai/v1/models",
+            headers={"Authorization": f"Bearer {groq_api_key}"},
+            timeout=15,
+        )
+        if r.status_code == 200:
+            data = r.json()
+            return [m["id"] for m in data.get("data", [])]
+        else:
+            print(f"   ⚠️  Groq /models вернул {r.status_code}: {r.text[:200]}")
+    except Exception as e:
+        print(f"   ⚠️  Groq /models исключение: {e}")
+    return []
+
+
+def _groq_pick_model(available):
+    """Выбирает лучшую доступную модель Groq по приоритету."""
+    if not available:
+        return None
+    # Приоритет: сначала крупные Llama, потом средние, потом любые
+    preferred = [
+        "llama-3.3-70b-versatile",
+        "llama-3.1-70b-versatile",
+        "llama-4-scout-17b-16e-instruct",
+        "llama-4-maverick-17b-128e-instruct",
+        "llama3-70b-8192",
+        "llama-3.1-8b-instant",
+        "mixtral-8x7b-32768",
+        "gemma2-9b-it",
+    ]
+    for p in preferred:
+        if p in available:
+            return p
+    # Если ни одна из предпочтительных не найдена — первая Llama, что есть
+    for m in available:
+        if "llama" in m.lower():
+            return m
+    return available[0]
+
+
 def generate_analytical_json_groq(prompt):
-    """Резервный вызов Groq (Llama 3.3 70B) — используется, если все модели
-    Gemini вернули 503/404. Формат OpenAI-совместимый. Возвращает (raw_json, meta)."""
+    """Резервный вызов Groq. Сначала запрашивает список доступных моделей,
+    выбирает лучшую, и уже к ней делает запрос. Это защищает от ситуации,
+    когда конкретная модель (например, llama-3.3-70b-versatile) удалена
+    из Groq и API возвращает 404."""
     if not groq_api_key:
         return None, {"error": "no_groq_key"}
+
+    # Получаем список моделей
+    available = _groq_get_models()
+    if available:
+        print(f"   📋 Groq доступные модели: {', '.join(available[:5])}{'...' if len(available)>5 else ''}")
+    else:
+        print("   ⚠️  Не удалось получить список моделей Groq, пробуем хардкод.")
+
+    model = _groq_pick_model(available) if available else "llama-3.3-70b-versatile"
+    if not model:
+        return None, {"error": "no_models_available"}
+    print(f"   🎯 Groq выбрана модель: {model}")
 
     url = "https://api.groq.com/openai/v1/chat/completions"
     headers = {
@@ -894,14 +951,14 @@ def generate_analytical_json_groq(prompt):
         "Content-Type": "application/json",
     }
     payload = {
-        "model": "llama-3.3-70b-versatile",
+        "model": model,
         "messages": [
             {"role": "system", "content": "Ты аналитик новостей. Отвечай строго JSON без Markdown и пояснений."},
             {"role": "user", "content": prompt},
         ],
         "response_format": {"type": "json_object"},
         "temperature": 0.3,
-        "max_tokens": 16000,
+        "max_tokens": 8000,
     }
 
     for attempt in range(3):
@@ -910,7 +967,7 @@ def generate_analytical_json_groq(prompt):
             if r.status_code == 200:
                 data = r.json()
                 content = data["choices"][0]["message"]["content"]
-                return content, {"provider": "groq", "model": "llama-3.3-70b-versatile", "attempts": attempt + 1}
+                return content, {"provider": "groq", "model": model, "attempts": attempt + 1}
             if r.status_code == 429:
                 wait_time = 10 * (attempt + 1)
                 print(f"   ⏸️  Groq rate limit 429. Ждём {wait_time}с...")
@@ -921,7 +978,9 @@ def generate_analytical_json_groq(prompt):
                 print(f"   ⏸️  Groq сервер {r.status_code}. Ждём {wait_time}с...")
                 time.sleep(wait_time)
                 continue
-            return None, {"error": f"http_{r.status_code}", "body": r.text[:300]}
+            # Логируем тело ответа — это критично для диагностики
+            print(f"   ❌ Groq HTTP {r.status_code}: {r.text[:300]}")
+            return None, {"error": f"http_{r.status_code}", "body": r.text[:500]}
         except Exception as e:
             print(f"   ⚠️  Groq исключение: {str(e)[:100]}")
             if attempt < 2:
@@ -1255,7 +1314,7 @@ FALLBACK_TRASH_KEYWORDS = [
     "кто-то потерял", "нашли потеряшку",
     # Lifestyle/спорт/культура — не для делового дайджеста
     "концерт", "гала-концерт", "фестивал", "тур ", "туров",
-    "матч", "чемпионат", "чемпион", "олимпиад", "кубок",
+    "матч", "чемпионат", "чемпион", "олимпиад", "кубок", "псж", "барселона", "реал мадрид",
     "футбол", "хокке", "теннис", "бокс", "борьб", "wta", "atp",
     "выиграла", "выиграл ", "победил", "обыграл",
     "сериал", "премьера фильма", "кинопремьера",
@@ -1293,7 +1352,7 @@ FALLBACK_CATEGORY_KEYWORDS = {
     ],
     "pr": [
         "pr ", "коммуникац", "communications", "агентств", "agency",
-        "кампани", "campaign", "бренд", "brand", "репутац", "reputation",
+        "кампани", "campaign", "бренд", "брендинг", "репутац", "reputation", "пиар-кампани",
         "prweek", "provoke", "prdaily", "comms",
         "связи с общественностью", "реклам", "marketing", "пиар",
 
@@ -1393,14 +1452,16 @@ def _clean_fallback_title(title, source_name):
 # это не Россия), а по содержанию (Reuters про Камчатку — это Россия).
 RUSSIA_MARKERS = [
     "russia", "russian", "moscow", "kremlin", "putin", "lavrov",
-    "ukraine", "ukrainian", "kyiv", "donbas", "crimea",
     "kamchatka", "siberia", "gazprom", "rosneft", "sberbank",
     "yandex", "tass", "interfax",
     "росси", "рф ", " рф", "москв", "кремл", "путин", "лавров",
-    "украин", "киев", "донбасс", "крым", "камчат", "сибир",
+    "крым", "камчат", "сибир",
     "газпром", "роснефт", "сбербанк", "яндекс", "госдум",
     "минобороны", "минфин", "росстат", "мид рф",
     "белгород", "ростов", "новороссийск", "воронеж", "брянск",
+    "мишустин", "роспотребнадзор", "т-банк", "силуанов", "голикова",
+    "ямпольск", "правительство рф", "счетная палата", "цб рф",
+    "российск", "россия",
 ]
 
 
