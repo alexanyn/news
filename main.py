@@ -904,25 +904,23 @@ def _groq_pick_model(available):
     """Выбирает лучшую доступную модель Groq по приоритету."""
     if not available:
         return None
-    # Приоритет: сначала крупные Llama, потом средние, потом любые
+    # Игнорируем модели, которые не генерируют текст (guard, tts, whisper)
+    valid = [m for m in available if not any(x in m.lower() for x in ["guard", "orpheus", "whisper", "embed"])]
+    if not valid:
+        return None
+
     preferred = [
+        "openai/gpt-oss-120b",
+        "openai/gpt-oss-20b",
         "llama-3.3-70b-versatile",
         "llama-3.1-70b-versatile",
-        "llama-4-scout-17b-16e-instruct",
-        "llama-4-maverick-17b-128e-instruct",
-        "llama3-70b-8192",
         "llama-3.1-8b-instant",
-        "mixtral-8x7b-32768",
-        "gemma2-9b-it",
     ]
     for p in preferred:
-        if p in available:
+        if p in valid:
             return p
-    # Если ни одна из предпочтительных не найдена — первая Llama, что есть
-    for m in available:
-        if "llama" in m.lower():
-            return m
-    return available[0]
+    # Если ничего из списка нет — берём первую из валидных
+    return valid[0]
 
 
 def generate_analytical_json_groq(prompt):
@@ -958,7 +956,7 @@ def generate_analytical_json_groq(prompt):
         ],
         "response_format": {"type": "json_object"},
         "temperature": 0.3,
-        "max_tokens": 8000,
+        "max_tokens": 4096,
     }
 
     for attempt in range(3):
@@ -1319,6 +1317,7 @@ FALLBACK_TRASH_KEYWORDS = [
     "выиграла", "выиграл ", "победил", "обыграл",
     "сериал", "премьера фильма", "кинопремьера",
     "модный показ", "неделя моды", "звезда ",
+    "медвед", "нападени", "футбол",
 ]
 
 # Категории для fallback: определяем по ключевым словам в заголовке.
@@ -1461,7 +1460,7 @@ RUSSIA_MARKERS = [
     "белгород", "ростов", "новороссийск", "воронеж", "брянск",
     "мишустин", "роспотребнадзор", "т-банк", "силуанов", "голикова",
     "ямпольск", "правительство рф", "счетная палата", "цб рф",
-    "российск", "россия",
+    "российск", "россия", "ялта", "ozon", "композит-экспо", "любимова", "новак",
 ]
 
 
@@ -1510,6 +1509,8 @@ PR_APPOINTMENT_PATTERNS = [
     r'\bhires?\s+[A-Z][a-z]+\s+as\b',
     r'\bhired\s+as\b',
     r'\bjoins?\s+[A-Z][a-z]+\s+as\b',
+    r'\bприсоединяется\s+к\b',
+    r'\bjoins\s+the\s+agency\b',
     r'\bjoined\s+as\b',
     r'\bpromoted\s+to\b',
     r'\bpromotes?\s+[A-Z][a-z]+\b',
