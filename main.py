@@ -933,26 +933,19 @@ def generate_analytical_json_groq(prompt):
         return None, {"error": "no_groq_key"}
 
     # === Обрезка промпта под лимит 8000 TPM ===
-    # Оставляем ~4000 токенов на вход, ~4000 на выход.
-    # 1 токен ≈ 4 символа → вход ≤ 16000 символов.
-    MAX_INPUT_CHARS = 16000
-    if len(prompt) > MAX_INPUT_CHARS:
-        marker = "Входящие новости:"
-        idx = prompt.find(marker)
-        if idx != -1:
-            header = prompt[:idx + len(marker)]
-            items_text = prompt[idx + len(marker):].strip()
-            lines = items_text.split("\n")
-            accumulated = len(header) + 1
-            keep = 0
-            for line in lines:
-                if accumulated + len(line) + 1 > MAX_INPUT_CHARS:
-                    break
-                accumulated += len(line) + 1
-                keep += 1
-            truncated = "\n".join(lines[:keep])
-            prompt = header + "\n" + truncated
-            print(f"   ✂️  Groq: промпт обрезан до {keep} новостей (TPM-лимит 8000)")
+    # Берем максимум 30 новостей, чтобы точно влезть в лимиты Groq.
+    marker = "Входящие новости:"
+    idx = prompt.find(marker)
+    if idx != -1:
+        header = prompt[:idx + len(marker)]
+        items_text = prompt[idx + len(marker):].strip()
+        lines = [l for l in items_text.split("\n") if l.strip()]
+        
+        # Берем первые 30 новостей
+        lines = lines[:30]
+        truncated = "\n".join(lines)
+        prompt = header + "\n" + truncated
+        print(f"   ✂️  Groq: промпт обрезан до {len(lines)} новостей (лимит TPM)")
 
     available = _groq_get_models()
     if available:
