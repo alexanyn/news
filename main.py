@@ -883,7 +883,7 @@ async def collect_all_news(sent_urls_history, recent_titles_history, schedule_na
     return news_db, raw_data_prompt, recently_published_for_prompt, collection_stats
 
 def _groq_get_models():
-    """Получает список доступных моделей Groq. Возвращает список id или []."""
+    """Получает список доступных моделей Groq."""
     try:
         r = requests.get(
             "https://api.groq.com/openai/v1/models",
@@ -891,100 +891,123 @@ def _groq_get_models():
             timeout=15,
         )
         if r.status_code == 200:
-            data = r.json()
-            return [m["id"] for m in data.get("data", [])]
+            return [m["id"] for m in r.json().get("data", [])]
         else:
-            print(f"   ⚠️  Groq /models вернул {r.status_code}: {r.text[:200]}")
+            print(f"   ⚠️  Groq /models вернул {r.status_code}")
     except Exception as e:
-        print(f"   ⚠️  Groq /models исключение: {e}")
+        print(f"   ⚠️  Groq /models: {e}")
     return []
 
 
-def _groq_pick_model(available):
-    """Выбирает лучшую доступную модель Groq по приоритету."""
+def _groq_order_models(available):
+    """Возвращает список подходящих chat-моделей в порядке приоритета."""
     if not available:
-        return None
-    # Игнорируем модели, которые не генерируют текст (guard, tts, whisper)
-    valid = [m for m in available if not any(x in m.lower() for x in ["guard", "orpheus", "whisper", "embed"])]
+        return []
+    # Игнорируем не-chat модели (guard, tts, whisper, embed)
+    valid = [
+        m for m in available
+        if not any(x in m.lower() for x in ["guard", "orpheus", "whisper", "embed", "tts", "stt"])
+    ]
     if not valid:
-        return None
-
-    preferred = [
+        return []
+    # Приоритет: сначала модели с потенциально большим TPM, потом остальные
+    priority = [
+        "qwen/qwen3.8-27b",
         "openai/gpt-oss-120b",
         "openai/gpt-oss-20b",
         "llama-3.3-70b-versatile",
         "llama-3.1-70b-versatile",
         "llama-3.1-8b-instant",
     ]
-    for p in preferred:
-        if p in valid:
-            return p
-    # Если ничего из списка нет — берём первую из валидных
-    return valid[0]
+    ordered = [p for p in priority if p in valid]
+    for m in valid:
+        if m not in ordered:
+            ordered.append(m)
+    return ordered
 
 
 def generate_analytical_json_groq(prompt):
-    """Резервный вызов Groq. Сначала запрашивает список доступных моделей,
-    выбирает лучшую, и уже к ней делает запрос. Это защищает от ситуации,
-    когда конкретная модель (например, llama-3.3-70b-versatile) удалена
-    из Groq и API возвращает 404."""
+    """Резервный вызов Groq. Обрезает промпт под TPM-лимит (8000 токенов)
+    и пробует несколько моделей по очереди."""
     if not groq_api_key:
         return None, {"error": "no_groq_key"}
 
-    # Получаем список моделей
+    # === Обрезка промпта под лимит 8000 TPM ===
+    # Оставляем ~4000 токенов на вход, ~4000 на выход.
+    # 1 токен ≈ 4 символа → вход ≤ 16000 символов.
+    MAX_INPUT_CHARS = 16000
+    if len(prompt) > MAX_INPUT_CHARS:
+        marker = "Входящие новости:"
+        idx = prompt.find(marker)
+        if idx != -1:
+            header = prompt[:idx + len(marker)]
+            items_text = prompt[idx + len(marker):].strip()
+            lines = items_text.split("\n")
+            accumulated = len(header) + 1
+            keep = 0
+            for line in lines:
+                if accumulated + len(line) + 1 > MAX_INPUT_CHARS:
+                    break
+                accumulated += len(line) + 1
+                keep += 1
+            truncated = "\n".join(lines[:keep])
+            prompt = header + "\n" + truncated
+            print(f"   ✂️  Groq: промпт обрезан до {keep} новостей (TPM-лимит 8000)")
+
     available = _groq_get_models()
     if available:
-        print(f"   📋 Groq доступные модели: {', '.join(available[:5])}{'...' if len(available)>5 else ''}")
+        print(f"   📋 Groq модели: {', '.join(available[:5])}{'...' if len(available) > 5 else ''}")
     else:
-        print("   ⚠️  Не удалось получить список моделей Groq, пробуем хардкод.")
+        print("   ⚠️  Не удалось получить список моделей Groq")
 
-    model = _groq_pick_model(available) if available else "llama-3.3-70b-versatile"
-    if not model:
-        return None, {"error": "no_models_available"}
-    print(f"   🎯 Groq выбрана модель: {model}")
+    candidates = _groq_order_models(available) if available else ["openai/gpt-oss-120b"]
+    if not candidates:
+        return None, {"error": "no_chat_models"}
 
     url = "https://api.groq.com/openai/v1/chat/completions"
     headers = {
         "Authorization": f"Bearer {groq_api_key}",
         "Content-Type": "application/json",
     }
-    payload = {
-        "model": model,
-        "messages": [
-            {"role": "system", "content": "Ты аналитик новостей. Отвечай строго JSON без Markdown и пояснений."},
-            {"role": "user", "content": prompt},
-        ],
-        "response_format": {"type": "json_object"},
-        "temperature": 0.3,
-        "max_tokens": 4096,
-    }
 
-    for attempt in range(3):
-        try:
-            r = requests.post(url, json=payload, headers=headers, timeout=120)
-            if r.status_code == 200:
-                data = r.json()
-                content = data["choices"][0]["message"]["content"]
-                return content, {"provider": "groq", "model": model, "attempts": attempt + 1}
-            if r.status_code == 429:
-                wait_time = 10 * (attempt + 1)
-                print(f"   ⏸️  Groq rate limit 429. Ждём {wait_time}с...")
-                time.sleep(wait_time)
-                continue
-            if r.status_code >= 500:
-                wait_time = 5 * (attempt + 1)
-                print(f"   ⏸️  Groq сервер {r.status_code}. Ждём {wait_time}с...")
-                time.sleep(wait_time)
-                continue
-            # Логируем тело ответа — это критично для диагностики
-            print(f"   ❌ Groq HTTP {r.status_code}: {r.text[:300]}")
-            return None, {"error": f"http_{r.status_code}", "body": r.text[:500]}
-        except Exception as e:
-            print(f"   ⚠️  Groq исключение: {str(e)[:100]}")
-            if attempt < 2:
-                time.sleep(3 * (attempt + 1))
+    for model in candidates[:3]:  # пробуем максимум 3 модели
+        print(f"   🎯 Groq: пробуем {model}")
+        payload = {
+            "model": model,
+            "messages": [
+                {"role": "system", "content": "Ты аналитик новостей. Отвечай строго JSON без Markdown."},
+                {"role": "user", "content": prompt},
+            ],
+            "response_format": {"type": "json_object"},
+            "temperature": 0.3,
+            "max_tokens": 4096,
+        }
+        for attempt in range(2):
+            try:
+                r = requests.post(url, json=payload, headers=headers, timeout=120)
+                if r.status_code == 200:
+                    data = r.json()
+                    content = data["choices"][0]["message"]["content"]
+                    return content, {"provider": "groq", "model": model, "attempts": attempt + 1}
+                if r.status_code == 413:
+                    print(f"   ✂️  {model}: 413 (too large), пробуем следующую")
+                    break
+                if r.status_code == 429:
+                    wait = 10 * (attempt + 1)
+                    print(f"   ⏸️  {model}: 429, ждём {wait}с")
+                    time.sleep(wait)
+                    continue
+                if r.status_code >= 500:
+                    time.sleep(5 * (attempt + 1))
+                    continue
+                print(f"   ❌ {model}: HTTP {r.status_code}: {r.text[:200]}")
+                break
+            except Exception as e:
+                print(f"   ⚠️  {model}: {str(e)[:100]}")
+                break
+        print(f"   ⚠️  {model} не сработал, пробуем следующую")
 
-    return None, {"error": "max_retries_exceeded"}
+    return None, {"error": "all_models_failed"}
 
 
 def generate_analytical_json(raw_data_prompt, recently_published_titles=None):
@@ -1317,6 +1340,7 @@ FALLBACK_TRASH_KEYWORDS = [
     "выиграла", "выиграл ", "победил", "обыграл",
     "сериал", "премьера фильма", "кинопремьера",
     "модный показ", "неделя моды", "звезда ",
+    "реал мадрид", "лига чемпионов", "футбол", "матч", "чемпионат",
     "медвед", "нападени", "футбол",
 ]
 
@@ -1337,16 +1361,16 @@ FALLBACK_CATEGORY_KEYWORDS = {
         "ai", "ии ", "искусственн", "chip", "чип", "полупровод",
         "semiconductor", "nvidia", "openai", "anthropic", "google",
         "microsoft", "apple", "qualcomm", "startup", "стартап",
-        "software", "софт", "quantum", "квант", "robot", "робот",
+        "software", "софт", "quantum", "квант", "robot", "робот", "php", "уязвим", "vulnerability", "waymo", "сайт",
     ],
     "business": [
         "ipo", "merger", "acquisition", "m&a", "сделк", "акци",
         "shares", "stock", "earning", "прибыл", "убыт", "ceo",
-        "директор", "компан", "company", "corp", "deal",
+        "директор", "компан", "company", "corp", "deal", "electronic arts", "сократит", "увольнен", "рабочих мест",
     ],
     "economics": [
         "gdp", "ввп", "инфляц", "inflation", "ставк", "rate",
-        "цб ", "central bank", "фрс", "fed", "yield", "доходност",
+        "цб ", "central bank", "фрс", "fed", "yield", "доходност", "индекс", "биржа", "торги",
         "валют", "currency", "рубл", "доллар", "dollar", "euro",
     ],
     "pr": [
