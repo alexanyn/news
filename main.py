@@ -926,36 +926,55 @@ def _groq_order_models(available):
     return ordered
 
 
+def _groq_call_one(prompt, model, url, headers):
+    """Один вызов Groq с заданным промптом. Возвращает (content, meta) или (None, meta)."""
+    payload = {
+        "model": model,
+        "messages": [
+            {"role": "system", "content": "Ты аналитик новостей. Отвечай строго JSON без Markdown."},
+            {"role": "user", "content": prompt},
+        ],
+        "response_format": {"type": "json_object"},
+        "temperature": 0.3,
+        "max_tokens": 4096,
+    }
+    for attempt in range(2):
+        try:
+            r = requests.post(url, json=payload, headers=headers, timeout=120)
+            if r.status_code == 200:
+                return r.json()["choices"][0]["message"]["content"], {"ok": True}
+            if r.status_code == 413:
+                return None, {"error": "too_large", "body": r.text[:200]}
+            if r.status_code == 429:
+                wait = 10 * (attempt + 1)
+                print(f"   ⏸️  Groq 429 на батче, ждём {wait}с...")
+                time.sleep(wait)
+                continue
+            if r.status_code >= 500:
+                time.sleep(5 * (attempt + 1))
+                continue
+            return None, {"error": f"http_{r.status_code}", "body": r.text[:200]}
+        except Exception as e:
+            print(f"   ⚠️  Groq exception: {str(e)[:100]}")
+            if attempt < 1:
+                time.sleep(3)
+    return None, {"error": "max_retries"}
+
+
 def generate_analytical_json_groq(prompt):
-    """Резервный вызов Groq. Обрезает промпт под TPM-лимит (8000 токенов)
-    и пробует несколько моделей по очереди."""
+    """Резервный вызов Groq с БАТЧИНГОМ: новости разбиваются на порции
+    по ~20 штук, каждая отправляется отдельным запросом, потом JSON-ответы
+    мержатся. Это позволяет не терять новости из-за лимита 8000 TPM."""
     if not groq_api_key:
         return None, {"error": "no_groq_key"}
 
-    # === Обрезка промпта под лимит 8000 TPM ===
-    # Берем максимум 30 новостей, чтобы точно влезть в лимиты Groq.
-    marker = "Входящие новости:"
-    idx = prompt.find(marker)
-    if idx != -1:
-        header = prompt[:idx + len(marker)]
-        items_text = prompt[idx + len(marker):].strip()
-        lines = [l for l in items_text.split("\n") if l.strip()]
-        
-        # Берем первые 30 новостей
-        lines = lines[:30]
-        truncated = "\n".join(lines)
-        prompt = header + "\n" + truncated
-        print(f"   ✂️  Groq: промпт обрезан до {len(lines)} новостей (лимит TPM)")
-
+    # Получаем список моделей
     available = _groq_get_models()
-    if available:
-        print(f"   📋 Groq модели: {', '.join(available[:5])}{'...' if len(available) > 5 else ''}")
-    else:
-        print("   ⚠️  Не удалось получить список моделей Groq")
-
     candidates = _groq_order_models(available) if available else ["openai/gpt-oss-120b"]
     if not candidates:
         return None, {"error": "no_chat_models"}
+    model = candidates[0]
+    print(f"   🎯 Groq модель: {model}")
 
     url = "https://api.groq.com/openai/v1/chat/completions"
     headers = {
@@ -963,44 +982,60 @@ def generate_analytical_json_groq(prompt):
         "Content-Type": "application/json",
     }
 
-    for model in candidates[:3]:  # пробуем максимум 3 модели
-        print(f"   🎯 Groq: пробуем {model}")
-        payload = {
-            "model": model,
-            "messages": [
-                {"role": "system", "content": "Ты аналитик новостей. Отвечай строго JSON без Markdown."},
-                {"role": "user", "content": prompt},
-            ],
-            "response_format": {"type": "json_object"},
-            "temperature": 0.3,
-            "max_tokens": 4096,
-        }
-        for attempt in range(2):
-            try:
-                r = requests.post(url, json=payload, headers=headers, timeout=120)
-                if r.status_code == 200:
-                    data = r.json()
-                    content = data["choices"][0]["message"]["content"]
-                    return content, {"provider": "groq", "model": model, "attempts": attempt + 1}
-                if r.status_code == 413:
-                    print(f"   ✂️  {model}: 413 (too large), пробуем следующую")
-                    break
-                if r.status_code == 429:
-                    wait = 10 * (attempt + 1)
-                    print(f"   ⏸️  {model}: 429, ждём {wait}с")
-                    time.sleep(wait)
-                    continue
-                if r.status_code >= 500:
-                    time.sleep(5 * (attempt + 1))
-                    continue
-                print(f"   ❌ {model}: HTTP {r.status_code}: {r.text[:200]}")
-                break
-            except Exception as e:
-                print(f"   ⚠️  {model}: {str(e)[:100]}")
-                break
-        print(f"   ⚠️  {model} не сработал, пробуем следующую")
+    # Разбиваем промпт на header + список новостей
+    marker = "Входящие новости:"
+    idx = prompt.find(marker)
+    if idx == -1:
+        # Нечего батчить — отправляем как есть
+        content, meta = _groq_call_one(prompt, model, url, headers)
+        return content, {"provider": "groq", "model": model, "batches": 1}
 
-    return None, {"error": "all_models_failed"}
+    header = prompt[:idx + len(marker)]
+    items_text = prompt[idx + len(marker):].strip()
+    lines = [l for l in items_text.split("\n") if l.strip()]
+
+    BATCH_SIZE = 20
+    batches = [lines[i:i + BATCH_SIZE] for i in range(0, len(lines), BATCH_SIZE)]
+    print(f"   📦 Groq: разбиваем {len(lines)} новостей на {len(batches)} батчей по {BATCH_SIZE}")
+
+    merged = {
+        "geopolitics": [], "economics": [], "business": [],
+        "technology": [], "energy": [], "security": [], "pr": [],
+    }
+    successful_batches = 0
+
+    for i, batch in enumerate(batches, 1):
+        batch_prompt = header + "\n" + "\n".join(batch)
+        print(f"   📤 Groq: батч {i}/{len(batches)} ({len(batch)} новостей)")
+        content, meta = _groq_call_one(batch_prompt, model, url, headers)
+
+        if not content:
+            print(f"   ⚠️  Батч {i} провалился: {meta.get('error')}")
+            continue
+
+        try:
+            parsed = json.loads(clean_json_str(content))
+            # Мержим категории
+            for cat in merged.keys():
+                if isinstance(parsed.get(cat), list):
+                    merged[cat].extend(parsed[cat])
+            successful_batches += 1
+        except Exception as e:
+            print(f"   ⚠️  Батч {i}: невалидный JSON ({str(e)[:80]})")
+
+        # Пауза между батчами, чтобы не упереться в rate limit
+        if i < len(batches):
+            time.sleep(3)
+
+    if successful_batches == 0:
+        return None, {"error": "all_batches_failed"}
+
+    total_items = sum(len(v) for v in merged.values())
+    print(f"   ✅ Groq: {successful_batches}/{len(batches)} батчей успешно, всего {total_items} новостей в JSON")
+    return json.dumps(merged, ensure_ascii=False), {
+        "provider": "groq", "model": model,
+        "batches": len(batches), "successful_batches": successful_batches,
+    }
 
 
 def generate_analytical_json(raw_data_prompt, recently_published_titles=None):
