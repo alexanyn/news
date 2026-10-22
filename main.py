@@ -1125,15 +1125,13 @@ def generate_analytical_json(raw_data_prompt, recently_published_titles=None):
                     result = response.json()
                     raw_text = result["candidates"][0]["content"]["parts"][0]["text"]
 
-                    # Проверяем, что это действительно валидный JSON —
-                    # если нет, не отдаём клиенту сломанный ответ, а идём дальше
-                    # (следующая модель или Groq).
                     try:
                         json.loads(clean_json_str(raw_text))
                         gemini_meta["latency_sec"] = round(time.time() - gemini_call_start, 1)
                         gemini_meta["attempts_used"] = total_attempts
                         gemini_meta["fallback_used"] = False
                         gemini_meta["model_used"] = model_name
+                        print(f"✅ Gemini ответила успешно (модель {model_name}, попыток: {attempts_made}).")
                         return raw_text, gemini_meta
                     except Exception as e:
                         print(f"   ⚠️  {model_name} вернула невалидный JSON ({str(e)[:80]}), пробуем следующую.")
