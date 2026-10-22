@@ -1131,7 +1131,7 @@ def generate_analytical_json(raw_data_prompt, recently_published_titles=None):
                         gemini_meta["attempts_used"] = total_attempts
                         gemini_meta["fallback_used"] = False
                         gemini_meta["model_used"] = model_name
-                        print(f"✅ Gemini ответила успешно (модель {model_name}, попыток: {attempts_made}).")
+                        print(f"✅ Gemini ответила успешно (модель {model_name}, попыток: {total_attempts}).")
                         return raw_text, gemini_meta
                     except Exception as e:
                         print(f"   ⚠️  {model_name} вернула невалидный JSON ({str(e)[:80]}), пробуем следующую.")
