@@ -1507,7 +1507,6 @@ def _guess_category(title):
 PR_APPOINTMENT_PATTERNS = [
     # Русские формулировки
     r'\bназначен(?:а|ы|о)?\b',
-    r'\bназначил(?:а|и)?\b',
     r'\bназначени[ея]\b',
     r'\bвозглавил(?:а|и)?\b',
     r'\bвозглавит\b',
@@ -1546,6 +1545,10 @@ def is_pr_appointment(text):
     """True, если текст похож на новость о кадровом назначении в PR.
     Используется ТОЛЬКО для фильтрации в категории pr."""
     if not text:
+        return False
+    low = text.lower()
+    # Белый список: креативные PR-кампании с назначениями не фильтруем
+    if any(w in low for w in ["ироничн", "креативн", "необычн", "шуточн", "вымышлен", "в шутку"]):
         return False
     return bool(_PR_APPOINTMENT_RE.search(text))
 
