@@ -938,7 +938,7 @@ def _groq_call_one(prompt, model, url, headers):
         "temperature": 0.3,
         "max_tokens": 4096,
     }
-    for attempt in range(2):
+    for attempt in range(3):
         try:
             r = requests.post(url, json=payload, headers=headers, timeout=120)
             if r.status_code == 200:
@@ -946,7 +946,8 @@ def _groq_call_one(prompt, model, url, headers):
             if r.status_code == 413:
                 return None, {"error": "too_large", "body": r.text[:200]}
             if r.status_code == 429:
-                wait = 10 * (attempt + 1)
+                # При 429 ждём подольше, чтобы батч точно прошёл
+                wait = 30 * (attempt + 1)
                 print(f"   ⏸️  Groq 429 на батче, ждём {wait}с...")
                 time.sleep(wait)
                 continue
@@ -956,8 +957,8 @@ def _groq_call_one(prompt, model, url, headers):
             return None, {"error": f"http_{r.status_code}", "body": r.text[:200]}
         except Exception as e:
             print(f"   ⚠️  Groq exception: {str(e)[:100]}")
-            if attempt < 1:
-                time.sleep(3)
+            if attempt < 2:
+                time.sleep(5)
     return None, {"error": "max_retries"}
 
 
@@ -1023,9 +1024,10 @@ def generate_analytical_json_groq(prompt):
         except Exception as e:
             print(f"   ⚠️  Батч {i}: невалидный JSON ({str(e)[:80]})")
 
-        # Пауза между батчами, чтобы не упереться в rate limit
+        # Пауза между батчами, чтобы не упереться в rate limit Groq (8000 TPM).
+        # 15 секунд обеспечивает примерно 4 батча в минуту, что безопасно.
         if i < len(batches):
-            time.sleep(3)
+            time.sleep(15)
 
     if successful_batches == 0:
         return None, {"error": "all_batches_failed"}
