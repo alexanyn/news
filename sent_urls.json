@@ -1,145 +1,5 @@
 [
   {
-    "url": "https://www.bbc.co.uk/news/articles/cw240zl08dm5o?at_medium=RSS&at_campaign=rss",
-    "added_at": 1792389825.1427217,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://t.me/the_financial_times_journal/8900",
-    "added_at": 1792389825.1427217,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://news.google.com/rss/articles/CBMiswFBVV95cUxOZjRyWnVJMnBMUjVIam9CcEFNZ0RXaEtuR0dFRzNfd2pqTzFTZWtDdDhSUzhUZzFEVHFJQ0Z5cUJBRWVFQm5BdHQ0UFU4ZWhJMVg1dHJvV2pkaXVNSklLNm1lLWhWemRJbGh1ak5nUlpDTEtVXzl3d0VzM3AtVFpua0VoMk94cXFZWTVmelNuaUVFeUJoM0VtR0ZFbkhyYzU5WEJua0FBMnFsUElZSXlYaXpNbw?oc=5",
-    "added_at": 1792389825.1427217,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.scmp.com/news/world/article/3371355/china-cuts-us-treasury-holdings-iphone-duo-pre-orders-5-weekend-reads-you-missed?utm_source=rss_feed",
-    "added_at": 1792389825.1427217,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://t.me/the_financial_times_journal/8902",
-    "added_at": 1792389825.1427217,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://news.google.com/rss/articles/CBMitwFBVV95cUxQUVRkb2hsTDU1SE9pWjNla2I5RTYxUFJQZndkWkVIQ05EbzhUOWlfbGp5X2J2SHA0bTJpMGptenRDdXdWZ3E2VkthVVdBY2YxTFQ0SjhPc2xadGJWRFR2dENBZ1luZ1lEOUlsVTFxYnJxYmJ4ck9kZmtaQlg1bzFjemN5Rk1WdFhSb0tpT2c2OVVGd2lRenlBVnRud2E5S2ZsMlRucENKZ0hpLWJBd1dCX0R5VG10YkU?oc=5",
-    "added_at": 1792389825.1427217,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.aljazeera.com/economy/2026/10/19/anthropic-says-it-will-commit-5-of-shares-to-public-benefit-fund?traffic_source=rss",
-    "added_at": 1792389825.1427217,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.theinformation.com/articles/meta-tesla-netflix-q3-updates-coming-week",
-    "added_at": 1792389825.1427217,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.theinformation.com/briefings/microsoft-pulls-nscale-u-k-data-center-following-delays",
-    "added_at": 1792389825.1427217,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.theinformation.com/briefings/nvidia-tells-suppliers-tap-tsmc-process-next-generation-memory-chips",
-    "added_at": 1792389825.1427217,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.theinformation.com/briefings/deepseeks-upgraded-v4-1-flash-model-shakes-ai-industry",
-    "added_at": 1792389825.1427217,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.semafor.com/article/10/18/2026/china-mulls-ai-export-rules",
-    "added_at": 1792389825.1427217,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://t.me/the_financial_times_journal/8901",
-    "added_at": 1792389825.1427217,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://news.google.com/rss/articles/CBMiswFBVV95cUxNR2tkU09LVm1NcVpFanhndVlQR2hWNVl5d2Q2S0VGc2ExRVh3d1gtN3BPVTMycTF6RmZQUmFfQWtoWFQ5NDd3akx3ODBWY0lXVWZyNVdoMmlHaUF2WjFrODFvQzdpdWtwb3BjLUthVDFDR0I5LXdENVBONThiVXBiWlpOU2w3ZlMtNDBRQkJiLXlUeVFJNDRJWHJXUXUzaUFWRThhTXMwTTRIS2RmVl81Rkcydw?oc=5",
-    "added_at": 1792389825.1427217,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.semafor.com/article/10/18/2026/egypt-pledges-to-support-saudi-arabia-in-houthi-war",
-    "added_at": 1792389825.1427217,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://news.google.com/rss/articles/CBMiswFBVV95cUxOSUFsbUxmVHc1WjQ5eHNRVFVNV3ZLdzdyRGV6MHNSMEZPRVJrejdESVc2Q204R2hKdi1EbVY3UVBHd0N6c0dMLTBDdVhoSkhFRWN2aWZLc1hmYTJrQjd2M3pXVUl5VDF2aktUMW9TQTNRN0lBZ0ZDcE1adjhlNzZ5NDZkNXNxSWdlS0ozREVlNlRDUkU1ZjVhdExxUDF3Zk5FY2tnSUNvNXdFYV9rTzJwTnlXSQ?oc=5",
-    "added_at": 1792389825.1427217,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "http://government.ru/announcements/60213/",
-    "added_at": 1792389825.1427217,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.kommersant.ru/doc/9041575",
-    "added_at": 1792389825.1427217,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://vc.ru/money/3202299-analitiki-rbk-ozhidayut-sokhraneniya-klyuchevoy-stavki-tsb?from=rss",
-    "added_at": 1792389825.1427217,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.vedomosti.ru/investments/news/2026/10/19/1238055-tsena-aktsii-gazproma",
-    "added_at": 1792389825.1427217,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.vedomosti.ru/technology/news/2026/10/19/1238049-skorost-mobilnogo",
-    "added_at": 1792389825.1427217,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://t.me/the_financial_times_journal/8899",
-    "added_at": 1792389825.1427217,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.interfax.ru/world/1123371",
-    "added_at": 1792389825.1427217,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.interfax.ru/russia/1123372",
-    "added_at": 1792389825.1427217,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.politico.eu/article/5-fights-nato-russia-war-plan/?utm_source=RSS_Feed&utm_medium=RSS&utm_campaign=RSS_Syndication",
-    "added_at": 1792389825.1427217,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.provokemedia.com/latest/article/influence-100-2026-provoke-media-reveals-world's-top-in-house-communicators",
-    "added_at": 1792389825.1427217,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://adindex.ru/news/tendencies/2026/10/19/350068.phtml",
-    "added_at": 1792389825.1427217,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://news.google.com/rss/articles/CBMiowFBVV95cUxQUFFMV0l5aG8tUkM2YUlCV2FFQi1RdHpnUWh4QS1oSlc3UDdCcEpxNDc0RUNPalpNdHFzWWJmZWdVWEtzU0U3VEE4WTJ6T1NlN09ZVHF3RG1fdmdMaGZCUlRfdTMzTHNXaHB0U0tiVHBKWVNSdElzU3hVYUV1aVFobzRFTEgtdXI3Z21FN3AzSUpCUU9jb2xuQ09qS2QydnBIcWJJ?oc=5",
-    "added_at": 1792389825.1427217,
-    "source": "parsed_feed"
-  },
-  {
     "url": "https://news.google.com/rss/articles/CBMirwFBVV95cUxQR3FaTkFtc3lTTUZRVGV2WlV4elBHTVlNb2JlcGVIbDEwd29YNlk2Sm1CR043SG1EYmFlT1F6d3Fwb0g2SFl5RHA2c2hkTVZ4TXpnYldWOUZ0N1pvbW90dDlkejFxaUtvRHNfOWJqOGt6Y1Q2Q295c3MtMDJvVlpZVDlFZ3RmQW5nZ2JIUjQwbWl6UDI2cG12YXBhQ0JDR0xEUHlmRDc3eUtKMVRFMENJ?oc=5",
     "added_at": 1792400625.9567013,
     "source": "parsed_feed"
@@ -4417,6 +4277,106 @@
   {
     "url": "https://meduza.io/news/2026/10/25/radio-svoboda-vokrug-rezidentsii-putina-na-valdae-poyavilos-esche-16-bashen-pvo-vsego-ih-uzhe-okolo-50-pochti-polovina-ot-moskvy-i-okrestnostey",
     "added_at": 1792951645.4352002,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://meduza.io/news/2026/10/26/lula-da-silva-pereizbralsya-na-post-prezidenta-brazilii-vo-vtorom-ture-ego-sopernik-flavio-bolsonaru-otkazalsya-priznavat-porazhenie",
+    "added_at": 1792994730.7832355,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://meduza.io/news/2026/10/26/vuchich-proigral-na-parlamentskih-vyborah-v-serbii",
+    "added_at": 1792994730.7832355,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://news.google.com/rss/articles/CBMiygFBVV95cUxORnpERmd3Z1pYM2xFeTBMOEVnY21scU00QlNJOTdFdE5wbFhmcjdQU1ljTk9vWlJmd1JKdDRvT1p1LVZLT2hpM3h4UmVKYTRhTkJnVmJKZFhkRmFuUF9CZzA1YXNON1VmQ0ZOODVVTkJDZndUUzUzRUxEZmdDa2YyZlA4N1IyVGVCaVlNN2lGRnVXZWxQeTVlYTZnMmRJOHhrRGxYVTFNSXNEZTZfOGhWRGQ4RVlGSWNyTXZoSi1Zb1N0VW1EODBSdFBn?oc=5",
+    "added_at": 1792994730.7832355,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://news.google.com/rss/articles/CBMiswFBVV95cUxQeUR5Z0dNcnNwcWZpR3dPUWd5VTJHSG5pMjMzUW5DNTJ4MFYyTDlIY0Q3ZWZUNVhKbVNoSi1aNFR5WnhzRTk3bmJOUkthOURaZ1JGVnlkNDhaR1ZBS1Q3VnZ6XzFtd0lCdVpJSkREdkIweDg2bFZQY3hiVnRsLTExcU9tSlBaV29UcEtRRElEbEFYMjRrX1RfZ01GVkNwNVpZMkFwV0IwRUFMdlVDc1VzN2FGMA?oc=5",
+    "added_at": 1792994730.7832355,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.semafor.com/article/10/25/2026/hunting-for-ai-gains-outside-magnificent-7",
+    "added_at": 1792994730.7832355,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.axios.com/2026/10/25/anthropic-claude-georgia-voter-data",
+    "added_at": 1792994730.7832355,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://t.me/the_financial_times_journal/8993",
+    "added_at": 1792994730.7832355,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://news.google.com/rss/articles/CBMizAFBVV95cUxORlYwOVl3Z1hlOFdacWVmeXZVNnVhejFlWDVOR0toczJ2MWNjT1FMRWZjVU0xd1hGaGtzNU9VcGdYSnR1Z2NVQjFfRVpKallEcEVuTzNweldmeEdYOE05UXFOejl1ekR1ZjlxUlhHT1NLa3J0cmZYWUxhSEs2eXNGb2xNNUJycVNWci1ZVzZUOXBSNGc0bzRJNWVTTnVlWHhXRlBrLWRTOV9HbmlJTmVfZk95N0FIQnBLQTlTa3N3eFBaVDJMWGptVU1VN3A?oc=5",
+    "added_at": 1792994730.7832355,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.interfax.ru/world/1124950",
+    "added_at": 1792994730.7832355,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://tass.com/world/2207649",
+    "added_at": 1792994730.7832355,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://news.google.com/rss/articles/CBMiswFBVV95cUxOMHVaa0dtU1RzeGQ3ZEhYLUVIV1ZpY092c1JBdE9tVE5xbk8tNDZpbF9GZDkzdG9mUUxOaVV1ZjBvYnFCV1V5WVFsa19xdnp4Tmc5anppU1pVbGhwYjdyeE9ybGFnc0x0MDZHVHA2SndrNnRyQWdhZFlRQXJwREh0S042cG1SeHpjUHJaWnNkcHdMODMyeUNacDN4aGZob2hhcUYzM2tJdGVpNF9wRG8yc2tRUQ?oc=5",
+    "added_at": 1792994730.7832355,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.kommersant.ru/doc/9060352",
+    "added_at": 1792994730.7832355,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.rbc.ru/quote/26/10/2026/6adee0e69a794784ae86a793",
+    "added_at": 1792994730.7832355,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://tass.com/world/2207659",
+    "added_at": 1792994730.7832355,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://t.me/the_financial_times_journal/8992",
+    "added_at": 1792994730.7832355,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.interfax.ru/world/1124951",
+    "added_at": 1792994730.7832355,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://news.google.com/rss/articles/CBMijAFBVV95cUxNQy16Tmx4c1dQXzNIWlphRE5sRWV0UlllRl9GZmlKeGFScklXaEJoMlFrZ1lodTVQU3RFekt1X3ZvUnludFFwUGFpT2UyS2dRLWY0bUJVMzhVd0ZtSGh5N0ZwanVjNVpEdjNQSEdEMEZGZzRJYkJYaE0yWEdMUVNuTUVKRjR5QnhTNUR0dA?oc=5",
+    "added_at": 1792994730.7832355,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://adindex.ru/news/researches/2026/10/26/350435.phtml",
+    "added_at": 1792994730.7832355,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://adindex.ru/news/right/2026/10/26/350433.phtml",
+    "added_at": 1792994730.7832355,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://adindex.ru/news/right/2026/10/26/350432.phtml",
+    "added_at": 1792994730.7832355,
     "source": "parsed_feed"
   }
 ]
