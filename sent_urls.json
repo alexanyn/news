@@ -1,280 +1,5 @@
 [
   {
-    "url": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxQRS0zZWNoLW9WajlJVDROa1puZGVHU0FTMGhMOWNXWGVieWUzM2ZWekUxcWlBX2tjb0sxOEVRYnozR0l3TW90YmlRV2FodkJENFZYY0Y2VVdLelM1MHFlc1FHUVFXdUVLeUpURHFFTjU3ZmZ1RGsyZzYtZmVIeUFxc0JEYm02LU5SRzVGQmx3VEdGd1lza19TZlk0alFEaU5LeHNPUDFNSlpKdw?oc=5",
-    "added_at": 1792422697.3999143,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.bbc.co.uk/news/articles/cxvgd0ymgzgyo?at_medium=RSS&at_campaign=rss",
-    "added_at": 1792422697.3999143,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.bbc.co.uk/news/articles/c3lylj78777do?at_medium=RSS&at_campaign=rss",
-    "added_at": 1792422697.3999143,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://news.google.com/rss/articles/CBMitAFBVV95cUxNdF91VnB6WVJqWkJRU2JBNUhBQmJnRHF2TlRvRVQxZXVMaG8ta2o4RkhvN1RkYWFLVmdkTGRtYXBLc3JSUDc0cXlpcVBLSzhFTHBxdl9ob3BHXzF1cXhoLUx6TmtVMERGSXc2d2tEYlZNeGwxejUySTNZZWRSVHhSXzZIbW5Fb29WNUY4SnpPSDhPMlRucXBUaEVrVWVDd3l1aTYwZnlDMGgtRDNjWXdzZ0xXVzM?oc=5",
-    "added_at": 1792422697.3999143,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://news.google.com/rss/articles/CBMitgFBVV95cUxPMm16bDBJYnhqdUtXNHBGZVhOS2RQVnctVkpGQ1lzNmhXdi1PTVA1cWF2MzZTN1Q5NEhicmRSTVVkaFgzQnh3SzZNei1BbEtFb3pianVRTXE1cGhwWDMwX0dYWm0tZlhOVWZ1TkQzLXNUbEVNMHBRc0xld0lRbnZoNDNLS3NnYnNBZG5WRDUycEFnZ0xUbDJOQVJ3TGdrNkhCaDZ3SVZ1Y1I5LUE2amRLaDBPaDZTUQ?oc=5",
-    "added_at": 1792422697.3999143,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.aljazeera.com/news/2026/10/19/pakistan-suspends-iran-border-trade-amid-violence-on-both-sides?traffic_source=rss",
-    "added_at": 1792422697.3999143,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.aljazeera.com/sports/2026/10/19/psg-vs-barcelona-match-will-not-be-postponed-despite-protests-french-pm?traffic_source=rss",
-    "added_at": 1792422697.3999143,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.aljazeera.com/news/2026/10/19/french-protest-violence-a-christmas-present-for-le-pens-far-right?traffic_source=rss",
-    "added_at": 1792422697.3999143,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.aljazeera.com/video/2026/10/19/doctors-describe-hospitals-shattered-by-israels-genocide-in-gaza?traffic_source=rss",
-    "added_at": 1792422697.3999143,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.interfax.ru/russia/1123512",
-    "added_at": 1792422697.3999143,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://news.google.com/rss/articles/CBMisAFBVV95cUxOeEpndkVhZ2dRdTE4ZFRvbWo5MVRaNm01Ym5UejE2a3pScWZSbG1jRmpZVnBYVHlTTjQ5OWVyTEt4a200VnVsZ1FaVmVWTTRpbkhMbmxUaUxrRTRfLXB5TXdKdTctbzJsSkU5ZDZ1NkpDWkZSaUJnNkFoQl9pNU11dHppVHA5WVVUdFRnM19YNnVtWDZJZ3d1eUpfMjJUamR3Nm9XQXplR3BZbzhCOEQtRA?oc=5",
-    "added_at": 1792422697.3999143,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.kommersant.ru/doc/9042265",
-    "added_at": 1792422697.3999143,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.politico.eu/sponsored-content/the-multiple-sclerosis-gap-europe-cannot-afford-to-ignore/?utm_source=RSS_Feed&utm_medium=RSS&utm_campaign=RSS_Syndication",
-    "added_at": 1792422697.3999143,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://techcrunch.com/2026/10/19/musk-pledges-to-give-every-kid-in-america-one-of-his-spacex-shares/",
-    "added_at": 1792422697.3999143,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://asia.nikkei.com/business/markets/indonesian-exchange-to-exclude-high-concentration-stocks-from-key-index",
-    "added_at": 1792422697.3999143,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "http://government.ru/news/60233/",
-    "added_at": 1792422697.3999143,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.politico.eu/sponsored-content/adipositas-sparen-kann-fuer-den-staat-teuer-werden/?utm_source=RSS_Feed&utm_medium=RSS&utm_campaign=RSS_Syndication",
-    "added_at": 1792422697.3999143,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.semafor.com/article/10/19/2026/burundi-signs-14b-electricity-deal-with-us-backed-anzana-electric-group",
-    "added_at": 1792422697.3999143,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.axios.com/2026/10/19/supreme-court-khalid-sheikh-mohammed-911-plea-deal",
-    "added_at": 1792422697.3999143,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxOaGtJNmIzcGdtUF96Zk5qZ1JfRVZJZE9mSnluMVJZMHVXbGpzWUozSVYyVzQ5dldnRU1aMXVEZ2JDOXczRmd0Q01FeDZvVFpyX2phVENGMURyX1VDM0cwd0VyYS1ra0VnYzdxZGFBZkp6VzR1SVRPVkFVYnBUSUNPVHc0OU1FamVXYWh3d0NHeHRKU0w0OE1pcjlfQ09oYXR2N3dycXNXWFFZdw?oc=5",
-    "added_at": 1792422697.3999143,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://news.google.com/rss/articles/CBMisAFBVV95cUxQQnRpUlhFSVItYXlyM2JtRDAxZFNzc1owV1VBSFM4VERhS3dYOW1wVWtOeERTaDRrWlZyQVJTVVdvNFktdG5oSGpjY0ZwY1hBbnllN2d6Qkg4aExFcWdNT3F3dWlxdTFtbU92WV9WTC1NVEw0QmlWb201cXB6NGJCajVtbmZjYnJ4MWZ3TDZYR1l3ZmZFRFJORzhlNE1Yb0QtNDlyc3ZnY2tuenV1OFgwVQ?oc=5",
-    "added_at": 1792422697.3999143,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.interfax.ru/world/1123511",
-    "added_at": 1792422697.3999143,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.kommersant.ru/doc/9042261",
-    "added_at": 1792422697.3999143,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.kommersant.ru/doc/9042267",
-    "added_at": 1792422697.3999143,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.rbc.ru/rbcfreenews/6ad62fc601be9e15b3020d1b",
-    "added_at": 1792422697.3999143,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.rbc.ru/radio/19/10/2026/6ad62cc89a7947bffd79123a",
-    "added_at": 1792422697.3999143,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.technologyreview.com/2026/10/19/1147103/the-download-preserving-the-arctic-permafrost-and-playful-ai-agents/",
-    "added_at": 1792422697.3999143,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://techcrunch.com/2026/10/19/apple-updates-guidelines-to-ban-nudify-apps-masquerading-as-regular-apps-to-pass-review/",
-    "added_at": 1792422697.3999143,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://asia.nikkei.com/business/technology/artificial-intelligence/china-s-deepseek-debuts-improved-low-cost-ai-as-tech-doubts-swirl",
-    "added_at": 1792422697.3999143,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://t.me/neftegazchannel/28372",
-    "added_at": 1792422697.3999143,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://t.me/the_financial_times_journal/8910",
-    "added_at": 1792422697.3999143,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://t.me/the_financial_times_journal/8912",
-    "added_at": 1792422697.3999143,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.scmp.com/news/china/military/article/3371390/china-building-fleet-drone-motherships-extend-its-naval-reach?utm_source=rss_feed",
-    "added_at": 1792422697.3999143,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://t.me/frank_media/24387",
-    "added_at": 1792422697.3999143,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://news.google.com/rss/articles/CBMivgFBVV95cUxQWVF3TGpvSmg1YmEyMnhhWXhnUFkwdS13ak14NldscXdsZm92dVkzbGdnU3lwd2VjY255bXJKeGZOX09ZM3AxN1JjWHRSbXRGNDdFaTVhMU9SMWxKZXRDNDd2bnBuaE5pSjJwbkgtVXF6dzJWNWFJOUw5X2U1TjJPQjdUaG1ldHRudHRVTF9FeWhOM3gxaTloUEcxaVdJdHg2M29sUHJwc2NFWFdRV0xjS3Y2UlZ6ZEJLOEw3ZEpR?oc=5",
-    "added_at": 1792422697.3999143,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.interfax.ru/russia/1123508",
-    "added_at": 1792422697.3999143,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.themoscowtimes.com/2026/10/19/annexed-crimea-begins-lifting-fuel-rationing-measures-after-months-of-shortages-a94023",
-    "added_at": 1792422697.3999143,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://meduza.io/feature/2026/10/19/rossiya-aktivno-biet-po-zavodam-i-mostam-v-ukraine-vyderzhit-li-ukrainskaya-ekonomika",
-    "added_at": 1792422697.3999143,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://meduza.io/news/2026/10/19/upolnomochennyy-verhovnoy-rady-po-pravam-cheloveka-rossiya-i-ukraina-obsuzhdayut-evakuatsiyu-zhiteley-aleshek",
-    "added_at": 1792422697.3999143,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://tass.com/society/2204245",
-    "added_at": 1792422697.3999143,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://t.me/istories_media/13908",
-    "added_at": 1792422697.3999143,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://t.me/tadviser/6371",
-    "added_at": 1792422697.3999143,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.themoscowtimes.com/2026/10/19/the-suicidal-fall-of-europe-russia-reacts-to-riots-in-france-a94021",
-    "added_at": 1792422697.3999143,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://meduza.io/news/2026/10/19/rossiyskiy-sputnik-v-kosmose-priblizilsya-na-opasnoe-rasstoyanie-k-apparatu-kompanii-kotoraya-predostavlyaet-snimki-vrazheskih-ob-ektov-ukraine",
-    "added_at": 1792422697.3999143,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://t.me/the_financial_times_journal/8913",
-    "added_at": 1792422697.3999143,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://tass.com/economy/2204255",
-    "added_at": 1792422697.3999143,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://tass.com/world/2204249",
-    "added_at": 1792422697.3999143,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "http://government.ru/news/60232/",
-    "added_at": 1792422697.3999143,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.vedomosti.ru/politics/news/2026/10/19/1238306-lavrov-rossiya-zainteresovana",
-    "added_at": 1792422697.3999143,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.axios.com/2026/10/19/fallout-trump-russia-energy",
-    "added_at": 1792422697.3999143,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://t.me/the_financial_times_journal/8911",
-    "added_at": 1792422697.3999143,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://tass.com/politics/2204235",
-    "added_at": 1792422697.3999143,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.vedomosti.ru/politics/news/2026/10/19/1238319-lavrov-nazval-faktor",
-    "added_at": 1792422697.3999143,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://news.google.com/rss/articles/CBMipgFBVV95cUxNQUh2ejdlUURSRGgyNmZrNFUyMngzdnhpcldsWFNKVWZTREdpaHJudGhrZ0NHeUFOYUFCaFNobFU4ajFZT2ljVmx2SnlDWlRzUjZNTXh4UzZaY21aazMwbm9qWFhJZXdBVlpQRTZHRU0xcUZaWlA1TW1zY1Q4Q0xVaWdUQl92eWxoenhRX2UwRnJpTFpDeU11S0pHZkFxM0Q2X3B2eFRB?oc=5",
-    "added_at": 1792422697.3999143,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://adindex.ru/news/researches/2026/10/19/350083.phtml",
-    "added_at": 1792422697.3999143,
-    "source": "parsed_feed"
-  },
-  {
     "url": "https://www.scmp.com/news/us/article/3371420/rubio-pitches-us-business-central-asia-says-china-ties-need-not-suffer?utm_source=rss_feed",
     "added_at": 1792432915.9127393,
     "source": "parsed_feed"
@@ -4287,6 +4012,146 @@
   {
     "url": "https://news.google.com/rss/articles/CBMixgFBVV95cUxPaC0zTHFRS2dfTnRMRU1LdXg0QS1VX2k0REFLSVY2NW81M3JjR29OWl93OEFKUWwxekN2cEdTX0czWnVhaC1zaXRtVkdCMUFuVVFjdkFlWjBRSE9OcXNVSnY0MExqOGlKczJOSF9jQ3Z5bWw4b2JsZVZxWlBZUmpodUJJZlNNSnFXVTE4ZXpESjAyWVBwaTl0ZXZ3SWVaMUJtWXY2TTRNMHl5c1FhRnRBNUNVLU5FMXdsMzBHRmI1YXQ2R2R4TGc?oc=5",
     "added_at": 1793016422.6285658,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://news.google.com/rss/articles/CBMiywFBVV95cUxQUUluTlhFbGtJMWMtZ09ieVhSblh2b0Y4cWpleDVwWUVfUWVyanZIOHFhenFqaWRYZ0U0cEd6MFVjQk5xSXZkWjJNRmM4ZWdPa01KTHBRRjVHRnJPRWtlbGRwWFBNOFJnQ3F5Z2JZbjVFVE5ERUxDdmozN0FPUjRkaUpVNGIwRUFTVXhROU95dC1wby0wX2xzTlg2ODlZeDR2cmM3bHFFaHItbGJ6X3gxT2lwX0FONW11aGtoeWFXQmhmc00tWnlQZEhHQQ?oc=5",
+    "added_at": 1793027858.3734648,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.aljazeera.com/news/2026/10/26/irans-anti-negotiation-hardliners-turn-against-president-pezeshkian?traffic_source=rss",
+    "added_at": 1793027858.3734648,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.aljazeera.com/news/2026/10/26/israel-expands-occupied-west-bank-expulsions-to-cement-control?traffic_source=rss",
+    "added_at": 1793027858.3734648,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://news.google.com/rss/articles/CBMikgFBVV95cUxQNTRFU0EzLUl3eFBOWEpjUDBKSmh3ZjQyd1ZIQlVlQm0wS0pRM203aEhwSXZocXowZFdzbFVlOU9iREJtbXpfMmswbjdoLTlvQmUtV1pzNHhHdENZQXRwQ1h0S2VSR3Q0REE0VFpkcUtBaUpCWWRxNEZFMGtrRTBVSThLcE9TRW03LVFDd1FRT1h6Zw?oc=5",
+    "added_at": 1793027858.3734648,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://news.un.org/feed/view/en/story/2026/10/1168669",
+    "added_at": 1793027858.3734648,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://news.un.org/feed/view/en/story/2026/10/1168668",
+    "added_at": 1793027858.3734648,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.scmp.com/news/world/europe/article/3372201/frances-macron-promises-strong-measures-ease-protests",
+    "added_at": 1793027858.3734648,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://news.google.com/rss/articles/CBMisgFBVV95cUxQa29LWk1mM3hvOXNzYUlVdzdIR2VYSHJCUkdOUFJiMDRsZFpsdDJyekhzbl9qTGVPQUwzLU1IRmQtZEVCeE1kTjYtTk5YS0RhdmZkSHdmQTdEWFpubzdJdDBTS3ptTjNEM1JIaEg4MW9yMkQ4RnJyTERoOFVVa0lWc2w2NEV4OHd1TS1XVDFGbkFYRzBseXdubkhEa2ZnWmJncnV6WXh0SmVkb0J0ZWZxMlRR?oc=5",
+    "added_at": 1793027858.3734648,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxPTnhLb1ZGYUdnbENkWmMyZDZqTHlsckJwbEsxWVZGTnI5U2lPcFNXLXFoYmRRZm1rU2NWREZrWGVRblRES2FmdkwtUVIzMDlTS2N4ZW5vNno1Y2JCR1FzclhmdUVBOU5jMElCd2FwTlN1VzdfOU94YXlFc2VSWmRObXZyMVhyNnlf?oc=5",
+    "added_at": 1793027858.3734648,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.semafor.com/article/10/26/2026/new-eu-deforestation-rules-threaten-ethiopias-coffee-sector",
+    "added_at": 1793027858.3734648,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://news.google.com/rss/articles/CBMitAFBVV95cUxNdk10Z0dNOHo5TkxNdllqTWI3TkNJcF9WUkpuWVcyRWppcUdpenNjak4tazNvM0FmUXJEbmYtV3BMQmRQOFVCWkZQeC1GdkZKM0ozTDNFYlNfNWJUQnVXdWpLcG9nUllMMUxkR2pfWm96SU1iVGVmRHNneGs3OUNiVTRjSWlJRmNzVWtVNmZPTk83TVJfb2NvZ0JkbXVqWmVWajU3MEdiMTdkQ1NhTEozbjk0OWo?oc=5",
+    "added_at": 1793027858.3734648,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://news.google.com/rss/articles/CBMisgFBVV95cUxNNzVQSTg0QTVlWjdXdEVDc0RQUTg1ejREb080VGtSbV9hSWNFR252UW8zWmN2ZnliMkhJVHJINTlScmVLWlk5blFfM1hDWDN6ajFVd2E4dTRQZVRSVFdLS0hjUk9FUTdHcUhoYTVZSWw3SWNrWG1fT3JyWmRWY2NhMXdhNnpEOWNRRDRjRVhSNGJPaExOblBtMkN0RlNZZG9hbzBET1h6N3hjeGdneG9DVHNB?oc=5",
+    "added_at": 1793027858.3734648,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://techcrunch.com/2026/10/26/tesla-turns-to-turo-to-boost-adoption-of-full-self-driving-supervised/",
+    "added_at": 1793027858.3734648,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://news.google.com/rss/articles/CBMivAFBVV95cUxNSU91RXFjTktnUkEyQlRXY3FOdEJBTWNyVVg5QjB4Y0hNaVBFczJSZXdqNXpZWHRxNDBFa0JTWGNSSlhJdFFqSFdXWDVVX01KRTU2Ni1MdU5oYTVGZlBVQjRoYmxIcEI2OUs3UkQ2YjFfdWtUaXFYNFAteTkxaFhUOHBXZ0NaUy1nWnFZREhhaXc5VnhoZW5fVmlVSGVwU3ZhQUJLdE5hU3FSbklJVE1HVzNvUW5jNUh0d0h3TQ?oc=5",
+    "added_at": 1793027858.3734648,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://techcrunch.com/2026/10/26/anthropic-officially-files-for-its-public-debut/",
+    "added_at": 1793027858.3734648,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://techcrunch.com/2026/10/26/apple-unveils-new-ipad-mini-with-oled-display-and-faster-a20-pro-chip/",
+    "added_at": 1793027858.3734648,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://news.google.com/rss/articles/CBMi8gFBVV95cUxQdjBtSTFITlA2MmhkRURvWUpjVEpHc1BEZmF1VjBwRjVWd0hkWlhuaFhaY01uLTBhYWhzS1N5Zk4xOTcxSThCRFpETW92aW5uXy1mSkJxdG42YzYtVUR5YTZ3TXhNa2ZJOHhMTUJrdjNHRGFSV19FX0UwVWRZU0gyd2hVelZ3a1RQMDNkbWFGNnhyd1VtZ1Z0MnVpQTlaZkNSeDMxLU54RWZ4Q2xtYUc5Z0hmenh4Sml5UjlBYkQxbzVmWnQtYzR2dG1UMXk2d0ozUm1SRG1YVGNCejZwSjVjR1dsbkFaRkxCZnY4bzI2cUZMQQ?oc=5",
+    "added_at": 1793027858.3734648,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.rbc.ru/politics/14/10/2026/6acf6a13914c79f40946dde9",
+    "added_at": 1793027858.3734648,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://tass.com/world/2207979",
+    "added_at": 1793027858.3734648,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.interfax.ru/business/1125060",
+    "added_at": 1793027858.3734648,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://tass.com/economy/2207997",
+    "added_at": 1793027858.3734648,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://news.google.com/rss/articles/CBMijAFBVV95cUxQWWlxaTFQcFNwaFBDdjJ3aFdFMHE5YkZjRFVNdEk5THUxRW14VWxjb3dYd19KeTk1SzMxOXZFOTdYd2hqZ1AySW1DQlJNb3ZsUjVNTi1wRjJnYnVLak44YmpjSVBRSkRzemJxZkFubjJUVkRibEFtQ2kwcGotb0trVHB4VU84Qk9JNFBscA?oc=5",
+    "added_at": 1793027858.3734648,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://news.google.com/rss/articles/CBMitwFBVV95cUxPVVVBTm1mNFVtczU5MFozUTB5UldjTVloRzRmX0szRkN6Q3BlWTRCd3J3SkZNZTVRWU16R1pka3dkdVp3LXNtUGV2TURYZTZoS2RJS3dmWWEzeF9fMzd0a1ZjY0xPeFJ0TkZrWllKamhMM2JlbTZjZHZvQmIxXzBodXJIaXhwMzdMUGMyUWlNbkpmR0x0eVpaZnltbHN6bHJlVDZCUk8yZ0sxUkR6RU9Db3AweTdTU2s?oc=5",
+    "added_at": 1793027858.3734648,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://tass.com/economy/2207999",
+    "added_at": 1793027858.3734648,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://tass.com/defense/2208001",
+    "added_at": 1793027858.3734648,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://tass.com/world/2207993",
+    "added_at": 1793027858.3734648,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://adindex.ru/news/releases/2026/10/26/350461.phtml",
+    "added_at": 1793027858.3734648,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://adindex.ru/publication/analitics/search/2026/10/26/350468.phtml",
+    "added_at": 1793027858.3734648,
     "source": "parsed_feed"
   }
 ]
