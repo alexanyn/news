@@ -1,135 +1,5 @@
 [
   {
-    "url": "https://www.politico.eu/article/eu-to-press-canada-and-uk-for-more-ukraine-funding/?utm_source=RSS_Feed&utm_medium=RSS&utm_campaign=RSS_Syndication",
-    "added_at": 1792562695.6756792,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://news.google.com/rss/articles/CBMiygFBVV95cUxQNVNjS1MtbF9RQzltYk5VeXRfRVFQUkxBeFZyQjZlaWxDeGpQSTlQUGpZNnE3MHRfN1VQUkp0Rl9HcjZDSkZ6OTRIQlhqLUZNNnVNRXJFaUNOREY3ZUFOcDhqT0NnWGtySjZ1UVpDd1hhSVB5LUhYZlF3cXhfRm0tOEpiOG9zRzJWcnFNQWNRZklfRmlESDRMT2ZVdEgyTnAwSUJLM1hDNHhPWHU2X01rSXlqSjZfc1ptd0dIcVUwRDdDTnZfN2hQWDd3?oc=5",
-    "added_at": 1792562695.6756792,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://tass.com/economy/2205007",
-    "added_at": 1792562695.6756792,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://t.me/the_financial_times_journal/8931",
-    "added_at": 1792562695.6756792,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://news.google.com/rss/articles/CBMirAFBVV95cUxPb2ZIN1pNVDRlRXF4N0V3TGNPVVlGMHJlcmJubmJYNUdyWnI2NVlsQTBFRVY3RWNKRVBsRlpkbWtTMmQ3eUIxLW9ibGp4NFVGV0RXQ1A4dXhJWWlEQnZFZkdlVWpqWF9kdDRTdlZ3ckVqOUMyNWRSWXFpWlNzeHpLS3FJQjI4MUJvT2FNY1ZUejczcFBtUnlBZ3RSLXBfV0tJdXpFZTNwWjJiYVlC?oc=5",
-    "added_at": 1792562695.6756792,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://news.google.com/rss/articles/CBMipAFBVV95cUxNSUhDX045dFpuNEV5Ul9vOGlYb2prbGg4X1dVMGdHYkR2bThwWGFpV1pFejNfMGtEd3dHaGtKTFc0UHh6d3pIYjZVQWE5c2R0U3R5OElfLWhYWmJldVJmWHZhRGRQUDJTWmRpZUVaWjdKem8xVWRkT01BZG1zUlpRblY0ak5nckRNU3RkRjNuRVhMdzBWWmVycHJvbHBXQjVId3BPaQ?oc=5",
-    "added_at": 1792562695.6756792,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://t.me/the_financial_times_journal/8929",
-    "added_at": 1792562695.6756792,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.scmp.com/tech/big-tech/article/3371592/deepseek-open-sources-new-tool-slash-ai-costs-fight-against-closed-source-rivals",
-    "added_at": 1792562695.6756792,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://news.google.com/rss/articles/CBMitAFBVV95cUxQM2hxMmVsMXJ3Qzg3cDFjTWc4d2s1eTlxMUpUd3FtZVhzX3p6UEJyaGFfdF9pazEzeXJmRVFoRnMxaWZMTThxaUMzLTdOejlXc1dmZl9LVE1PMTZqWW9YdmxTM1FfYlJxXzBrWlFmZ1lQRjFmUjFEQzJJZW1OMG1oeUl5T3FIRlBsTU5KanZ4b3lFeVh3dDFqb3NJU1hlcWw0VUk1bVM3YVdyc0paOXd2OHpEQXQ?oc=5",
-    "added_at": 1792562695.6756792,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://techcrunch.com/2026/10/20/anthropic-pitches-ai-safety-bill-that-may-block-a-model-if-50-people-could-be-killed/",
-    "added_at": 1792562695.6756792,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.semafor.com/article/10/20/2026/chinese-tech-firms-purchase-more-than-35-billion-of-nvidia-chips-reuters",
-    "added_at": 1792562695.6756792,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.interfax.ru/business/1123852",
-    "added_at": 1792562695.6756792,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://t.me/the_financial_times_journal/8927",
-    "added_at": 1792562695.6756792,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://news.google.com/rss/articles/CBMitgFBVV95cUxQU2U4a0h6MGo2bjVwQjlTMkQwUndDbkdZb1lLRkpYckxmV0lWWDJvdFNZbXpzSk82M2FwVlF5N2ItbEg3UHpYY0dSSVBMU1ZWem1FaGZwVnAyUWltMVZNNTAwQmJEdTd4Q3ItZm9hbGZMV0hZUC1zWjVJc0Qzd00xZE91dVFqZFRlNWZmLVg5bEY1dzB1QnZBQTlIYWxBZ3BqQjNCTWphaU9CQVV5eldIdnlZQXZvZw?oc=5",
-    "added_at": 1792562695.6756792,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://tass.com/world/2205005",
-    "added_at": 1792562695.6756792,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.axios.com/2026/10/20/putin-witkoff-russia-ukraine-war",
-    "added_at": 1792562695.6756792,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.vedomosti.ru/politics/news/2026/10/21/1238739-wsj-tramp-planiruet",
-    "added_at": 1792562695.6756792,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "http://government.ru/news/60249/",
-    "added_at": 1792562695.6756792,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://vc.ru/money/3206806-spros-na-sklady-v-rossii-uvelichilsya?from=rss",
-    "added_at": 1792562695.6756792,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://t.me/neftegazchannel/28390",
-    "added_at": 1792562695.6756792,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://meduza.io/news/2026/10/20/the-wall-street-journal-ogranichit-rabotu-starshield-dlya-ukrainy-prikazal-mask-po-dannym-nekotoryh-istochnikov-on-obsuzhdal-eto-s-trampom",
-    "added_at": 1792562695.6756792,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.kommersant.ru/doc/9043411",
-    "added_at": 1792562695.6756792,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.prweek.com/article/1973044/former-ibm-heineken-comms-leaders-launch-equalls-advisory-firm",
-    "added_at": 1792562695.6756792,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.prweek.com/article/1973043/one-strategy-group-acquires-fuller-impact-group",
-    "added_at": 1792562695.6756792,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://adindex.ru/news/adyummy/2026/10/21/350199.phtml",
-    "added_at": 1792562695.6756792,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://adindex.ru/news/researches/2026/10/21/350192.phtml",
-    "added_at": 1792562695.6756792,
-    "source": "parsed_feed"
-  },
-  {
     "url": "https://www.interfax.ru/world/1123897",
     "added_at": 1792573570.7576914,
     "source": "parsed_feed"
@@ -4197,6 +4067,121 @@
   {
     "url": "https://www.provokemedia.com/latest/article/provoke-global-summit-what-it-takes-for-pr-to-earn-c-suite-influence",
     "added_at": 1793124367.099952,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://news.google.com/rss/articles/CBMiwwFBVV95cUxOZmptb013S1hpZ2RvLUZSRWh6dHV5cWFLZC0tdVBFdE8yVk04N2xjd0Q2VzZvdC1mVEUtZmdDMW9LQlRET1doTFFJd2xqWlJZTWVhWVdtamNCWk9WMjAyanRzTjNDcXEzNG80bWM4a3p1bkp2Vm43em0tcUI1ZkE0Tm1RaHc5cEdVcS1ER0loZU1xczlmQ1gxaXZ5Q1Y3Tnp4eDNKZ09zSDNWbUxnNmt3Q1Rvc1FPcmV1dVpmSmlSRHVTc2M?oc=5",
+    "added_at": 1793167737.1581101,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://news.google.com/rss/articles/CBMingFBVV95cUxOYVBiQjE0QTJza2Y3LV9qZi1mSWh6QzY4ZXRqYmVzNGZDb2UxU0VaODliT1N6WTFlY1pjcTJhdnB2dHFRWGhUMnlPSHBnemIyVnBiaEpwaWF5NkxNLWZPZElRTjM4U0xwRkpoZnhSekEtdllFT18wdThnQS1vU2EySTA1UlIzTV94bG5aSl9yZW1xQXBlYmJWVDFYSmNuZw?oc=5",
+    "added_at": 1793167737.1581101,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.vedomosti.ru/politics/news/2026/10/28/1240673-yuzhnoi-korei",
+    "added_at": 1793167737.1581101,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://news.google.com/rss/articles/CBMirgFBVV95cUxPMWdCRmR2TU1ZaW5sLXFla0paWHNkeTBYanNnZjdUcHFtVnRDMWdieEJPQVoyU2NZdlh0TmRYWDU5a25ReE9ZN21WczBkUV81dC1vV3p4aXV3LVdtOHphQ0ZXNGhyc2xPX254R19VLUNtdUxPZVdSV2RwN0l4Q0x0U2UzV01LdHN3X0pUQjJJWjFpZ2ozaHo1cF9NcFVMS1AyVzBkaVhsRFJ6ZUtqLXc?oc=5",
+    "added_at": 1793167737.1581101,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://news.google.com/rss/articles/CBMiswFBVV95cUxPREk1Y2ZBdUtrREdLRGU0NVp0dmxKQTRxTE4xa0hfYmhQXzRwSGFrRmppc2xwRnVBVUV2SVdaZUpiZUU4eTlmRFVfVU5SWkh3dUdpQVFTYW9WQU5mV0psMC1admhCeTFZWDhYRzg3X3p4LWZfWk5pVTJfSEhYejA3Q2x6V2RLLVBJRjZfOGh0MU5TbmVERGZaRXFxSDY4SEZVSWpMVF9LS3l5QzcxRTlhWEdXRQ?oc=5",
+    "added_at": 1793167737.1581101,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.semafor.com/article/10/27/2026/chinas-national-team-state-funds-intervene-amid-market-rout",
+    "added_at": 1793167737.1581101,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://techcrunch.com/2026/10/27/jio-shares-surge-21-in-market-debut-after-blockbuster-india-ipo/",
+    "added_at": 1793167737.1581101,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://techcrunch.com/2026/10/27/vcs-will-make-billions-on-anthropics-ipo-but-amazon-is-set-to-make-much-much-more/",
+    "added_at": 1793167737.1581101,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.theinformation.com/briefings/anthropic-buys-small-drug-startup-pushes-deeper-biotech",
+    "added_at": 1793167737.1581101,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://news.google.com/rss/articles/CBMixgFBVV95cUxQTDFWeWo1UVJwSDh4OXB5RnJyVVhXaG1zNHZIMlMyZmpaV0FEU3llN21sZG05OGpyUEZtR3FuTTJ6Y2pBZzEwWVU0dFRPSkExVFRfUGg0SFpzb2tLWDlObGFIQ3Axa2lodWgySngtb2ZEMUFxcXlwZUJnbmdNcTZCalJtSDV5TUpTM282XzFldlZTM012WFRhc0hQamIwOGMxUlpYOEsxUDh1UVkyWjE0aWh2OVdFOTN1cEVKVER0RmE4eEhudGc?oc=5",
+    "added_at": 1793167737.1581101,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://news.google.com/rss/articles/CBMiswFBVV95cUxPNEpmdVROdmhkd0RpU0tZbEF2bkstVmxlcjRTZUJYNWV4VlFNU21tcmRaNW1ZUjdkT0N1b1JlMzA1NF9WUHR6WGpvS3BObGRQUm5Rc3Q1NjNpMkNpZzNoWWJGczJlWGVOQWpsZ0MwcEJrWHBBV3JrZHY0ZWREZngtRklId3lXbV9jLUM0a3JvRy1yUFV4SlpSOGo2VUlxWW04cTJIZlhuaWdnWDd1dExxSkJKVQ?oc=5",
+    "added_at": 1793167737.1581101,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://news.google.com/rss/articles/CBMizAFBVV95cUxQYUhHblNqOGNPczlpdUR2NDFMWjZxX2FZYjVTTzREX2R4YU5jRzF2ckN1MG9sSnIxWG9hbDJ0TjV4YTZXRjdqSUc3aF9OcTJuUVlJZkZrdUd0V0RMUU1qUWxiNDdmdXhCTmJUczZWOFRUWTRKdzJQLUJYNXZBODhnTjJfOXMyNU01OGVreWM5TkNyamNjbzV5UzAxX3ZOdWcwcUE5SFZHSkEyUjZ1M1dUQ3ByRDdxbC13ZzRQR0xfcTZ0bjh6dnNPalJZRWI?oc=5",
+    "added_at": 1793167737.1581101,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.scmp.com/news/world/americas/article/3372387/el-salvador-deploys-1000-troops-haiti-after-gang-ambush",
+    "added_at": 1793167737.1581101,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.kommersant.ru/doc/9062444",
+    "added_at": 1793167737.1581101,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://meduza.io/news/2026/10/28/ft-putin-vo-vremya-razgovora-s-liderami-finlyandii-i-norvegii-prochital-im-lektsiyu-ob-istorii-slavyan",
+    "added_at": 1793167737.1581101,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://t.me/thebell_io/39647",
+    "added_at": 1793167737.1581101,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.bbc.co.uk/news/articles/c6lye1w9p2l8o?at_medium=RSS&at_campaign=rss",
+    "added_at": 1793167737.1581101,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.interfax.ru/russia/1125390",
+    "added_at": 1793167737.1581101,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.interfax.ru/russia/1125386",
+    "added_at": 1793167737.1581101,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.kommersant.ru/doc/9062425",
+    "added_at": 1793167737.1581101,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.provokemedia.com/latest/article/provokeglobal-why-the-cco-s-influence-walks-out-the-door",
+    "added_at": 1793167737.1581101,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.provokemedia.com/latest/article/provoke-global-summit-richard-edelman-says-the-carnage-in-the-sector-is-remarkable",
+    "added_at": 1793167737.1581101,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://adindex.ru/news/tendencies/2026/10/28/350508.phtml",
+    "added_at": 1793167737.1581101,
     "source": "parsed_feed"
   }
 ]
