@@ -1,70 +1,5 @@
 [
   {
-    "url": "https://www.interfax.ru/world/1124362",
-    "added_at": 1792692628.7450387,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://news.google.com/rss/articles/CBMisAFBVV95cUxNMnM0cjlOQmJtYTEwN01hMFU3UVpqNjJrSnB4ODM2X0ctcTJGWkI3Vm1sT19Ta0d0cWJ1aFhOM0otMFBXZHk0bW9YQkhBMHplTGd3TThDZ29aMWlTY3V4anRMU2dteV9sZVhHeUQ3Z3RWcE03Xzhkano2aTNHVjNNQXdKYm9DM0dsM1RuOEtweVV3RXZpRVRZTENhTUlmYVFwVUxHWDA4Y0VoZ1JpbHhfcA?oc=5",
-    "added_at": 1792692628.7450387,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.aljazeera.com/video/newsfeed/2026/10/22/us-sanctioned-icc-wins-top-eu-human-rights-award?traffic_source=rss",
-    "added_at": 1792692628.7450387,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://news.google.com/rss/articles/CBMirAFBVV95cUxQb1JINzI1UWlFd0VHX3lBdUM1dTdsQzJhSGc0eWlvMjhmSzhIOVcyWVlTbUp2dWR4Ny02eFdDeXk1ZG9vN0RQbjVES2ZRV0JacVpVUm5vVEw5RUtEb19WakMxendHTDIyTEJjaUdndHg5YUZQTEdjWDVKLWp0NVBSd24yMUZmeURmR2lrZ2dXWDFDekhpZFc0dTZBWnQxNUh3OEVTMTk4Qlg4eEdM?oc=5",
-    "added_at": 1792692628.7450387,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxORzdtYTZLSkhGRzlOUFlDM0I4d0Y4akMwajZqMXJsNW1KdHo3YkMyM2NlcFJnVVE3ZThHc1lpVExsMjdSUFZCbFdTdHA5eEdHS3NVNVFwRWpNRjhYUlk2MW1fVTRLOTBiVWltRFlrSHduekZHUUlmS1VILVpYTHk2U0ttRkJuUjJ2eTR4VjY1c3MyOU9MX1UyWGtuUjZlNmhGXy1PQmpnQXRxUQ?oc=5",
-    "added_at": 1792692628.7450387,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://news.google.com/rss/articles/CBMiugFBVV95cUxNQlBnRkU4WWw3WE5qTHZscFNxUm44a0RNSVpTUHdfOVo3N0xLWE8tbFMyZlN3Nk1NZ0tvd1JZODFNX2tIY1ZMeElGX1FwdUR4X28zckVZSjNNdExNM3RITEdVdi1ybkx0R05rdmFLZk81V20xOHBuZldndm80YnZxb0NjcUYyWkotdXdCUWhyTUJNcXNvemRQNV9hLVNpRmIzZkxiaThqM3QxWmVxblU3R1hlRlpiQ0hrS2c?oc=5",
-    "added_at": 1792692628.7450387,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://news.google.com/rss/articles/CBMisgFBVV95cUxPa2JvMy1McnRUdXBvVGlqSDhtMERqUGQyczh4TzJpTGFLX21ncWdQMXZOLW9YNW01b3hvWm1iWnVEQmtfQWowX1JRdzgzZFBlZVk4d0pxbFFnX3p0andwR09xWU9Fb2gtQ2hBZXI0QmlKZU1OWGlLQW1RdEtJTlM1WUVIdk15U0xQYU00eVl5UThUX2M3N0ZZOFJKM3R1RVF5RUpoTTRFZ05EQmw5WG8tS2ZB?oc=5",
-    "added_at": 1792692628.7450387,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://news.google.com/rss/articles/CBMitAFBVV95cUxQNEM3cUxUNzF4cHR5V2Y2SU1keG1JNVFjZFMwUThCS1hPOWI2RmgzN1pLbTNUSnBEMGFIZkl1Z1BNV2RUUkEzUnJDc3JPSmJ1V0NuWDh3dkdYcnVPYkFCMjQyZkRMV3ZrcTZNRnM5V3hQdVI4c2YtMXhzZDNKaVZXVHVTQ0dpQUtfalprWnJWdVBxOUJscUd6OWdCUzZpV05yQkVobDhhSzAtTThfVEVrUUl5Mm0?oc=5",
-    "added_at": 1792692628.7450387,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://meduza.io/feature/2026/10/22/vse-eto-podvodit-zelenskogo-k-kapitulyatsii-v-myagkoy-forme",
-    "added_at": 1792692628.7450387,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.bbc.co.uk/news/articles/cmx28y5e04ggo?at_medium=RSS&at_campaign=rss",
-    "added_at": 1792692628.7450387,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.kommersant.ru/doc/9045218",
-    "added_at": 1792692628.7450387,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.interfax.ru/russia/1124363",
-    "added_at": 1792692628.7450387,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.kommersant.ru/doc/9045175",
-    "added_at": 1792692628.7450387,
-    "source": "parsed_feed"
-  },
-  {
     "url": "https://www.scmp.com/news/asia/east-asia/article/3371876/north-korean-silence-signals-trump-kim-summit-unlikely-us-south-korean-officials",
     "added_at": 1792735441.5753694,
     "source": "parsed_feed"
@@ -4157,6 +4092,96 @@
   {
     "url": "https://meduza.io/cards/vlasti-tak-i-ne-pridumali-kak-effektivno-borotsya-s-vpn-i-teper-hotyat-ogranichit-rossiyanam-voobsche-ves-zarubezhnyy-trafik-razve-eto-vozmozhno",
     "added_at": 1793287479.3111262,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://news.google.com/rss/articles/CBMirgFBVV95cUxPQm9INjQwOFV2OFBtTHNrV0F6RnF1Z0NmMHJyT1lJMVJBNm4xNm10VzYtdGF3Zl93aUVxNklqNnpld3VXbHFfRTRZWW9MekFMeXJqcHdWc2pJV2xtYXBiRWE3YmFEbGZIa1dGUVRMbVktYXp5Z3dsenJjZFNORjlJaUdGYjVZQ0E0UEt2VFJVUFBxb1NTMjJTRENRSjN5OTFRaXNpLVFKc1ZGR2xzekE?oc=5",
+    "added_at": 1793297656.688453,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.aljazeera.com/news/2026/10/29/uae-sentences-eight-people-to-life-over-arms-supplies-to-sudans-army?traffic_source=rss",
+    "added_at": 1793297656.688453,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.scmp.com/news/us/article/3372632/us-bans-chinese-labs-testing-electronics-ahead-trump-xi-meeting",
+    "added_at": 1793297656.688453,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.rbc.ru/rbcfreenews/6ad84da326b4baaf3a4abe2d",
+    "added_at": 1793297656.688453,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://asia.nikkei.com/economy/vietnam-to-overtake-indonesia-in-per-capita-gdp-in-2026-imf",
+    "added_at": 1793297656.688453,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://asia.nikkei.com/business/automobiles/toyota-honda-nissan-slash-china-output-as-gasoline-car-market-shrinks",
+    "added_at": 1793297656.688453,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.kommersant.ru/doc/9064117",
+    "added_at": 1793297656.688453,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://vc.ru/tech/3224085-sensornyj-macbook-pro-s-logotipom-apple?from=rss",
+    "added_at": 1793297656.688453,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://news.google.com/rss/articles/CBMiswFBVV95cUxQT19OLUYzbVNkOXdLUFJnQWJpOHRJaDQ0Y3FyVWs5M1IyLTFIZmRsazhqakFvMlFPNnFTeEM1T0VTTnlHTjJyMjFsblVzMlduWlRNeFI0VjlZVXRwNUZGUTVFeWdTY0tLRzlaRWFKam9uU2lRREVFS0lTLXpQME9jR25LRjF5Z0lnZ2lqbV9ybjZfRlZldDRYXzB6UElVU08zVFduMzhCYjFTb25hWTBtNTA4dw?oc=5",
+    "added_at": 1793297656.688453,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.politico.eu/article/britains-spy-agency-gchq-doesnt-know-where-thousands-of-its-memory-sticks-are/?utm_source=RSS_Feed&utm_medium=RSS&utm_campaign=RSS_Syndication",
+    "added_at": 1793297656.688453,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://meduza.io/news/2026/10/29/zelenskiy-cherez-liderov-finlyandii-i-norvegii-peredal-putinu-chto-gotov-obsuzhdat-na-lichnoy-vstreche-vopros-territoriy",
+    "added_at": 1793297656.688453,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.rbc.ru/politics/29/10/2026/6ae3885e5171f3bd6bffccab",
+    "added_at": 1793297656.688453,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://t.me/thebell_io/39679",
+    "added_at": 1793297656.688453,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://t.me/frank_media/24556",
+    "added_at": 1793297656.688453,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.interfax.ru/russia/1125905",
+    "added_at": 1793297656.688453,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://news.google.com/rss/articles/CBMivgFBVV95cUxPQ01aWkZiWm9NUjBpUUZNSV90SzRVbEN4TmM5MU1yV3U5ME9mTV9JM2xISVJvZmlxVmI5ZzV5Q1dic2hteWRoeTgwalJXRGNfQjNzV2pxcUUzRGFkTG1SZFkwd2luRW1zanZuOFNvNjF6Ym5fVk15QUFpWWNnbjZwU2R4bmtzVXMxN3VQU0dRT1NKdTg4N3JNU0FvZ1ZjZm9sTHJtdUdBMFdnY2JIOUlpZmt1Mm9mVmJwNS12SVBB?oc=5",
+    "added_at": 1793297656.688453,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://vc.ru/marketing/3223546-prada-reklama-ruchnaya-animatsiya-disney?from=rss",
+    "added_at": 1793297656.688453,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.provokemedia.com/latest/article/fti-consulting's-strategic-communications-revenue-rises-12.5-in-q3",
+    "added_at": 1793297656.688453,
     "source": "parsed_feed"
   }
 ]
