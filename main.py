@@ -1701,15 +1701,24 @@ def build_html_digest(raw_response, news_db):
     
     digest_stats = {"total_items": total_items, "by_category": category_breakdown}
     
-    MAIN_SECTIONS = [
+    WORLD_SECTIONS = [
         ("geopolitics", "🌍 ГЕОПОЛИТИКА И МАКРО-РЕШЕНИЯ"),
         ("economics", "📈 ЭКОНОМИКА И ИНСТИТУТЫ"),
         ("business", "💼 БИЗНЕС И M&A"),
         ("technology", "🧬 ТЕХНОЛОГИИ И ИННОВАЦИИ"),
         ("energy", "⚡ ЭНЕРГЕТИКА И РЕСУРСЫ"),
-        ("security", "🪖 БЕЗОПАСНОСТЬ И КОНФЛИКТЫ")
+        ("security", "🪖 БЕЗОПАСНОСТЬ И КОНФЛИКТЫ"),
+        ("pr", "📢 PR В МИРЕ")
     ]
-    PR_SECTIONS = [("pr", "📢 PR И КОММУНИКАЦИИ")]
+    RUSSIA_SECTIONS = [
+        ("geopolitics", "🌍 ГЕОПОЛИТИКА И МАКРО-РЕШЕНИЯ"),
+        ("economics", "📈 ЭКОНОМИКА И ИНСТИТУТЫ"),
+        ("business", "💼 БИЗНЕС И M&A"),
+        ("technology", "🧬 ТЕХНОЛОГИИ И ИННОВАЦИИ"),
+        ("energy", "⚡ ЭНЕРГЕТИКА И РЕСУРСЫ"),
+        ("security", "🪖 БЕЗОПАСНОСТЬ И КОНФЛИКТЫ"),
+        ("pr", "📢 PR В РОССИИ")
+    ]
     # Добавим RAW секцию, если есть
     RAW_SECTIONS = [("raw", "📰 СЫРЫЕ НОВОСТИ (Gemini недоступна)")] if "raw" in data else []
     
@@ -1784,10 +1793,13 @@ def build_html_digest(raw_response, news_db):
         result_html = f"{header}\n\n" + "\n\n".join(category_blocks)
         return result_html.strip(), section_urls
     
-    world_html, world_urls = build_one(False, "🌍 <b>МИРОВАЯ ПОВЕСТКА</b>", MAIN_SECTIONS)
-    russia_html, russia_urls = build_one(True, "🪆 <b>РОССИЯ</b>", MAIN_SECTIONS)
-    pr_world_html, pr_world_urls = build_one(False, "📢 <b>PR В МИРЕ</b>", PR_SECTIONS)
-    pr_russia_html, pr_russia_urls = build_one(True, "📢 <b>PR В РОССИИ</b>", PR_SECTIONS)
+    world_html, world_urls = build_one(False, "🌍 <b>МИРОВАЯ ПОВЕСТКА</b>", WORLD_SECTIONS)
+    russia_html, russia_urls = build_one(True, "🪆 <b>РОССИЯ</b>", RUSSIA_SECTIONS)
+    
+    # PR теперь встроен внутрь блоков "МИРОВАЯ ПОВЕСТКА" и "РОССИЯ"
+    # отдельные переменные оставляем пустыми для совместимости.
+    pr_world_html, pr_world_urls = "", []
+    pr_russia_html, pr_russia_urls = "", []
     
     # Raw-секция больше не нужна: fallback-новости уже разложены
     # по стандартным категориям выше и рендерятся как обычный дайджест.
