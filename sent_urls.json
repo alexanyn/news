@@ -1,65 +1,5 @@
 [
   {
-    "url": "https://www.interfax.ru/world/1124718",
-    "added_at": 1792832553.113111,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.aljazeera.com/news/2026/10/24/rubio-calls-on-cubans-to-partner-with-cia-to-create-positive-change?traffic_source=rss",
-    "added_at": 1792832553.113111,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.scmp.com/news/world/europe/article/3372018/populist-czech-government-pushes-through-media-funding-changes",
-    "added_at": 1792832553.113111,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.scmp.com/opinion/asia-opinion/article/3371802/seouls-useless-placation-warning-all-us-trade-partners",
-    "added_at": 1792832553.113111,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://t.me/the_financial_times_journal/8980",
-    "added_at": 1792832553.113111,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.themoscowtimes.com/2026/10/24/russia-ukraine-agree-on-ceasefire-in-embattled-oleshky-plan-new-peace-talks-next-month-a94069",
-    "added_at": 1792832553.113111,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://t.me/neftegazchannel/28445",
-    "added_at": 1792832553.113111,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.themoscowtimes.com/2026/10/24/3-tankers-of-russian-diesel-headed-for-north-america-russian-deputy-pm-says-a94073",
-    "added_at": 1792832553.113111,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://t.me/the_financial_times_journal/8984",
-    "added_at": 1792832553.113111,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.interfax.ru/russia/1124716",
-    "added_at": 1792832553.113111,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.kommersant.ru/doc/9059777",
-    "added_at": 1792832553.113111,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://meduza.io/news/2026/10/24/ukraina-nanesla-udar-po-tolyatti-atakovan-neftehimicheskiy-zavod",
-    "added_at": 1792832553.113111,
-    "source": "parsed_feed"
-  },
-  {
     "url": "https://news.google.com/rss/articles/CBMivgFBVV95cUxPVklsWE9QVlFHcHRES2xGTXNTVEtudENYZTR6aFRMZmVuaENzXzBCb0twTjdadFhWY3V3Nkw4aWZTLVJmYjF4OTVmR0haOERYVGlFSFB0a1lsQUUyVDM2UF9lZ3QyeTJ3QzVGN0J0eEF5UEsyanhKaUNHZmpaZnA1eVFsWkVKdHhkdVJjTWZrSGtHOHN0aC1JN0JkbTByTE1vaG5vc2dPWUswNkZxYTN3aFV2WkJZbVlwNlJtZU1R?oc=5",
     "added_at": 1792843348.21985,
     "source": "parsed_feed"
@@ -4187,6 +4127,56 @@
   {
     "url": "https://www.kommersant.ru/doc/9078129",
     "added_at": 1793426969.4992704,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.aljazeera.com/news/2026/10/31/rsf-senior-commander-defects-accusing-sudan-groups-leadership-of-nepotism?traffic_source=rss",
+    "added_at": 1793437565.4035914,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://news.google.com/rss/articles/CBMirgFBVV95cUxPN1Fva1BkZVk3T3ZZVWZiSUNOQVhaMElmVERReF8zekRzTWt0YnNZZUVpTGUtaUd0MFVKcmp2TXF2d2hxNldzTUYyNVhTRjFxUU8xeHAtYllENzhtMDRlbF93dXUtb3RXNWkwbk9icU5KdlN4anY3RzJnSXl2dHZ0a3JTT2QzMlRsY1hhLWxyUVdSYzFFV1E3MzRBeXJmOU5EcnVIUzI0S2hhYTk2dUE?oc=5",
+    "added_at": 1793437565.4035914,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.scmp.com/tech/tech-trends/article/3372779/china-joins-global-race-reawaken-brain-injury-patients-through-ultrasound-therapy",
+    "added_at": 1793437565.4035914,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.interfax.ru/world/1126285",
+    "added_at": 1793437565.4035914,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.kommersant.ru/doc/9078203",
+    "added_at": 1793437565.4035914,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://tass.com/politics/2211331",
+    "added_at": 1793437565.4035914,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "http://government.ru/news/60324/",
+    "added_at": 1793437565.4035914,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.kommersant.ru/doc/9078207",
+    "added_at": 1793437565.4035914,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.vedomosti.ru/politics/news/2026/10/31/1241729-unichtozhili-433-bespilotnika",
+    "added_at": 1793437565.4035914,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://meduza.io/news/2026/10/31/ukrainskie-bespilotniki-atakovali-bashkortostan-v-ufe-pod-udar-popal-npz",
+    "added_at": 1793437565.4035914,
     "source": "parsed_feed"
   }
 ]
