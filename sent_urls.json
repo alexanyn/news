@@ -1,85 +1,5 @@
 [
   {
-    "url": "https://news.google.com/rss/articles/CBMimwFBVV95cUxPX0I1TVQybGpFam8xeDVVN1NTdVFha1Q3Und2cjhZbHJnMG1CekZFTWEyMXI2VFNTVHF0MlF5ekIxM3plalZMVU9jVjZHanE2WnozM2xQN2x6WDA2NHh1NUVXRXIwZ2JVczFsQjZ5aXY2VU9tRk1kRWg2bDZpSlJKVzVFaVlhOFc0N0pnOUp0cWVwREY0b1JlZ2xSbw?oc=5",
-    "added_at": 1792908208.8724246,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://news.google.com/rss/articles/CBMikgFBVV95cUxPWFhXb1VmdWxKRzJmZnRpSGpJTk40b3JoTldmR0FjTW9nWWxibmNBOTJCN1NNa1IyenIycmtueTVnVHhaR19YOUU3TkE2ODBHRFFlRWdDYVZzVWY0MVlqV0dTOHlkaTdEbmxkdnFNMnJicVFjSkhYUVdOaGFYYU5jVEQ5VEhRUU5tWlJjZ1pzOE5GQQ?oc=5",
-    "added_at": 1792908208.8724246,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.aljazeera.com/news/2026/10/25/serbia-votes-in-election-pitting-longtime-leader-against-student-movement?traffic_source=rss",
-    "added_at": 1792908208.8724246,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://news.google.com/rss/articles/CBMiswFBVV95cUxObEthY2hVTFl0LTd4dlNRQjJWTF9OdnNWb2NCQUNFTE4xNkR2d0NPUUROdFRRSEREMXBiMUd5aDRlNVY0SWZRUm5OTXdCV3JYNnA2OGdBTGxIRTZCcFV5OUoyUEV4SUNlREh0SHNCQ3hudGZaUDZ4aGNSaC1wd2lDcjlGR0hjVWNWVU9nX21QSVZQSGlXZVBqZHRMV3NUTGF4dTkteWloRmdkd2JRWUUyaUJFWQ?oc=5",
-    "added_at": 1792908208.8724246,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://t.me/the_financial_times_journal/8991",
-    "added_at": 1792908208.8724246,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://tass.com/world/2207393",
-    "added_at": 1792908208.8724246,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://news.google.com/rss/articles/CBMiswFBVV95cUxOLTljNWhPMFR6ZzdEa1BndW10VHVmT3dMLVJYMTJiRi00ZXBoOGMxa1hYTFRVRUxnSzFLZGhvbDlWcnpGOEJIb2xxU3JxR0x5RXZLWHI0S2xUUEhIcDBMRXp4cjRYUUl4emktQUtuQWJkSWU2SkJmQXZlMThzTVh3RE0welNsaTNwZzAzWm1JRnAycHllbVN1a001N29JYzlmcmI1QXpZUFRTNVBwWXJ5dlZRSQ?oc=5",
-    "added_at": 1792908208.8724246,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://asia.nikkei.com/business/automobiles/pressed-by-chinese-evs-in-southeast-asia-mitsubishi-motors-makes-risky-pivot",
-    "added_at": 1792908208.8724246,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://t.me/the_financial_times_journal/8990",
-    "added_at": 1792908208.8724246,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTE5ILUtHNDlPMWRZdXNwQXlnTnQtVE8zTTJBUmtzVTVudzJMRTV1dHRsRFFsd3puWEJGR0Q0dTZtMXYtbGM3Z3hPZUg1MUR4dVZCMzJGOUMwcWU2MVp3YzR6Tm5fYUZwN3d4Y2NvaDFLV3U?oc=5",
-    "added_at": 1792908208.8724246,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.kommersant.ru/doc/9059941",
-    "added_at": 1792908208.8724246,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.mckinsey.com/featured-insights/future-of-asia/asias-energy-reckoning-securing-the-energy-system-to-drive-growth",
-    "added_at": 1792908208.8724246,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://tass.com/world/2207399",
-    "added_at": 1792908208.8724246,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://news.google.com/rss/articles/CBMivgFBVV95cUxORGtfcFhSaXlZOW01WjJhTEVWcTBQSlN4OTIxb2J3SmxmQ0prZ1dkTEpVckFGY2hQSlgyZzBjTl9RRXlOZ1JWdU5BSUhIZ2pTYmhCQW5WU0ZnUWNUdUlWSVRXajJ1dVRFMFhUN2Zkai1vMGxqS29mUDNTaHVud0FQNVJvb0NVcW5rNmFUVzNod3N2NTd1VkZWUGZadW9oVTVPb1NFQmsxWlhfU2RSWTVPN2dlUnlOd2ItSGRfdHZ3?oc=5",
-    "added_at": 1792908208.8724246,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.vedomosti.ru/politics/news/2026/10/24/1239879-peskov-soobschil",
-    "added_at": 1792908208.8724246,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.interfax.ru/russia/1124832",
-    "added_at": 1792908208.8724246,
-    "source": "parsed_feed"
-  },
-  {
     "url": "https://www.scmp.com/week-asia/politics/article/3371980/filipinos-split-marcos-south-china-sea-handling-amid-row-over-jing-quans-remarks",
     "added_at": 1792919121.6949792,
     "source": "parsed_feed"
@@ -4237,6 +4157,126 @@
   {
     "url": "https://www.kommersant.ru/doc/9078330",
     "added_at": 1793469981.1046133,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://t.me/the_financial_times_journal/9055",
+    "added_at": 1793513029.3014123,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.aljazeera.com/news/2026/11/1/un-demands-investigation-after-staffers-death-in-houthi-custody-in-yemen?traffic_source=rss",
+    "added_at": 1793513029.3014123,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://news.google.com/rss/articles/CBMiqwFBVV95cUxNNmpudFJ3RHh6NXBMa1hnRnV6WFRyZ0VXM3d2dlhJMEJPRTdmbmg3NG1NVzJRa3hFNnhUN1l5cjAxR01IN3l2N1pzS0htLXMwZGVxVUdFQ3JJdFU1LXRDVTJaVmY0Ny1UWG9CY2NwRmlXZjl6S3ZLdmVGYThIa0JrM2FjSjJhcU9vT1ZNRWxGWTRiWXFoY2dKZUpQamlDVlRVYlIzTHdQc19WNVk?oc=5",
+    "added_at": 1793513029.3014123,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://news.google.com/rss/articles/CBMiqwFBVV95cUxPSmwzNUwxNEpXRmE1UjRrTlBIeGJQMGJ0N1NxOUlVZENsWFVadHloUlA2MzlWRWU1dGFqYk55aUpWeUVkbDJhczBBUThTZ0p6alRuV245ckRGOTl2S1VXbzJDc2NCU1g3QV9QeE1KYnhaVEY5YVp0RnZjVmtpZkNkNFdhdUZjVi0ySXpJWjdPTHUxNDhmeUdxVkR3aTBiRmIxN0ZmT2F0RVBvNlU?oc=5",
+    "added_at": 1793513029.3014123,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://t.me/the_financial_times_journal/9056",
+    "added_at": 1793513029.3014123,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.vedomosti.ru/economics/news/2026/10/31/1241784-v-italii-predlozhili-nalog",
+    "added_at": 1793513029.3014123,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://news.google.com/rss/articles/CBMiwAFBVV95cUxPTjhSamRicmVUSnUzRXhIZmkzVC1pVlhFWk1MRGFiM0VpOW9WTHRUQmd0a3BobkV3cUwxeHpzSkNLQWVmUWowb1BTTjE4MUlvaThta2YtaWZDUHpSdkxHZUtXNFhFQjlZMTNCM050QXJrc2FIV2JOVjNkWTFHZGE1bjMxek9PX1dEeWJiNDZNcWlhNDVOd1hoZ01DYXByQThDTEZqckVCeWVWQVIzVVNiV0lSNHhFVTdNdmh3TmtGT2c?oc=5",
+    "added_at": 1793513029.3014123,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.bbc.co.uk/news/articles/cqj34gnd3n30o?at_medium=RSS&at_campaign=rss",
+    "added_at": 1793513029.3014123,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://news.google.com/rss/articles/CBMiqwFBVV95cUxNMTZaWExtazhWZXEwbVJWOUJHWGE4QU1qbFBRaU9xeHhaUEtCY2I5N3docmhqa1pQN09GX3JkaVZYOW45WFhEM1dHT3hZQ2FxTUNZeC0xdDA5MlFKQ2NfMjMzM3lJYWlUVEtQMEg2cXg3UUVkYndCd2V0SDFMMy1ocVJnTlAyZXNXWl94QXl6TFNPRmdsS01GSGI0dEhUV01CMW5uanV4R0RhYms?oc=5",
+    "added_at": 1793513029.3014123,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://techcrunch.com/2026/10/31/judge-allows-naacp-lawsuit-over-xai-data-center-pollution-to-move-forward/",
+    "added_at": 1793513029.3014123,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://news.google.com/rss/articles/CBMitgFBVV95cUxOSGJoZUdrNzFHTjRVcm9OOVZ5a1Z4dVB4ME1aNjlmYmdjX1ZOTXNWTFJTNFFFUkQ2UUxxTGV4UDlOS0RjMnRlWlFUZ04yemVtQU9zU3FZbHlWY1YxMi1YSVBGb3k5cGszYnptNnZVZk1mR1NmS0RvLUhOeS1QUmxZamtoNGgzR21CR2tmY0JUd1c3YXBBMlc0SDhkZm9kOFRtZ3NvQ2RLNVZOYnFaV2x5Vy1ra3ZNUQ?oc=5",
+    "added_at": 1793513029.3014123,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://techcrunch.com/2026/10/31/apple-ceo-says-the-company-doesnt-want-to-ship-ai-for-ais-sake/",
+    "added_at": 1793513029.3014123,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://asia.nikkei.com/business/energy/pakistan-refineries-report-1-860-jump-in-profit-amid-war-windfall2",
+    "added_at": 1793513029.3014123,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.scmp.com/news/asia/southeast-asia/article/3372868/singapore-turns-heat-power-hungry-air-conditioning-cool-revolution",
+    "added_at": 1793513029.3014123,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://tass.com/world/2211447",
+    "added_at": 1793513029.3014123,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.provokemedia.com/latest/article/provoke-global-26-what-s-changed-in-healthcare-comms-and-what-remains-the-same",
+    "added_at": 1793513029.3014123,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://news.google.com/rss/articles/CBMitgFBVV95cUxPcE51blN1dmZYRy1UTHBiNDlKZVl4RHE1cVQ4YThtRE9laU9nTDV6TlozSEFBZEdyUjVPOEc1RzhKdkpDWko3Wm9NbHl6SndrRk1Jdk43MUlsaVUtaEczcmJwYXFnMWxic1JsMnQ4SWlXUUZtUzJPMF9WakFmU25heGp5cTBOUUxOUnJhOWxNdlJJemRZOWZDa1o2UzJkTGFuazQwd3pLMExIdHFnekFRREdKRmZLQQ?oc=5",
+    "added_at": 1793513029.3014123,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.vedomosti.ru/politics/news/2026/11/01/1241791-vizovii-rezhim-v-chernogoriyu",
+    "added_at": 1793513029.3014123,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.rbc.ru/rbcfreenews/6ab887869a7947ac7b5a79dd",
+    "added_at": 1793513029.3014123,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.rbc.ru/rbcfreenews/6a8e975990f2acd0308e216c",
+    "added_at": 1793513029.3014123,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://t.me/the_financial_times_journal/9054",
+    "added_at": 1793513029.3014123,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.interfax.ru/russia/1126366",
+    "added_at": 1793513029.3014123,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.kommersant.ru/doc/9078373",
+    "added_at": 1793513029.3014123,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://tass.com/politics/2211455",
+    "added_at": 1793513029.3014123,
     "source": "parsed_feed"
   }
 ]
