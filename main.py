@@ -230,6 +230,23 @@ def _similarity_prepped(prep_a, prep_b):
         jaccard = 0.0
     return max(seq_ratio, jaccard)
 
+def _has_common_entities(title1, title2, min_matches=2):
+    """Проверяет, есть ли в двух заголовках минимум N общих имен собственных
+    (слов с заглавной буквы). Ловит дубли, которые лексически не похожи,
+    но говорят об одном и том же (например, 'Трамп' и 'Хегсет')."""
+    words1 = set(re.findall(r'\b[А-ЯЁA-Z][а-яёa-z\-]{2,}\b', title1))
+    words2 = set(re.findall(r'\b[А-ЯЁA-Z][а-яёa-z\-]{2,}\b', title2))
+    
+    # Убираем слишком частые географические/политические термины,
+    # которые могут давать ложные срабатывания
+    ignore = {"Сша", "США", "Россия", "России", "Россию", "Украина", "Украины", 
+              "Москва", "Москве", "Москвы", "Ес", "ЕС", "Сша", "Китай", "Китая"}
+    words1 = words1 - ignore
+    words2 = words2 - ignore
+    
+    return len(words1 & words2) >= min_matches
+
+
 def _find_similar_title(prep, pool, threshold):
     for other_title, other_prep in pool:
         if _similarity_prepped(prep, other_prep) >= threshold:
@@ -780,6 +797,12 @@ async def collect_all_news(sent_urls_history, recent_titles_history, schedule_na
                     _find_similar_title(this_title_prep, accepted_title_pool, TITLE_SIMILARITY_THRESHOLD_SAME_RUN)
                     or _find_similar_title(this_title_prep, recent_title_pool, TITLE_SIMILARITY_THRESHOLD_CROSS_RUN)
                 )
+                # Третий слой: проверка по именам собственных (Entity-based)
+                if not dup_match:
+                    for hist_title, _ in recent_title_pool:
+                        if _has_common_entities(title, hist_title, min_matches=2):
+                            dup_match = hist_title
+                            break
                 if dup_match:
                     stats["skip_similar_title"] += 1
                     print(f"   🔁 Похоже на уже включённое/опубликованное, пропущено: \"{title[:70]}\" ≈ \"{dup_match[:70]}\"")
@@ -845,6 +868,11 @@ async def collect_all_news(sent_urls_history, recent_titles_history, schedule_na
                         _find_similar_title(this_title_prep, accepted_title_pool, TITLE_SIMILARITY_THRESHOLD_SAME_RUN)
                         or _find_similar_title(this_title_prep, recent_title_pool, TITLE_SIMILARITY_THRESHOLD_CROSS_RUN)
                     )
+                    if not dup_match:
+                        for hist_title, _ in recent_title_pool:
+                            if _has_common_entities(title, hist_title, min_matches=2):
+                                dup_match = hist_title
+                                break
                     if dup_match:
                         tg_stats["skip_similar_title"] += 1
                         print(f"   🔁 Похоже на уже включённое/опубликованное (Telegram), пропущено: \"{title[:70]}\" ≈ \"{dup_match[:70]}\"")
