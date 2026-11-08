@@ -1,65 +1,5 @@
 [
   {
-    "url": "https://news.google.com/rss/articles/CBMilgFBVV95cUxNXzNPdDBVU2FTV3NVXzdETklrdGtSQXZBVWFZVm1pNGYxRDY4aHR5QlUzbjBHWVljNnFHU0lUbzVOSWxWNE5TYUdIVXJzX2d3Q2IwYndMZzJqQUhSMGM2amlNVjdCTTdWZGp6cnJEMnk5LVV4NklLd2FZLXdiTEZmNlNLTTh3WWhPcldua0I3bVI4Nk9jUVE?oc=5",
-    "added_at": 1793469981.1046133,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.interfax.ru/world/1126338",
-    "added_at": 1793469981.1046133,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.scmp.com/news/china/diplomacy/article/3372852/quad-diplomats-finalise-first-leaders-summit-two-years-trump-xi-meeting",
-    "added_at": 1793469981.1046133,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.politico.eu/article/france-youth-protests-cost-of-living-spread-europe/?utm_source=RSS_Feed&utm_medium=RSS&utm_campaign=RSS_Syndication",
-    "added_at": 1793469981.1046133,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://news.google.com/rss/articles/CBMimgFBVV95cUxQV05QRmVQbjJDUTZkNzRFaTA5VVp5RE9Bd2ctMkxITEVaZnNLZVVzdkx5aHBUUFZYOTJCb19YRFJRM2I1RW5QS0JJUmowaUtsVjlnaTExaWJDM2NsLVJINlJQZ0JHdlUyb05LS0kyRGdRMHlyVWdYRHFJOTNlbFRZc0plbkc2SE1nOHB1SklPVVNUVnhFY3lYdWtR?oc=5",
-    "added_at": 1793469981.1046133,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://news.google.com/rss/articles/CBMipwFBVV95cUxQbTRaOVBSZ3JDRTFyM2FSVWNjdWFhOU9VNjVSSGxfUzh4T0h2Vzg3eTlYUGFzaHhScDk1Yl9hd200aVl3QVl1ekNhVjRHS2YtczJiaHB0Q0ViZXlNMzRzOTI5QjVaS2c3czdLb3E4c2x1LWJYeTBHWTVYQ2dNd2lKWkRrUnlpTlRXMDN0M2dLUEhtOXZIeWJTcTRxYlFBMW9XZXFNalZxWQ?oc=5",
-    "added_at": 1793469981.1046133,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://news.google.com/rss/articles/CBMinAFBVV95cUxNU010T05LQ2tENXpEdWtfXy1hQWppTEMxY3RZckl4YS1FX25DOExGc0FfMnBrRnZjOG5TejBGSFR6d0prZTlBOElZM0F3bjZyLWhOZ1A5RUQ0aVVZMjZqN1lvRGVySWlwWkZvU0JJYUczX2VkejhwdlhwZURBNXdOSEJBclpwclRVZmlMV2FTM2FUR0lYUk1WRVM0VVc?oc=5",
-    "added_at": 1793469981.1046133,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.kommersant.ru/doc/9078334",
-    "added_at": 1793469981.1046133,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.kommersant.ru/doc/9078333",
-    "added_at": 1793469981.1046133,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.vedomosti.ru/politics/news/2026/10/31/1241772-provodit-gumanitarnie-missii",
-    "added_at": 1793469981.1046133,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.kommersant.ru/doc/9078336",
-    "added_at": 1793469981.1046133,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.kommersant.ru/doc/9078330",
-    "added_at": 1793469981.1046133,
-    "source": "parsed_feed"
-  },
-  {
     "url": "https://t.me/the_financial_times_journal/9055",
     "added_at": 1793513029.3014123,
     "source": "parsed_feed"
@@ -4722,6 +4662,96 @@
   {
     "url": "https://www.interfax.ru/russia/1127601",
     "added_at": 1794074704.7487197,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://t.me/the_financial_times_journal/9115",
+    "added_at": 1794117780.1212597,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.bbc.co.uk/news/articles/c6d091ev3p0jo?at_medium=RSS&at_campaign=rss",
+    "added_at": 1794117780.1212597,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.scmp.com/news/asia/east-asia/article/3373678/why-raising-prices-japan-amid-insanely-high-inflation-backfires-firms",
+    "added_at": 1794117780.1212597,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://news.google.com/rss/articles/CBMiswFBVV95cUxNN0h6NGhPQzBpZTdwV29ra0U5UUhycGhPb3FHT3JvUksyYTZFZjVPbVpBdURxeVMxM2dxS0Z1Y21XbVctWVY5Q3ltR09IOG9tNUdSMXZ5eUFHYUpaaWpaVGZoQzFvVnZOdUhEclJKVENTbVpNeFMwbC1pV1ppa3JhWjZMQzEtWkQ4UGlVWXJENXNWRGNEVEotZjBnMnJ6WFJzQWFTcnI1Wi1WZzAwXzRUdy1YMA?oc=5",
+    "added_at": 1794117780.1212597,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://techcrunch.com/2026/11/07/chinese-exec-was-recruited-to-spy-on-nvidia-ceo-according-to-us-intelligence-memo/",
+    "added_at": 1794117780.1212597,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://asia.nikkei.com/spotlight/iran-tensions/iran-war/pakistan-s-hormuz-agreement-with-iran-faces-test-after-lng-tanker-attack",
+    "added_at": 1794117780.1212597,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxNT3Z5Um5vZGVEQndERDNUZDljektyalQxMjB1SVk0SkNJOWRSSWJRLVBUc0czRzIxMWtFSEs0WnFoVk81XzN6V0xKOGZkNkUzYXFiM2wwdGE2cks3Uk05RlRpQk92SWp3REllTGF4cUVFV0IyelBXbFJNRzVJem5DRkVCLWRKQ0tPQTNVWi04NU5yRlJEeE1MUmVreHVHQ2RrYTZrUHpuLUs?oc=5",
+    "added_at": 1794117780.1212597,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.aljazeera.com/news/2026/11/8/drone-attack-on-colombian-army-base-kills-three-soldiers-and-wounds-16?traffic_source=rss",
+    "added_at": 1794117780.1212597,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.kommersant.ru/doc/9092043",
+    "added_at": 1794117780.1212597,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.kommersant.ru/doc/9092037",
+    "added_at": 1794117780.1212597,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://t.me/istories_media/14193",
+    "added_at": 1794117780.1212597,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://t.me/the_financial_times_journal/9113",
+    "added_at": 1794117780.1212597,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.rbc.ru/rbcfreenews/6af00a14a5387231a9b6ea86",
+    "added_at": 1794117780.1212597,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.kommersant.ru/doc/9092045",
+    "added_at": 1794117780.1212597,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.interfax.ru/world/1127638",
+    "added_at": 1794117780.1212597,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.interfax.ru/russia/1127637",
+    "added_at": 1794117780.1212597,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.kommersant.ru/doc/9092041",
+    "added_at": 1794117780.1212597,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.themoscowtimes.com/2026/11/08/official-data-shows-450000-russians-killed-in-war-death-rate-accelerating-leaks-a94200",
+    "added_at": 1794117780.1212597,
     "source": "parsed_feed"
   }
 ]
