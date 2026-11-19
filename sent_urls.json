@@ -1,190 +1,5 @@
 [
   {
-    "url": "https://news.google.com/rss/articles/CBMiwgFBVV95cUxPZ3l0WkhacFplemVmdldqMWxjWVZPVVFYaE94X0VtVEJfOGJXaEtTLW0zTGdyNk50a3NYeXJoYXpSUEpoVmx2MnRiUDhrM25rMHFTemE1U0piTUtwOGxhb1ZqYkVINW8xaTJDOXc4UnY1YXJNUV83WmNhOEY0Z1YwWFpvZlAwX3JxRTlObzVGakxmV1ZaVXpicVhfWmtUTTUyY2hRS1FSeF9QNWdxcXNyWjhFWU1nQUZzRDNJYmlydDFYQQ?oc=5",
-    "added_at": 1794486524.8045714,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.aljazeera.com/news-analysis/2026/11/12/from-the-uk-to-the-gulf-are-us-overseas-bases-becoming-liabilities?traffic_source=rss",
-    "added_at": 1794486524.8045714,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.foreignaffairs.com/united-states/america-can-do-good-and-do-well",
-    "added_at": 1794486524.8045714,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.foreignaffairs.com/economics/paradox-dollar-dominance",
-    "added_at": 1794486524.8045714,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.rbc.ru/rbcfreenews/6af5a96e1ecc864838c611a9",
-    "added_at": 1794486524.8045714,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://asia.nikkei.com/politics/indonesian-president-prabowo-says-vp-resignation-for-greater-good",
-    "added_at": 1794486524.8045714,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.politico.eu/article/australia-signs-up-to-eus-horizon-europe-research-program/?utm_source=RSS_Feed&utm_medium=RSS&utm_campaign=RSS_Syndication",
-    "added_at": 1794486524.8045714,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.vedomosti.ru/politics/news/2026/11/12/1244815-ispanii-zaderzhani",
-    "added_at": 1794486524.8045714,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.mckinsey.com/mgi/our-research/the-achilles-heel-of-global-trade-building-resilience-where-it-matters-most",
-    "added_at": 1794486524.8045714,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://news.google.com/rss/articles/CBMiwgFBVV95cUxPQnljYk4zSGJ0TXZ5Szg1ZzRXY2hyWm8tZnozRFQzX3RrMmtJYWJqbkNHQWtKYTduMnBKbFpZRVdVOUhyOEhLSjNYUDdQUzNLTUk1QlhEdUJTN1ZtMHFMVUZZYzVqTktGdWVWT01ha3lpb2ZiTm40S3RVVlhDeGR4R2RoUHNwVzU4UXhnQlFHZzA2emZmSmZlTUs1bFMzY29jOGJSdVI3ZkFTU3U3Y0pxZ2RRcTdCZ042ekFxR0tLdl8xQQ?oc=5",
-    "added_at": 1794486524.8045714,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.mckinsey.com/capabilities/strategy-and-corporate-finance/our-insights/programmatic-m-and-a-in-australia-the-most-reliable-way-to-unlock-value",
-    "added_at": 1794486524.8045714,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.mckinsey.com/industries/consumer-packaged-goods/our-insights/brilliant-moves-coffee-with-the-coca-cola-company-ceo-henrique-braun",
-    "added_at": 1794486524.8045714,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.aljazeera.com/news/2026/11/12/china-says-us-fabricating-nvidia-spy-claims-to-justify-tech-blockade?traffic_source=rss",
-    "added_at": 1794486524.8045714,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://news.google.com/rss/articles/CBMitgFBVV95cUxNUkdINHc0WmZ5cG90NUczYktMSjBSd1hqM3luM0pGX1B3ckRGNHNYSXJQR1RfZ1BIcldzRmNwN3hoNXBfUjdqV084eWg1RVYxTkdHdFE3UzItM0hEN1I2UEI4aTJSS0taMjhoVldqMHpscEhMeXlNVGFWR0kybllTWjRNQzBMQ0VpM3RoeUc5bDl5YVlZN2VKcC1zLWR2bW5JZkZXYkFabjZDQWs5d3lLWDN0T1k3Zw?oc=5",
-    "added_at": 1794486524.8045714,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://news.google.com/rss/articles/CBMiwwFBVV95cUxOSUNLZ3YtTHR3U1dXVUtobzMxMWlKQ0tGV01aSF9SdFVOb3NWZC1lVjZvbThsaTBoUHpiQVlxRDkyRkMtbFpwZGd4b0VFa2JGX1NKNHhvb2dfR0lhNElVRUZ4V0dSRjNkdVhOQ2NTOEJzbGV1T2gzM3M4NDdhSTNSc0k1V1FKWHUyd1hMV2dtZmFQQlVSbWFQTEZPNFBTSGx3VjhqZGdfWnVuaFNPNFZuZXFJMXViSlhDSFFnV1duWHRvb00?oc=5",
-    "added_at": 1794486524.8045714,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://meduza.io/news/2026/11/12/v-es-hotyat-ogranichit-duolingo-strava-i-drugie-populyarnye-prilozheniya-s-vrednymi-tsifrovymi-praktikami",
-    "added_at": 1794486524.8045714,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://asia.nikkei.com/spotlight/supply-chain/taiwan-s-foxconn-has-strong-confidence-in-2027-due-to-ai-demand",
-    "added_at": 1794486524.8045714,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://asia.nikkei.com/techasia/sex-spies-and-salaries-shake-up-ai-chipmakers",
-    "added_at": 1794486524.8045714,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://news.google.com/rss/articles/CBMiowFBVV95cUxNU3ZJQlhjSko5MDVzS25JNzdQaWprR1pORklBMUI1Qlg0T3Zkc2J1eV8yUTE1S2RMdHlLcjdDbXNrNERFdDNtYTFleFlkNHZyeXBfQ25lcS05S29hd3YtT3ZWMXE2eUs2RXpuZXV2Z01OcklJeXdKT2FzR1dqZVRHRE9Ncl9QUzVSTkVod1V6RnFjMWNIcFBkWXBWU0FWWTM3TGJj?oc=5",
-    "added_at": 1794486524.8045714,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.scmp.com/news/asia/southeast-asia/article/3374237/indonesia-police-say-enough-evidence-treason-charges-wiretap-scandal",
-    "added_at": 1794486524.8045714,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.interfax.ru/world/1128588",
-    "added_at": 1794486524.8045714,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.interfax.ru/world/1128586",
-    "added_at": 1794486524.8045714,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.vedomosti.ru/politics/news/2026/11/12/1244820-es-nameren-odobrit",
-    "added_at": 1794486524.8045714,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.kommersant.ru/doc/9095536",
-    "added_at": 1794486524.8045714,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.interfax.ru/russia/1128590",
-    "added_at": 1794486524.8045714,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.kommersant.ru/doc/9095541",
-    "added_at": 1794486524.8045714,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.rbc.ru/rbcfreenews/6aeef437a5387231a9b6ea0f",
-    "added_at": 1794486524.8045714,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.vedomosti.ru/politics/news/2026/11/12/1244824-volodin-vozmutilsya",
-    "added_at": 1794486524.8045714,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.vedomosti.ru/politics/news/2026/11/12/1244819-narodnaya-programma",
-    "added_at": 1794486524.8045714,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://vc.ru/marketplace/3250925-wildberries-testiruet-oplatu-nalichnymi-v-pvz-v-serpukhove?from=rss",
-    "added_at": 1794486524.8045714,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "http://government.ru/news/60434/",
-    "added_at": 1794486524.8045714,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.cnews.ru/news/top/2026-11-12_chrome_i_firefox_perestanut_otkryvat",
-    "added_at": 1794486524.8045714,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.interfax.ru/russia/1128587",
-    "added_at": 1794486524.8045714,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.interfax.ru/russia/1128591",
-    "added_at": 1794486524.8045714,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.kommersant.ru/doc/9095545",
-    "added_at": 1794486524.8045714,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.cnews.ru/news/line/2026-11-12_t2_adtech_obespechil_brendam_16",
-    "added_at": 1794486524.8045714,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.cnews.ru/news/line/2026-11-12_ruviki_i_muzej_banka_rossii",
-    "added_at": 1794486524.8045714,
-    "source": "parsed_feed"
-  },
-  {
     "url": "https://www.interfax.ru/world/1128655",
     "added_at": 1794496527.0101914,
     "source": "parsed_feed"
@@ -4542,6 +4357,111 @@
   {
     "url": "https://adindex.ru/news/creative/2026/11/19/351375.phtml",
     "added_at": 1795090332.788447,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.bbc.co.uk/news/articles/cmwy8pyqlq5vo?at_medium=RSS&at_campaign=rss",
+    "added_at": 1795101055.614438,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.worldpoliticsreview.com/somaliland-somalia-berbera-us-israel-recognition/",
+    "added_at": 1795101055.614438,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.bbc.co.uk/news/articles/cm9q84gp0gr3o?at_medium=RSS&at_campaign=rss",
+    "added_at": 1795101055.614438,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://news.google.com/rss/articles/CBMitAFBVV95cUxQajg1eGtUX2N1TmNwT2plLVVZS3JjcWNMaUpZQU1zdzJCNDlMQWtDNE9CRzdSczFTQkJCM2pNTjd4YzJETmlLRGxsRUl2ZzVrYVpTeDY0M0JtVjBZb3NIYjMwLTNocHlkUlhqYW00VlJMQWZaVllfSnN0Y1lONHFxbEhlRmlCY0pZZ2QySl9nNFNkZTUwV2lEdXRmZ1h3dlVWcE5DeGVUcFlncUN0ZXlfeEY0MlU?oc=5",
+    "added_at": 1795101055.614438,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.rbc.ru/business/13/07/2025/68739b0a9a79471dc30fdac7",
+    "added_at": 1795101055.614438,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.technologyreview.com/2026/11/19/1148934/a-human-liver-has-been-kept-alive-outside-the-body-for-seven-weeks-setting-a-record/",
+    "added_at": 1795101055.614438,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://asia.nikkei.com/business/technology/alibaba-trains-next-gen-ai-model-on-own-chips-amid-tighter-us-curbs",
+    "added_at": 1795101055.614438,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.cnews.ru/news/top/2026-11-19_mirovoj_spros_na_pk_upal",
+    "added_at": 1795101055.614438,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://t.me/neftegazchannel/28778",
+    "added_at": 1795101055.614438,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.axios.com/2026/11/19/energy-permitting-bill-senate-politics",
+    "added_at": 1795101055.614438,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.semafor.com/article/11/19/2026/heightened-hostilities-in-the-middle-east-reignite-conflict",
+    "added_at": 1795101055.614438,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://newsroom.cipr.co.uk/record-numbers-join-cipr-annual-conference-on-organisational-resilience/",
+    "added_at": 1795101055.614438,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://news.google.com/rss/articles/CBMiswFBVV95cUxPa2t5WUZSel9mZVZWM0lTV2VZMHVBWWN3SldJUEc2TWtxQXd3WTBBV1hvYWpCb1Mxd0QycHd0ZGpFU2NGOU40dUJhdXpRZ21ReF82aGxoTl9mYVowNFNrWi1TV3FoWDNESzdQdnBXbTRYLUliUVV5MGlLNXRzZTJJWUhzRTFkREFvdDlfcDBHQjlaWVBiNEg0TmpJa2c5RTdva1E1MVRTUDcyVTBtcWd2UUlrOA?oc=5",
+    "added_at": 1795101055.614438,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.interfax.ru/business/1130231",
+    "added_at": 1795101055.614438,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://t.me/neftegazchannel/28779",
+    "added_at": 1795101055.614438,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.rbc.ru/radio/19/11/2026/6afee8cf44ca1238ff95119e",
+    "added_at": 1795101055.614438,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.cnews.ru/news/top/2026-11-19_proizvoditel_pervogo_rossijskogo",
+    "added_at": 1795101055.614438,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.interfax.ru/russia/1130228",
+    "added_at": 1795101055.614438,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://t.me/istories_media/14373",
+    "added_at": 1795101055.614438,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://t.me/thebell_io/39972",
+    "added_at": 1795101055.614438,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://news.google.com/rss/articles/CBMiuAFBVV95cUxOVERQVXFMUnBiZHEzX1VxLU40aFdHbnl3TWV4ak5zNmFoQWRRLXJKTkVZdFRkYUg3ZkMwZG94N2xPSWZ2M3ljRURWYW5NdDdUdDNCNWNfX1Q4TERMVTMteEhqNzU5YXMxSU9JMEEycG1WdlNJS1I0dFAyMDh6QmVmM1ZEenVhc212bVo4WVRrRU9kekVNNUM3S1FSZnRCQjJqUW5HWENmUF9Bai1ISnhmWlFfZWJZLWFQ?oc=5",
+    "added_at": 1795101055.614438,
     "source": "parsed_feed"
   }
 ]
