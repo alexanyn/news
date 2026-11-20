@@ -1,135 +1,5 @@
 [
   {
-    "url": "https://asia.nikkei.com/politics/international-relations/us-wants-japan-to-nearly-triple-budget-for-hosting-american-troops",
-    "added_at": 1794593311.7807965,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.politico.eu/article/eu-countries-to-announce-deportation-hub-deal-with-rwanda/?utm_source=RSS_Feed&utm_medium=RSS&utm_campaign=RSS_Syndication",
-    "added_at": 1794593311.7807965,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://news.google.com/rss/articles/CBMiwwFBVV95cUxOWGl4M3I4cEx4Q1pteUwtd3I3OFBYWWFUU096V1Y3X2oxdl9KOFprODJXTEoxallGdk8tXzNuMzlWSXdjTTBFNjUxUHFwWmdVZTFHeTh0TEVYcWtNSXI2aUJkRFdKVFgtNmpWS01zTlhMS21ndThYQjY2bDhXSFpnV2c0Sl8wSzdBWnJzNmZVR05iUGdxU3BCUnBIYlcteEQtRkNMbDBQRF82QXVESmZSRGNvZG9yaGtfbm5QNHBTUE1jNjA?oc=5",
-    "added_at": 1794593311.7807965,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://meduza.io/feature/2026/11/13/zhilischnyy-krizis-v-ispanii-zastavil-milliony-chelovek-bastovat-pochemu-on-voznik-i-kak-vlasti-pytayutsya-ego-reshit",
-    "added_at": 1794593311.7807965,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://news.google.com/rss/articles/CBMisgFBVV95cUxOSXR2WDdyNDdpUjZDdi16dlZpZ2MwSmZGZkFCbUtueHlhMlF1Y0RnZ2V4VGNfX2NucnhQbjVaSWlFa0hteUZ5TEQ1QmRRdmhMdHFhZ01IOHVvdUxhSUFjbTZUWlZmNHV2SWtCcmxHdktzd0s3SG52NVJFc3RlWGdiOWc4SXJ3c2o5VmI1Ry1WUXFpd2tfTURzTW13TW1OS2JEeXcybUJmVkJYOV9EM28wTDF3?oc=5",
-    "added_at": 1794593311.7807965,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.kommersant.ru/doc/9109181",
-    "added_at": 1794593311.7807965,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://techcrunch.com/2026/11/13/chatgpts-new-wallet-lets-ai-agents-shop-and-check-out-for-you/",
-    "added_at": 1794593311.7807965,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.politico.eu/article/microsoft-outage-renews-european-calls-to-detox-from-us-tech/?utm_source=RSS_Feed&utm_medium=RSS&utm_campaign=RSS_Syndication",
-    "added_at": 1794593311.7807965,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://t.me/istories_media/14266",
-    "added_at": 1794593311.7807965,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://asia.nikkei.com/business/markets/commodities/uranium-price-hits-record-as-ai-demand-prompts-nuclear-comeback",
-    "added_at": 1794593311.7807965,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.prweek.com/article/1975228/going-bananas-kindness-kind-snacks-collaborates-savannah-bananas-star-world-kindness-day",
-    "added_at": 1794593311.7807965,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.interfax.ru/world/1128933",
-    "added_at": 1794593311.7807965,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "http://government.ru/news/60447/",
-    "added_at": 1794593311.7807965,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.vedomosti.ru/politics/news/2026/11/13/1245312-okazat-sodeistvie-kube",
-    "added_at": 1794593311.7807965,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.interfax.ru/russia/1128930",
-    "added_at": 1794593311.7807965,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://t.me/thebell_io/39876",
-    "added_at": 1794593311.7807965,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://t.me/frank_media/24733",
-    "added_at": 1794593311.7807965,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.cbr.ru/press/PR/?file=639301890659729557INFR.htm",
-    "added_at": 1794593311.7807965,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.vedomosti.ru/investments/news/2026/11/13/1245309-obligatsii-na-50-mlrd",
-    "added_at": 1794593311.7807965,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://news.google.com/rss/articles/CBMiuwFBVV95cUxNY0tybzh4S242eWhKT05LZ3RxSlF2MV8zcXpEa19xVGxWSEhmRUc1MDhYZmRtaFhVWEoyXzF6WUo2UThwbXF0VjFmTzhicS1YUmlsUkl5NjRNRWhraHR2REl1TjRueDk4YWhhaXJ0YUxBdnNQdXJqajFZQmtQNEdjcWVadU5SQVc4TlplajZ0YjBEblNQZmVad1VubE9PTG5HeklWNWN1YzBfeDBnMktIWXE2VmJGNkJLN3Rr?oc=5",
-    "added_at": 1794593311.7807965,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://news.google.com/rss/articles/CBMi5gJBVV95cUxObkUyUldZVEZaM3J1c1RBZzJmYVZsdVpTVzFjRnpsQl9iY1dNcm1BbzBUZXhodF9ROW9tNkY4N3hoS295U0FmZEtablE1eUw3azBpWmNIbHQtdFJWemJkalAxNVdxVlJIUkVDZzRCc2JOdFgwazV0b1lwWjZuZkVVWVZSeHE5eFlSY0JtYmUxTGE0U05lS3VCRGNqWXl6WUtud2x0WnlnODhZeV9ISXVILUpLTG1wY2VCVmUwdnZjUTAzRmNOcExlemNNSVhfWXd6RnI0OEYwcG5rMm1GdnRvT19aczNoMi1BM0N2dlJFenVQSkd5Z1hnckZfM2ZiVzE5dXlLR19yRm1HcTZjVzBCTGJEenNmZ2t1Tms0b0thRmJlV050SF9nWm1WN0p3Q0ZuRFJYTUNOMTBMejlYT1hiYjFvb0JfUzhaLU9wUjdMQUp3dTZ3RWVEckNxQmJJeGhLenBRZVRn?oc=5",
-    "added_at": 1794593311.7807965,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.kommersant.ru/doc/9109180",
-    "added_at": 1794593311.7807965,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://meduza.io/news/2026/11/13/v-kontrrazvedke-germanii-podtverdili-chto-doprashivayut-rossiyan-v-aeroportu-berlina-eto-ob-yasnili-vysokim-urovnem-ugroz",
-    "added_at": 1794593311.7807965,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://tass.com/politics/2217995",
-    "added_at": 1794593311.7807965,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE5GTVlZc3dXRW9EcVlDNnZJNGZ0Z3REQmVPeDNfSE1vYll6T2Q4aV91QVg2dlA0UzI3ZWFmUzlHb2F5NzR3RGJvNWN5Zy12RHhrdEtGMFlrejE0Zzlp?oc=5",
-    "added_at": 1794593311.7807965,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://adindex.ru/news/hr/2026/11/13/351244.phtml",
-    "added_at": 1794593311.7807965,
-    "source": "parsed_feed"
-  },
-  {
     "url": "https://www.interfax.ru/world/1128978",
     "added_at": 1794636663.6892948,
     "source": "parsed_feed"
@@ -4237,6 +4107,141 @@
   {
     "url": "https://www.bbc.co.uk/news/articles/cqx2x9dklxnro?at_medium=RSS&at_campaign=rss",
     "added_at": 1795187097.8198674,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.interfax.ru/world/1130517",
+    "added_at": 1795198231.7885106,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://news.google.com/rss/articles/CBMif0FVX3lxTE84ZFFzbDlRd0J6aHAxMkFGQUl6R2swRWt1ZTFUNWhNZlB1Q3VTMFlIcWNUUWpvZGY4TjdodG9qYkw5eVZiaENISVhjZlVQNy1RRjZ2QktKOER1d3lNOUxyOTc3aThONVdUU3VmX19fMnl2ZmpZeG1idEFGR1BkMlk?oc=5",
+    "added_at": 1795198231.7885106,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://news.google.com/rss/articles/CBMihAFBVV95cUxNVEJfUmdFQ0ZvVC1TbUh4dXZxdzlrTVZYenFybjM0RnpESDZ2aFRsMmRsWHpjbEF4cjlCWWJtQnZiWXhINVZhUng3YW9ILWZXejhNY3BJelJKRWw1TDRzaDRtdU92ZlhRUXRMdVpzYXlWaUQ3MUx2aWtEU2VaVlhLOHlqV2Q?oc=5",
+    "added_at": 1795198231.7885106,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.federalreserve.gov/newsevents/pressreleases/other20261120a.htm",
+    "added_at": 1795198231.7885106,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.politico.eu/article/france-germany-complete-political-deal-for-ecb-leadership/?utm_source=RSS_Feed&utm_medium=RSS&utm_campaign=RSS_Syndication",
+    "added_at": 1795198231.7885106,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.kommersant.ru/doc/9126673",
+    "added_at": 1795198231.7885106,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://meduza.io/news/2026/11/20/nvidia-vypala-iz-troyki-krupneyshih-kompaniy-mira-ee-rukovoditelya-i-osnovatelya-dzhensena-huanga-uvolili-iz-za-vnebrachnyh-svyazey-s-tremya-zhenschinami",
+    "added_at": 1795198231.7885106,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://asia.nikkei.com/business/markets/bonds/sk-hynix-to-become-kioxia-s-top-shareholder-with-bond-conversion",
+    "added_at": 1795198231.7885106,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://meduza.io/news/2026/11/20/matematik-iz-anthropic-zayavil-chto-vmeste-s-ii-modelyu-claude-dokazal-gipotezu-rimana-eto-odna-iz-zadach-tysyacheletiya-kotoruyu-ne-mogut-reshit-bolshe-160-let",
+    "added_at": 1795198231.7885106,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://techcrunch.com/2026/11/20/chips-can-survive-the-space-environment-can-their-financing/",
+    "added_at": 1795198231.7885106,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://asia.nikkei.com/business/aerospace-defense-industries/japan-to-transfer-h3-rocket-launch-operations-to-mitsubishi-heavy",
+    "added_at": 1795198231.7885106,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://vc.ru/transport/3269200-gibridnyj-vnedorozhnik-byd-ti-9-s-skladnym-rulem?from=rss",
+    "added_at": 1795198231.7885106,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.politico.eu/article/eu-warns-against-cop31-becoming-a-fossil-fuel-summit/?utm_source=RSS_Feed&utm_medium=RSS&utm_campaign=RSS_Syndication",
+    "added_at": 1795198231.7885106,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.scmp.com/news/world/article/3375291/cop31-climate-talks-go-overtime-nations-quarrel-over-fossil-fuels",
+    "added_at": 1795198231.7885106,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.whitehouse.gov/releases/2026/11/president-trump-taps-pentagon-cyber-chief-kirsten-davies-as-national-cyber-director/",
+    "added_at": 1795198231.7885106,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://tass.com/world/2222691",
+    "added_at": 1795198231.7885106,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://meduza.io/news/2026/11/20/mer-narvy-potreboval-sozdat-gumanitarnye-koridory-dlya-ekstrennyh-poezdok-v-rossiyu-granitsu-s-ney-estoniya-zakryvaet-s-1-dekabrya",
+    "added_at": 1795198231.7885106,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://meduza.io/news/2026/11/20/ministr-oborony-germanii-prizval-evropu-prinyat-priglashenie-putina-o-peregovorah-v-moskve-po-dannym-radio-svoboda-poezdka-mozhet-sostoyatsya-uzhe-v-noyabre",
+    "added_at": 1795198231.7885106,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.rbc.ru/politics/20/11/2026/6b008989abb7db2196002421",
+    "added_at": 1795198231.7885106,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.politico.eu/article/latvian-leader-andris-kulbergs-calls-for-closure-of-eu-borders-to-all-russians/?utm_source=RSS_Feed&utm_medium=RSS&utm_campaign=RSS_Syndication",
+    "added_at": 1795198231.7885106,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.vedomosti.ru/politics/news/2026/11/20/1413922-daniya-reshila-vislat",
+    "added_at": 1795198231.7885106,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://tass.com/world/2222687",
+    "added_at": 1795198231.7885106,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.cnews.ru/news/top/2026-11-20_sozdateli_reshenij_dlya_blokirovok",
+    "added_at": 1795198231.7885106,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.interfax.ru/business/1130514",
+    "added_at": 1795198231.7885106,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.interfax.ru/russia/1130515",
+    "added_at": 1795198231.7885106,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.kommersant.ru/doc/9126667",
+    "added_at": 1795198231.7885106,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://tass.com/defense/2222689",
+    "added_at": 1795198231.7885106,
     "source": "parsed_feed"
   }
 ]
