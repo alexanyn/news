@@ -14,6 +14,7 @@ import feedparser
 from html import escape as html_escape
 from bs4 import BeautifulSoup
 import urllib3
+from urllib.parse import urlparse
 from concurrent.futures import ThreadPoolExecutor, as_completed
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
@@ -814,13 +815,14 @@ async def collect_all_news(sent_urls_history, recent_titles_history, schedule_na
                 news_db[news_id] = {
                     "url": url,
                     "title": title,
+                    "summary": summary_snippet,
                     "source_name": source_name,
                     "published": published_str
                 }
                 if summary_snippet:
-                    raw_data_list.append(f"ID:{news_id}|Title:{title}|Summary:{summary_snippet}|Source:{source_name}")
+                    raw_data_list.append(f"ID:{news_id}|Title:{title}|Summary:{summary_snippet}|Source:{source_name}|URL:{url}|Published:{published_str}")
                 else:
-                    raw_data_list.append(f"ID:{news_id}|Title:{title}|Source:{source_name}")
+                    raw_data_list.append(f"ID:{news_id}|Title:{title}|Source:{source_name}|URL:{url}|Published:{published_str}")
     
     print(f"✅ Собрано {len(news_db)} новостей из {len(RSS_FEEDS)} RSS-источников")
     print(f"   📊 Разбивка RSS: всего просмотрено {stats['raw_seen']}, "
@@ -882,10 +884,11 @@ async def collect_all_news(sent_urls_history, recent_titles_history, schedule_na
                     news_db[news_id] = {
                         "url": url,
                         "title": title,
+                        "summary": msg.get("text", ""),
                         "source_name": source_name,
                         "published": published_str
                     }
-                    raw_data_list.append(f"ID:{news_id}|Title:{title}|Source:{source_name}")
+                    raw_data_list.append(f"ID:{news_id}|Title:{title}|Source:{source_name}|URL:{url}|Published:{published_str}")
                     tg_collected += 1
         
         print(f"✅ Собрано {tg_collected} новостей из Telegram-каналов")
@@ -1367,6 +1370,118 @@ def sanitize_summary_text(text):
     text = re.sub(r'\s*\([^\)]*\)\s*$', '', text)
     return text.strip(' .-_')
 
+
+_VALIDATION_CATEGORIES = ("geopolitics", "economics", "business", "technology", "energy", "security", "pr")
+_VALIDATION_STOPWORDS = {
+    "согласно", "данным", "сообщает", "сообщают", "источник", "источники", "the", "this", "that",
+    "about", "from", "with", "into", "after", "before", "their", "they", "also", "новости",
+    "который", "которая", "которые", "международный", "мировой", "российский", "company", "компания",
+}
+_KNOWN_SOURCE_NAMES = set(CONFIG.get("feed_canonical_names", {}).values()) | set(_FALLBACK_FEED_CANONICAL_NAMES.values())
+_KNOWN_SOURCE_ALIASES = {
+    "mckinsey": "McKinsey", "mckinsey global institute": "McKinsey", "project syndicate": "Project Syndicate",
+    "al jazeera": "Al Jazeera", "reuters": "Reuters", "associated press": "Associated Press",
+    "bbc": "BBC World News", "bloomberg": "Bloomberg", "interfax": "Интерфакс",
+}
+_HIGH_RISK_SUMMARY_RE = re.compile(
+    r"\b(?:according|study|report|research|survey|finds|found|согласно|исследован|отч[её]т|опрос|данн(?:ым|ые)|\d+(?:[.,]\d+)?\s*%)\b",
+    re.IGNORECASE,
+)
+
+
+def _provenance_tokens(text):
+    tokens = re.findall(r"[А-ЯЁа-яёA-Za-z][А-ЯЁа-яёA-Za-z0-9-]{3,}", text or "")
+    return {t.lower().strip("-_") for t in tokens if t.lower() not in _VALIDATION_STOPWORDS}
+
+
+def _mentioned_foreign_source(summary, source_name, evidence):
+    summary_low = (summary or "").lower()
+    evidence_low = (evidence or "").lower()
+    own_low = (source_name or "").lower()
+    for alias, canonical in _KNOWN_SOURCE_ALIASES.items():
+        if alias in summary_low and alias not in own_low and alias not in evidence_low:
+            return canonical
+    for name in _KNOWN_SOURCE_NAMES:
+        low = str(name).lower().strip()
+        # Не считаем общие слова (например, News/World) атрибуцией источника.
+        if low in {"news", "world", "media", "review", "daily", "times"}:
+            continue
+        if len(low) >= 6 and low in summary_low and low not in own_low and low not in evidence_low:
+            return str(name)
+    return ""
+
+
+def validate_gemini_items(data, news_db):
+    """Отбрасывает ответы модели, не связанные с исходной записью новости.
+
+    Проверяет только provenance/целостность связки ID→исходная запись→URL.
+    Это не подтверждение фактической истинности новости.
+    """
+    stats = {
+        "input_items": 0, "accepted_items": 0, "rejected_bad_id": 0,
+        "rejected_unknown_id": 0, "rejected_empty_summary": 0,
+        "rejected_duplicate_id": 0, "rejected_duplicate_url": 0,
+        "rejected_bad_url": 0, "rejected_provenance": 0,
+    }
+    used_ids, used_urls = set(), set()
+    if not isinstance(data, dict):
+        return {}, stats
+    for category in _VALIDATION_CATEGORIES:
+        items = data.get(category)
+        if not isinstance(items, list):
+            continue
+        filtered = []
+        for item in items:
+            stats["input_items"] += 1
+            if not isinstance(item, dict):
+                stats["rejected_bad_id"] += 1
+                continue
+            raw_id = item.get("id")
+            news_id = str(raw_id).strip() if isinstance(raw_id, (str, int)) and not isinstance(raw_id, bool) else ""
+            if not re.fullmatch(r"\d+", news_id):
+                stats["rejected_bad_id"] += 1
+                continue
+            if news_id not in news_db:
+                stats["rejected_unknown_id"] += 1
+                continue
+            if news_id in used_ids:
+                stats["rejected_duplicate_id"] += 1
+                continue
+            info = news_db[news_id]
+            url = str(info.get("url", "")).strip()
+            parsed = urlparse(url)
+            if parsed.scheme not in ("http", "https") or not parsed.netloc:
+                stats["rejected_bad_url"] += 1
+                continue
+            if url in used_urls:
+                stats["rejected_duplicate_url"] += 1
+                continue
+            summary = sanitize_summary_text(item.get("summary_ru", ""))
+            if not summary or len(summary) > 4000:
+                stats["rejected_empty_summary"] += 1
+                continue
+            evidence = " ".join(str(info.get(k, "")) for k in ("title", "summary"))
+            foreign_source = _mentioned_foreign_source(summary, info.get("source_name", ""), evidence)
+            if foreign_source:
+                stats["rejected_provenance"] += 1
+                continue
+            source_tokens = _provenance_tokens(evidence)
+            summary_tokens = _provenance_tokens(summary)
+            # Для содержательных атрибуций/цифр требуем хотя бы один общий
+            # смысловой токен; короткие обычные заголовки не блокируем.
+            if _HIGH_RISK_SUMMARY_RE.search(summary) and len(source_tokens) >= 2 and not (source_tokens & summary_tokens):
+                stats["rejected_provenance"] += 1
+                continue
+            clean_item = dict(item)
+            clean_item["id"] = news_id
+            clean_item["summary_ru"] = summary
+            filtered.append(clean_item)
+            used_ids.add(news_id)
+            used_urls.add(url)
+            stats["accepted_items"] += 1
+        data[category] = filtered
+    return data, stats
+
 LOCAL_POLITICS_KEYWORDS = [
     "муниципал", "депутат", "областной", "районный",
     "администрац", "мэр", "губернатор", "чиновник"
@@ -1638,6 +1753,7 @@ def build_html_digest(raw_response, news_db):
         print(f"⚠️  Ошибка парсинга JSON: {e}. Используем пустую структуру.")
         data = {}
     
+    data, validation_stats = validate_gemini_items(data, news_db)
     data = postprocess_pr_classification(data, news_db)
     data = ensure_russian_summaries(data)
     
@@ -1654,7 +1770,7 @@ def build_html_digest(raw_response, news_db):
     #   3) отсеиваем lifestyle-мусор,
     #   4) сортируем по значимости источника.
     is_fallback = False
-    if total_items == 0 and news_db:
+    if total_items == 0 and news_db and validation_stats.get("input_items", 0) == 0:
         is_fallback = True
         print("⚠️  Gemini не вернула категорий, формируем fallback из заголовков.")
 
@@ -1727,7 +1843,11 @@ def build_html_digest(raw_response, news_db):
         russia_count = sum(1 for it in raw_items if isinstance(it, dict) and it.get("is_russia", False))
         category_breakdown["raw"] = {"world": world_count, "russia": russia_count}
     
-    digest_stats = {"total_items": total_items, "by_category": category_breakdown}
+    digest_stats = {
+        "total_items": total_items,
+        "by_category": category_breakdown,
+        "validation": validation_stats,
+    }
     
     WORLD_SECTIONS = [
         ("geopolitics", "🌍 ГЕОПОЛИТИКА И МАКРО-РЕШЕНИЯ"),
@@ -2123,6 +2243,14 @@ async def main_async(args, schedule_name):
              digest_stats, raw_world_html, raw_russia_html, raw_world_urls, raw_russia_urls) = build_html_digest(raw_json, news_db)
             run_metrics["postprocess_duration_sec"] = round(time.time() - postprocess_start, 1)
             run_metrics["digest"] = digest_stats
+            run_metrics["quality"] = {
+                "validation_version": "1",
+                "input_items": len(news_db),
+                "accepted_items": digest_stats.get("validation", {}).get("accepted_items", 0),
+                "published_items": digest_stats.get("total_items", 0),
+                "validation": digest_stats.get("validation", {}),
+                "quality_pass": bool(digest_stats.get("total_items", 0) == digest_stats.get("validation", {}).get("accepted_items", 0)),
+            }
             
             wait_until_publish_time(schedule_name)
             
