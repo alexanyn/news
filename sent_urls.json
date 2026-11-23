@@ -1,95 +1,5 @@
 [
   {
-    "url": "https://www.bbc.co.uk/news/articles/cw987343352go?at_medium=RSS&at_campaign=rss",
-    "added_at": 1794831647.9102514,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.politico.eu/article/france-pushes-for-rapid-eu-sanctions-on-iran-for-supermarket-hacks/?utm_source=RSS_Feed&utm_medium=RSS&utm_campaign=RSS_Syndication",
-    "added_at": 1794831647.9102514,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.theinformation.com/briefings/chinese-ai-stocks-plunge-fears-tougher-u-s-export-controls",
-    "added_at": 1794831647.9102514,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.vedomosti.ru/politics/news/2026/11/16/1247919-the-guardian-izrail-ispolzoval",
-    "added_at": 1794831647.9102514,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://news.google.com/rss/articles/CBMipAFBVV95cUxQalRuR1JqWVNtVFExWFdiSHFKbkU3emV2TzdCOTdKeXloNWVCNlRac19oaklESEZFbHpNMk9kN1VFekJMNTRjRm44QW9fSGR4Zm42RWU5eHRKMTUtTDNFTVFTRzA4djl6RFRmMHY3RzdjQ1hLX2hzcC1xRGpjUGQ0c09MbjF3M1lsRUkxT2ZlV0UtSmE0dGxJYlp5dHNZNzVDNm53VA?oc=5",
-    "added_at": 1794831647.9102514,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://news.google.com/rss/articles/CBMiswFBVV95cUxPTXVZTFNXYWhOWE1yWF9QVjBNMUlCU3ZTNTVqUjUzaXNYTVh2TnFrQUN2MXk1UHZReDFTa3lfSTlseXJNNTNfV2NCSjlRVXpKTDY5NDFXZjhvbTB0OHBtajhQSDdhY3dSSW1kdzJvcG85ZTdUWFhQRDU2c0IyLVQ3NmtFMUFONVRVanF1dTVJWmJIb3dlaUY2dm4zSkd1NDVCaGxnaUNBM1k1dUlLVUdYR2NEQQ?oc=5",
-    "added_at": 1794831647.9102514,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://t.me/neftegazchannel/28721",
-    "added_at": 1794831647.9102514,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.aljazeera.com/news/2026/11/16/uss-roosevelt-arrives-in-middle-east-is-the-us-iran-war-about-to-resume?traffic_source=rss",
-    "added_at": 1794831647.9102514,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.scmp.com/news/china/politics/article/3374614/taiwan-unveils-17-budget-boost-upgrade-new-f-16v-fighter-fleet",
-    "added_at": 1794831647.9102514,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://adindex.ru/news/adyummy/2026/11/16/351269.phtml",
-    "added_at": 1794831647.9102514,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.themoscowtimes.com/2026/11/16/estonia-to-close-border-crossings-with-russia-after-foiled-sabotage-attempt-a94269",
-    "added_at": 1794831647.9102514,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.vedomosti.ru/business/news/2026/11/16/1247132-o-edinoi-agrarnoi-politike",
-    "added_at": 1794831647.9102514,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://t.me/istories_media/14287",
-    "added_at": 1794831647.9102514,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.interfax.ru/business/1129308",
-    "added_at": 1794831647.9102514,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.rbc.ru/politics/30/06/2026/6a427fb49a794739c144df3b",
-    "added_at": 1794831647.9102514,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://meduza.io/news/2026/11/16/strany-oon-hotyat-ogranichit-primenenie-avtonomnogo-oruzhiya-s-ii-rossiya-i-ssha-vystupyat-protiv-peregovorov-utverzhdaet-reuters",
-    "added_at": 1794831647.9102514,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://www.cnews.ru/news/line/2026-11-16_positive_technologies_chislo_uspeshnyh",
-    "added_at": 1794831647.9102514,
-    "source": "parsed_feed"
-  },
-  {
-    "url": "https://t.me/istories_media/14286",
-    "added_at": 1794831647.9102514,
-    "source": "parsed_feed"
-  },
-  {
     "url": "https://foreignpolicy.com/2026/11/16/midterms-trump-xi-meeting/",
     "added_at": 1794845239.215369,
     "source": "parsed_feed"
@@ -4577,6 +4487,191 @@
   {
     "url": "https://adindex.ru/news/releases/2026/11/19/351392.phtml",
     "added_at": 1795435971.4027016,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.interfax.ru/world/1130854",
+    "added_at": 1795446883.8699234,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.chathamhouse.org/2026/11/spains-election-could-see-europes-far-right-firewall-begin-fall-apart",
+    "added_at": 1795446883.8699234,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.politico.eu/article/kemi-badenoch-rejoining-eu-wont-fix-britains-economic-woes/?utm_source=RSS_Feed&utm_medium=RSS&utm_campaign=RSS_Syndication",
+    "added_at": 1795446883.8699234,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.politico.eu/article/emmanuel-macron-trap-successors-budget-rule-france/?utm_source=RSS_Feed&utm_medium=RSS&utm_campaign=RSS_Syndication",
+    "added_at": 1795446883.8699234,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://asia.nikkei.com/politics/international-relations/india-announces-1.6bn-flood-recovery-package-for-nepal",
+    "added_at": 1795446883.8699234,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.ecb.europa.eu//press/key/date/2026/html/ecb.sp261123~b5816801a0.en.pdf",
+    "added_at": 1795446883.8699234,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://news.google.com/rss/articles/CBMisgFBVV95cUxNUkFJTko4elVPRkJqM1J5WWo1LXpSVFBaVEZ4UDRvb0g5Rkl3bGZ4emltR2dwd3B1TGlSTE9pUFlfeEZ0U3pVdnRKS3ZrNXVhckJLS0VxOFRFOXJKWFBqYXZjbFVJQUJodjd2VnRiZGJGMVAtdEtMT1ZvSmRMNkVtMmo5QTdOOUZhQ01pTXhRUjFGQXc3Yzc1aU5SOE5KWmw2enJzRmo1Z3lDdDNwdS1MUVNn?oc=5",
+    "added_at": 1795446883.8699234,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://news.google.com/rss/articles/CBMiswFBVV95cUxNcmc0QjZVYzFQMVVNTEU5bjRqbVUzVm9XelNMNmN2aUNCdnRzM2hiS1JSX2ItdHBadzdvMzVLaEhuQ0lhcVJiMTNicHozVjJ3TXF0VjZaam5OVjFuQjdrR0xxQVBhNHhrX3RQVUU5YzFFalhrMU1kYUo1N09zbnhmVFI3Smx6cWpNQlU0TnNwTnQxbDlYZ2NiczRGM09nbkJxMFVvckNnZU1YeHlGR3gxVzBYWQ?oc=5",
+    "added_at": 1795446883.8699234,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.rbc.ru/business/12/11/2026/6af5224ff4f4eb85c5a8198b",
+    "added_at": 1795446883.8699234,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://techcrunch.com/2026/11/23/sierra-doubles-valuation-to-30b-within-six-months-as-demand-for-ai-in-cx-takes-off/",
+    "added_at": 1795446883.8699234,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://vc.ru/hr/3273564-novosti-nvidia-dzhensen-huang-vozvrashchaetsya-na-post-gendirektora?from=rss",
+    "added_at": 1795446883.8699234,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://news.google.com/rss/articles/CBMirwFBVV95cUxQV2VIVEFDaFFQRTMzWl96NmhERll5Q2pINWw2T1Zqd3M0NUpKcHp1emdUdk9PellRWkg5b1o3UjBHeVBqdHZLMFhkOUc3RHFYcTRwY3BmZjh6aUlYdVRnM29vNjRzR0FYaUs4aWN3QkgzZUhjaHY4N3Q2c2xzMnYtNGcwQ2dSSGNWRjA0dzJfdXBsNUNfcGZjV1FTM3hOdHpFOEZ2Z1RfZzBVU2w5VlBN?oc=5",
+    "added_at": 1795446883.8699234,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://techcrunch.com/2026/11/23/uber-now-lets-you-book-rides-that-record-the-drive-by-default/",
+    "added_at": 1795446883.8699234,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.technologyreview.com/2026/11/23/1149548/the-download-ai-judgment-problem-carbon-removal-crop-threat/",
+    "added_at": 1795446883.8699234,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.politico.eu/article/european-commission-personal-data-leak-cyberattack-disruption/?utm_source=RSS_Feed&utm_medium=RSS&utm_campaign=RSS_Syndication",
+    "added_at": 1795446883.8699234,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://t.me/frank_media/24849",
+    "added_at": 1795446883.8699234,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://t.me/neftegazchannel/28816",
+    "added_at": 1795446883.8699234,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://t.me/neftegazchannel/28817",
+    "added_at": 1795446883.8699234,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://t.me/neftegazchannel/28819",
+    "added_at": 1795446883.8699234,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.aljazeera.com/news/2026/11/23/iran-says-it-will-use-all-available-means-to-counter-us-blockade?traffic_source=rss",
+    "added_at": 1795446883.8699234,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.worldpoliticsreview.com/ai-military-warfare-human-judgment-nato/",
+    "added_at": 1795446883.8699234,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.interfax.ru/world/1130857",
+    "added_at": 1795446883.8699234,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.interfax.ru/russia/1130853",
+    "added_at": 1795446883.8699234,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://meduza.io/news/2026/11/23/bild-germaniya-otpravila-tanki-v-litvu-na-poezdah-a-ne-po-dorogam-polshi-chtoby-ne-provotsirovat-putina",
+    "added_at": 1795446883.8699234,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "http://government.ru/news/60530/",
+    "added_at": 1795446883.8699234,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.vedomosti.ru/politics/news/2026/11/23/1414476-posolstvo-oproverglo",
+    "added_at": 1795446883.8699234,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://t.me/thebell_io/40002",
+    "added_at": 1795446883.8699234,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://t.me/istories_media/14413",
+    "added_at": 1795446883.8699234,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.interfax.ru/business/1130855",
+    "added_at": 1795446883.8699234,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.kommersant.ru/doc/9128340",
+    "added_at": 1795446883.8699234,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.vedomosti.ru/investments/news/2026/11/23/1414475-aktsii-evrotransa",
+    "added_at": 1795446883.8699234,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://t.me/tadviser/6515",
+    "added_at": 1795446883.8699234,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.cnews.ru/news/line/2026-11-23_ii-pomoshchnik_po_matematike",
+    "added_at": 1795446883.8699234,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.interfax.ru/russia/1130856",
+    "added_at": 1795446883.8699234,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.themoscowtimes.com/2026/11/23/kremlin-dismisses-reports-about-alleged-nuclear-armed-satellite-launch-a94349",
+    "added_at": 1795446883.8699234,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://www.vedomosti.ru/politics/news/2026/11/23/1414482-armiya-porazila",
+    "added_at": 1795446883.8699234,
+    "source": "parsed_feed"
+  },
+  {
+    "url": "https://t.me/thebell_io/40003",
+    "added_at": 1795446883.8699234,
     "source": "parsed_feed"
   }
 ]
