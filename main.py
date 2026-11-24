@@ -1979,6 +1979,14 @@ def _send_one_chunk(chat_id, chunk):
                 time.sleep(wait_time)
                 continue
             if response.status_code == 200 and data.get("ok"):
+                result = data.get("result") if isinstance(data.get("result"), dict) else {}
+                message_id = result.get("message_id", "?")
+                returned_chat = result.get("chat") if isinstance(result.get("chat"), dict) else {}
+                chat_type = returned_chat.get("type", "?")
+                print(
+                    f"✅ Telegram API подтвердил отправку: message_id={message_id}, "
+                    f"chat_type={chat_type}, chars={len(chunk)}"
+                )
                 return True
             if response.status_code == 429:
                 retry_after = data.get("parameters", {}).get("retry_after", 5)
@@ -2007,7 +2015,7 @@ def _send_one_chunk(chat_id, chunk):
         except Exception as e:
             print(f"❌ Непредвиденная ошибка отправки в Telegram: {e}")
             return False
-    print(f"❌ Не удалось отправить чанк в Telegram после {max_retries} попыток")
+    print(f"❌ Telegram API не подтвердил отправку чанка после {max_retries} попыток")
     return False
 
 def _pack_lines_into_chunks(text, limit=32000):
@@ -2265,7 +2273,11 @@ async def main_async(args, schedule_name):
                 send_start = time.time()
                 send_ok, chunks_sent = send_telegram_message(CHAT_ID, combined_html)
                 run_metrics["send_duration_sec"] = round(time.time() - send_start, 1)
-                run_metrics["telegram"] = {"success": send_ok, "chunks_sent": chunks_sent}
+                run_metrics["telegram"] = {
+                    "success": send_ok,
+                    "chunks_sent": chunks_sent,
+                    "success_meaning": "telegram_api_confirmed" if send_ok else "not_confirmed",
+                }
                 if send_ok:
                     sent_anything = True
                     confirmed_urls.extend(combined_urls)
@@ -2295,7 +2307,7 @@ async def main_async(args, schedule_name):
                 
                 save_run_time(schedule_name)
                 run_metrics["status"] = "sent"
-                print("✅ Диджест отправлен успешно!")
+                print("✅ Telegram API подтвердил отправку дайджеста.")
             else:
                 if run_metrics["status"] == "unknown":
                     run_metrics["status"] = "send_failed"
